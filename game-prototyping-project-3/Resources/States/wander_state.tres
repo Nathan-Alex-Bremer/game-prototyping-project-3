@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="State" load_steps=7 format=3 uid="uid://c0tp0fn7d8ghg"]
+
+[ext_resource type="Script" uid="uid://gi2sbviy2ydt" path="res://Scripts/States/action.gd" id="1_m06lq"]
+[ext_resource type="Resource" uid="uid://cwkhb68gsdis1" path="res://Resources/Actions/wander_enter_action.tres" id="2_bv5bv"]
+[ext_resource type="Script" uid="uid://b7xwiyvbmsxna" path="res://Scripts/States/state.gd" id="2_cyj37"]
+[ext_resource type="Resource" uid="uid://k42ys5d3glg6" path="res://Resources/Actions/move_in_direction_action.tres" id="3_82n6n"]
+[ext_resource type="Script" uid="uid://fu81m4bl5mk1" path="res://Scripts/States/transition.gd" id="3_n5540"]
+[ext_resource type="Resource" uid="uid://cs10podi8lmu7" path="res://Resources/Transitions/wander_repeat_transition.tres" id="6_rfl16"]
+
+[resource]
+script = ExtResource("2_cyj37")
+enter_actions = Array[ExtResource("1_m06lq")]([ExtResource("2_bv5bv")])
+exit_actions = Array[ExtResource("1_m06lq")]([])
+update_actions = Array[ExtResource("1_m06lq")]([])
+physics_update_actions = Array[ExtResource("1_m06lq")]([ExtResource("3_82n6n")])
+transitions = Array[ExtResource("3_n5540")]([ExtResource("6_rfl16")])
+metadata/_custom_type_script = "uid://b7xwiyvbmsxna"

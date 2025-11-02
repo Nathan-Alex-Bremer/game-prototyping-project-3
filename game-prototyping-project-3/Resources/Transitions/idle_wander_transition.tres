@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="Transition" load_steps=3 format=3 uid="uid://6qhi6xjkp77o"]
+
+[ext_resource type="Script" uid="uid://fu81m4bl5mk1" path="res://Scripts/States/transition.gd" id="1_jwmbv"]
+[ext_resource type="Resource" uid="uid://c0xaslm8jajv2" path="res://Resources/Conditions/idle_wait_time_condition.tres" id="1_r1g20"]
+
+[resource]
+script = ExtResource("1_jwmbv")
+condition = ExtResource("1_r1g20")
+metadata/_custom_type_script = "uid://fu81m4bl5mk1"

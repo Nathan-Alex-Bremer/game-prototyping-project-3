@@ -1,0 +1,7 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://bgf3ex5u07bam"]
+
+[ext_resource type="Script" uid="uid://cyguvv6v0dbvm" path="res://Scripts/States/Conditions/wander_time_condition.gd" id="1_awfoe"]
+
+[resource]
+script = ExtResource("1_awfoe")
+metadata/_custom_type_script = "uid://dkv5kh0ekul4"

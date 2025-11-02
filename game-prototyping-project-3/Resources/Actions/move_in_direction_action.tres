@@ -1,0 +1,7 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://k42ys5d3glg6"]
+
+[ext_resource type="Script" uid="uid://brcsy7abpvtnb" path="res://Scripts/States/actions/move_in_direction_action.gd" id="1_d18g1"]
+
+[resource]
+script = ExtResource("1_d18g1")
+metadata/_custom_type_script = "uid://gi2sbviy2ydt"
