@@ -1,8 +1,0 @@
-[gd_resource type="Resource" load_steps=2 format=3 uid="uid://c0xaslm8jajv2"]
-
-[ext_resource type="Script" uid="uid://cwd1iitga5tbf" path="res://Scripts/States/Conditions/wait_time_condition.gd" id="1_ncr6q"]
-
-[resource]
-script = ExtResource("1_ncr6q")
-time_to_wait = 1.0
-metadata/_custom_type_script = "uid://dkv5kh0ekul4"

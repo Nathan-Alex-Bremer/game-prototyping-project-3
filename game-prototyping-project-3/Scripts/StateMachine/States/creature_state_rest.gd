@@ -1,0 +1,26 @@
+extends State
+class_name CreatureStateRest
+
+@export var owning_creature: CharacterBody2D
+
+func update(_delta):
+	# Change resources 
+	owning_creature.change_food(_delta * -0.5)
+	owning_creature.change_feisty(_delta * 0.24)
+	owning_creature.change_tired(_delta * 5)
+	
+	# Transitions
+	if owning_creature.hunger <= 25:
+		print("Hungry!")
+		Transitioned.emit(self, "creaturestatemovetofood")
+		return
+	
+	if owning_creature.tired >= 75:
+		Transitioned.emit(self, "creaturestatewander")
+		return
+		
+	pass
+	
+func physics_update(_delta):
+	if owning_creature:
+		owning_creature.velocity = Vector2.ZERO # Ew, should not need to be done
