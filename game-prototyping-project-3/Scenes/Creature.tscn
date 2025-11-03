@@ -1,0 +1,70 @@
+[gd_scene load_steps=12 format=3 uid="uid://pax8hqcis1wq"]
+
+[ext_resource type="Texture2D" uid="uid://c8316te0jkplt" path="res://icon.svg" id="1_0inej"]
+[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
+[ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
+[ext_resource type="Script" uid="uid://deu0kk7rby7h2" path="res://Scripts/StateMachine/States/creature_state_wander.gd" id="4_fr2yh"]
+[ext_resource type="Script" uid="uid://b1w0u138gkt5u" path="res://Scripts/StateMachine/States/creature_state_idle.gd" id="4_xbil5"]
+[ext_resource type="Script" uid="uid://fuhu8el6pc4m" path="res://Scripts/StateMachine/States/creature_state_move_to_food.gd" id="6_8gas3"]
+[ext_resource type="Script" uid="uid://c0x6bydsn86od" path="res://Scripts/StateMachine/States/creature_state_eat.gd" id="7_mdtnb"]
+[ext_resource type="Script" uid="uid://bxwwh47o0hcx6" path="res://Scripts/StateMachine/States/creature_state_rest.gd" id="8_wc6yb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
+size = Vector2(128, 128)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
+radius = 342.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
+radius = 86.0523
+
+[node name="Creature" type="CharacterBody2D" groups=["creature"]]
+script = ExtResource("1_s16ri")
+move_speed = 50.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_0inej")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_xbil5")
+
+[node name="EatRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
+shape = SubResource("CircleShape2D_8gas3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_bdkse")
+initial_state = NodePath("CreatureStateWander")
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="CreatureStateWander" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+script = ExtResource("4_fr2yh")
+owning_creature = NodePath("../..")
+metadata/_custom_type_script = "uid://deu0kk7rby7h2"
+
+[node name="CreatureStateIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+script = ExtResource("4_xbil5")
+owning_creature = NodePath("../..")
+metadata/_custom_type_script = "uid://b1w0u138gkt5u"
+
+[node name="CreatureStateMoveToFood" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+script = ExtResource("6_8gas3")
+owning_creature = NodePath("../..")
+metadata/_custom_type_script = "uid://fuhu8el6pc4m"
+
+[node name="CreatureStateEat" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+script = ExtResource("7_mdtnb")
+owning_creature = NodePath("../..")
+metadata/_custom_type_script = "uid://c0x6bydsn86od"
+
+[node name="CreatureStateRest" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+script = ExtResource("8_wc6yb")
+owning_creature = NodePath("../..")
+metadata/_custom_type_script = "uid://bxwwh47o0hcx6"

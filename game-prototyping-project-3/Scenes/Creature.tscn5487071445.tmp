@@ -1,0 +1,115 @@
+[gd_scene load_steps=11 format=3 uid="uid://pax8hqcis1wq"]
+
+[ext_resource type="Texture2D" uid="uid://c8316te0jkplt" path="res://icon.svg" id="1_0inej"]
+[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
+[ext_resource type="Script" uid="uid://deu0kk7rby7h2" path="res://Scripts/StateMachine/States/creature_state_wander.gd" id="4_fr2yh"]
+[ext_resource type="Script" uid="uid://b1w0u138gkt5u" path="res://Scripts/StateMachine/States/creature_state_idle.gd" id="4_xbil5"]
+[ext_resource type="Script" uid="uid://fuhu8el6pc4m" path="res://Scripts/StateMachine/States/creature_state_move_to_food.gd" id="6_8gas3"]
+[ext_resource type="Script" uid="uid://c0x6bydsn86od" path="res://Scripts/StateMachine/States/creature_state_eat.gd" id="7_mdtnb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
+size = Vector2(128, 128)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
+radius = 342.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
+radius = 86.0523
+
+[sub_resource type="GDScript" id="GDScript_8gas3"]
+script/source = "extends Node
+class_name StateMachine
+
+@export var initial_state: State
+var current_state: State
+var states: Dictionary = {}
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	for child in get_children():
+		if child is State:
+			states[child.name.to_lower()] = child
+			child.Transitioned.connect(on_child_transition)
+	
+	if initial_state:
+		initial_state.enter()
+		current_state = initial_state
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	if current_state:
+		current_state.update(delta)
+	
+	
+func _physics_process(delta: float) -> void:
+	if current_state:
+		current_state.physics_update(delta)
+
+func on_child_transition(state, new_state_name) -> void:
+	
+	if state != current_state:
+		return
+		
+	var new_state = states.get(new_state_name.to_lower())
+		
+	if !new_state:
+		print(\"ERROR: No new state!\")
+		return
+	
+	# Only update if the state asking for transition is current state
+	if current_state:
+		current_state.exit()
+	
+	# Update current state to new state
+	current_state = new_state
+	
+	# Call enter function
+	new_state.enter()
+	
+	
+"
+
+[node name="Creature" type="CharacterBody2D" groups=["creature"]]
+script = ExtResource("1_s16ri")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_0inej")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_xbil5")
+
+[node name="EatRadius" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
+shape = SubResource("CircleShape2D_8gas3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = SubResource("GDScript_8gas3")
+initial_state = NodePath("CreatureStateMoveToFood")
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="CreatureStateWander" type="Node" parent="StateMachine"]
+script = ExtResource("4_fr2yh")
+metadata/_custom_type_script = "uid://deu0kk7rby7h2"
+
+[node name="CreatureStateIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("enemy")]
+script = ExtResource("4_xbil5")
+enemy = NodePath("../..")
+metadata/_custom_type_script = "uid://b1w0u138gkt5u"
+
+[node name="CreatureStateMoveToFood" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+script = ExtResource("6_8gas3")
+owning_creature = NodePath("../..")
+metadata/_custom_type_script = "uid://fuhu8el6pc4m"
+
+[node name="CreatureStateEat" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+script = ExtResource("7_mdtnb")
+owning_creature = NodePath("../..")
+metadata/_custom_type_script = "uid://c0x6bydsn86od"
