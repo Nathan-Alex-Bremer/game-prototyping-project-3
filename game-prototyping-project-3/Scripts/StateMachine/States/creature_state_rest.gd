@@ -1,7 +1,7 @@
 extends State
 class_name CreatureStateRest
 
-@export var owning_creature: CharacterBody2D
+@export var owning_creature: Creature
 
 func update(_delta):
 	# Change resources 

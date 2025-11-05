@@ -35,6 +35,7 @@ visible = false
 shape = SubResource("CircleShape2D_xbil5")
 
 [node name="EatRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
 shape = SubResource("CircleShape2D_8gas3")

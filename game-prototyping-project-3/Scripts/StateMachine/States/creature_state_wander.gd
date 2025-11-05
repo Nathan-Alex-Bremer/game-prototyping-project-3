@@ -1,7 +1,7 @@
 extends State
 class_name CreatureStateWander
 
-@export var owning_creature: CharacterBody2D
+@export var owning_creature: Creature
 
 var move_direction: Vector2
 var wander_time: float
@@ -44,4 +44,11 @@ func update(_delta):
 
 func physics_update(_delta):
 	if owning_creature:
+		# Reverse x-value movement if going out of bounds
+		if owning_creature.position.x >= GameState.screen_size.x or owning_creature.position.x <= 0:
+			move_direction.x *= -1
+		# Reverse y-value movement if going out of bounds
+		if owning_creature.position.y >= GameState.screen_size.y or owning_creature.position.y <= 0:
+			move_direction.y *= -1
+		
 		owning_creature.velocity = move_direction * owning_creature.move_speed

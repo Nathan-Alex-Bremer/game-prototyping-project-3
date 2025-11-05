@@ -1,7 +1,7 @@
 extends State
 class_name CreatureStateMoveToFood
 
-@export var owning_creature: CharacterBody2D
+@export var owning_creature: Creature
 var target: Area2D
 
 func enter():

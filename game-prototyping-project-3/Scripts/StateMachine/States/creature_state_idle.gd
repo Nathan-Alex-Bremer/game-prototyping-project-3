@@ -1,7 +1,7 @@
 extends State
 class_name CreatureStateIdle
 
-@export var owning_creature: CharacterBody2D
+@export var owning_creature: Creature
 
 var wait_time: float
 
