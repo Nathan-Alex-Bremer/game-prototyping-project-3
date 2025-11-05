@@ -1,6 +1,6 @@
 extends Area2D
 
-var hunger_restored: float = 25
+var hunger_restored: float = 50
 var active: bool = true
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

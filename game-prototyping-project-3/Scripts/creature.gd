@@ -17,6 +17,8 @@ var time_passed: float = 0
 func _ready() -> void:
 	detect_radius = $DetectRadius
 	eat_radius = $EatRadius
+	
+	$StateMachine.connect("state_changed", on_state_changed)
 	pass # Replace with function body.
 
 
@@ -41,3 +43,8 @@ func change_feisty(amount: float) -> void:
 
 func change_tired(amount: float) -> void:
 	tired += amount
+
+
+func on_state_changed(new_state: State) -> void:
+	# Update label to display "simple name" of new state
+	$Label.text = new_state.simple_name

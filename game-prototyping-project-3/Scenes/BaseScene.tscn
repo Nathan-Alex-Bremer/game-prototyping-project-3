@@ -1,12 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://vamehqonwq37"]
 
-[ext_resource type="PackedScene" uid="uid://pax8hqcis1wq" path="res://Scenes/Creature.tscn" id="1_brycl"]
+[ext_resource type="Script" uid="uid://bsfxihnntm7ml" path="res://Scripts/base_scene.gd" id="1_58y5n"]
 [ext_resource type="PackedScene" uid="uid://pc8elxh64c3m" path="res://Scenes/Food.tscn" id="2_ufl4h"]
 
 [node name="Node2D" type="Node2D"]
-
-[node name="Creature" parent="." instance=ExtResource("1_brycl")]
-position = Vector2(575, 332)
+script = ExtResource("1_58y5n")
 
 [node name="Food" parent="." instance=ExtResource("2_ufl4h")]
 position = Vector2(153, 531)
