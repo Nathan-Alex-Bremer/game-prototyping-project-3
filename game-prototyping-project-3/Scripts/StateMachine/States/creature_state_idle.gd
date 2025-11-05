@@ -15,7 +15,7 @@ func update(_delta):
 	# Expend resources
 	owning_creature.change_food(_delta * -1)
 	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.22)
+	owning_creature.change_tired(_delta * 0.21)
 	
 	
 		
@@ -26,8 +26,8 @@ func update(_delta):
 		# randomize_wait()
 	
 	if owning_creature.hunger <= 25:
-		print("Hungry!")
-		Transitioned.emit(self, "creaturestatemovetofood")
+		print("Hungry, wandering!")
+		Transitioned.emit(self, "creaturestatewander")
 		return
 	
 	if owning_creature.tired >= 75:

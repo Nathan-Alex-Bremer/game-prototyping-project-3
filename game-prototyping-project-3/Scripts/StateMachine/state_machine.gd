@@ -5,6 +5,9 @@ class_name StateMachine
 var current_state: State
 var states: Dictionary = {}
 
+# Signals
+signal state_changed(new_state: State)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for child in get_children():
@@ -47,3 +50,5 @@ func on_child_transition(state, new_state_name) -> void:
 	
 	# Call enter function
 	new_state.enter()
+	
+	state_changed.emit(new_state)

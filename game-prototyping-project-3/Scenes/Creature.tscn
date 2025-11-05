@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=13 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Texture2D" uid="uid://c8316te0jkplt" path="res://icon.svg" id="1_0inej"]
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" uid="uid://fuhu8el6pc4m" path="res://Scripts/StateMachine/States/creature_state_move_to_food.gd" id="6_8gas3"]
 [ext_resource type="Script" uid="uid://c0x6bydsn86od" path="res://Scripts/StateMachine/States/creature_state_eat.gd" id="7_mdtnb"]
 [ext_resource type="Script" uid="uid://bxwwh47o0hcx6" path="res://Scripts/StateMachine/States/creature_state_rest.gd" id="8_wc6yb"]
+[ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scenes/blackboard.gd" id="9_kyo3b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(128, 128)
@@ -29,6 +30,7 @@ texture = ExtResource("1_0inej")
 shape = SubResource("RectangleShape2D_s16ri")
 
 [node name="DetectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
@@ -45,27 +47,48 @@ script = ExtResource("3_bdkse")
 initial_state = NodePath("CreatureStateWander")
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
-[node name="CreatureStateWander" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+[node name="CreatureStateWander" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature", "blackboard")]
 script = ExtResource("4_fr2yh")
 owning_creature = NodePath("../..")
+simple_name = &"Wander"
+blackboard = NodePath("../Blackboard")
 metadata/_custom_type_script = "uid://deu0kk7rby7h2"
 
-[node name="CreatureStateIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+[node name="CreatureStateIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature", "blackboard")]
 script = ExtResource("4_xbil5")
 owning_creature = NodePath("../..")
+simple_name = &"Idle"
+blackboard = NodePath("../Blackboard")
 metadata/_custom_type_script = "uid://b1w0u138gkt5u"
 
-[node name="CreatureStateMoveToFood" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+[node name="CreatureStateMoveToFood" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature", "blackboard")]
 script = ExtResource("6_8gas3")
 owning_creature = NodePath("../..")
+simple_name = &"Move To Food"
+blackboard = NodePath("../Blackboard")
 metadata/_custom_type_script = "uid://fuhu8el6pc4m"
 
-[node name="CreatureStateEat" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+[node name="CreatureStateEat" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature", "blackboard")]
 script = ExtResource("7_mdtnb")
 owning_creature = NodePath("../..")
+simple_name = &"Eat"
+blackboard = NodePath("../Blackboard")
 metadata/_custom_type_script = "uid://c0x6bydsn86od"
 
-[node name="CreatureStateRest" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature")]
+[node name="CreatureStateRest" type="Node" parent="StateMachine" node_paths=PackedStringArray("owning_creature", "blackboard")]
 script = ExtResource("8_wc6yb")
 owning_creature = NodePath("../..")
+simple_name = &"Rest"
+blackboard = NodePath("../Blackboard")
 metadata/_custom_type_script = "uid://bxwwh47o0hcx6"
+
+[node name="Blackboard" type="Node" parent="StateMachine"]
+script = ExtResource("9_kyo3b")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -21.0
+offset_top = -96.0
+offset_right = 19.0
+offset_bottom = -73.0
+text = "Test"
+horizontal_alignment = 1

@@ -1,13 +1,16 @@
 extends Node2D
 
+# Creatures
 var num_creatures: int = 0
 @export var max_creatures: int = 10
 @export var creature_scene: PackedScene
 
+# Food
 var num_food: int = 0
 @export var max_food: int = 10
 @export var food_scene: PackedScene
 
+# Player
 @export var player_scene: PackedScene
 
 var screen_size: Vector2
@@ -20,8 +23,9 @@ var screen_size: Vector2
 	#REST
 #}
 
+# States
 var found_states = {}
-
+var num_found_states: int = 0
 
 
 

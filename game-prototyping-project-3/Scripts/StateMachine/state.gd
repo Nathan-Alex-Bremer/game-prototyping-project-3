@@ -1,6 +1,9 @@
 extends Node
 class_name State
 
+@export var simple_name: StringName = ""
+@export var blackboard: Blackboard
+
 # Signals
 signal Transitioned
 

@@ -15,6 +15,7 @@ func _ready() -> void:
 	# Instantiate a player observer
 	var new_player = GameState.player_scene.instantiate()
 	new_player.connect("CapturedState", on_capture_state)
+	new_player.connect("ClickedFood", on_clicked_food)
 	add_child(new_player)
 	
 	# Instantiate a creature
@@ -47,4 +48,15 @@ func on_capture_state(state: StringName) -> void:
 		if known_state == state and GameState.found_states[state] == false:
 			GameState.found_states[state] = true
 			print("Found State: " + state)
+			GameState.num_found_states += 1
 			return
+
+func on_clicked_food(food_position: Vector2) -> void:
+	if GameState.num_found_states < 1:
+		print("Not enough research done!")
+		return
+		
+	# Instantiate food object
+	var new_food = GameState.food_scene.instantiate()
+	new_food.position = food_position
+	add_child(new_food)

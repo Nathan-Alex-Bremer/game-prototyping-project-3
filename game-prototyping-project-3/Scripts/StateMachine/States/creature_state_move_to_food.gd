@@ -5,13 +5,19 @@ class_name CreatureStateMoveToFood
 var target: Area2D
 
 func enter():
-	target = get_tree().get_first_node_in_group("food")
+	if not blackboard:
+		return
+	
+	if not blackboard.current_target:
+		return
+	
+	target = blackboard.current_target
 
 func update(_delta):
 	# Expend resources
 	owning_creature.change_food(_delta * -1)
 	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.22)
+	owning_creature.change_tired(_delta * 0.21)
 
 func physics_update(_delta):
 	if target:

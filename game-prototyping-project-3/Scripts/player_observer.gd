@@ -15,6 +15,10 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("capture_screen"):
 		print("Capture screen!")
 		capture_creature_states()
+	
+	if Input.is_action_just_pressed("use_action"):
+		print("Use action!")
+		ClickedFood.emit(get_viewport().get_mouse_position())
 
 func capture_creature_states() -> void:
 	var creatures = get_tree().get_nodes_in_group("creature")
