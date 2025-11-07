@@ -1,8 +1,6 @@
 extends State
 class_name CreatureStateWander
 
-@export var owning_creature: Creature
-
 var move_direction: Vector2
 var wander_time: float
 
@@ -26,6 +24,15 @@ func update(_delta):
 	# And my attempt to use object-oriented stuff led to recursion I couldn't easily sort out
 	
 	
+	if blackboard.is_pet:
+		print("Got pet!")
+		Transitioned.emit(self, "creaturestatepet")
+		return
+		
+	if blackboard.is_poked:
+		print("Got poked!")
+		Transitioned.emit(self, "creaturestatepoke")
+		return
 	
 	if wander_time <= 0:
 		# Transition
@@ -38,21 +45,16 @@ func update(_delta):
 	
 	# If hungry, constantly check for nearby food
 	if owning_creature.hunger <= 25:
-		var nearby_entities = %DetectRadius.get_overlapping_areas()
-		
-		for entity in nearby_entities:
-			if entity.is_in_group("food"):
+		if blackboard:
+			if blackboard.seen_food.size() > 0:
 				print("Hungry!")
-				
-				# Update blackboard reference to current target
-				if blackboard:
-					blackboard.current_target = entity
-				
+				blackboard.current_target = blackboard.seen_food[0]
 				Transitioned.emit(self, "creaturestatemovetofood")
 				return
 		
 	
-	if owning_creature.tired >= 75:
+	# elif instead of if, to prevent constant switching between wander and rest
+	elif owning_creature.tired >= 75:
 		print("Tired!")
 		Transitioned.emit(self, "creaturestaterest")
 		return

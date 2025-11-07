@@ -1,10 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://vamehqonwq37"]
+[gd_scene load_steps=4 format=3 uid="uid://vamehqonwq37"]
 
 [ext_resource type="Script" uid="uid://bsfxihnntm7ml" path="res://Scripts/base_scene.gd" id="1_58y5n"]
 [ext_resource type="PackedScene" uid="uid://pc8elxh64c3m" path="res://Scenes/Food.tscn" id="2_ufl4h"]
+[ext_resource type="PackedScene" uid="uid://0wnkaj8ql8" path="res://Scenes/Journal.tscn" id="3_58y5n"]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_58y5n")
 
 [node name="Food" parent="." instance=ExtResource("2_ufl4h")]
 position = Vector2(153, 531)
+
+[node name="Journal" parent="." instance=ExtResource("3_58y5n")]
+
+[node name="InteractModeLabel" type="Label" parent="."]
+offset_left = 460.0
+offset_top = 7.0
+offset_right = 688.0
+offset_bottom = 30.0
+text = "Current Interact Mode: Check"

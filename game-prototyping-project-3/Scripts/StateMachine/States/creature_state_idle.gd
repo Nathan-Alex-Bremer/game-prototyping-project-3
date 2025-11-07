@@ -1,8 +1,6 @@
 extends State
 class_name CreatureStateIdle
 
-@export var owning_creature: Creature
-
 var wait_time: float
 
 func randomize_wait():
@@ -18,7 +16,17 @@ func update(_delta):
 	owning_creature.change_tired(_delta * 0.21)
 	
 	
-		
+	
+	if blackboard.is_pet:
+		print("Got pet!")
+		Transitioned.emit(self, "creaturestatepet")
+		return
+	
+	if blackboard.is_poked:
+		print("Got poked!")
+		Transitioned.emit(self, "creaturestatepoke")
+		return
+	
 	if wait_time <= 0:
 		print("Waited!")
 		Transitioned.emit(self, "creaturestatewander")

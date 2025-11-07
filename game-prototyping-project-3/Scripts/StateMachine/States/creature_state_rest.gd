@@ -1,8 +1,6 @@
 extends State
 class_name CreatureStateRest
 
-@export var owning_creature: Creature
-
 func update(_delta):
 	# Change resources 
 	owning_creature.change_food(_delta * -0.5)
@@ -20,7 +18,7 @@ func update(_delta):
 		return
 		
 	pass
-	
+
 func physics_update(_delta):
 	if owning_creature:
 		owning_creature.velocity = Vector2.ZERO # Ew, should not need to be done

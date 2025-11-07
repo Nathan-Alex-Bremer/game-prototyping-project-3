@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=3 uid="uid://0wnkaj8ql8"]
+
+[ext_resource type="Script" uid="uid://b6jow321w1c36" path="res://Scripts/journal.gd" id="1_a6r1n"]
+
+[node name="Journal" type="Node2D"]
+script = ExtResource("1_a6r1n")
+
+[node name="StatesFound" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "States Found: 0"
+
+[node name="StateWander" type="Label" parent="."]
+offset_top = 33.0
+offset_right = 40.0
+offset_bottom = 56.0
+text = "Wander State: FALSE"
+
+[node name="StateIdle" type="Label" parent="."]
+offset_top = 60.0
+offset_right = 159.0
+offset_bottom = 83.0
+text = "Idle State: FALSE"
+
+[node name="StateMoveToFood" type="Label" parent="."]
+offset_top = 86.0
+offset_right = 159.0
+offset_bottom = 109.0
+text = "Move to Food State: FALSE"
+
+[node name="StateEat" type="Label" parent="."]
+offset_top = 115.0
+offset_right = 203.0
+offset_bottom = 138.0
+text = "Eat State: FALSE"
+
+[node name="StateRest" type="Label" parent="."]
+offset_top = 142.0
+offset_right = 203.0
+offset_bottom = 165.0
+text = "Rest State: FALSE"
+
+[node name="StatePet" type="Label" parent="."]
+offset_top = 170.0
+offset_right = 203.0
+offset_bottom = 193.0
+text = "Pet State: FALSE"
+
+[node name="StatePoke" type="Label" parent="."]
+offset_top = 198.0
+offset_right = 203.0
+offset_bottom = 221.0
+text = "Annoyed State: FALSE"
