@@ -5,6 +5,9 @@ var num_creatures: int = 0
 @export var max_creatures: int = 10
 @export var creature_scene: PackedScene
 
+var existing_creatures: Array[Creature]
+var selected_creature: Creature
+
 # Food
 var num_food: int = 0
 @export var max_food: int = 10
@@ -23,6 +26,14 @@ var screen_size: Vector2
 	#REST
 #}
 
+enum INTERACT_MODES {
+	CHECK,
+	PLACE_FOOD,
+	PET,
+	POKE
+}
+var mode = INTERACT_MODES.CHECK
+
 # States
 var found_states = {}
 var num_found_states: int = 0
@@ -36,8 +47,10 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	
 	# TODO: Make this cleaner
-	found_states["creaturestateeat"] = false
-	found_states["creaturestateidle"] = false
-	found_states["creaturestatewander"] = false
-	found_states["creaturestatemovetofood"] = false
-	found_states["creaturestaterest"] = false
+	found_states["Eat"] = false
+	found_states["Idle"] = false
+	found_states["Wander"] = false
+	found_states["Move To Food"] = false
+	found_states["Rest"] = false
+	found_states["Pet"] = false
+	found_states["Annoyed"] = false

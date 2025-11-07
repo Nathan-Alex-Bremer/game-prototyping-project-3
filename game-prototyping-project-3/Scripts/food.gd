@@ -1,4 +1,5 @@
 extends Area2D
+class_name Food
 
 var hunger_restored: float = 50
 var active: bool = true

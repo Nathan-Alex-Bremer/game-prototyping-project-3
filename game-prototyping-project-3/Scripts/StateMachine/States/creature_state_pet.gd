@@ -1,21 +1,13 @@
 extends State
-class_name CreatureStateEat
+class_name CreatureStatePet
 
-var wait_time: float
-
-func randomize_wait():
-	wait_time = randf_range(1, 3)
+var wait_time: float = 2
 
 func enter():
-	var found_areas = %EatRadius.get_overlapping_areas()
+	print("Pet!")
+	owning_creature.change_feisty(-50)
 	
-	for area in found_areas:
-		if area.is_in_group("food"):
-			blackboard.seen_food.erase(area) # Does the exited event already handle this???
-			area.consume(owning_creature)
-			blackboard.current_target = null
-			randomize_wait()
-			break
+	wait_time = 2
 
 # The reason this is here instead of just immediately transitioning to idle is:
 # 1. to allow the player to capture a creature in the Eating state
@@ -27,6 +19,7 @@ func update(_delta):
 	owning_creature.change_tired(_delta * 0.21)
 	
 	
+		
 	if wait_time <= 0:
 		print("Waited!")
 		Transitioned.emit(self, "creaturestatewander")
@@ -34,3 +27,10 @@ func update(_delta):
 		# randomize_wait()
 	
 	wait_time -= _delta
+
+func physics_update(_delta):
+	if owning_creature:
+		owning_creature.velocity = Vector2.ZERO # Ew, should not need to be done
+
+func exit():
+	blackboard.is_pet = false
