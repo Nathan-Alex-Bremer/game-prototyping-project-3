@@ -1,53 +1,120 @@
-[gd_scene load_steps=2 format=3 uid="uid://0wnkaj8ql8"]
+[gd_scene load_steps=3 format=3 uid="uid://0wnkaj8ql8"]
 
 [ext_resource type="Script" uid="uid://b6jow321w1c36" path="res://Scripts/journal.gd" id="1_a6r1n"]
+[ext_resource type="Texture2D" uid="uid://dxvo8ojddpmt" path="res://Art/journal.png" id="2_gmf2j"]
 
 [node name="Journal" type="Node2D"]
 script = ExtResource("1_a6r1n")
 
+[node name="CreatureName" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 476.0
+offset_top = 34.0
+offset_right = 595.0
+offset_bottom = 57.0
+text = "The Creature"
+
 [node name="StatesFound" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 141.0
+offset_top = 70.0
+offset_right = 260.0
+offset_bottom = 93.0
 text = "States Found: 0"
 
 [node name="StateWander" type="Label" parent="."]
-offset_top = 33.0
-offset_right = 40.0
-offset_bottom = 56.0
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 140.0
+offset_top = 160.0
+offset_right = 299.0
+offset_bottom = 183.0
 text = "Wander State: FALSE"
 
 [node name="StateIdle" type="Label" parent="."]
-offset_top = 60.0
-offset_right = 159.0
-offset_bottom = 83.0
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 140.0
+offset_top = 116.0
+offset_right = 299.0
+offset_bottom = 139.0
 text = "Idle State: FALSE"
 
-[node name="StateMoveToFood" type="Label" parent="."]
-offset_top = 86.0
-offset_right = 159.0
-offset_bottom = 109.0
-text = "Move to Food State: FALSE"
-
 [node name="StateEat" type="Label" parent="."]
-offset_top = 115.0
-offset_right = 203.0
-offset_bottom = 138.0
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 141.0
+offset_top = 206.0
+offset_right = 344.0
+offset_bottom = 229.0
 text = "Eat State: FALSE"
 
 [node name="StateRest" type="Label" parent="."]
-offset_top = 142.0
-offset_right = 203.0
-offset_bottom = 165.0
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 141.0
+offset_top = 246.0
+offset_right = 344.0
+offset_bottom = 269.0
 text = "Rest State: FALSE"
 
 [node name="StatePet" type="Label" parent="."]
-offset_top = 170.0
-offset_right = 203.0
-offset_bottom = 193.0
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 141.0
+offset_top = 296.0
+offset_right = 344.0
+offset_bottom = 319.0
 text = "Pet State: FALSE"
 
 [node name="StatePoke" type="Label" parent="."]
-offset_top = 198.0
-offset_right = 203.0
-offset_bottom = 221.0
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 141.0
+offset_top = 341.0
+offset_right = 344.0
+offset_bottom = 364.0
 text = "Annoyed State: FALSE"
+
+[node name="StatePlay" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 141.0
+offset_top = 386.0
+offset_right = 358.0
+offset_bottom = 409.0
+text = "Play State: FALSE"
+
+[node name="StateChase" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 141.0
+offset_top = 435.0
+offset_right = 358.0
+offset_bottom = 458.0
+text = "Chase State: FALSE"
+
+[node name="StateAttack" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 141.0
+offset_top = 480.0
+offset_right = 344.0
+offset_bottom = 503.0
+text = "Attack State: FALSE"
+
+[node name="StateFlee" type="Label" parent="."]
+modulate = Color(0, 0, 0, 1)
+z_index = 11
+offset_left = 140.0
+offset_top = 532.0
+offset_right = 343.0
+offset_bottom = 555.0
+text = "Flee State: FALSE"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 10
+position = Vector2(576, 324)
+texture = ExtResource("2_gmf2j")

@@ -16,3 +16,11 @@ var current_target: Node2D
 # Pet tracking
 var is_pet: bool = false
 var is_poked: bool = false
+
+# Play
+var wants_to_play: bool = false
+
+# Fighting
+var aggressive: bool = false
+var current_attacker: Creature
+var stunned: bool = false

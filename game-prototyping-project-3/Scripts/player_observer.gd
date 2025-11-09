@@ -1,14 +1,18 @@
-extends Node2D
+extends CharacterBody2D
 class_name PlayerObserver
 
 
 # Variables
+# State changing
+var interact_mode_text: StringName = "Current Interact Mode: "
+var camera_speed: float = 200
 
 # Signals
 signal ClickedFood(position: Vector2)
 signal CapturedState(state: StringName)
 signal OpenJournal()
 signal ChangeMode(new_mode)
+signal ToggleCreatureStats()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -17,6 +21,9 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	# Update flash
+	$Flash.modulate.a = lerp($Flash.modulate.a, 0.0, 0.03)
+	
 	if Input.is_action_just_pressed("capture_screen"):
 		print("Capture screen!")
 		capture_creature_states()
@@ -26,14 +33,23 @@ func _process(delta: float) -> void:
 		
 		match GameState.mode:
 			GameState.INTERACT_MODES.CHECK:
-				GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
-				print("New action mode: Place Food")
+				if GameState.num_found_states > 0:
+					GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
+					print("New action mode: Place Food")
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				GameState.mode = GameState.INTERACT_MODES.PET
-				print("New action mode: Pet")
+				if GameState.num_found_states > 0:
+					GameState.mode = GameState.INTERACT_MODES.PET
+					print("New action mode: Pet")
+				else:
+					GameState.mode = GameState.INTERACT_MODES.CHECK
+					print("New action mode: Check")
 			GameState.INTERACT_MODES.PET:
-				GameState.mode = GameState.INTERACT_MODES.POKE
-				print("New action mode: Poke")
+				if GameState.num_found_states > 0:
+					GameState.mode = GameState.INTERACT_MODES.POKE
+					print("New action mode: Poke")
+				else:
+					GameState.mode = GameState.INTERACT_MODES.CHECK
+					print("New action mode: Check")
 			GameState.INTERACT_MODES.POKE:
 				GameState.mode = GameState.INTERACT_MODES.CHECK
 				print("New action mode: Check")
@@ -44,17 +60,41 @@ func _process(delta: float) -> void:
 		print("Use action!")
 		match GameState.mode:
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				ClickedFood.emit(get_viewport().get_mouse_position())
+				var camera = get_viewport().get_camera_2d()
+				ClickedFood.emit(camera.get_global_mouse_position())
 				
 	if Input.is_action_just_pressed("open_journal"):
 		OpenJournal.emit()
-		
+
+func _physics_process(delta: float) -> void:
+	velocity = Vector2.ZERO
+	
+	if Input.is_action_pressed("move_up"):
+		velocity.y -= 1
+	if Input.is_action_pressed("move_down"):
+		velocity.y += 1
+	if Input.is_action_pressed("move_right"):
+		velocity.x += 1
+	if Input.is_action_pressed("move_left"):
+		velocity.x -= 1
+	
+	if velocity.length() > 0:
+		# Normalize the movement direction vector
+		velocity = velocity.normalized() * camera_speed
+	
+	# Handles movement, collision, and sliding along collision surfaces
+	var collision = move_and_slide()
 
 func capture_creature_states() -> void:
+	# Start camera flash effect
+	$Flash.modulate.a = 0.5
+	
+	# Record found states
 	var creatures = get_tree().get_nodes_in_group("creature")
 	
 	for creature in creatures:
-		if (0 <= creature.position.x and creature.position.x <= GameState.screen_size.x) and (0 <= creature.position.y and creature.position.y <= GameState.screen_size.y):
+		if creature.get_is_visible():
+		# if (0 <= creature.position.x and creature.position.x <= GameState.screen_size.x) and (0 <= creature.position.y and creature.position.y <= GameState.screen_size.y):
 			var creature_statemachine: StateMachine = creature.get_node("StateMachine")
 			
 			if creature_statemachine == null:
@@ -66,3 +106,23 @@ func capture_creature_states() -> void:
 				return
 				
 			CapturedState.emit(creature_state)
+
+func open_journal() -> void:
+	$Journal.toggle_opened()
+	
+func on_state_found(state: StringName, times_found: int) -> void:
+	$Journal.on_state_found(state, times_found)
+	
+func change_mode(mode: int) -> void:
+	match mode:
+		GameState.INTERACT_MODES.CHECK:
+			$InteractModeLabel.text = interact_mode_text + "Check"
+		GameState.INTERACT_MODES.PLACE_FOOD:
+			# Since this is the state after Check, for now we disable visible stats here
+			GameState.selected_creature = null
+			ToggleCreatureStats.emit()
+			$InteractModeLabel.text = interact_mode_text + "Place Food"
+		GameState.INTERACT_MODES.PET:
+			$InteractModeLabel.text = interact_mode_text + "Pet"
+		GameState.INTERACT_MODES.POKE:
+			$InteractModeLabel.text = interact_mode_text + "Poke"

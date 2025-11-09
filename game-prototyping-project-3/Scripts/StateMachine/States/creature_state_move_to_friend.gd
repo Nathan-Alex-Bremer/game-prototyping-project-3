@@ -1,7 +1,7 @@
 extends State
-class_name CreatureStateMoveToFood
+class_name CreatureStateMoveToFriend
 
-var target: Area2D
+var target: Creature
 
 func enter():
 	if not blackboard:
@@ -11,8 +11,6 @@ func enter():
 		return
 	
 	target = blackboard.current_target
-	
-	blackboard.wants_to_play = false
 
 func update(_delta):
 	# Expend resources
@@ -36,15 +34,15 @@ func update(_delta):
 		return
 
 func physics_update(_delta):
-	if target:
+	if target and target.get_wants_to_play():
 		var direction = target.global_position - owning_creature.global_position
 		
-		if direction.length() > 50:
+		if direction.length() > 250:
 			owning_creature.velocity = direction.normalized() * owning_creature.move_speed
 		
 		else:
 			owning_creature.velocity = Vector2.ZERO
-			Transitioned.emit(self, "creaturestateeat")
+			Transitioned.emit(self, "creaturestateplay")
 			return
 	# If food is gone, give up on it
 	else:
