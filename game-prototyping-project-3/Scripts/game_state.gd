@@ -47,10 +47,13 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	
 	# TODO: Make this cleaner
-	found_states["Eat"] = false
-	found_states["Idle"] = false
-	found_states["Wander"] = false
-	found_states["Move To Food"] = false
-	found_states["Rest"] = false
-	found_states["Pet"] = false
-	found_states["Annoyed"] = false
+	found_states["Eat"] = 0
+	found_states["Idle"] = 0
+	found_states["Wander"] = 0
+	found_states["Rest"] = 0
+	found_states["Pet"] = 0
+	found_states["Annoyed"] = 0
+	found_states["Play"] = 0
+	found_states["Chase"] = 0
+	found_states["Attack"] = 0
+	found_states["Flee"] = 0

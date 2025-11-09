@@ -8,14 +8,23 @@ func randomize_wait():
 
 func enter():
 	randomize_wait()
+	
+	# Update wants to play
+	if owning_creature.feisty > 20 and owning_creature.feisty < 60 and owning_creature.hunger > 25 and owning_creature.tired < 60:
+		blackboard.wants_to_play = true
+	else:
+		blackboard.wants_to_play = false
 
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -0.75)
+	owning_creature.change_feisty(_delta * 0.36)
+	owning_creature.change_tired(_delta * 0.15)
 	
 	
+	if blackboard.stunned:
+		Transitioned.emit(self, "creaturestatestunned")
+		return
 	
 	if blackboard.is_pet:
 		print("Got pet!")

@@ -16,6 +16,8 @@ func enter():
 			blackboard.current_target = null
 			randomize_wait()
 			break
+	
+	blackboard.wants_to_play = false
 
 # The reason this is here instead of just immediately transitioning to idle is:
 # 1. to allow the player to capture a creature in the Eating state
@@ -26,7 +28,10 @@ func update(_delta):
 	owning_creature.change_feisty(_delta * 0.48)
 	owning_creature.change_tired(_delta * 0.21)
 	
-	
+	if blackboard.stunned:
+		Transitioned.emit(self, "creaturestatestunned")
+		return
+		
 	if wait_time <= 0:
 		print("Waited!")
 		Transitioned.emit(self, "creaturestatewander")

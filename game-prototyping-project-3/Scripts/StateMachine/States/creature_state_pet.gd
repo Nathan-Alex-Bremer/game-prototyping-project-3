@@ -7,6 +7,14 @@ func enter():
 	print("Pet!")
 	owning_creature.change_feisty(-50)
 	
+	# Update wants to play
+	if owning_creature.feisty > 10 and owning_creature.feisty < 60 and owning_creature.hunger > 25 and owning_creature.tired < 60:
+		blackboard.wants_to_play = true
+	else:
+		blackboard.wants_to_play = false
+	
+	blackboard.aggressive = false
+	
 	wait_time = 2
 
 # The reason this is here instead of just immediately transitioning to idle is:
@@ -19,6 +27,9 @@ func update(_delta):
 	owning_creature.change_tired(_delta * 0.21)
 	
 	
+	if blackboard.stunned:
+		Transitioned.emit(self, "creaturestatestunned")
+		return
 		
 	if wait_time <= 0:
 		print("Waited!")

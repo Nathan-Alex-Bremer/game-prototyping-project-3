@@ -2,8 +2,10 @@ extends Node2D
 
 # @export var player: PlayerObserver
 
-@export var timer_count: float = 60
+@export var timer_count: float = 10
 var timer: float
+
+var player: PlayerObserver
 
 # State changing
 var interact_mode_text: StringName = "Current Interact Mode: "
@@ -16,17 +18,18 @@ func _ready() -> void:
 	timer = timer_count
 	
 	# Instantiate a player observer
-	var new_player = GameState.player_scene.instantiate()
-	new_player.connect("CapturedState", on_capture_state)
-	new_player.connect("ClickedFood", on_clicked_food)
-	new_player.connect("OpenJournal", on_open_journal)
-	new_player.connect("ChangeMode", on_change_mode)
-	add_child(new_player)
+	player = GameState.player_scene.instantiate()
+	player.connect("CapturedState", on_capture_state)
+	player.connect("ClickedFood", on_clicked_food)
+	player.connect("OpenJournal", on_open_journal)
+	player.connect("ChangeMode", on_change_mode)
+	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
+	add_child(player)
 	
 	# Instantiate a creature
-	for i in range(2):
+	for i in range(10):
 		var new_creature = GameState.creature_scene.instantiate()
-		var random_point = Vector2(randf_range(0, GameState.screen_size.x), randf_range(0, GameState.screen_size.y))
+		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 		new_creature.position = random_point
 		new_creature.connect("SelectedForCheck", on_creature_selected_check)
 		add_child(new_creature)
@@ -44,7 +47,7 @@ func _process(delta: float) -> void:
 		timer = timer_count
 
 func spawn_food() -> void:
-	var random_point = Vector2(randf_range(0, GameState.screen_size.x), randf_range(0, GameState.screen_size.y))
+	var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 	
 	# Instantiate food object
 	var new_food = GameState.food_scene.instantiate()
@@ -53,11 +56,13 @@ func spawn_food() -> void:
 
 func on_capture_state(state: StringName) -> void:
 	for known_state in GameState.found_states:
-		if known_state == state and GameState.found_states[state] == false:
-			GameState.found_states[state] = true
+		if known_state == state:
+			if GameState.found_states[state] == 0:
+				GameState.num_found_states += 1
+			GameState.found_states[state] += 1
 			print("Found State: " + state)
-			GameState.num_found_states += 1
-			$Journal.on_state_found(state)
+			
+			player.on_state_found(state, GameState.found_states[state])
 			return
 
 func on_clicked_food(food_position: Vector2) -> void:
@@ -66,27 +71,27 @@ func on_clicked_food(food_position: Vector2) -> void:
 		return
 		
 	# Instantiate food object
+	# var place_for_food = get_viewport().get_mouse_position()
 	var new_food = GameState.food_scene.instantiate()
 	new_food.position = food_position
 	add_child(new_food)
 
+#func _input(event):
+	#if event is InputEventMouseButton:
+		#if GameState.mode == GameState.INTERACT_MODES.PLACE_FOOD:
+			#var new_food = GameState.food_scene.instantiate()
+			#new_food.position = event.position
+			#add_child(new_food)
+
 func on_open_journal() -> void:
-	$Journal.toggle_opened()
+	player.open_journal()
 	
 func on_change_mode(mode: int) -> void:
-	match mode:
-		GameState.INTERACT_MODES.CHECK:
-			$InteractModeLabel.text = interact_mode_text + "Check"
-		GameState.INTERACT_MODES.PLACE_FOOD:
-			# Since this is the state after Check, for now we disable visible stats here
-			GameState.selected_creature = null
-			toggle_creature_stats()
-			$InteractModeLabel.text = interact_mode_text + "Place Food"
-		GameState.INTERACT_MODES.PET:
-			$InteractModeLabel.text = interact_mode_text + "Pet"
-		GameState.INTERACT_MODES.POKE:
-			$InteractModeLabel.text = interact_mode_text + "Poke"
-		
+	player.change_mode(mode)
+
+func on_toggle_creature_stats() -> void:
+	toggle_creature_stats()
+	
 # Toggles the visibility of all creature stats off except for the currently selected creature
 # When transitioning out of Check action mode, this should be ALL creatures
 func toggle_creature_stats() -> void:
