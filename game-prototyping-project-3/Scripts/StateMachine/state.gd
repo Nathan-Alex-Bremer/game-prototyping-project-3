@@ -1,5 +1,5 @@
 extends Node
-class_name State
+class_name MonsterState
 
 @export var simple_name: StringName = ""
 @export var blackboard: Blackboard

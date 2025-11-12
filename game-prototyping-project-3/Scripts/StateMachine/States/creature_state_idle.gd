@@ -1,4 +1,4 @@
-extends State
+extends MonsterState
 class_name CreatureStateIdle
 
 var wait_time: float
@@ -17,9 +17,9 @@ func enter():
 
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -0.75)
-	owning_creature.change_feisty(_delta * 0.36)
-	owning_creature.change_tired(_delta * 0.15)
+	owning_creature.change_food(_delta * -0.75, true)
+	owning_creature.change_feisty(_delta * 0.36, true)
+	owning_creature.change_tired(_delta * 0.15, true)
 	
 	
 	if blackboard.stunned:

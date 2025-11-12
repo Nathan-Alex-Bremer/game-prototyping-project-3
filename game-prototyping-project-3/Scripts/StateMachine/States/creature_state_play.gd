@@ -1,17 +1,17 @@
-extends State
+extends MonsterState
 class_name CreatureStatePlay
 
 var wait_time: float
 
 func enter():
 	wait_time = 2
-	owning_creature.change_feisty(-30)
+	owning_creature.change_feisty(-30, false)
 
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -1, true)
+	owning_creature.change_feisty(_delta * 0.48, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 	
 	
 	if blackboard.stunned:

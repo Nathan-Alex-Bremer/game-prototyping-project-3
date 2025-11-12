@@ -1,4 +1,4 @@
-extends State
+extends MonsterState
 class_name CreatureStateWander
 
 var move_direction: Vector2
@@ -24,9 +24,9 @@ func enter():
 func update(_delta):
 	
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -1, true)
+	owning_creature.change_feisty(_delta * 0.48, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 		
 	# Transitions
 	# Handled SUPER awkwardly because I'm on a fat time crunch and don't have time
@@ -95,15 +95,3 @@ func update(_delta):
 		return
 	
 	wander_time -= _delta
-
-func physics_update(_delta):
-	if owning_creature:
-		pass
-		## Reverse x-value movement if going out of bounds
-		#if owning_creature.position.x >= GameState.screen_size.x or owning_creature.position.x <= 0:
-			#move_direction.x *= -1
-		## Reverse y-value movement if going out of bounds
-		#if owning_creature.position.y >= GameState.screen_size.y or owning_creature.position.y <= 0:
-			#move_direction.y *= -1
-		
-		

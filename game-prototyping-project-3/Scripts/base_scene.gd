@@ -27,11 +27,12 @@ func _ready() -> void:
 	add_child(player)
 	
 	# Instantiate a creature
-	for i in range(10):
+	for i in range(GameState.max_creatures):
 		var new_creature = GameState.creature_scene.instantiate()
 		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 		new_creature.position = random_point
 		new_creature.connect("SelectedForCheck", on_creature_selected_check)
+		new_creature.connect("Leaving", on_creature_leaving)
 		add_child(new_creature)
 		GameState.existing_creatures.append(new_creature)
 
@@ -43,6 +44,9 @@ func _process(delta: float) -> void:
 	if timer <= 0:
 		# TODO: Add check for max food amount here
 		spawn_food()
+		
+		if randi_range(1, 5) == 5 and GameState.num_existing_creatures < GameState.max_creatures:
+			spawn_creature()
 		# Reset timer
 		timer = timer_count
 
@@ -54,16 +58,39 @@ func spawn_food() -> void:
 	new_food.position = random_point
 	add_child(new_food)
 
+func spawn_creature() -> void:
+	var new_creature = GameState.creature_scene.instantiate()
+	var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+	new_creature.position = random_point
+	new_creature.connect("SelectedForCheck", on_creature_selected_check)
+	new_creature.connect("Leaving", on_creature_leaving)
+	add_child(new_creature)
+	GameState.existing_creatures.append(new_creature)
+	GameState.num_existing_creatures += 1
+	player.creature_joined(new_creature.creature_name)
+
 func on_capture_state(state: StringName) -> void:
 	for known_state in GameState.found_states:
 		if known_state == state:
 			if GameState.found_states[state] == 0:
 				GameState.num_found_states += 1
+				found_states_updated()
 			GameState.found_states[state] += 1
 			print("Found State: " + state)
 			
 			player.on_state_found(state, GameState.found_states[state])
 			return
+
+func found_states_updated() -> void:
+	GameState.max_creatures = 5 + int(GameState.num_found_states / 2)
+	
+	match GameState.num_found_states:
+		2:
+			player.interact_mode_unlocked("Place Food")
+		4:
+			player.interact_mode_unlocked("Pet")
+		6:
+			player.interact_mode_unlocked("Poke")
 
 func on_clicked_food(food_position: Vector2) -> void:
 	if GameState.num_found_states < 1:
@@ -103,3 +130,6 @@ func toggle_creature_stats() -> void:
 		
 func on_creature_selected_check() -> void:
 	toggle_creature_stats()
+
+func on_creature_leaving(creature_name: StringName) -> void:
+	player.creature_left(creature_name)

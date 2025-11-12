@@ -5,7 +5,9 @@ class_name PlayerObserver
 # Variables
 # State changing
 var interact_mode_text: StringName = "Current Interact Mode: "
-var camera_speed: float = 200
+var camera_speed: float = 240
+
+var message_timer: float = 0
 
 # Signals
 signal ClickedFood(position: Vector2)
@@ -33,18 +35,18 @@ func _process(delta: float) -> void:
 		
 		match GameState.mode:
 			GameState.INTERACT_MODES.CHECK:
-				if GameState.num_found_states > 0:
+				if GameState.num_found_states > 1:
 					GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
 					print("New action mode: Place Food")
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				if GameState.num_found_states > 0:
+				if GameState.num_found_states > 3:
 					GameState.mode = GameState.INTERACT_MODES.PET
 					print("New action mode: Pet")
 				else:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
 			GameState.INTERACT_MODES.PET:
-				if GameState.num_found_states > 0:
+				if GameState.num_found_states > 5:
 					GameState.mode = GameState.INTERACT_MODES.POKE
 					print("New action mode: Poke")
 				else:
@@ -65,6 +67,12 @@ func _process(delta: float) -> void:
 				
 	if Input.is_action_just_pressed("open_journal"):
 		OpenJournal.emit()
+	
+	if message_timer > 0:
+		message_timer -= delta
+		if message_timer <= 0:
+			$UpdateLabel.text = ""
+			message_timer = 0
 
 func _physics_process(delta: float) -> void:
 	velocity = Vector2.ZERO
@@ -126,3 +134,16 @@ func change_mode(mode: int) -> void:
 			$InteractModeLabel.text = interact_mode_text + "Pet"
 		GameState.INTERACT_MODES.POKE:
 			$InteractModeLabel.text = interact_mode_text + "Poke"
+
+func update_message(message: String) -> void:
+	$UpdateLabel.text = message
+	message_timer = 5
+
+func creature_left(creature_name: StringName) -> void:
+	update_message(creature_name + " seems to have left...")
+	
+func creature_joined(creature_name: StringName) -> void:
+	update_message(creature_name + " has arrived!")
+
+func interact_mode_unlocked(mode: StringName) -> void:
+	update_message("New interact mode unlocked: " + mode + "!")

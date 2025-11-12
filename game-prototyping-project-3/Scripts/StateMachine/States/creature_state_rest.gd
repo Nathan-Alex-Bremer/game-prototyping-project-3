@@ -1,4 +1,4 @@
-extends State
+extends MonsterState
 class_name CreatureStateRest
 
 func enter():
@@ -6,9 +6,9 @@ func enter():
 
 func update(_delta):
 	# Change resources 
-	owning_creature.change_food(_delta * -0.5)
-	owning_creature.change_feisty(_delta * 0.24)
-	owning_creature.change_tired(_delta * -5)
+	owning_creature.change_food(_delta * -0.5, true)
+	owning_creature.change_feisty(_delta * 0.24, true)
+	owning_creature.change_tired(_delta * -5, true)
 	owning_creature.change_hit_points(_delta)
 	
 	# Transitions
@@ -17,7 +17,7 @@ func update(_delta):
 		Transitioned.emit(self, "creaturestatestunned")
 		return
 	
-	if owning_creature.hunger <= 25:
+	if owning_creature.hunger <= 25 and owning_creature.tired <= 50:
 		print("Hungry!")
 		Transitioned.emit(self, "creaturestatemovetofood")
 		return

@@ -1,4 +1,4 @@
-extends State
+extends MonsterState
 class_name CreatureStateEat
 
 var wait_time: float
@@ -24,9 +24,8 @@ func enter():
 # 2. to make sure creatures stop to eat even if they still want more food
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_feisty(_delta * 0.48, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 	
 	if blackboard.stunned:
 		Transitioned.emit(self, "creaturestatestunned")

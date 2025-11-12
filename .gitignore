@@ -14,3 +14,9 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+game-prototyping-project-3/Web Build.zip
+game-prototyping-project-3/Windows Build.zip
+game-prototyping-project-3/Web Build/
+game-prototyping-project-3/Windows Build/
+game-prototyping-project-3/prototype_3_monster_watcher.exe
+game-prototyping-project-3/prototype_3_monster_watcher.pck

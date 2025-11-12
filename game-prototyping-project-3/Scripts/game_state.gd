@@ -1,9 +1,10 @@
 extends Node2D
 
 # Creatures
-var num_creatures: int = 0
-@export var max_creatures: int = 10
+var num_existing_creatures = 5
+@export var max_creatures: int = 5
 @export var creature_scene: PackedScene
+
 
 var existing_creatures: Array[Creature]
 var selected_creature: Creature
@@ -34,7 +35,7 @@ enum INTERACT_MODES {
 }
 var mode = INTERACT_MODES.CHECK
 
-# States
+# MonsterStates
 var found_states = {}
 var num_found_states: int = 0
 

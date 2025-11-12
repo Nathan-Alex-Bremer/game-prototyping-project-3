@@ -1,11 +1,11 @@
-extends State
+extends MonsterState
 class_name CreatureStatePet
 
 var wait_time: float = 2
 
 func enter():
 	print("Pet!")
-	owning_creature.change_feisty(-50)
+	owning_creature.change_feisty(-50, false)
 	
 	# Update wants to play
 	if owning_creature.feisty > 10 and owning_creature.feisty < 60 and owning_creature.hunger > 25 and owning_creature.tired < 60:
@@ -22,9 +22,9 @@ func enter():
 # 2. to make sure creatures stop to eat even if they still want more food
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -1, true)
+	owning_creature.change_feisty(_delta * 0.48, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 	
 	
 	if blackboard.stunned:

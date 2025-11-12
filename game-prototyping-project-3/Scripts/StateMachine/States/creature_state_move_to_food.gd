@@ -1,4 +1,4 @@
-extends State
+extends MonsterState
 class_name CreatureStateMoveToFood
 
 var target: Area2D
@@ -16,9 +16,9 @@ func enter():
 
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -1, true)
+	owning_creature.change_feisty(_delta * 0.48, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 	
 	
 	if blackboard.stunned:

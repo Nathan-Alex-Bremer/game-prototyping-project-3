@@ -1,4 +1,4 @@
-extends State
+extends MonsterState
 class_name CreatureStateChase
 
 var target: Creature
@@ -14,9 +14,9 @@ func enter():
 
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * -1)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -1, true)
+	owning_creature.change_feisty(_delta * -1, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 	
 	if blackboard.stunned:
 		Transitioned.emit(self, "creaturestatestunned")
@@ -24,11 +24,13 @@ func update(_delta):
 	
 	if blackboard.is_pet:
 		print("Got pet!")
+		blackboard.current_target = null
 		Transitioned.emit(self, "creaturestatepet")
 		return
 		
 	if blackboard.is_poked:
 		print("Got poked!")
+		blackboard.current_target = null
 		Transitioned.emit(self, "creaturestatepoke")
 		return
 	

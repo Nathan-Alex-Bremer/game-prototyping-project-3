@@ -1,4 +1,4 @@
-extends State
+extends MonsterState
 class_name CreatureStateAttack
 
 var wait_time: float
@@ -17,7 +17,7 @@ func enter():
 			
 			body.deal_damage(owning_creature, 10)
 			blackboard.aggressive = true
-			owning_creature.change_feisty(-10)
+			owning_creature.change_feisty(-10, false)
 			wait_time = 3
 			break
 	
@@ -27,8 +27,8 @@ func enter():
 # 2. to make sure creatures stop to eat even if they still want more food
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -1, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 	
 	if blackboard.stunned:
 		Transitioned.emit(self, "creaturestatestunned")
@@ -38,6 +38,7 @@ func update(_delta):
 		print("Attack complete!")
 		
 		if owning_creature.feisty < 20:
+			blackboard.current_target = null
 			Transitioned.emit(self, "creaturestateidle")
 			return
 			

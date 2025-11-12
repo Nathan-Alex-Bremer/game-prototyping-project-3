@@ -1,17 +1,17 @@
 extends Node
 class_name StateMachine
 
-@export var initial_state: State
-var current_state: State
+@export var initial_state: MonsterState
+var current_state: MonsterState
 var states: Dictionary = {}
 
 # Signals
-signal state_changed(new_state: State)
+signal state_changed(new_state: MonsterState)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	for child in get_children():
-		if child is State:
+		if child is MonsterState:
 			states[child.name.to_lower()] = child
 			child.Transitioned.connect(on_child_transition)
 	

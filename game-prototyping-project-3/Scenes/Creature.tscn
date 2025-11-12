@@ -43,6 +43,11 @@ z_index = 1
 collision_mask = 2
 input_pickable = true
 script = ExtResource("1_s16ri")
+type = null
+hit_points = null
+hunger = null
+feisty = null
+tired = null
 move_speed = 50.0
 blackboard = NodePath("StateMachine/Blackboard")
 
@@ -178,9 +183,9 @@ sprite = ExtResource("28_xpye3")
 metadata/_custom_type_script = "uid://ucd0b82jjvq8"
 
 [node name="StateLabel" type="Label" parent="."]
-offset_left = -20.0
+offset_left = -79.0
 offset_top = 73.0
-offset_right = 20.0
+offset_right = 87.0
 offset_bottom = 96.0
 text = "Wander"
 horizontal_alignment = 1
@@ -216,12 +221,19 @@ offset_right = 134.0
 offset_bottom = 41.0
 text = "Tired: 0"
 
+[node name="NatureLabel" type="Label" parent="Stats"]
+offset_left = 76.0
+offset_top = 40.0
+offset_right = 134.0
+offset_bottom = 63.0
+
 [node name="NameLabel" type="Label" parent="."]
-offset_left = -22.0
+offset_left = -70.0
 offset_top = -95.0
-offset_right = 25.0
+offset_right = 58.0
 offset_bottom = -72.0
 text = "Name"
+horizontal_alignment = 1
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0, 15)

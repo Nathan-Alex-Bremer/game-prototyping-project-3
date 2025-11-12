@@ -16,7 +16,7 @@ func _process(delta: float) -> void:
 func consume(eating_creature: Creature):
 	if active:
 		active = false
-		eating_creature.change_food(hunger_restored)
+		eating_creature.change_food(hunger_restored, false)
 		eating_creature.change_hit_points(health_restored)
 		queue_free()
 	pass

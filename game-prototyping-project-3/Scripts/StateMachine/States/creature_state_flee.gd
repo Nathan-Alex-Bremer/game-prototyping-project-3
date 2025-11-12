@@ -1,4 +1,4 @@
-extends State
+extends MonsterState
 class_name CreatureStateFlee
 
 var move_direction: Vector2
@@ -13,12 +13,16 @@ func randomize_wander():
 func enter():
 	randomize_wander()
 	
+	blackboard.wants_to_play = false
+	
+	owning_creature.velocity = move_direction * owning_creature.move_speed * 1.2
+	
 func update(_delta):
 	
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * -0.48)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -1, true)
+	owning_creature.change_feisty(_delta * -0.48, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 	
 	if blackboard.stunned:
 		Transitioned.emit(self, "creaturestatestunned")
@@ -49,16 +53,6 @@ func update(_delta):
 		
 		# If hungry, don't stop looking
 		randomize_wander()
+		owning_creature.velocity = move_direction * owning_creature.move_speed * 1.2
 	
 	wander_time -= _delta
-
-func physics_update(_delta):
-	if owning_creature:
-		# Reverse x-value movement if going out of bounds
-		if owning_creature.position.x >= GameState.screen_size.x or owning_creature.position.x <= 0:
-			move_direction.x *= -1
-		# Reverse y-value movement if going out of bounds
-		if owning_creature.position.y >= GameState.screen_size.y or owning_creature.position.y <= 0:
-			move_direction.y *= -1
-		
-		owning_creature.velocity = move_direction * owning_creature.move_speed * 1.2

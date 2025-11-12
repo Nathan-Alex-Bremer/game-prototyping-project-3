@@ -1,11 +1,11 @@
-extends State
+extends MonsterState
 class_name CreatureStateStunned
 
 var wait_time: float = 2
 
 func enter():
 	print("Attacked!")
-	owning_creature.change_feisty(5) #TODO: Change
+	owning_creature.change_feisty(5, true) #TODO: Change
 	
 	wait_time = 2
 	blackboard.stunned = false
@@ -15,9 +15,9 @@ func enter():
 # 2. to make sure creatures stop to eat even if they still want more food
 func update(_delta):
 	# Expend resources
-	owning_creature.change_food(_delta * -1)
-	owning_creature.change_feisty(_delta * 0.48)
-	owning_creature.change_tired(_delta * 0.21)
+	owning_creature.change_food(_delta * -1, true)
+	owning_creature.change_feisty(_delta * 0.48, true)
+	owning_creature.change_tired(_delta * 0.21, true)
 	
 	
 	# After waiting out the stun period, immediately go to flee if not feisty enough or low HP
@@ -29,6 +29,7 @@ func update(_delta):
 			return
 			
 		print("Waited!")
+		blackboard.current_target = null
 		Transitioned.emit(self, "creaturestateflee")
 		return
 		# randomize_wait()
