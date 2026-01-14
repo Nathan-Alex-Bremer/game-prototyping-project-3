@@ -10,6 +10,9 @@ class_name Blackboard
 var seen_food: Array[Food]
 var seen_creatures: Array[Creature]
 
+# Waiting
+var wait_time: float = 0
+
 # Targeting (food/creature)
 var current_target: Node2D
 

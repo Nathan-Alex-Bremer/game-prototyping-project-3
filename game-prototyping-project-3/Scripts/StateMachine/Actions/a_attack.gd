@@ -4,7 +4,7 @@ class_name AAttack
 
 # Function to be implemented by Actions
 func act(blackboard: Blackboard, owning_creature: Creature, owning_state: MonsterState, _delta: float) -> void:
-	var found_bodies = owning_creature.eat_radius.get_overlapping_bodies()
+	var found_bodies = %EatRadius.get_overlapping_bodies()
 	
 	# Attack nearby creature
 	# Lowers target HP, adds flag to target blackboard to make them run, sets self as target's attacker, sets self as attacking
