@@ -5,7 +5,7 @@ class_name PlayerObserver
 # Variables
 # State changing
 var interact_mode_text: StringName = "Current Interact Mode: "
-var camera_speed: float = 240
+var camera_speed: float = 400
 
 var message_timer: float = 0
 
@@ -39,14 +39,14 @@ func _process(delta: float) -> void:
 					GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
 					print("New action mode: Place Food")
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				if GameState.num_found_states > 3:
+				if GameState.num_found_states > 1:
 					GameState.mode = GameState.INTERACT_MODES.PET
 					print("New action mode: Pet")
 				else:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
 			GameState.INTERACT_MODES.PET:
-				if GameState.num_found_states > 5:
+				if GameState.num_found_states > 1:
 					GameState.mode = GameState.INTERACT_MODES.POKE
 					print("New action mode: Poke")
 				else:
