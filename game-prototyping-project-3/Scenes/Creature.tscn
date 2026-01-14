@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=12 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
 [ext_resource type="Texture2D" uid="uid://bhy3deva1fdd1" path="res://Art/CreatureStates/CreatureWalk.png" id="5_2h46t"]
 [ext_resource type="PackedScene" uid="uid://wl8raa7s5i8y" path="res://Scenes/StateMachine/States/SM_Creature_Idle.tscn" id="5_8gas3"]
 [ext_resource type="PackedScene" uid="uid://c23s65tkj6afo" path="res://Scenes/StateMachine/States/SM_Creature_Wander.tscn" id="6_mdtnb"]
+[ext_resource type="PackedScene" uid="uid://dckvfbg6qss6q" path="res://Scenes/StateMachine/States/SM_Creature_MoveToFood.tscn" id="7_wc6yb"]
+[ext_resource type="PackedScene" uid="uid://bxb1dyglck742" path="res://Scenes/StateMachine/States/SM_Creature_Eat.tscn" id="8_kyo3b"]
 [ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scenes/blackboard.gd" id="9_kyo3b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
@@ -21,11 +23,6 @@ z_index = 1
 collision_mask = 2
 input_pickable = true
 script = ExtResource("1_s16ri")
-type = null
-hit_points = null
-hunger = null
-feisty = null
-tired = null
 move_speed = 50.0
 blackboard = NodePath("StateMachine/Blackboard")
 
@@ -61,6 +58,14 @@ blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
 [node name="CreatureStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("6_mdtnb")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateMoveToFood" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("7_wc6yb")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateEat" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("8_kyo3b")]
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 

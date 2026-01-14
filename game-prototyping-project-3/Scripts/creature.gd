@@ -15,8 +15,8 @@ var hunger_scale: float = 1.0
 var feisty_scale: float = 1.0
 var tired_scale: float = 1.0
 
-var detect_radius = Area2D
-var eat_radius = Area2D
+var detect_radius: Area2D
+var eat_radius: Area2D
 
 var time_passed: float = 0
 

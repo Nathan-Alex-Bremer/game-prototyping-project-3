@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c23s65tkj6afo"]
+[gd_scene load_steps=18 format=3 uid="uid://c23s65tkj6afo"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_i6gyh"]
 [ext_resource type="Texture2D" uid="uid://bhy3deva1fdd1" path="res://Art/CreatureStates/CreatureWalk.png" id="2_47mlt"]
@@ -14,6 +14,9 @@
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="12_mnxot"]
 [ext_resource type="Script" uid="uid://dcvi4361rf8t4" path="res://Scripts/StateMachine/Conditions/c_food_greaterthan.gd" id="13_e5g5y"]
 [ext_resource type="Script" uid="uid://b4bqfg4e2sx4l" path="res://Scripts/StateMachine/Conditions/c_feisty_lessthan.gd" id="14_oe2us"]
+[ext_resource type="Script" uid="uid://cu0y8uu17g6b0" path="res://Scripts/StateMachine/Conditions/c_food_lessthan.gd" id="15_dmfwr"]
+[ext_resource type="Script" uid="uid://b2ckkfhqqqb8o" path="res://Scripts/StateMachine/Conditions/c_found_food.gd" id="16_k2eo0"]
+[ext_resource type="Script" uid="uid://10lcrv8dx721" path="res://Scripts/StateMachine/Actions/a_set_target_food.gd" id="17_y436y"]
 
 [node name="SM_Creature_Wander" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_i6gyh")
@@ -21,7 +24,7 @@ simple_name = &"Wander"
 sprite = ExtResource("2_47mlt")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander")]
+transitions = [NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToMoveToFood")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -50,7 +53,7 @@ metadata/_custom_type_script = "uid://wtbvohgc37nl"
 
 [node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
 script = ExtResource("7_6wfi7")
-amount = -1.0
+amount = -5.0
 scalable = true
 metadata/_custom_type_script = "uid://dq3xm51g267od"
 
@@ -103,3 +106,23 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToWander"]
 script = ExtResource("12_mnxot")
 metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="TransitionToMoveToFood" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("11_1m2yd")
+conditions = [NodePath("CFoodLessThan"), NodePath("CFoundFood")]
+actions = [NodePath("ASetTargetFood")]
+next_state = &"creaturestatemovetofood"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CFoodLessThan" type="Node" parent="Transitions/TransitionToMoveToFood"]
+script = ExtResource("15_dmfwr")
+val = 25.0
+metadata/_custom_type_script = "uid://cu0y8uu17g6b0"
+
+[node name="CFoundFood" type="Node" parent="Transitions/TransitionToMoveToFood"]
+script = ExtResource("16_k2eo0")
+metadata/_custom_type_script = "uid://b2ckkfhqqqb8o"
+
+[node name="ASetTargetFood" type="Node" parent="Transitions/TransitionToMoveToFood"]
+script = ExtResource("17_y436y")
+metadata/_custom_type_script = "uid://10lcrv8dx721"
