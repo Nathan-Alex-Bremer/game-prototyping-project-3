@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=17 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
@@ -11,6 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://frgo5lnktw7u" path="res://Scenes/StateMachine/States/SM_Creature_Rest.tscn" id="9_qlir5"]
 [ext_resource type="PackedScene" uid="uid://bi4krik5ule5f" path="res://Scenes/StateMachine/States/SM_Creature_Pet.tscn" id="10_n0caa"]
 [ext_resource type="PackedScene" uid="uid://qj1baxolia6c" path="res://Scenes/StateMachine/States/SM_Creature_Poke.tscn" id="11_5wa2p"]
+[ext_resource type="PackedScene" uid="uid://c4mvwoqvdhwpv" path="res://Scenes/StateMachine/States/SM_Creature_MoveToFriend.tscn" id="12_61f0t"]
+[ext_resource type="PackedScene" uid="uid://f7nv2dvtdviy" path="res://Scenes/StateMachine/States/SM_Creature_Play.tscn" id="13_6e6ep"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -81,6 +83,14 @@ blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
 [node name="CreatureStatePoke" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("11_5wa2p")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateMoveToFriend" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("12_61f0t")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStatePlay" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("13_6e6ep")]
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
