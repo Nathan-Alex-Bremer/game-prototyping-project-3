@@ -1,33 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=10 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
-[ext_resource type="Script" uid="uid://deu0kk7rby7h2" path="res://Scripts/StateMachine/States/creature_state_wander.gd" id="4_fr2yh"]
-[ext_resource type="Script" uid="uid://b1w0u138gkt5u" path="res://Scripts/StateMachine/States/creature_state_idle.gd" id="4_xbil5"]
 [ext_resource type="Texture2D" uid="uid://bhy3deva1fdd1" path="res://Art/CreatureStates/CreatureWalk.png" id="5_2h46t"]
-[ext_resource type="Script" uid="uid://fuhu8el6pc4m" path="res://Scripts/StateMachine/States/creature_state_move_to_food.gd" id="6_8gas3"]
-[ext_resource type="Script" uid="uid://c0x6bydsn86od" path="res://Scripts/StateMachine/States/creature_state_eat.gd" id="7_mdtnb"]
-[ext_resource type="Texture2D" uid="uid://cq5m1gdlwvye6" path="res://Art/CreatureStates/CreatureIdle.png" id="7_oyu43"]
-[ext_resource type="Script" uid="uid://bxwwh47o0hcx6" path="res://Scripts/StateMachine/States/creature_state_rest.gd" id="8_wc6yb"]
-[ext_resource type="Texture2D" uid="uid://dd4unmgx47w68" path="res://Art/CreatureStates/CreatureMoveToFood.png" id="9_gei0v"]
+[ext_resource type="PackedScene" uid="uid://wl8raa7s5i8y" path="res://Scenes/StateMachine/States/SM_Creature_Idle.tscn" id="5_8gas3"]
+[ext_resource type="PackedScene" uid="uid://c23s65tkj6afo" path="res://Scenes/StateMachine/States/SM_Creature_Wander.tscn" id="6_mdtnb"]
 [ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scenes/blackboard.gd" id="9_kyo3b"]
-[ext_resource type="Script" uid="uid://dcmmfix7shxt2" path="res://Scripts/StateMachine/States/creature_state_pet.gd" id="10_qlir5"]
-[ext_resource type="Script" uid="uid://bw1j3mtyeulet" path="res://Scripts/StateMachine/States/creature_state_poke.gd" id="11_n0caa"]
-[ext_resource type="Texture2D" uid="uid://bsss8puc6opfc" path="res://Art/CreatureStates/CreatureEat.png" id="11_qjnkk"]
-[ext_resource type="Texture2D" uid="uid://b76uw5dchntqr" path="res://Art/CreatureStates/CreatureRest.png" id="13_y4mml"]
-[ext_resource type="Texture2D" uid="uid://eigff0b88e4r" path="res://Art/CreatureStates/CreaturePet.png" id="16_tyk1w"]
-[ext_resource type="Texture2D" uid="uid://cxg6kyrvy6wyo" path="res://Art/CreatureStates/CreaturePoke.png" id="18_8mm2d"]
-[ext_resource type="Script" uid="uid://bd8fqrf67mjn1" path="res://Scripts/StateMachine/States/creature_state_move_to_friend.gd" id="18_gei0v"]
-[ext_resource type="Script" uid="uid://bbg55drb7ml75" path="res://Scripts/StateMachine/States/creature_state_play.gd" id="19_qjnkk"]
-[ext_resource type="Texture2D" uid="uid://d0na203sn5h1p" path="res://Art/CreatureStates/CreaturePlay.png" id="20_y4mml"]
-[ext_resource type="Script" uid="uid://bk2ypdyfo5gun" path="res://Scripts/StateMachine/States/creature_state_attack.gd" id="21_uk1nq"]
-[ext_resource type="Texture2D" uid="uid://bhd6i8h3oq6c2" path="res://Art/CreatureStates/CreatureAttack.png" id="22_ob61j"]
-[ext_resource type="Script" uid="uid://b7vcqre2x0ror" path="res://Scripts/StateMachine/States/creature_state_chase.gd" id="23_bkscp"]
-[ext_resource type="Texture2D" uid="uid://din87j7skmeh7" path="res://Art/CreatureStates/CreatureChase.png" id="24_dviqs"]
-[ext_resource type="Script" uid="uid://c7q01scjigh1p" path="res://Scripts/StateMachine/States/creature_state_flee.gd" id="25_sc4he"]
-[ext_resource type="Texture2D" uid="uid://yr2w4xf5gmyj" path="res://Art/CreatureStates/CreatureFlee.png" id="26_ms2kq"]
-[ext_resource type="Script" uid="uid://ucd0b82jjvq8" path="res://Scripts/StateMachine/States/creature_state_stunned.gd" id="27_x3d5h"]
-[ext_resource type="Texture2D" uid="uid://b2tet8hy0ixnp" path="res://Art/CreatureStates/CreatureDamaged.png" id="28_xpye3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -78,109 +56,13 @@ metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 [node name="Blackboard" type="Node" parent="StateMachine"]
 script = ExtResource("9_kyo3b")
 
-[node name="CreatureStateWander" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("4_fr2yh")
-simple_name = &"Wander"
+[node name="CreatureStateIdle" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("5_8gas3")]
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
-sprite = ExtResource("5_2h46t")
-metadata/_custom_type_script = "uid://deu0kk7rby7h2"
 
-[node name="CreatureStateIdle" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("4_xbil5")
-simple_name = &"Idle"
+[node name="CreatureStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("6_mdtnb")]
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
-sprite = ExtResource("7_oyu43")
-metadata/_custom_type_script = "uid://b1w0u138gkt5u"
-
-[node name="CreatureStateMoveToFood" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("6_8gas3")
-simple_name = &"Move To Food"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("9_gei0v")
-metadata/_custom_type_script = "uid://fuhu8el6pc4m"
-
-[node name="CreatureStateEat" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("7_mdtnb")
-simple_name = &"Eat"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("11_qjnkk")
-metadata/_custom_type_script = "uid://c0x6bydsn86od"
-
-[node name="CreatureStateRest" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("8_wc6yb")
-simple_name = &"Rest"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("13_y4mml")
-metadata/_custom_type_script = "uid://bxwwh47o0hcx6"
-
-[node name="CreatureStatePet" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("10_qlir5")
-simple_name = &"Pet"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("16_tyk1w")
-metadata/_custom_type_script = "uid://dcmmfix7shxt2"
-
-[node name="CreatureStatePoke" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("11_n0caa")
-simple_name = &"Annoyed"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("18_8mm2d")
-metadata/_custom_type_script = "uid://bw1j3mtyeulet"
-
-[node name="CreatureStateMoveToFriend" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("18_gei0v")
-simple_name = &"Move To Friend"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("5_2h46t")
-metadata/_custom_type_script = "uid://bd8fqrf67mjn1"
-
-[node name="CreatureStatePlay" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("19_qjnkk")
-simple_name = &"Play"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("20_y4mml")
-metadata/_custom_type_script = "uid://bbg55drb7ml75"
-
-[node name="CreatureStateAttack" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("21_uk1nq")
-simple_name = &"Attack"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("22_ob61j")
-metadata/_custom_type_script = "uid://bk2ypdyfo5gun"
-
-[node name="CreatureStateChase" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("23_bkscp")
-simple_name = &"Chase"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("24_dviqs")
-metadata/_custom_type_script = "uid://b7vcqre2x0ror"
-
-[node name="CreatureStateFlee" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("25_sc4he")
-simple_name = &"Flee"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("26_ms2kq")
-metadata/_custom_type_script = "uid://c7q01scjigh1p"
-
-[node name="CreatureStateStunned" type="Node" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature")]
-script = ExtResource("27_x3d5h")
-simple_name = &"Stunned"
-blackboard = NodePath("../Blackboard")
-owning_creature = NodePath("../..")
-sprite = ExtResource("28_xpye3")
-metadata/_custom_type_script = "uid://ucd0b82jjvq8"
 
 [node name="StateLabel" type="Label" parent="."]
 offset_left = -79.0

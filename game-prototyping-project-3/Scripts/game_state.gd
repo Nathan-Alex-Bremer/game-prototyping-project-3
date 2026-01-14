@@ -1,8 +1,8 @@
 extends Node2D
 
 # Creatures
-var num_existing_creatures = 5
-@export var max_creatures: int = 5
+var num_existing_creatures = 1
+@export var max_creatures: int = 1
 @export var creature_scene: PackedScene
 
 

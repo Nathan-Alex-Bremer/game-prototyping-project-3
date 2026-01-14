@@ -13,7 +13,7 @@ func _ready() -> void:
 	for child in get_children():
 		if child is MonsterState:
 			states[child.name.to_lower()] = child
-			child.Transitioned.connect(on_child_transition)
+			# child.Transitioned.connect(on_child_transition)
 	
 	if initial_state:
 		initial_state.enter()
@@ -24,6 +24,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if current_state:
 		current_state.update(delta)
+		
+		var transition = current_state.check_transitions()
+		if transition != null:
+			on_child_transition(transition)
+		
 	
 	
 func _physics_process(delta: float) -> void:
@@ -31,10 +36,10 @@ func _physics_process(delta: float) -> void:
 		
 		current_state.physics_update(delta)
 
-func on_child_transition(state, new_state_name) -> void:
+func on_child_transition(new_state_name) -> void:
 	
-	if state != current_state:
-		return
+	#if state != current_state:
+		#return
 		
 	var new_state = states.get(new_state_name.to_lower())
 		

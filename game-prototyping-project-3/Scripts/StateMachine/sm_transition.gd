@@ -17,5 +17,6 @@ func evaluate(blackboard: Blackboard, owning_creature: Creature, owning_state: M
 	for action in actions:
 		action.act(blackboard, owning_creature, owning_state, _delta)
 	
-	Transitioned.emit(self, next_state)
+	# Transitioned.emit(self, next_state)
+	print("Transition success")
 	return true

@@ -1,0 +1,84 @@
+[gd_scene load_steps=13 format=3 uid="uid://wl8raa7s5i8y"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_ce74f"]
+[ext_resource type="Texture2D" uid="uid://cq5m1gdlwvye6" path="res://Art/CreatureStates/CreatureIdle.png" id="2_c05ky"]
+[ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_8lpx2"]
+[ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_v5dce"]
+[ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="5_62l8b"]
+[ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="6_8vqo7"]
+[ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="7_hcndx"]
+[ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="8_hl5o2"]
+[ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="9_oj3fe"]
+[ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="10_h53ih"]
+[ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="11_74bn8"]
+[ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="12_sfd1i"]
+
+[node name="SM_Creature_Idle" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
+script = ExtResource("1_ce74f")
+simple_name = &"Idle"
+sprite = ExtResource("2_c05ky")
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
+update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
+physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
+transitions = [NodePath("Transitions/TransitionToWander")]
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="ASetWaitTimeRandom" type="Node" parent="EnterActions"]
+script = ExtResource("3_8lpx2")
+min_time = 1.0
+max_time = 3.0
+metadata/_custom_type_script = "uid://b378gqkrvg1q5"
+
+[node name="ACalcWantsToPlay" type="Node" parent="EnterActions"]
+script = ExtResource("4_v5dce")
+metadata/_custom_type_script = "uid://qrhmyfalcev2"
+
+[node name="ASetTargetNull" type="Node" parent="EnterActions"]
+script = ExtResource("5_62l8b")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("6_8vqo7")
+amount = -1.0
+scalable = true
+metadata/_custom_type_script = "uid://dq3xm51g267od"
+
+[node name="AChangeFeistyDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("7_hcndx")
+amount = 0.48
+scalable = true
+metadata/_custom_type_script = "uid://c544yfe00a2d1"
+
+[node name="AChangeTiredDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("8_hl5o2")
+amount = 0.21
+scalable = true
+metadata/_custom_type_script = "uid://cbfb1foxoxepf"
+
+[node name="AReduceWaitTime" type="Node" parent="UpdateActions"]
+script = ExtResource("9_oj3fe")
+metadata/_custom_type_script = "uid://ckuqr2gv4efpk"
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="AVelocityZero" type="Node" parent="PhysicsUpdateActions"]
+script = ExtResource("10_h53ih")
+metadata/_custom_type_script = "uid://cnqboljrughfj"
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="TransitionToWander" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_74bn8")
+conditions = [NodePath("CWaitTimeZero")]
+next_state = &"creaturestatewander"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("12_sfd1i")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"

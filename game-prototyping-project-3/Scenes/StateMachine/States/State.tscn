@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://ki1tdqinukho"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_cl2ec"]
+
+[node name="State" type="Node" node_paths=PackedStringArray("enter_actions")]
+script = ExtResource("1_cl2ec")
+simple_name = &"State"
+enter_actions = [null]
+metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="Transitions" type="Node" parent="."]
