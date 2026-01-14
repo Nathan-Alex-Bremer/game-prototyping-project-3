@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bi4krik5ule5f"]
+[gd_scene load_steps=16 format=3 uid="uid://bi4krik5ule5f"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_t8w34"]
 [ext_resource type="Texture2D" uid="uid://eigff0b88e4r" path="res://Art/CreatureStates/CreaturePet.png" id="2_t8w34"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="10_ce7fx"]
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="11_1mrnl"]
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="12_rgf30"]
+[ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="14_e1wfs"]
 
 [node name="SM_Creature_Pet" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_t8w34")
@@ -23,7 +24,7 @@ enter_actions = [NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/
 exit_actions = [NodePath("ExitActions/ASetIsPet")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToWander")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToWander")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -85,6 +86,16 @@ script = ExtResource("10_ce7fx")
 metadata/_custom_type_script = "uid://cnqboljrughfj"
 
 [node name="Transitions" type="Node" parent="."]
+
+[node name="TransitionToStunned" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_1mrnl")
+conditions = [NodePath("CIsStunned")]
+next_state = &"creaturestatestunned"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsStunned" type="Node" parent="Transitions/TransitionToStunned"]
+script = ExtResource("14_e1wfs")
+metadata/_custom_type_script = "uid://cbq20o6y4ae31"
 
 [node name="TransitionToWander" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("11_1mrnl")

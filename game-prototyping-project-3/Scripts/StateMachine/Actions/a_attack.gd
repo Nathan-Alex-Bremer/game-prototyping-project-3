@@ -15,5 +15,4 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 			body.deal_damage(owning_creature, 10)
 			blackboard.aggressive = true
 			owning_creature.change_feisty(-10, false)
-			blackboard.wait_time = 3
 			break

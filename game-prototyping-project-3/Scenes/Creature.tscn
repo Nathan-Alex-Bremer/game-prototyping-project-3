@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=21 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
@@ -13,6 +13,10 @@
 [ext_resource type="PackedScene" uid="uid://qj1baxolia6c" path="res://Scenes/StateMachine/States/SM_Creature_Poke.tscn" id="11_5wa2p"]
 [ext_resource type="PackedScene" uid="uid://c4mvwoqvdhwpv" path="res://Scenes/StateMachine/States/SM_Creature_MoveToFriend.tscn" id="12_61f0t"]
 [ext_resource type="PackedScene" uid="uid://f7nv2dvtdviy" path="res://Scenes/StateMachine/States/SM_Creature_Play.tscn" id="13_6e6ep"]
+[ext_resource type="PackedScene" uid="uid://cvoh7q7qq38h7" path="res://Scenes/StateMachine/States/SM_Creature_Chase.tscn" id="14_6e6ep"]
+[ext_resource type="PackedScene" uid="uid://b0loa2kreta3t" path="res://Scenes/StateMachine/States/SM_Creature_Attack.tscn" id="15_onri8"]
+[ext_resource type="PackedScene" uid="uid://d31u16waysn0w" path="res://Scenes/StateMachine/States/SM_Creature_Flee.tscn" id="16_2h46t"]
+[ext_resource type="PackedScene" uid="uid://q2ccn2nkxi82" path="res://Scenes/StateMachine/States/SM_Creature_Stunned.tscn" id="17_oyu43"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -91,6 +95,22 @@ blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
 [node name="CreatureStatePlay" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("13_6e6ep")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateChase" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("14_6e6ep")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateAttack" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("15_onri8")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateFlee" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("16_2h46t")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateStunned" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("17_oyu43")]
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
