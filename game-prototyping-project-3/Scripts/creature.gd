@@ -11,6 +11,10 @@ var creature_name: StringName
 @export var tired: float = 0
 @export var move_speed: float = 10
 
+@export var friend_types: Array[StringName]
+@export var predator_types: Array[StringName]
+@export var prey_types: Array[StringName]
+
 var hunger_scale: float = 1.0
 var feisty_scale: float = 1.0
 var tired_scale: float = 1.0
@@ -51,8 +55,6 @@ func _ready() -> void:
 	tired_scale = randf_range(0.75, 1.25)
 	
 	$Stats/NatureLabel.text = nature_picker()
-	
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -162,7 +164,10 @@ func change_hit_points(amount: float) -> void:
 		hit_points = 100
 	if hit_points < 0:
 		hit_points = 0
-	
+		
+func get_type() -> StringName:
+	return type
+
 func get_wants_to_play() -> bool:
 	return blackboard.wants_to_play
 

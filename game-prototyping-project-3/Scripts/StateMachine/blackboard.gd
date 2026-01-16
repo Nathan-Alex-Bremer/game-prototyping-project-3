@@ -27,3 +27,7 @@ var wants_to_play: bool = false
 var aggressive: bool = false
 var current_attacker: Creature
 var stunned: bool = false
+
+# Signal
+var signal_type: StringName
+var signal_sender: Node2D

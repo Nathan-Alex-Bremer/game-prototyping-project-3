@@ -35,6 +35,9 @@ func _physics_process(delta: float) -> void:
 	if current_state:
 		
 		current_state.physics_update(delta)
+		
+func get_current_state_name() -> StringName:
+	return current_state.name.to_lower()
 
 func on_child_transition(new_state_name) -> void:
 	

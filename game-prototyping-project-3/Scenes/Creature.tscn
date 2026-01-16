@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c23s65tkj6afo" path="res://Scenes/StateMachine/States/SM_Creature_Wander.tscn" id="6_mdtnb"]
 [ext_resource type="PackedScene" uid="uid://dckvfbg6qss6q" path="res://Scenes/StateMachine/States/SM_Creature_MoveToFood.tscn" id="7_wc6yb"]
 [ext_resource type="PackedScene" uid="uid://bxb1dyglck742" path="res://Scenes/StateMachine/States/SM_Creature_Eat.tscn" id="8_kyo3b"]
-[ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scenes/blackboard.gd" id="9_kyo3b"]
+[ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scripts/StateMachine/blackboard.gd" id="9_kyo3b"]
 [ext_resource type="PackedScene" uid="uid://frgo5lnktw7u" path="res://Scenes/StateMachine/States/SM_Creature_Rest.tscn" id="9_qlir5"]
 [ext_resource type="PackedScene" uid="uid://bi4krik5ule5f" path="res://Scenes/StateMachine/States/SM_Creature_Pet.tscn" id="10_n0caa"]
 [ext_resource type="PackedScene" uid="uid://qj1baxolia6c" path="res://Scenes/StateMachine/States/SM_Creature_Poke.tscn" id="11_5wa2p"]
