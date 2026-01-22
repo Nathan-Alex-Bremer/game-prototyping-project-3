@@ -58,6 +58,7 @@ func on_child_transition(new_state_name) -> void:
 	current_state = new_state
 	
 	# Call enter function
+	print("New state: " + new_state_name)
 	new_state.enter()
 	
 	state_changed.emit(new_state)

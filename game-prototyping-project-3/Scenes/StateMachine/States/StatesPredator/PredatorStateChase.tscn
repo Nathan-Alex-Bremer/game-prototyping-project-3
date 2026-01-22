@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://5p0iu88okxp7"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_nitlx"]
-[ext_resource type="Texture2D" uid="uid://din87j7skmeh7" path="res://Art/CreatureStates/CreatureChase.png" id="2_ephgn"]
+[ext_resource type="Texture2D" uid="uid://syju2tjfeibv" path="res://Art/PredatorStates/PredatorChase.png" id="2_ns3m4"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="3_y27u0"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="4_qlhxn"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="5_6fyox"]
@@ -20,11 +20,11 @@
 [node name="PredatorStateChase" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_nitlx")
 simple_name = &"Chase"
-sprite = ExtResource("2_ephgn")
+sprite = ExtResource("2_ns3m4")
 enter_actions = [NodePath("EnterActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToAttack")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToAttack")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]

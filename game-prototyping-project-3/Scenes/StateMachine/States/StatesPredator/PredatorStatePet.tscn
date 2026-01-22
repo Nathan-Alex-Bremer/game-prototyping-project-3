@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://gy0yf3l0jf1k"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_hfmgq"]
-[ext_resource type="Texture2D" uid="uid://eigff0b88e4r" path="res://Art/CreatureStates/CreaturePet.png" id="2_pgttv"]
+[ext_resource type="Texture2D" uid="uid://1xsm3nyf10vf" path="res://Art/PredatorStates/PredatorPet.png" id="2_ivpml"]
 [ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="3_7cqjh"]
 [ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_n8ugq"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="5_fxvwg"]
@@ -19,7 +19,7 @@
 [node name="PredatorStatePet" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_hfmgq")
 simple_name = &"Pet"
-sprite = ExtResource("2_pgttv")
+sprite = ExtResource("2_ivpml")
 enter_actions = [NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetAggressive"), NodePath("EnterActions/ASetWaitTime")]
 exit_actions = [NodePath("ExitActions/ASetIsPet")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]

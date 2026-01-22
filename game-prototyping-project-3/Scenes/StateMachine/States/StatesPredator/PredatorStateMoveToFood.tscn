@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://wixlelm1gash"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_r4txw"]
-[ext_resource type="Texture2D" uid="uid://dd4unmgx47w68" path="res://Art/CreatureStates/CreatureMoveToFood.png" id="2_mvukf"]
+[ext_resource type="Texture2D" uid="uid://c7uga7bmkjnhr" path="res://Art/PredatorStates/PredatorMoveToFood.png" id="2_ek4mr"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="3_c1ne2"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="4_tij8x"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="5_86bss"]
@@ -18,7 +18,7 @@
 [node name="PredatorStateMoveToFood" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_r4txw")
 simple_name = &"Move To Food"
-sprite = ExtResource("2_mvukf")
+sprite = ExtResource("2_ek4mr")
 enter_actions = [NodePath("EnterActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]

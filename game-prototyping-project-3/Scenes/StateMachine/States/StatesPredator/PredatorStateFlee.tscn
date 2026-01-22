@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://cclapvnh6va17"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_rbomp"]
-[ext_resource type="Texture2D" uid="uid://yr2w4xf5gmyj" path="res://Art/CreatureStates/CreatureFlee.png" id="2_81cfa"]
+[ext_resource type="Texture2D" uid="uid://ctreocqo4jpol" path="res://Art/PredatorStates/PredatorFlee.png" id="2_5yekg"]
 [ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_d13gw"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="4_jcn2x"]
 [ext_resource type="Script" uid="uid://bkvrfqmqmj8br" path="res://Scripts/StateMachine/Actions/a_move_random_direction.gd" id="5_l3wc0"]
@@ -21,7 +21,7 @@
 [node name="PredatorStateFlee" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_rbomp")
 simple_name = &"Flee"
-sprite = ExtResource("2_81cfa")
+sprite = ExtResource("2_5yekg")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/AMoveRandomDirection")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFlee")]

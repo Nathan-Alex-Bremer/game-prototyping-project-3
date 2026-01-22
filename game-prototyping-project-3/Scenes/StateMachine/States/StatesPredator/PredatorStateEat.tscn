@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://30xhye58gdnd"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_xkldl"]
-[ext_resource type="Texture2D" uid="uid://bsss8puc6opfc" path="res://Art/CreatureStates/CreatureEat.png" id="2_rx6da"]
+[ext_resource type="Texture2D" uid="uid://ligadl5mc2e" path="res://Art/PredatorStates/PredatorEat.png" id="2_lfg3r"]
 [ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_gyj1f"]
 [ext_resource type="Script" uid="uid://dfmg1qjbexxd" path="res://Scripts/StateMachine/Actions/a_eat.gd" id="4_r178u"]
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="5_ix428"]
@@ -17,7 +17,7 @@
 [node name="PredatorStateEat" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_xkldl")
 simple_name = &"Eat"
-sprite = ExtResource("2_rx6da")
+sprite = ExtResource("2_lfg3r")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AEat"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]

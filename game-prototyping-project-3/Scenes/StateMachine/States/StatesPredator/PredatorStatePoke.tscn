@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://b22jsb4addpsk"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_j35ue"]
-[ext_resource type="Texture2D" uid="uid://cxg6kyrvy6wyo" path="res://Art/CreatureStates/CreaturePoke.png" id="2_5iwue"]
+[ext_resource type="Texture2D" uid="uid://djpsqvtx4lh1a" path="res://Art/PredatorStates/PredatorPoke.png" id="2_7e2qw"]
 [ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="3_x3p1a"]
 [ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_cw5j0"]
 [ext_resource type="Script" uid="uid://3hvifjdriy5q" path="res://Scripts/StateMachine/Actions/a_set_wait_time.gd" id="5_to5xg"]
@@ -18,7 +18,7 @@
 [node name="PredatorStatePoke" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_j35ue")
 simple_name = &"Annoyed"
-sprite = ExtResource("2_5iwue")
+sprite = ExtResource("2_7e2qw")
 enter_actions = [NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetWaitTime")]
 exit_actions = [NodePath("ExitActions/ASetIsPoked")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]

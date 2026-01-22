@@ -1,7 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://bgt0jmsrkbjlg"]
+[gd_scene load_steps=26 format=3 uid="uid://bgt0jmsrkbjlg"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_44uhv"]
-[ext_resource type="Texture2D" uid="uid://bhy3deva1fdd1" path="res://Art/CreatureStates/CreatureWalk.png" id="2_fe7iy"]
+[ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_nr7ar"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_qplfc"]
 [ext_resource type="Script" uid="uid://d174jxvau1vy1" path="res://Scripts/StateMachine/blackboard_predator.gd" id="4_lmsrt"]
 [ext_resource type="PackedScene" uid="uid://5p0iu88okxp7" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateChase.tscn" id="6_lmsrt"]
@@ -16,6 +16,12 @@
 [ext_resource type="PackedScene" uid="uid://bkdrsgdm0eqbf" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateStunned.tscn" id="15_0djou"]
 [ext_resource type="PackedScene" uid="uid://c1r5v64yt3xvb" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateAttack.tscn" id="15_2xfls"]
 [ext_resource type="PackedScene" uid="uid://dxx8byponniv" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateWander.tscn" id="16_csfjt"]
+[ext_resource type="PackedScene" uid="uid://bynx4bl5tkyee" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateAttackEat.tscn" id="17_nr7ar"]
+[ext_resource type="PackedScene" uid="uid://cvntwog2xotw2" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateFleeTarget.tscn" id="18_g243n"]
+[ext_resource type="PackedScene" uid="uid://proir47gi8go" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateHunt.tscn" id="19_qpyy4"]
+[ext_resource type="PackedScene" uid="uid://cpr2x3ygyvy3r" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateIntimidate.tscn" id="20_0djou"]
+[ext_resource type="PackedScene" uid="uid://doxgerahvki2j" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateMoveToPartner.tscn" id="21_csfjt"]
+[ext_resource type="PackedScene" uid="uid://diswhbaylv65b" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStatePartnership.tscn" id="22_b44g2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -33,11 +39,12 @@ input_pickable = true
 script = ExtResource("1_44uhv")
 type = &"Predator"
 move_speed = 50.0
+friend_types = Array[StringName]([&"Predator"])
 prey_types = Array[StringName]([&"Creature"])
 blackboard = NodePath("StateMachine/BlackboardPredator")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_fe7iy")
+texture = ExtResource("2_nr7ar")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 15)
@@ -109,6 +116,36 @@ blackboard = NodePath("../BlackboardPredator")
 owning_creature = NodePath("../..")
 
 [node name="PredatorStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("16_csfjt")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateAttackEat" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("17_nr7ar")]
+simple_name = &"Attack Eat"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateFleeTarget" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("18_g243n")]
+simple_name = &"Flee Target"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateHunt" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_qpyy4")]
+simple_name = &"Hunt"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateIntimidate" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("20_0djou")]
+simple_name = &"Intimidate"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateMoveToPartner" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("21_csfjt")]
+simple_name = &"Move To Partner"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStatePartnership" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("22_b44g2")]
+simple_name = &"Partnership"
 blackboard = NodePath("../BlackboardPredator")
 owning_creature = NodePath("../..")
 

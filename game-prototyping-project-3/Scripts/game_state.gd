@@ -4,6 +4,7 @@ extends Node2D
 var num_existing_creatures = 5
 @export var max_creatures: int = 5
 @export var creature_scene: PackedScene
+@export var predator_scene: PackedScene
 
 
 var existing_creatures: Array[Creature]

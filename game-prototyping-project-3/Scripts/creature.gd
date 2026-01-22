@@ -21,6 +21,7 @@ var tired_scale: float = 1.0
 
 var detect_radius: Area2D
 var eat_radius: Area2D
+var state_machine: StateMachine
 
 var time_passed: float = 0
 
@@ -35,6 +36,7 @@ signal Leaving(creature_name: StringName)
 func _ready() -> void:
 	detect_radius = $DetectRadius
 	eat_radius = $EatRadius
+	state_machine = $StateMachine # Very hacky and gross way to allow state access
 	
 	$StateMachine.connect("state_changed", on_state_changed)
 	
@@ -71,6 +73,12 @@ func _process(delta: float) -> void:
 	
 	if (hunger == 0 or hit_points == 0) and not $VisibleOnScreenNotifier2D.is_on_screen():
 		Leaving.emit(creature_name)
+		
+		# Remove partner, if applicable
+		if blackboard is BlackboardPredator:
+			if blackboard.partner:
+				blackboard.partner.blackboard.partner = null
+		
 		GameState.existing_creatures.erase(self)
 		GameState.num_existing_creatures -= 1
 		queue_free()
@@ -167,6 +175,9 @@ func change_hit_points(amount: float) -> void:
 		
 func get_type() -> StringName:
 	return type
+
+func get_state() -> MonsterState:
+	return state_machine.current_state
 
 func get_wants_to_play() -> bool:
 	return blackboard.wants_to_play

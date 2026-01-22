@@ -35,6 +35,14 @@ func _ready() -> void:
 		new_creature.connect("Leaving", on_creature_leaving)
 		add_child(new_creature)
 		GameState.existing_creatures.append(new_creature)
+	for i in range(1):
+		var new_creature = GameState.predator_scene.instantiate()
+		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+		new_creature.position = random_point
+		new_creature.connect("SelectedForCheck", on_creature_selected_check)
+		new_creature.connect("Leaving", on_creature_leaving)
+		add_child(new_creature)
+		GameState.existing_creatures.append(new_creature)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -59,7 +67,11 @@ func spawn_food() -> void:
 	add_child(new_food)
 
 func spawn_creature() -> void:
-	var new_creature = GameState.creature_scene.instantiate()
+	var new_creature
+	if randi_range(1, 5) == 1:
+		new_creature = GameState.predator_scene.instantiate()
+	else:
+		new_creature = GameState.creature_scene.instantiate()
 	var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 	new_creature.position = random_point
 	new_creature.connect("SelectedForCheck", on_creature_selected_check)
