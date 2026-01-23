@@ -11,8 +11,9 @@ var message_timer: float = 0
 
 # Signals
 signal ClickedFood(position: Vector2)
-signal CapturedState(state: StringName)
+signal CapturedState(creature_type: StringName, state: StringName)
 signal OpenJournal()
+signal ChangeJournalPage(forward: bool)
 signal ChangeMode(new_mode)
 signal ToggleCreatureStats()
 
@@ -67,6 +68,14 @@ func _process(delta: float) -> void:
 				
 	if Input.is_action_just_pressed("open_journal"):
 		OpenJournal.emit()
+		GameState.player_in_journal = not (GameState.player_in_journal)
+	
+	# Change page in journal
+	if GameState.player_in_journal:
+		if Input.is_action_just_pressed("move_right"):
+			ChangeJournalPage.emit(true)
+		if Input.is_action_just_pressed("move_left"):
+			ChangeJournalPage.emit(false)
 	
 	if message_timer > 0:
 		message_timer -= delta
@@ -77,14 +86,16 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	velocity = Vector2.ZERO
 	
-	if Input.is_action_pressed("move_up"):
-		velocity.y -= 1
-	if Input.is_action_pressed("move_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("move_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("move_left"):
-		velocity.x -= 1
+	if (not GameState.player_in_journal):
+	
+		if Input.is_action_pressed("move_up"):
+			velocity.y -= 1
+		if Input.is_action_pressed("move_down"):
+			velocity.y += 1
+		if Input.is_action_pressed("move_right"):
+			velocity.x += 1
+		if Input.is_action_pressed("move_left"):
+			velocity.x -= 1
 	
 	if velocity.length() > 0:
 		# Normalize the movement direction vector
@@ -108,18 +119,23 @@ func capture_creature_states() -> void:
 			if creature_statemachine == null:
 				return
 			
+			var creature_type: StringName = creature.get_type()
 			var creature_state: StringName = creature_statemachine.current_state.simple_name
 			
 			if creature_state == null:
 				return
 				
-			CapturedState.emit(creature_state)
+			CapturedState.emit(creature_type, creature_state)
 
 func open_journal() -> void:
 	$Journal.toggle_opened()
 	
-func on_state_found(state: StringName, times_found: int) -> void:
-	$Journal.on_state_found(state, times_found)
+func change_journal_page(forward: bool) -> void:
+	$Journal.change_page(forward)
+	
+func on_state_found(creature_type: StringName, state: StringName, times_found: int) -> void:
+	print("On state found")
+	$Journal.on_state_found(creature_type, state, times_found)
 	
 func change_mode(mode: int) -> void:
 	match mode:

@@ -124,6 +124,7 @@ metadata/_custom_type_script = "uid://ca6ogsam06lk4"
 
 [node name="CAttackerWithinDistance" type="Node" parent="Transitions/TransitionToIdle2/CNotAttackerWithinDistance"]
 script = ExtResource("16_2pmla")
+distance = 150.0
 metadata/_custom_type_script = "uid://c7b17ngr0v65q"
 
 [node name="ASetAttackerNull" type="Node" parent="Transitions/TransitionToIdle2"]

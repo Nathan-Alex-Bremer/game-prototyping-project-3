@@ -17,6 +17,7 @@ var num_food: int = 0
 
 # Player
 @export var player_scene: PackedScene
+var player_in_journal: bool = false
 
 var screen_size: Vector2
 
@@ -37,7 +38,11 @@ enum INTERACT_MODES {
 var mode = INTERACT_MODES.CHECK
 
 # MonsterStates
-var found_states = {}
+var found_states = {
+	"Creature" = {},
+	"Predator" = {}
+}
+
 var num_found_states: int = 0
 
 
@@ -49,13 +54,24 @@ func _ready() -> void:
 	screen_size = get_viewport_rect().size
 	
 	# TODO: Make this cleaner
-	found_states["Eat"] = 0
-	found_states["Idle"] = 0
-	found_states["Wander"] = 0
-	found_states["Rest"] = 0
-	found_states["Pet"] = 0
-	found_states["Annoyed"] = 0
-	found_states["Play"] = 0
-	found_states["Chase"] = 0
-	found_states["Attack"] = 0
-	found_states["Flee"] = 0
+	found_states["Creature"]["Eat"] = 0
+	found_states["Creature"]["Idle"] = 0
+	found_states["Creature"]["Wander"] = 0
+	found_states["Creature"]["Rest"] = 0
+	found_states["Creature"]["Pet"] = 0
+	found_states["Creature"]["Annoyed"] = 0
+	found_states["Creature"]["Play"] = 0
+	found_states["Creature"]["Chase"] = 0
+	found_states["Creature"]["Attack"] = 0
+	found_states["Creature"]["Flee"] = 0
+	
+	found_states["Predator"]["Eat"] = 0
+	found_states["Predator"]["Idle"] = 0
+	found_states["Predator"]["Wander"] = 0
+	found_states["Predator"]["Rest"] = 0
+	found_states["Predator"]["Pet"] = 0
+	found_states["Predator"]["Annoyed"] = 0
+	found_states["Predator"]["Play"] = 0
+	found_states["Predator"]["Chase"] = 0
+	found_states["Predator"]["Attack"] = 0
+	found_states["Predator"]["Flee"] = 0

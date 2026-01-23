@@ -23,8 +23,10 @@ offset_right = 688.0
 offset_bottom = 30.0
 text = "Current Interact Mode: Check"
 
-[node name="Journal" parent="." instance=ExtResource("2_8kdyt")]
-visible = false
+[node name="Journal" parent="." node_paths=PackedStringArray("pages") instance=ExtResource("2_8kdyt")]
+pages = {
+&"Creature": NodePath("JournalPageCreature")
+}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(576, 324)

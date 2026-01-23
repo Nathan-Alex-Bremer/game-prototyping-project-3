@@ -22,6 +22,7 @@ func _ready() -> void:
 	player.connect("CapturedState", on_capture_state)
 	player.connect("ClickedFood", on_clicked_food)
 	player.connect("OpenJournal", on_open_journal)
+	player.connect("ChangeJournalPage", on_change_journal_page)
 	player.connect("ChangeMode", on_change_mode)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
 	add_child(player)
@@ -81,16 +82,16 @@ func spawn_creature() -> void:
 	GameState.num_existing_creatures += 1
 	player.creature_joined(new_creature.creature_name)
 
-func on_capture_state(state: StringName) -> void:
-	for known_state in GameState.found_states:
+func on_capture_state(creature_type: StringName, state: StringName) -> void:
+	for known_state in GameState.found_states[creature_type]:
 		if known_state == state:
-			if GameState.found_states[state] == 0:
+			if GameState.found_states[creature_type][state] == 0:
 				GameState.num_found_states += 1
 				found_states_updated()
-			GameState.found_states[state] += 1
+			GameState.found_states[creature_type][state] += 1
 			print("Found State: " + state)
 			
-			player.on_state_found(state, GameState.found_states[state])
+			player.on_state_found(creature_type, state, GameState.found_states[creature_type][state])
 			return
 
 func found_states_updated() -> void:
@@ -123,7 +124,10 @@ func on_clicked_food(food_position: Vector2) -> void:
 			#add_child(new_food)
 
 func on_open_journal() -> void:
-	player.open_journal()
+	player.open_journal() # Why does this go through BaseScene
+	
+func on_change_journal_page(forward: bool) -> void:
+	player.change_journal_page(forward) # Why does this go through BaseScene
 	
 func on_change_mode(mode: int) -> void:
 	player.change_mode(mode)
