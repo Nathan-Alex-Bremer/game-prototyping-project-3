@@ -1,0 +1,213 @@
+[gd_scene load_steps=26 format=3 uid="uid://bgt0jmsrkbjlg"]
+
+[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_44uhv"]
+[ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_nr7ar"]
+[ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_qplfc"]
+[ext_resource type="Script" uid="uid://d174jxvau1vy1" path="res://Scripts/StateMachine/blackboard_predator.gd" id="4_lmsrt"]
+[ext_resource type="PackedScene" uid="uid://5p0iu88okxp7" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateChase.tscn" id="6_lmsrt"]
+[ext_resource type="PackedScene" uid="uid://30xhye58gdnd" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateEat.tscn" id="7_44uhv"]
+[ext_resource type="PackedScene" uid="uid://cclapvnh6va17" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateFlee.tscn" id="8_fe7iy"]
+[ext_resource type="PackedScene" uid="uid://cbybqmqbu5axx" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateIdle.tscn" id="9_qplfc"]
+[ext_resource type="PackedScene" uid="uid://wixlelm1gash" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateMoveToFood.tscn" id="10_p65ew"]
+[ext_resource type="PackedScene" uid="uid://gy0yf3l0jf1k" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStatePet.tscn" id="11_rfdph"]
+[ext_resource type="PackedScene" uid="uid://dmkvsk2hp40y" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStatePlay.tscn" id="12_nr7ar"]
+[ext_resource type="PackedScene" uid="uid://b22jsb4addpsk" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStatePoke.tscn" id="13_g243n"]
+[ext_resource type="PackedScene" uid="uid://cyh36y58ytufu" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateRest.tscn" id="14_qpyy4"]
+[ext_resource type="PackedScene" uid="uid://bkdrsgdm0eqbf" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateStunned.tscn" id="15_0djou"]
+[ext_resource type="PackedScene" uid="uid://c1r5v64yt3xvb" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateAttack.tscn" id="15_2xfls"]
+[ext_resource type="PackedScene" uid="uid://dxx8byponniv" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateWander.tscn" id="16_csfjt"]
+[ext_resource type="PackedScene" uid="uid://bynx4bl5tkyee" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateAttackEat.tscn" id="17_nr7ar"]
+[ext_resource type="PackedScene" uid="uid://cvntwog2xotw2" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateFleeTarget.tscn" id="18_g243n"]
+[ext_resource type="PackedScene" uid="uid://proir47gi8go" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateHunt.tscn" id="19_qpyy4"]
+[ext_resource type="PackedScene" uid="uid://cpr2x3ygyvy3r" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateIntimidate.tscn" id="20_0djou"]
+[ext_resource type="PackedScene" uid="uid://doxgerahvki2j" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateMoveToPartner.tscn" id="21_csfjt"]
+[ext_resource type="PackedScene" uid="uid://diswhbaylv65b" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStatePartnership.tscn" id="22_b44g2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
+radius = 342.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
+radius = 86.0523
+
+[node name="CreaturePredator" type="CharacterBody2D" node_paths=PackedStringArray("blackboard") groups=["creature"]]
+z_index = 1
+collision_mask = 2
+input_pickable = true
+script = ExtResource("1_44uhv")
+type = &"Predator"
+move_speed = 50.0
+friend_types = Array[StringName]([&"Predator"])
+prey_types = Array[StringName]([&"Creature"])
+blackboard = NodePath("StateMachine/BlackboardPredator")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nr7ar")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_xbil5")
+
+[node name="EatRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
+shape = SubResource("CircleShape2D_8gas3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_qplfc")
+initial_state = NodePath("PredatorStateWander")
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="BlackboardPredator" type="Node" parent="StateMachine"]
+script = ExtResource("4_lmsrt")
+metadata/_custom_type_script = "uid://d174jxvau1vy1"
+
+[node name="PredatorStateAttack" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("15_2xfls")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateChase" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("6_lmsrt")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateEat" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("7_44uhv")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateFlee" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("8_fe7iy")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateIdle" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("9_qplfc")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateMoveToFood" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("10_p65ew")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStatePet" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("11_rfdph")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStatePlay" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("12_nr7ar")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStatePoke" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("13_g243n")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateRest" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("14_qpyy4")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateStunned" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("15_0djou")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("16_csfjt")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateAttackEat" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("17_nr7ar")]
+simple_name = &"Attack Eat"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateFleeTarget" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("18_g243n")]
+simple_name = &"Flee Target"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateHunt" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_qpyy4")]
+simple_name = &"Hunt"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateIntimidate" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("20_0djou")]
+simple_name = &"Intimidate"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateMoveToPartner" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("21_csfjt")]
+simple_name = &"Move To Partner"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStatePartnership" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("22_b44g2")]
+simple_name = &"Partnership"
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="StateLabel" type="Label" parent="."]
+offset_left = -79.0
+offset_top = 73.0
+offset_right = 87.0
+offset_bottom = 96.0
+text = "Wander"
+horizontal_alignment = 1
+
+[node name="Stats" type="Node2D" parent="."]
+visible = false
+
+[node name="HPLabel" type="Label" parent="Stats"]
+offset_left = 74.0
+offset_top = -59.0
+offset_right = 114.0
+offset_bottom = -36.0
+text = "HP: 100/100"
+
+[node name="HungerLabel" type="Label" parent="Stats"]
+offset_left = 74.0
+offset_top = -32.0
+offset_right = 114.0
+offset_bottom = -9.0
+text = "Hunger: 100"
+
+[node name="FeistyLabel" type="Label" parent="Stats"]
+offset_left = 75.0
+offset_top = -7.0
+offset_right = 115.0
+offset_bottom = 16.0
+text = "Feisty: 0"
+
+[node name="TiredLabel" type="Label" parent="Stats"]
+offset_left = 76.0
+offset_top = 18.0
+offset_right = 134.0
+offset_bottom = 41.0
+text = "Tired: 0"
+
+[node name="NatureLabel" type="Label" parent="Stats"]
+offset_left = 76.0
+offset_top = 40.0
+offset_right = 134.0
+offset_bottom = 63.0
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -70.0
+offset_top = -95.0
+offset_right = 58.0
+offset_bottom = -72.0
+text = "Name"
+horizontal_alignment = 1
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 15)
+scale = Vector2(3.2, 3.2)
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]
+[connection signal="area_exited" from="DetectRadius" to="." method="_on_detect_radius_area_exited"]
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]

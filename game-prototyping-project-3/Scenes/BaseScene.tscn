@@ -10,7 +10,6 @@ size = Vector2(20, 2356)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_58y5n")
-timer_count = null
 
 [node name="Food" parent="." instance=ExtResource("2_ufl4h")]
 position = Vector2(153, 531)

@@ -2,14 +2,26 @@ extends CharacterBody2D
 class_name Creature
 
 # Variables
+var creature_name: StringName
+@export var type: StringName = "Creature"
+
 @export var hit_points: int = 100
 @export var hunger: float = 100
 @export var feisty: float = 0
 @export var tired: float = 0
 @export var move_speed: float = 10
 
-var detect_radius = Area2D
-var eat_radius = Area2D
+@export var friend_types: Array[StringName]
+@export var predator_types: Array[StringName]
+@export var prey_types: Array[StringName]
+
+var hunger_scale: float = 1.0
+var feisty_scale: float = 1.0
+var tired_scale: float = 1.0
+
+var detect_radius: Area2D
+var eat_radius: Area2D
+var state_machine: StateMachine
 
 var time_passed: float = 0
 
@@ -18,18 +30,33 @@ var time_passed: float = 0
 
 # Signals
 signal SelectedForCheck
+signal Leaving(creature_name: StringName)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	detect_radius = $DetectRadius
 	eat_radius = $EatRadius
+	state_machine = $StateMachine # Very hacky and gross way to allow state access
 	
 	$StateMachine.connect("state_changed", on_state_changed)
 	
 	# Random name generation, for funsies
-	$NameLabel.text = generate_name()
+	creature_name = generate_name()
+	$NameLabel.text = creature_name
 	
-	pass # Replace with function body.
+	# Randomize appearance
+	$Sprite2D.modulate.r = randf_range(0.8, 1)
+	$Sprite2D.modulate.g = randf_range(0.8, 1)
+	$Sprite2D.modulate.b = randf_range(0.8, 1)
+	var random_scale = randf_range(0.75, 1.25)
+	$Sprite2D.scale = Vector2(random_scale, random_scale)
+	
+	# Randomize stat growth rates
+	hunger_scale = randf_range(0.75, 1.25)
+	feisty_scale = randf_range(0.75, 1.25)
+	tired_scale = randf_range(0.75, 1.25)
+	
+	$Stats/NatureLabel.text = nature_picker()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -42,6 +69,19 @@ func _process(delta: float) -> void:
 		print("Feisty: " + str(feisty))
 		print("Tired: " + str(tired))
 		time_passed = 0
+		
+	
+	if (hunger == 0 or hit_points == 0) and not $VisibleOnScreenNotifier2D.is_on_screen():
+		Leaving.emit(creature_name)
+		
+		# Remove partner, if applicable
+		if blackboard is BlackboardPredator:
+			if blackboard.partner:
+				blackboard.partner.blackboard.partner = null
+		
+		GameState.existing_creatures.erase(self)
+		GameState.num_existing_creatures -= 1
+		queue_free()
 	
 
 func _physics_process(delta: float) -> void:
@@ -82,23 +122,44 @@ func generate_name() -> StringName:
 		final_string += vowels.pick_random()
 	
 	return final_string
+	
+func nature_picker() -> StringName:
+	if feisty_scale >= 1.15:
+		return "Diva"
+	if feisty_scale <= 0.85:
+		return "Shy"
+	if tired_scale >= 1.15:
+		return "Lazy"
+	if tired_scale <= 0.85:
+		return "Alert"
+	if hunger_scale >= 1.15:
+		return "Gluttonous"
+	if hunger_scale <= 0.85:
+		return "Modest"
+	return "Average"
 
 # Setters
-func change_food(amount: float) -> void:
+func change_food(amount: float, scalable: bool) -> void:
+	if scalable:
+		amount *= hunger_scale
 	hunger += amount
 	if hunger > 100:
 		hunger = 100
 	if hunger < 0:
 		hunger = 0
 
-func change_feisty(amount: float) -> void:
+func change_feisty(amount: float, scalable: bool) -> void:
+	if scalable:
+		amount *= feisty_scale
 	feisty += amount
 	if feisty > 100:
 		feisty = 100
 	if feisty < 0:
 		feisty = 0
 
-func change_tired(amount: float) -> void:
+func change_tired(amount: float, scalable: bool) -> void:
+	if scalable:
+		amount *= tired_scale
 	tired += amount
 	if tired > 100:
 		tired = 100
@@ -111,14 +172,20 @@ func change_hit_points(amount: float) -> void:
 		hit_points = 100
 	if hit_points < 0:
 		hit_points = 0
-	
+		
+func get_type() -> StringName:
+	return type
+
+func get_state() -> MonsterState:
+	return state_machine.current_state
+
 func get_wants_to_play() -> bool:
 	return blackboard.wants_to_play
 
 func get_is_visible() -> bool:
 	return $VisibleOnScreenNotifier2D.is_on_screen()
 
-func on_state_changed(new_state: State) -> void:
+func on_state_changed(new_state: MonsterState) -> void:
 	# Update label to display "simple name" of new state
 	$StateLabel.text = new_state.simple_name
 	$Sprite2D.texture = new_state.sprite

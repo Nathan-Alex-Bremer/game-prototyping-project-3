@@ -22,16 +22,26 @@ func _ready() -> void:
 	player.connect("CapturedState", on_capture_state)
 	player.connect("ClickedFood", on_clicked_food)
 	player.connect("OpenJournal", on_open_journal)
+	player.connect("ChangeJournalPage", on_change_journal_page)
 	player.connect("ChangeMode", on_change_mode)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
 	add_child(player)
 	
 	# Instantiate a creature
-	for i in range(10):
+	for i in range(GameState.max_creatures):
 		var new_creature = GameState.creature_scene.instantiate()
 		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 		new_creature.position = random_point
 		new_creature.connect("SelectedForCheck", on_creature_selected_check)
+		new_creature.connect("Leaving", on_creature_leaving)
+		add_child(new_creature)
+		GameState.existing_creatures.append(new_creature)
+	for i in range(1):
+		var new_creature = GameState.predator_scene.instantiate()
+		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+		new_creature.position = random_point
+		new_creature.connect("SelectedForCheck", on_creature_selected_check)
+		new_creature.connect("Leaving", on_creature_leaving)
 		add_child(new_creature)
 		GameState.existing_creatures.append(new_creature)
 
@@ -43,6 +53,9 @@ func _process(delta: float) -> void:
 	if timer <= 0:
 		# TODO: Add check for max food amount here
 		spawn_food()
+		
+		if randi_range(1, 5) == 5 and GameState.num_existing_creatures < GameState.max_creatures:
+			spawn_creature()
 		# Reset timer
 		timer = timer_count
 
@@ -54,16 +67,43 @@ func spawn_food() -> void:
 	new_food.position = random_point
 	add_child(new_food)
 
-func on_capture_state(state: StringName) -> void:
-	for known_state in GameState.found_states:
+func spawn_creature() -> void:
+	var new_creature
+	if randi_range(1, 5) == 1:
+		new_creature = GameState.predator_scene.instantiate()
+	else:
+		new_creature = GameState.creature_scene.instantiate()
+	var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+	new_creature.position = random_point
+	new_creature.connect("SelectedForCheck", on_creature_selected_check)
+	new_creature.connect("Leaving", on_creature_leaving)
+	add_child(new_creature)
+	GameState.existing_creatures.append(new_creature)
+	GameState.num_existing_creatures += 1
+	player.creature_joined(new_creature.creature_name)
+
+func on_capture_state(creature_type: StringName, state: StringName) -> void:
+	for known_state in GameState.found_states[creature_type]:
 		if known_state == state:
-			if GameState.found_states[state] == 0:
+			if GameState.found_states[creature_type][state] == 0:
 				GameState.num_found_states += 1
-			GameState.found_states[state] += 1
+				found_states_updated()
+			GameState.found_states[creature_type][state] += 1
 			print("Found State: " + state)
 			
-			player.on_state_found(state, GameState.found_states[state])
+			player.on_state_found(creature_type, state, GameState.found_states[creature_type][state])
 			return
+
+func found_states_updated() -> void:
+	GameState.max_creatures = 5 + int(GameState.num_found_states / 2)
+	
+	match GameState.num_found_states:
+		2:
+			player.interact_mode_unlocked("Place Food")
+		4:
+			player.interact_mode_unlocked("Pet")
+		6:
+			player.interact_mode_unlocked("Poke")
 
 func on_clicked_food(food_position: Vector2) -> void:
 	if GameState.num_found_states < 1:
@@ -84,7 +124,10 @@ func on_clicked_food(food_position: Vector2) -> void:
 			#add_child(new_food)
 
 func on_open_journal() -> void:
-	player.open_journal()
+	player.open_journal() # Why does this go through BaseScene
+	
+func on_change_journal_page(forward: bool) -> void:
+	player.change_journal_page(forward) # Why does this go through BaseScene
 	
 func on_change_mode(mode: int) -> void:
 	player.change_mode(mode)
@@ -103,3 +146,6 @@ func toggle_creature_stats() -> void:
 		
 func on_creature_selected_check() -> void:
 	toggle_creature_stats()
+
+func on_creature_leaving(creature_name: StringName) -> void:
+	player.creature_left(creature_name)

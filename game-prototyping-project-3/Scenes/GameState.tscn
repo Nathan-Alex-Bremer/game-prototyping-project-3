@@ -1,12 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://ia8oql3he6kc"]
+[gd_scene load_steps=6 format=3 uid="uid://ia8oql3he6kc"]
 
 [ext_resource type="Script" uid="uid://dglct3emv8njq" path="res://Scripts/game_state.gd" id="1_6swv3"]
-[ext_resource type="PackedScene" uid="uid://pax8hqcis1wq" path="res://Scenes/Creature.tscn" id="2_aqfpj"]
+[ext_resource type="PackedScene" uid="uid://pax8hqcis1wq" path="res://Scenes/Creature.tscn" id="2_timhb"]
+[ext_resource type="PackedScene" uid="uid://bgt0jmsrkbjlg" path="res://Scenes/CreatureTypes/CreaturePredator.tscn" id="3_q4mmg"]
 [ext_resource type="PackedScene" uid="uid://pc8elxh64c3m" path="res://Scenes/Food.tscn" id="3_timhb"]
 [ext_resource type="PackedScene" uid="uid://cjh4yfiih2h2h" path="res://Scenes/PlayerObserver.tscn" id="4_timhb"]
 
 [node name="GameState" type="Node2D"]
 script = ExtResource("1_6swv3")
-creature_scene = ExtResource("2_aqfpj")
+creature_scene = ExtResource("2_timhb")
+predator_scene = ExtResource("3_q4mmg")
 food_scene = ExtResource("3_timhb")
 player_scene = ExtResource("4_timhb")

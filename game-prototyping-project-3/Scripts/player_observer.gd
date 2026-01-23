@@ -5,12 +5,15 @@ class_name PlayerObserver
 # Variables
 # State changing
 var interact_mode_text: StringName = "Current Interact Mode: "
-var camera_speed: float = 200
+var camera_speed: float = 400
+
+var message_timer: float = 0
 
 # Signals
 signal ClickedFood(position: Vector2)
-signal CapturedState(state: StringName)
+signal CapturedState(creature_type: StringName, state: StringName)
 signal OpenJournal()
+signal ChangeJournalPage(forward: bool)
 signal ChangeMode(new_mode)
 signal ToggleCreatureStats()
 
@@ -33,18 +36,18 @@ func _process(delta: float) -> void:
 		
 		match GameState.mode:
 			GameState.INTERACT_MODES.CHECK:
-				if GameState.num_found_states > 0:
+				if GameState.num_found_states > 1:
 					GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
 					print("New action mode: Place Food")
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				if GameState.num_found_states > 0:
+				if GameState.num_found_states > 1:
 					GameState.mode = GameState.INTERACT_MODES.PET
 					print("New action mode: Pet")
 				else:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
 			GameState.INTERACT_MODES.PET:
-				if GameState.num_found_states > 0:
+				if GameState.num_found_states > 1:
 					GameState.mode = GameState.INTERACT_MODES.POKE
 					print("New action mode: Poke")
 				else:
@@ -65,18 +68,34 @@ func _process(delta: float) -> void:
 				
 	if Input.is_action_just_pressed("open_journal"):
 		OpenJournal.emit()
+		GameState.player_in_journal = not (GameState.player_in_journal)
+	
+	# Change page in journal
+	if GameState.player_in_journal:
+		if Input.is_action_just_pressed("move_right"):
+			ChangeJournalPage.emit(true)
+		if Input.is_action_just_pressed("move_left"):
+			ChangeJournalPage.emit(false)
+	
+	if message_timer > 0:
+		message_timer -= delta
+		if message_timer <= 0:
+			$UpdateLabel.text = ""
+			message_timer = 0
 
 func _physics_process(delta: float) -> void:
 	velocity = Vector2.ZERO
 	
-	if Input.is_action_pressed("move_up"):
-		velocity.y -= 1
-	if Input.is_action_pressed("move_down"):
-		velocity.y += 1
-	if Input.is_action_pressed("move_right"):
-		velocity.x += 1
-	if Input.is_action_pressed("move_left"):
-		velocity.x -= 1
+	if (not GameState.player_in_journal):
+	
+		if Input.is_action_pressed("move_up"):
+			velocity.y -= 1
+		if Input.is_action_pressed("move_down"):
+			velocity.y += 1
+		if Input.is_action_pressed("move_right"):
+			velocity.x += 1
+		if Input.is_action_pressed("move_left"):
+			velocity.x -= 1
 	
 	if velocity.length() > 0:
 		# Normalize the movement direction vector
@@ -100,18 +119,23 @@ func capture_creature_states() -> void:
 			if creature_statemachine == null:
 				return
 			
+			var creature_type: StringName = creature.get_type()
 			var creature_state: StringName = creature_statemachine.current_state.simple_name
 			
 			if creature_state == null:
 				return
 				
-			CapturedState.emit(creature_state)
+			CapturedState.emit(creature_type, creature_state)
 
 func open_journal() -> void:
 	$Journal.toggle_opened()
 	
-func on_state_found(state: StringName, times_found: int) -> void:
-	$Journal.on_state_found(state, times_found)
+func change_journal_page(forward: bool) -> void:
+	$Journal.change_page(forward)
+	
+func on_state_found(creature_type: StringName, state: StringName, times_found: int) -> void:
+	print("On state found")
+	$Journal.on_state_found(creature_type, state, times_found)
 	
 func change_mode(mode: int) -> void:
 	match mode:
@@ -126,3 +150,16 @@ func change_mode(mode: int) -> void:
 			$InteractModeLabel.text = interact_mode_text + "Pet"
 		GameState.INTERACT_MODES.POKE:
 			$InteractModeLabel.text = interact_mode_text + "Poke"
+
+func update_message(message: String) -> void:
+	$UpdateLabel.text = message
+	message_timer = 5
+
+func creature_left(creature_name: StringName) -> void:
+	update_message(creature_name + " seems to have left...")
+	
+func creature_joined(creature_name: StringName) -> void:
+	update_message(creature_name + " has arrived!")
+
+func interact_mode_unlocked(mode: StringName) -> void:
+	update_message("New interact mode unlocked: " + mode + "!")
