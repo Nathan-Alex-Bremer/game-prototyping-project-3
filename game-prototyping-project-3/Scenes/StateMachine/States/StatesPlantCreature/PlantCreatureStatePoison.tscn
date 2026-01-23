@@ -1,0 +1,103 @@
+[gd_scene load_steps=15 format=3 uid="uid://1lgl4gwtdh4n"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_84hnd"]
+[ext_resource type="Texture2D" uid="uid://bhd6i8h3oq6c2" path="res://Art/CreatureStates/CreatureAttack.png" id="2_r4mtx"]
+[ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_ifrim"]
+[ext_resource type="Script" uid="uid://0c47bruecn2e" path="res://Scripts/StateMachine/Actions/a_poison_attack.gd" id="4_v687c"]
+[ext_resource type="Script" uid="uid://bukx1pqnbhomw" path="res://Scripts/StateMachine/Actions/a_set_signal.gd" id="5_0skjo"]
+[ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="5_w087n"]
+[ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="6_m2eac"]
+[ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="7_tvlb6"]
+[ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="8_jsh3u"]
+[ext_resource type="Script" uid="uid://b3w7121qva7qq" path="res://Scripts/StateMachine/Actions/a_reduce_food_timer.gd" id="9_cxpd2"]
+[ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="9_kcxs2"]
+[ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="10_dcptt"]
+[ext_resource type="Script" uid="uid://dtyxom51u28mh" path="res://Scripts/StateMachine/Actions/a_reduce_poison_timer.gd" id="10_v687c"]
+[ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="11_wmgjn"]
+
+[node name="PlantCreatureStatePoison" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
+script = ExtResource("1_84hnd")
+simple_name = &"Poison"
+sprite = ExtResource("2_r4mtx")
+enter_actions = [NodePath("EnterActions/APoisonAttack"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetSignal")]
+exit_actions = [NodePath("ExitActions/ASetSignal")]
+update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
+physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle")]
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="ASetWaitTimeRandom" type="Node" parent="EnterActions"]
+script = ExtResource("3_ifrim")
+min_time = 2.5
+max_time = 4.0
+metadata/_custom_type_script = "uid://b378gqkrvg1q5"
+
+[node name="APoisonAttack" type="Node" parent="EnterActions"]
+script = ExtResource("4_v687c")
+metadata/_custom_type_script = "uid://0c47bruecn2e"
+
+[node name="ASetSignal" type="Node" parent="EnterActions"]
+script = ExtResource("5_0skjo")
+signal_val = &"intimidate"
+metadata/_custom_type_script = "uid://bukx1pqnbhomw"
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="ASetSignal" type="Node" parent="ExitActions"]
+script = ExtResource("5_0skjo")
+metadata/_custom_type_script = "uid://bukx1pqnbhomw"
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("5_w087n")
+amount = -1.0
+metadata/_custom_type_script = "uid://dq3xm51g267od"
+
+[node name="AChangeTiredDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("6_m2eac")
+amount = 0.21
+scalable = true
+metadata/_custom_type_script = "uid://cbfb1foxoxepf"
+
+[node name="AReduceWaitTime" type="Node" parent="UpdateActions"]
+script = ExtResource("7_tvlb6")
+metadata/_custom_type_script = "uid://ckuqr2gv4efpk"
+
+[node name="AReduceFoodTimer" type="Node" parent="UpdateActions"]
+script = ExtResource("9_cxpd2")
+metadata/_custom_type_script = "uid://b3w7121qva7qq"
+
+[node name="AReducePoisonTimer" type="Node" parent="UpdateActions"]
+script = ExtResource("10_v687c")
+metadata/_custom_type_script = "uid://dtyxom51u28mh"
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="AVelocityZero" type="Node" parent="PhysicsUpdateActions"]
+script = ExtResource("8_jsh3u")
+metadata/_custom_type_script = "uid://cnqboljrughfj"
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="TransitionToStunned" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("9_kcxs2")
+conditions = [NodePath("CIsStunned")]
+next_state = &"creaturestatestunned"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsStunned" type="Node" parent="Transitions/TransitionToStunned"]
+script = ExtResource("10_dcptt")
+metadata/_custom_type_script = "uid://cbq20o6y4ae31"
+
+[node name="TransitionToIdle" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("9_kcxs2")
+conditions = [NodePath("CWaitTimeZero")]
+next_state = &"creaturestatewander"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToIdle"]
+script = ExtResource("11_wmgjn")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"

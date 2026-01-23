@@ -19,6 +19,11 @@ var hunger_scale: float = 1.0
 var feisty_scale: float = 1.0
 var tired_scale: float = 1.0
 
+# Poison
+var is_poisoned: bool = false
+var poison_damage_timer: float = 0
+var poison_ticks_remaining: int = 0
+
 var detect_radius: Area2D
 var eat_radius: Area2D
 var state_machine: StateMachine
@@ -30,6 +35,7 @@ var time_passed: float = 0
 
 # Signals
 signal SelectedForCheck
+signal SpawnFood
 signal Leaving(creature_name: StringName)
 
 # Called when the node enters the scene tree for the first time.
@@ -69,7 +75,12 @@ func _process(delta: float) -> void:
 		print("Feisty: " + str(feisty))
 		print("Tired: " + str(tired))
 		time_passed = 0
-		
+	
+	# Poison ticks
+	if is_poisoned:
+		poison_damage_timer -= delta
+		if poison_damage_timer <= 0:
+			poison_damage()
 	
 	if (hunger == 0 or hit_points == 0) and not $VisibleOnScreenNotifier2D.is_on_screen():
 		Leaving.emit(creature_name)
@@ -204,6 +215,19 @@ func deal_damage(attacker: Creature, damage: int) -> void:
 	change_hit_points(damage * -1)
 	blackboard.stunned = true
 	blackboard.current_attacker = attacker
+
+func poison_damage() -> void:
+	change_hit_points(-5)
+	change_tired(5, false)
+	if blackboard.poison_ticks_remaining > 0:
+		blackboard.poison_ticks_remaining -= 1
+		blackboard.poison_damage_timer = 1
+	else:
+		blackboard.is_poisoned = false
+
+# Gross way to do this, should use signals, but for now I don't want to bother
+func spawn_food_nearby() -> void:
+	SpawnFood.emit(position, 100)
 
 # Input
 # Ew ew ew

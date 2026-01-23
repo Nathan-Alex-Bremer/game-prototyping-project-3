@@ -67,6 +67,26 @@ func spawn_food() -> void:
 	new_food.position = random_point
 	add_child(new_food)
 
+func spawn_food_near_position(position: Vector2, range: float) -> void:
+	var min_pos: Vector2 = Vector2(position.x - range, position.y - range)
+	# Correction to stop out of bounds
+	if min_pos.x <= $MinPos.position.x:
+		min_pos.x = $MinPos.position.x
+	if min_pos.y <= $MinPos.position.y:
+		min_pos.y = $MinPos.position.y
+	var max_pos: Vector2 = Vector2(position.x + range, position.y + range)
+	# Correction to stop out of bounds
+	if max_pos.x <= $MaxPos.position.x:
+		max_pos.x = $MaxPos.position.x
+	if max_pos.y <= $MaxPos.position.y:
+		max_pos.y = $MaxPos.position.y
+	var random_point = Vector2(randf_range(min_pos.x, min_pos.x), randf_range(max_pos.y, max_pos.y))
+
+	# Instantiate food object
+	var new_food = GameState.food_scene.instantiate()
+	new_food.position = random_point
+	add_child(new_food)
+
 func spawn_creature() -> void:
 	var new_creature
 	if randi_range(1, 5) == 1:

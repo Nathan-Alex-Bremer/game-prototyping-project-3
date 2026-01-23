@@ -1,0 +1,166 @@
+[gd_scene load_steps=18 format=3 uid="uid://br57gprheuddm"]
+
+[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_b4xir"]
+[ext_resource type="Texture2D" uid="uid://bhy3deva1fdd1" path="res://Art/CreatureStates/CreatureWalk.png" id="2_tgxuk"]
+[ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_kl0p8"]
+[ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scripts/StateMachine/blackboard.gd" id="4_rmjje"]
+[ext_resource type="PackedScene" uid="uid://dug0isjnea78b" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateFlee.tscn" id="5_ecsl8"]
+[ext_resource type="PackedScene" uid="uid://c8ydogwemfged" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateIdle.tscn" id="6_01ugy"]
+[ext_resource type="PackedScene" uid="uid://dlwi38li667aq" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStatePet.tscn" id="7_hbn7x"]
+[ext_resource type="PackedScene" uid="uid://dxriaxi3cxe6e" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStatePhotosynthesize.tscn" id="8_kvwdi"]
+[ext_resource type="PackedScene" uid="uid://gwv162w4ipq" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStatePlay.tscn" id="9_o875t"]
+[ext_resource type="PackedScene" uid="uid://1lgl4gwtdh4n" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStatePoison.tscn" id="10_tspvq"]
+[ext_resource type="PackedScene" uid="uid://b5vh2uutc5k2m" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStatePoke.tscn" id="11_673oy"]
+[ext_resource type="PackedScene" uid="uid://8pjb5jy2ucu" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateRest.tscn" id="12_gbck6"]
+[ext_resource type="PackedScene" uid="uid://d3ql6x68qeqa6" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateStunned.tscn" id="13_r1s0l"]
+[ext_resource type="PackedScene" uid="uid://vbgnc2jnptoh" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateWander.tscn" id="14_01x8t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
+radius = 342.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
+radius = 86.0523
+
+[node name="CreaturePlantCreature" type="CharacterBody2D" node_paths=PackedStringArray("blackboard") groups=["creature"]]
+z_index = 1
+collision_mask = 2
+input_pickable = true
+script = ExtResource("1_b4xir")
+type = &"Plant"
+move_speed = 50.0
+friend_types = Array[StringName]([&"Plant"])
+predator_types = Array[StringName]([&"Predator"])
+blackboard = NodePath("StateMachine/Blackboard")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tgxuk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_xbil5")
+
+[node name="EatRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
+shape = SubResource("CircleShape2D_8gas3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_kl0p8")
+initial_state = NodePath("PlantCreatureStateWander")
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="Blackboard" type="Node" parent="StateMachine"]
+script = ExtResource("4_rmjje")
+
+[node name="PlantCreatureStateFlee" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("5_ecsl8")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStateIdle" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("6_01ugy")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStatePet" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("7_hbn7x")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStatePhotosynthesize" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("8_kvwdi")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStatePlay" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("9_o875t")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStatePoison" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("10_tspvq")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStatePoke" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("11_673oy")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStateRest" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("12_gbck6")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStateStunned" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("13_r1s0l")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("14_01x8t")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="StateLabel" type="Label" parent="."]
+offset_left = -79.0
+offset_top = 73.0
+offset_right = 87.0
+offset_bottom = 96.0
+text = "Wander"
+horizontal_alignment = 1
+
+[node name="Stats" type="Node2D" parent="."]
+visible = false
+
+[node name="HPLabel" type="Label" parent="Stats"]
+offset_left = 74.0
+offset_top = -59.0
+offset_right = 114.0
+offset_bottom = -36.0
+text = "HP: 100/100"
+
+[node name="HungerLabel" type="Label" parent="Stats"]
+offset_left = 74.0
+offset_top = -32.0
+offset_right = 114.0
+offset_bottom = -9.0
+text = "Hunger: 100"
+
+[node name="FeistyLabel" type="Label" parent="Stats"]
+offset_left = 75.0
+offset_top = -7.0
+offset_right = 115.0
+offset_bottom = 16.0
+text = "Feisty: 0"
+
+[node name="TiredLabel" type="Label" parent="Stats"]
+offset_left = 76.0
+offset_top = 18.0
+offset_right = 134.0
+offset_bottom = 41.0
+text = "Tired: 0"
+
+[node name="NatureLabel" type="Label" parent="Stats"]
+offset_left = 76.0
+offset_top = 40.0
+offset_right = 134.0
+offset_bottom = 63.0
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -70.0
+offset_top = -95.0
+offset_right = 58.0
+offset_bottom = -72.0
+text = "Name"
+horizontal_alignment = 1
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 15)
+scale = Vector2(3.2, 3.2)
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]
+[connection signal="area_exited" from="DetectRadius" to="." method="_on_detect_radius_area_exited"]
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
