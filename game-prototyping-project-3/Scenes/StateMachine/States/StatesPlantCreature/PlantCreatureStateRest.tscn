@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://8pjb5jy2ucu"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_sdptw"]
-[ext_resource type="Texture2D" uid="uid://b76uw5dchntqr" path="res://Art/CreatureStates/CreatureRest.png" id="2_ko4xo"]
+[ext_resource type="Texture2D" uid="uid://gkw3nciv4bsf" path="res://Art/PlantCreatureStates/PlantCreatureRest.png" id="2_t5lqg"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="3_ce0x8"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="4_fb8cb"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="5_e2qpu"]
@@ -18,7 +18,7 @@
 [node name="PlantCreatureStateRest" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_sdptw")
 simple_name = &"Rest"
-sprite = ExtResource("2_ko4xo")
+sprite = ExtResource("2_t5lqg")
 enter_actions = [NodePath("EnterActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AChangeHitPoints"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -44,7 +44,7 @@ metadata/_custom_type_script = "uid://dq3xm51g267od"
 
 [node name="AChangeFeistyDelta" type="Node" parent="UpdateActions"]
 script = ExtResource("5_e2qpu")
-amount = 0.24
+amount = 0.12
 scalable = true
 metadata/_custom_type_script = "uid://c544yfe00a2d1"
 

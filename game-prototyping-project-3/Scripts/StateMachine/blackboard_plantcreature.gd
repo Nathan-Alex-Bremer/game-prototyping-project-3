@@ -11,7 +11,7 @@ var poison_timer: float = 0
 
 # Food
 var has_food: bool = false
-var food_timer: float = 0
+var food_timer: float = 1
 @export var food_timer_max: float = 30
 @export var food_scene: PackedScene
 

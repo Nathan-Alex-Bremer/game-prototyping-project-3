@@ -38,9 +38,9 @@ collision_mask = 2
 input_pickable = true
 script = ExtResource("1_44uhv")
 type = &"Predator"
-move_speed = 50.0
+move_speed = 60.0
 friend_types = Array[StringName]([&"Predator"])
-prey_types = Array[StringName]([&"Creature"])
+prey_types = Array[StringName]([&"Creature", &"PlantCreature"])
 blackboard = NodePath("StateMachine/BlackboardPredator")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

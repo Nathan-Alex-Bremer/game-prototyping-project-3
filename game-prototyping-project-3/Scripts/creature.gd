@@ -71,9 +71,9 @@ func _process(delta: float) -> void:
 	# TODO: Make the labels update constantly, if you feel like it
 		
 	if time_passed > 5:
-		print("Hunger: " + str(hunger))
-		print("Feisty: " + str(feisty))
-		print("Tired: " + str(tired))
+		# print("Hunger: " + str(hunger))
+		# print("Feisty: " + str(feisty))
+		# print("Tired: " + str(tired))
 		time_passed = 0
 	
 	# Poison ticks
@@ -219,11 +219,11 @@ func deal_damage(attacker: Creature, damage: int) -> void:
 func poison_damage() -> void:
 	change_hit_points(-5)
 	change_tired(5, false)
-	if blackboard.poison_ticks_remaining > 0:
-		blackboard.poison_ticks_remaining -= 1
-		blackboard.poison_damage_timer = 1
+	if poison_ticks_remaining > 0:
+		poison_ticks_remaining -= 1
+		poison_damage_timer = 1
 	else:
-		blackboard.is_poisoned = false
+		is_poisoned = false
 
 # Gross way to do this, should use signals, but for now I don't want to bother
 func spawn_food_nearby() -> void:

@@ -1,10 +1,11 @@
-[gd_scene load_steps=18 format=3 uid="uid://br57gprheuddm"]
+[gd_scene load_steps=20 format=3 uid="uid://br57gprheuddm"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_b4xir"]
-[ext_resource type="Texture2D" uid="uid://bhy3deva1fdd1" path="res://Art/CreatureStates/CreatureWalk.png" id="2_tgxuk"]
+[ext_resource type="Texture2D" uid="uid://bma5cnqup6eas" path="res://Art/PlantCreatureStates/PlantCreatureWander.png" id="2_hbn7x"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_kl0p8"]
-[ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scripts/StateMachine/blackboard.gd" id="4_rmjje"]
+[ext_resource type="Script" uid="uid://bmaobd7m57ure" path="res://Scripts/StateMachine/blackboard_plantcreature.gd" id="4_hbn7x"]
 [ext_resource type="PackedScene" uid="uid://dug0isjnea78b" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateFlee.tscn" id="5_ecsl8"]
+[ext_resource type="PackedScene" uid="uid://pc8elxh64c3m" path="res://Scenes/Food.tscn" id="5_kvwdi"]
 [ext_resource type="PackedScene" uid="uid://c8ydogwemfged" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateIdle.tscn" id="6_01ugy"]
 [ext_resource type="PackedScene" uid="uid://dlwi38li667aq" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStatePet.tscn" id="7_hbn7x"]
 [ext_resource type="PackedScene" uid="uid://dxriaxi3cxe6e" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStatePhotosynthesize.tscn" id="8_kvwdi"]
@@ -14,12 +15,13 @@
 [ext_resource type="PackedScene" uid="uid://8pjb5jy2ucu" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateRest.tscn" id="12_gbck6"]
 [ext_resource type="PackedScene" uid="uid://d3ql6x68qeqa6" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateStunned.tscn" id="13_r1s0l"]
 [ext_resource type="PackedScene" uid="uid://vbgnc2jnptoh" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateWander.tscn" id="14_01x8t"]
+[ext_resource type="PackedScene" uid="uid://2rf5lr5cwqg" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureDropFood.tscn" id="15_01ugy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
-radius = 342.0
+radius = 271.002
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
 radius = 86.0523
@@ -29,14 +31,15 @@ z_index = 1
 collision_mask = 2
 input_pickable = true
 script = ExtResource("1_b4xir")
-type = &"Plant"
-move_speed = 50.0
-friend_types = Array[StringName]([&"Plant"])
+type = &"PlantCreature"
+hit_points = 120
+move_speed = 30.0
+friend_types = Array[StringName]([&"PlantCreature", &"Creature"])
 predator_types = Array[StringName]([&"Predator"])
-blackboard = NodePath("StateMachine/Blackboard")
+blackboard = NodePath("StateMachine/BlackboardPlantCreature")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_tgxuk")
+texture = ExtResource("2_hbn7x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 15)
@@ -59,47 +62,53 @@ script = ExtResource("3_kl0p8")
 initial_state = NodePath("PlantCreatureStateWander")
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
-[node name="Blackboard" type="Node" parent="StateMachine"]
-script = ExtResource("4_rmjje")
+[node name="BlackboardPlantCreature" type="Node" parent="StateMachine"]
+script = ExtResource("4_hbn7x")
+food_scene = ExtResource("5_kvwdi")
+metadata/_custom_type_script = "uid://bmaobd7m57ure"
 
 [node name="PlantCreatureStateFlee" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("5_ecsl8")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStateIdle" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("6_01ugy")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStatePet" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("7_hbn7x")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStatePhotosynthesize" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("8_kvwdi")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStatePlay" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("9_o875t")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStatePoison" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("10_tspvq")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStatePoke" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("11_673oy")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStateRest" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("12_gbck6")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStateStunned" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("13_r1s0l")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="PlantCreatureStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("14_01x8t")]
-blackboard = NodePath("../Blackboard")
+blackboard = NodePath("../BlackboardPlantCreature")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStateDropFood" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("15_01ugy")]
+blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
 [node name="StateLabel" type="Label" parent="."]

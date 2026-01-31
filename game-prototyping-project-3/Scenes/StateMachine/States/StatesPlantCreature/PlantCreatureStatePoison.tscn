@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://1lgl4gwtdh4n"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_84hnd"]
-[ext_resource type="Texture2D" uid="uid://bhd6i8h3oq6c2" path="res://Art/CreatureStates/CreatureAttack.png" id="2_r4mtx"]
+[ext_resource type="Texture2D" uid="uid://hf8o4ldks2hj" path="res://Art/PlantCreatureStates/PlantCreaturePoison.png" id="2_cxpd2"]
 [ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_ifrim"]
 [ext_resource type="Script" uid="uid://0c47bruecn2e" path="res://Scripts/StateMachine/Actions/a_poison_attack.gd" id="4_v687c"]
 [ext_resource type="Script" uid="uid://bukx1pqnbhomw" path="res://Scripts/StateMachine/Actions/a_set_signal.gd" id="5_0skjo"]
@@ -18,7 +18,7 @@
 [node name="PlantCreatureStatePoison" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_84hnd")
 simple_name = &"Poison"
-sprite = ExtResource("2_r4mtx")
+sprite = ExtResource("2_cxpd2")
 enter_actions = [NodePath("EnterActions/APoisonAttack"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetSignal")]
 exit_actions = [NodePath("ExitActions/ASetSignal")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
@@ -85,7 +85,7 @@ metadata/_custom_type_script = "uid://cnqboljrughfj"
 [node name="TransitionToStunned" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("9_kcxs2")
 conditions = [NodePath("CIsStunned")]
-next_state = &"creaturestatestunned"
+next_state = &"plantcreaturestatestunned"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CIsStunned" type="Node" parent="Transitions/TransitionToStunned"]
@@ -95,7 +95,7 @@ metadata/_custom_type_script = "uid://cbq20o6y4ae31"
 [node name="TransitionToIdle" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("9_kcxs2")
 conditions = [NodePath("CWaitTimeZero")]
-next_state = &"creaturestatewander"
+next_state = &"plantcreaturestatewander"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToIdle"]

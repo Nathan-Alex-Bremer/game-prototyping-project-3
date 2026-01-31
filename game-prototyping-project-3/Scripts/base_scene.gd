@@ -28,11 +28,12 @@ func _ready() -> void:
 	add_child(player)
 	
 	# Instantiate a creature
-	for i in range(GameState.max_creatures):
+	for i in range(GameState.max_creatures - 2):
 		var new_creature = GameState.creature_scene.instantiate()
 		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 		new_creature.position = random_point
 		new_creature.connect("SelectedForCheck", on_creature_selected_check)
+		new_creature.connect("SpawnFood", spawn_food_near_position)
 		new_creature.connect("Leaving", on_creature_leaving)
 		add_child(new_creature)
 		GameState.existing_creatures.append(new_creature)
@@ -44,6 +45,15 @@ func _ready() -> void:
 		new_creature.connect("Leaving", on_creature_leaving)
 		add_child(new_creature)
 		GameState.existing_creatures.append(new_creature)
+	for i in range(1):
+		var new_creature = GameState.plantcreature_scene.instantiate()
+		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+		new_creature.position = random_point
+		new_creature.connect("SelectedForCheck", on_creature_selected_check)
+		new_creature.connect("SpawnFood", spawn_food_near_position)
+		new_creature.connect("Leaving", on_creature_leaving)
+		add_child(new_creature)
+		GameState.existing_creatures.append(new_creature)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,10 +62,14 @@ func _process(delta: float) -> void:
 	
 	if timer <= 0:
 		# TODO: Add check for max food amount here
-		spawn_food()
+		if randi_range(1, 5) == 5:
+			spawn_food()
 		
 		if randi_range(1, 5) == 5 and GameState.num_existing_creatures < GameState.max_creatures:
 			spawn_creature()
+			
+		print("Num creatures: " + str(GameState.num_existing_creatures))
+		print("Max creatures: " + str(GameState.max_creatures))
 		# Reset timer
 		timer = timer_count
 
@@ -68,6 +82,7 @@ func spawn_food() -> void:
 	add_child(new_food)
 
 func spawn_food_near_position(position: Vector2, range: float) -> void:
+	print("Spawn food near position!")
 	var min_pos: Vector2 = Vector2(position.x - range, position.y - range)
 	# Correction to stop out of bounds
 	if min_pos.x <= $MinPos.position.x:
@@ -76,11 +91,11 @@ func spawn_food_near_position(position: Vector2, range: float) -> void:
 		min_pos.y = $MinPos.position.y
 	var max_pos: Vector2 = Vector2(position.x + range, position.y + range)
 	# Correction to stop out of bounds
-	if max_pos.x <= $MaxPos.position.x:
+	if max_pos.x >= $MaxPos.position.x:
 		max_pos.x = $MaxPos.position.x
-	if max_pos.y <= $MaxPos.position.y:
+	if max_pos.y >= $MaxPos.position.y:
 		max_pos.y = $MaxPos.position.y
-	var random_point = Vector2(randf_range(min_pos.x, min_pos.x), randf_range(max_pos.y, max_pos.y))
+	var random_point = Vector2(randf_range(min_pos.x, max_pos.x), randf_range(min_pos.y, max_pos.y))
 
 	# Instantiate food object
 	var new_food = GameState.food_scene.instantiate()
@@ -89,8 +104,11 @@ func spawn_food_near_position(position: Vector2, range: float) -> void:
 
 func spawn_creature() -> void:
 	var new_creature
-	if randi_range(1, 5) == 1:
+	var randnum = randi_range(1, 6)
+	if randnum == 1:
 		new_creature = GameState.predator_scene.instantiate()
+	elif randnum == 2:
+		new_creature = GameState.plantcreature_scene.instantiate()
 	else:
 		new_creature = GameState.creature_scene.instantiate()
 	var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
@@ -115,7 +133,7 @@ func on_capture_state(creature_type: StringName, state: StringName) -> void:
 			return
 
 func found_states_updated() -> void:
-	GameState.max_creatures = 5 + int(GameState.num_found_states / 2)
+	GameState.max_creatures = 6 + int(GameState.num_found_states / 2)
 	
 	match GameState.num_found_states:
 		2:

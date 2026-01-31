@@ -25,7 +25,9 @@ text = "Current Interact Mode: Check"
 
 [node name="Journal" parent="." node_paths=PackedStringArray("pages") instance=ExtResource("2_8kdyt")]
 pages = {
-&"Creature": NodePath("JournalPageCreature")
+&"Creature": NodePath("JournalPageCreature"),
+&"PlantCreature": NodePath("JournalPagePlantCreature"),
+&"Predator": NodePath("JournalPagePredator")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

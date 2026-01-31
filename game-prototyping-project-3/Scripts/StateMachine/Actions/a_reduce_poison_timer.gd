@@ -9,4 +9,5 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 		
 		blackboard.poison_timer -= _delta
 		if blackboard.poison_timer <= 0:
+			print("Poison regrown!")
 			blackboard.has_poison = true

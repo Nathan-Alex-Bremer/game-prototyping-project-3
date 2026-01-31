@@ -8,6 +8,8 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Wander":
 			if times_found == 1:
 				$StateWander.text = "- Tends to wander aimlessly. (1/3)"
+				print("Progress:" + str(progress))
+				print("Total States: " + str(total_states))
 				progress += 1
 				found_states_creature += 1
 			if times_found == 15:
@@ -19,6 +21,8 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Idle":
 			if times_found == 1:
 				$StateIdle.text = "- Off-white in color. (1/3)"
+				print("Progress:" + str(progress))
+				print("Total States: " + str(total_states))
 				progress += 1
 				found_states_creature += 1
 			if times_found == 15:
@@ -120,3 +124,9 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 	$StatesFound.text = "Found States: " + str(found_states_creature)
 	
 	update_progress()
+
+func update_progress() -> void:
+	# Entirely because it'd get annoying otherwise
+	print("Progress:" + str(progress))
+	print("Total States: " + str(total_states))
+	$Progress.text = "Progress: " + str(int((progress / total_states) * 100)) + "%"

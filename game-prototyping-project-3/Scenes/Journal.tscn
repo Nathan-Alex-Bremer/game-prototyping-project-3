@@ -1,16 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://0wnkaj8ql8"]
+[gd_scene load_steps=5 format=3 uid="uid://0wnkaj8ql8"]
 
 [ext_resource type="Script" uid="uid://b6jow321w1c36" path="res://Scripts/journal.gd" id="1_a6r1n"]
 [ext_resource type="PackedScene" uid="uid://celi5uju0h446" path="res://Scenes/JournalPageCreature.tscn" id="2_gmf2j"]
 [ext_resource type="PackedScene" uid="uid://w6v1vlxctcit" path="res://Scenes/JournalPagePredator.tscn" id="3_s52y6"]
+[ext_resource type="PackedScene" uid="uid://ctj630glflkqv" path="res://Scenes/JournalPagePlantCreature.tscn" id="4_eulif"]
 
 [node name="Journal" type="Node2D" node_paths=PackedStringArray("pages")]
 script = ExtResource("1_a6r1n")
 pages = {
 &"Creature": NodePath("JournalPageCreature"),
+&"PlantCreature": NodePath("JournalPagePlantCreature"),
 &"Predator": NodePath("JournalPagePredator")
 }
 
 [node name="JournalPageCreature" parent="." instance=ExtResource("2_gmf2j")]
 
 [node name="JournalPagePredator" parent="." instance=ExtResource("3_s52y6")]
+
+[node name="JournalPagePlantCreature" parent="." instance=ExtResource("4_eulif")]

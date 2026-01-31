@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://dug0isjnea78b"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_g2qt4"]
-[ext_resource type="Texture2D" uid="uid://yr2w4xf5gmyj" path="res://Art/CreatureStates/CreatureFlee.png" id="2_tenxy"]
+[ext_resource type="Texture2D" uid="uid://cda34o2jsd4cg" path="res://Art/PlantCreatureStates/PlantCreatureFlee.png" id="2_am8dc"]
 [ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_4lxjk"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="4_7qjkt"]
 [ext_resource type="Script" uid="uid://bkvrfqmqmj8br" path="res://Scripts/StateMachine/Actions/a_move_random_direction.gd" id="5_3156k"]
@@ -23,7 +23,7 @@
 [node name="PlantCreatureStateFlee" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_g2qt4")
 simple_name = &"Flee"
-sprite = ExtResource("2_tenxy")
+sprite = ExtResource("2_am8dc")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/AMoveRandomDirection")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
 transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFlee")]
@@ -59,7 +59,7 @@ metadata/_custom_type_script = "uid://dq3xm51g267od"
 
 [node name="AChangeFeistyDelta" type="Node" parent="UpdateActions"]
 script = ExtResource("7_tb4gp")
-amount = 0.48
+amount = 0.24
 scalable = true
 metadata/_custom_type_script = "uid://c544yfe00a2d1"
 

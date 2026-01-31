@@ -17,3 +17,6 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 				body.is_poisoned = true
 				body.poison_ticks_remaining = 5
 				body.poison_damage_timer = 1
+	if blackboard is BlackboardPlantCreature:
+		blackboard.has_poison = false
+		blackboard.poison_timer = blackboard.poison_timer_max
