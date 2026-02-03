@@ -88,3 +88,6 @@ func _ready() -> void:
 	found_states["PlantCreature"]["Drop Food"] = 0
 	found_states["PlantCreature"]["Poison"] = 0
 	found_states["PlantCreature"]["Flee"] = 0
+
+func get_state_found(creature_name: StringName, state_name: StringName) -> bool:
+	return (found_states[creature_name][state_name] > 0)

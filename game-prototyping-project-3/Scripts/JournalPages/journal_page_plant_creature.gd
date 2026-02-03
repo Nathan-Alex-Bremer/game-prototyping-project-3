@@ -8,6 +8,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Wander":
 			if times_found == 1:
 				$StateWander.text = "- Moves very slowly. (1/3)"
+				$StateWander.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 15:
@@ -19,6 +20,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Idle":
 			if times_found == 1:
 				$StateIdle.text = "- Brown in color, covered in dense foliage. (1/3)"
+				$StateIdle.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 15:
@@ -30,6 +32,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Photosynthesize":
 			if times_found == 1:
 				$StatePhotosynthesize.text = "- Occasionally sits still to absorb sunlight. (1/3)"
+				$StatePhotosynthesize.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -41,6 +44,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Rest":
 			if times_found == 1:
 				$StateRest.text = "- Occasionally falls asleep. (1/3)"
+				$StateRest.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -52,6 +56,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Pet":
 			if times_found == 1:
 				$StatePet.text = "- Their head is fuzzy, covered in short hairs. (1/3)"
+				$StatePet.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -63,6 +68,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Annoyed":
 			if times_found == 1:
 				$StatePoke.text = "- Becomes startled when poked. (1/3)"
+				$StatePoke.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -74,6 +80,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Play":
 			if times_found == 1:
 				$StatePlay.text = "- Will occasionally flap their antennae wildly. (1/3)"
+				$StatePlay.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -85,6 +92,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Drop Food":
 			if times_found == 1:
 				$StateDropFood.text = "- The fruit on their body falls off when ripe. (1/3)"
+				$StateDropFood.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -96,6 +104,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Poison":
 			if times_found == 1:
 				$StatePoison.text = "- When attacked, shakes wildly to scare off predators. (1/3)"
+				$StatePoison.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -107,6 +116,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Flee":
 			if times_found == 1:
 				$StateFlee.text = "- Flees when attacked. (1/3)"
+				$StateFlee.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:

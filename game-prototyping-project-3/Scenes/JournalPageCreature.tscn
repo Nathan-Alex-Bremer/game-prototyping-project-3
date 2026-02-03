@@ -36,7 +36,7 @@ offset_bottom = 93.0
 text = "Progress: 0%"
 
 [node name="StateWander" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 160.0
@@ -45,7 +45,7 @@ offset_bottom = 183.0
 text = "- (LOCKED: Capture the \"Wander\" State!)"
 
 [node name="StateIdle" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 116.0
@@ -54,7 +54,7 @@ offset_bottom = 139.0
 text = "- (LOCKED: Capture the \"Idle\" State!)"
 
 [node name="StateEat" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 206.0
@@ -63,7 +63,7 @@ offset_bottom = 229.0
 text = "- (LOCKED: Capture the \"Eat\" State!)"
 
 [node name="StateRest" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 246.0
@@ -72,7 +72,7 @@ offset_bottom = 269.0
 text = "- (LOCKED: Capture the \"Rest\" State!)"
 
 [node name="StatePet" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 296.0
@@ -81,7 +81,7 @@ offset_bottom = 319.0
 text = "- (LOCKED: Capture the \"Pet\" State!)"
 
 [node name="StatePoke" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 341.0
@@ -90,7 +90,7 @@ offset_bottom = 364.0
 text = "- (LOCKED: Capture the \"Annoyed\" State!)"
 
 [node name="StatePlay" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 386.0
@@ -99,7 +99,7 @@ offset_bottom = 409.0
 text = "- (LOCKED: Capture the \"Play\" State!)"
 
 [node name="StateChase" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 435.0
@@ -108,7 +108,7 @@ offset_bottom = 458.0
 text = "- (LOCKED: Capture the \"Chase\" State!)"
 
 [node name="StateAttack" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 480.0
@@ -117,7 +117,7 @@ offset_bottom = 503.0
 text = "- (LOCKED: Capture the \"Attack\" State!)"
 
 [node name="StateFlee" type="Label" parent="."]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 532.0

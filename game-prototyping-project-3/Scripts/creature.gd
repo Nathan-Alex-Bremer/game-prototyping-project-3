@@ -199,6 +199,10 @@ func get_is_visible() -> bool:
 func on_state_changed(new_state: MonsterState) -> void:
 	# Update label to display "simple name" of new state
 	$StateLabel.text = new_state.simple_name
+	if GameState.get_state_found(type, new_state.simple_name):
+		$StateLabel.modulate = Color(1.0, 0.8, 0.1, 1.0)
+	else:
+		$StateLabel.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	$Sprite2D.texture = new_state.sprite
 
 func change_stats_visible(value: bool) -> void:
