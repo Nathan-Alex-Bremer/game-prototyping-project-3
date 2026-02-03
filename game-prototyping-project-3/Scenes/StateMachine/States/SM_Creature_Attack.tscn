@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b0loa2kreta3t"]
+[gd_scene load_steps=17 format=3 uid="uid://b0loa2kreta3t"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_4k8hv"]
 [ext_resource type="Texture2D" uid="uid://bhd6i8h3oq6c2" path="res://Art/CreatureStates/CreatureAttack.png" id="2_t6bby"]
@@ -14,6 +14,8 @@
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="12_2lpb0"]
 [ext_resource type="Script" uid="uid://b58hvb6gow88r" path="res://Scripts/StateMachine/Conditions/c_no_target.gd" id="12_igdka"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="13_igdka"]
+[ext_resource type="Script" uid="uid://0sj2j2ombtdx" path="res://Scripts/StateMachine/Conditions/c_found_signal.gd" id="15_f1i26"]
+[ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="16_pdrjq"]
 
 [node name="PredatorStateAttack" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_4k8hv")
@@ -22,7 +24,7 @@ sprite = ExtResource("2_t6bby")
 enter_actions = [NodePath("EnterActions/AAttack"), NodePath("EnterActions/ASetWaitTimeRandom")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToChase")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToChase")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -124,3 +126,29 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("12_2lpb0")
 metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="TransitionToFleeTarget" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("11_bnwc8")
+conditions = [NodePath("CFoundSignal"), NodePath("CFeistyLessThan")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
+next_state = &"creaturestateflee"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CFoundSignal" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("15_f1i26")
+signal_val = &"intimidate"
+metadata/_custom_type_script = "uid://0sj2j2ombtdx"
+
+[node name="CFeistyLessThan" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("11_2xrl6")
+val = 75.0
+metadata/_custom_type_script = "uid://b4bqfg4e2sx4l"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("13_igdka")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("16_pdrjq")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"

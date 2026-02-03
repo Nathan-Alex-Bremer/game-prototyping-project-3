@@ -100,7 +100,7 @@ metadata/_custom_type_script = "uid://b3sg64keruhqm"
 
 [node name="CFeistyGreaterThan" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("13_ycy7o")
-val = 40.0
+val = 30.0
 metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CHitPointsGreaterThan" type="Node" parent="Transitions/TransitionToChase"]

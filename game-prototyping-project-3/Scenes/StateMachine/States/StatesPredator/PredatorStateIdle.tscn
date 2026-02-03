@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cbybqmqbu5axx"]
+[gd_scene load_steps=24 format=3 uid="uid://cbybqmqbu5axx"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_fqmx2"]
 [ext_resource type="Texture2D" uid="uid://dbqj5fgvplewt" path="res://Art/PredatorStates/PredatorIdle.png" id="2_obe8g"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" uid="uid://cu0y8uu17g6b0" path="res://Scripts/StateMachine/Conditions/c_food_lessthan.gd" id="16_ilojp"]
 [ext_resource type="Script" uid="uid://bbyxbf84ncqh6" path="res://Scripts/StateMachine/Conditions/c_tired_greaterthan.gd" id="17_3fnm6"]
 [ext_resource type="Script" uid="uid://ce671q23igc4e" path="res://Scripts/StateMachine/Conditions/c_partner_within_distance.gd" id="17_obe8g"]
+[ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="17_oy4h0"]
 [ext_resource type="Script" uid="uid://du1nn5qv5kklj" path="res://Scripts/StateMachine/Conditions/c_wants_to_play.gd" id="18_oy4h0"]
 [ext_resource type="Script" uid="uid://bfm4dd0jdiam8" path="res://Scripts/StateMachine/Conditions/c_partner_wants_to_play.gd" id="19_s4ini"]
 
@@ -113,9 +114,10 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 script = ExtResource("14_npieb")
 metadata/_custom_type_script = "uid://bs4mi7jrtrlhv"
 
-[node name="TransitionToFleeTarget" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+[node name="TransitionToFleeTarget" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("11_5ftbw")
 conditions = [NodePath("CFoundSignal"), NodePath("CFeistyLessThan")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
 next_state = &"predatorstatefleetarget"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -126,8 +128,17 @@ metadata/_custom_type_script = "uid://0sj2j2ombtdx"
 
 [node name="CFeistyLessThan" type="Node" parent="Transitions/TransitionToFleeTarget"]
 script = ExtResource("16_eqktl")
-val = 50.0
+val = 75.0
 metadata/_custom_type_script = "uid://b4bqfg4e2sx4l"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("17_oy4h0")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("5_f3lj2")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
 
 [node name="TransitionToPlay" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("11_5ftbw")

@@ -1,0 +1,22 @@
+extends Action
+
+class_name APoisonAttack
+
+@export var damage: float = 10
+
+# Function to be implemented by Actions
+func act(blackboard: Blackboard, owning_creature: Creature, owning_state: MonsterState, _delta: float) -> void:
+	var found_bodies = owning_creature.eat_radius.get_overlapping_bodies()
+	
+	# Attack nearby creature
+	# Lowers target HP, adds flag to target blackboard to make them run, sets self as target's attacker, sets self as attacking
+	# Afterwards, return to chasing if feisty is still too high
+	for body in found_bodies:
+		if body.is_in_group("creature") and body != owning_creature:
+			if body is Creature:
+				body.is_poisoned = true
+				body.poison_ticks_remaining = 5
+				body.poison_damage_timer = 1
+	if blackboard is BlackboardPlantCreature:
+		blackboard.has_poison = false
+		blackboard.poison_timer = blackboard.poison_timer_max

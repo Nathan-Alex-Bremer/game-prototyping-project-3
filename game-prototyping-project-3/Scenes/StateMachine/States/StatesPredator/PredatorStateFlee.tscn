@@ -112,10 +112,14 @@ metadata/_custom_type_script = "uid://bv6ao3kgm7fga"
 
 [node name="TransitionToIdle2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("10_vwwte")
-conditions = [NodePath("CNotAttackerWithinDistance")]
+conditions = [NodePath("CWaitTimeZero"), NodePath("CNotAttackerWithinDistance")]
 actions = [NodePath("ASetAttackerNull")]
 next_state = &"predatorstateidle"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToIdle2"]
+script = ExtResource("17_lr1o1")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
 
 [node name="CNotAttackerWithinDistance" type="Node" parent="Transitions/TransitionToIdle2" node_paths=PackedStringArray("base_condition")]
 script = ExtResource("15_gbc5y")
