@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=22 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
@@ -20,6 +20,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onri8"]
+radius = 56.0357
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
 radius = 342.0
@@ -43,6 +46,12 @@ texture = ExtResource("5_2h46t")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 15)
 shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="SelectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectRadius"]
+shape = SubResource("CircleShape2D_onri8")
 
 [node name="DetectRadius" type="Area2D" parent="."]
 unique_name_in_owner = true

@@ -54,6 +54,13 @@ func _process(delta: float) -> void:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
 			GameState.INTERACT_MODES.POKE:
+				if GameState.num_found_states > 1:
+					GameState.mode = GameState.INTERACT_MODES.DRAG
+					print("New action mode: Drag")
+				else:
+					GameState.mode = GameState.INTERACT_MODES.CHECK
+					print("New action mode: Check")
+			GameState.INTERACT_MODES.DRAG:
 				GameState.mode = GameState.INTERACT_MODES.CHECK
 				print("New action mode: Check")
 		
@@ -150,6 +157,8 @@ func change_mode(mode: int) -> void:
 			$InteractModeLabel.text = interact_mode_text + "Pet"
 		GameState.INTERACT_MODES.POKE:
 			$InteractModeLabel.text = interact_mode_text + "Poke"
+		GameState.INTERACT_MODES.DRAG:
+			$InteractModeLabel.text = interact_mode_text + "Drag"
 
 func update_message(message: String) -> void:
 	$UpdateLabel.text = message

@@ -30,6 +30,9 @@ var state_machine: StateMachine
 
 var time_passed: float = 0
 
+# Dragging
+var is_dragging: bool = false
+
 # This should not be necessary!
 @export var blackboard: Blackboard
 
@@ -97,6 +100,8 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	# move_and_slide()
+	if is_dragging:
+		position = get_global_mouse_position()
 	
 	var collision_info = move_and_collide(velocity * delta)
 	if collision_info:
@@ -199,7 +204,9 @@ func get_is_visible() -> bool:
 func on_state_changed(new_state: MonsterState) -> void:
 	# Update label to display "simple name" of new state
 	$StateLabel.text = new_state.simple_name
-	if GameState.get_state_found(type, new_state.simple_name):
+	if not GameState.get_state_in_journal(type, new_state.simple_name):
+		$StateLabel.modulate = Color(0.8, 0.8, 0.8, 1.0)
+	elif GameState.get_state_found(type, new_state.simple_name):
 		$StateLabel.modulate = Color(1.0, 0.8, 0.1, 1.0)
 	else:
 		$StateLabel.modulate = Color(1.0, 1.0, 1.0, 1.0)
@@ -236,32 +243,46 @@ func spawn_food_nearby() -> void:
 # Input
 # Ew ew ew
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.pressed:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		print("Pressed")
 		
-		if GameState.mode == GameState.INTERACT_MODES.CHECK:
-			print("Mode is check")
-			GameState.selected_creature = self
-			SelectedForCheck.emit()
-			
-		if GameState.mode == GameState.INTERACT_MODES.PET:
-			print("Mode is pet")
-			# Prevent petting before three states are found
-			if GameState.num_found_states < 1:
-				print("Not enough points!")
-				return
-			
-			blackboard.is_pet = true
+		# Hacky failsafe to ensure switching 
+		# TODO: Find a better way to do this so a ceature stops being dragged if the player isn't in drag mode!
+		if GameState.mode != GameState.INTERACT_MODES.DRAG:
+			is_dragging = false
 		
-		if GameState.mode == GameState.INTERACT_MODES.POKE:
-			print("Mode is poke")
-			# Prevent petting before three states are found
-			if GameState.num_found_states < 1:
-				print("Not enough points!")
-				return
+		match GameState.mode:
 			
-			blackboard.is_poked = true
-
+			GameState.INTERACT_MODES.CHECK:
+				if event.pressed:
+					print("Mode is check")
+					GameState.selected_creature = self
+					SelectedForCheck.emit()
+				
+			GameState.INTERACT_MODES.PET:
+				if event.pressed:
+					print("Mode is pet")
+					# Prevent petting before three states are found
+					if GameState.num_found_states < 1:
+						print("Not enough points!")
+						return
+					
+					blackboard.is_pet = true
+			
+			GameState.INTERACT_MODES.POKE:
+				if event.pressed:
+					print("Mode is poke")
+					# Prevent petting before three states are found
+					if GameState.num_found_states < 1:
+						print("Not enough points!")
+						return
+					
+					blackboard.is_poked = true
+			
+			GameState.INTERACT_MODES.DRAG:
+				print("Mode is drag")
+				is_dragging = event.is_pressed()
+			
 
 func _on_detect_radius_area_entered(area: Area2D) -> void:
 	if area.is_in_group("food"):

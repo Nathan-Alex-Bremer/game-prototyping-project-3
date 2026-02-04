@@ -34,7 +34,8 @@ enum INTERACT_MODES {
 	CHECK,
 	PLACE_FOOD,
 	PET,
-	POKE
+	POKE,
+	DRAG
 }
 var mode = INTERACT_MODES.CHECK
 
@@ -89,5 +90,8 @@ func _ready() -> void:
 	found_states["PlantCreature"]["Poison"] = 0
 	found_states["PlantCreature"]["Flee"] = 0
 
+func get_state_in_journal(creature_name: StringName, state_name: StringName) -> bool:
+	return (found_states[creature_name].has(state_name))
+	
 func get_state_found(creature_name: StringName, state_name: StringName) -> bool:
 	return (found_states[creature_name][state_name] > 0)
