@@ -228,7 +228,7 @@ func deal_damage(attacker: Creature, damage: int) -> void:
 	blackboard.current_attacker = attacker
 
 func poison_damage() -> void:
-	change_hit_points(-5)
+	change_hit_points(-10) # TODO: Maybe make this per-creature
 	change_tired(5, false)
 	if poison_ticks_remaining > 0:
 		poison_ticks_remaining -= 1

@@ -5,6 +5,8 @@ class_name MonsterStateOld
 @export var blackboard: Blackboard
 @export var owning_creature: Creature
 @export var sprite: Texture2D
+@export var alt_sprite: Texture2D
+@export var alt_sprite_2: Texture2D
 
 # Useful variables
 # var move_direction: Vector2

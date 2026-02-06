@@ -38,7 +38,7 @@ metadata/_custom_type_script = "uid://csf0oi2tevhan"
 
 [node name="AChangeHitPoints" type="Node" parent="EnterActions"]
 script = ExtResource("7_flvhw")
-amount = 25.0
+amount = 15.0
 metadata/_custom_type_script = "uid://bm6y2q1t2tfem"
 
 [node name="ExitActions" type="Node" parent="."]

@@ -7,7 +7,7 @@ class_name BlackboardPlantCreature
 # Poison
 var has_poison: bool = true
 var poison_timer: float = 0
-@export var poison_timer_max: float = 20
+@export var poison_timer_max: float = 30
 
 # Food
 var has_food: bool = false

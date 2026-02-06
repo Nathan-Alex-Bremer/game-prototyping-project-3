@@ -15,7 +15,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StateWander.text = "- Only moves when necessary, because of their small, stubby legs. (2/3)"
 				progress += 1
 			if times_found == 30:
-				$StateWander.text = "- To conserve energy, they only move when headed to a sunnier location. (3/3)"
+				$StateWander.text = "- To conserve energy, they only move when needed. (3/3)"
 				progress += 1
 		"Idle":
 			if times_found == 1:
@@ -27,7 +27,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StateIdle.text = "- Their body is covered in a thick bush that grows fruits. (2/3)"
 				progress += 1
 			if times_found == 30:
-				$StateIdle.text = "- Has a symbiotic relationship with their plant cover, which generates energy for them. (3/3)"
+				$StateIdle.text = "- Has a symbiotic relationship with their bush cover, which generates energy. (3/3)"
 				progress += 1
 		"Photosynthesize":
 			if times_found == 1:
@@ -39,7 +39,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StatePhotosynthesize.text = "- The plant on their back glows when absorbing sunlight. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePhotosynthesize.text = "- Because the plant growing on them creates energy, they rarely eat. (3/3)"
+				$StatePhotosynthesize.text = "- They rarely need to eat, but they can't photosynthesize when tired. (3/3)"
 				progress += 1
 		"Rest":
 			if times_found == 1:
@@ -60,10 +60,10 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePet.text = "- Their body is fuzzy, but the bush around their body makes it hard to reach. (2/3)"
+				$StatePet.text = "- Being pet seems to make them less stressed. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePet.text = "- Enjoy being pet on the head, but sensitive to their bush being disturbed. (3/3)"
+				$StatePet.text = "- Being pet relieves stress, causing them to  (3/3)"
 				progress += 1
 		"Annoyed":
 			if times_found == 1:
@@ -72,22 +72,22 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePoke.text = "- Surprisingly, they react more to their bush being poked than their head. (2/3)"
+				$StatePoke.text = "- When poked, their fruit will drop off if ripe. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePoke.text = "- Difficult to anger, they instead puff up when bothered to protect their fruit. (3/3)"
+				$StatePoke.text = "- When poked, their fruit will drop off if ripe. Becoming too annoyed makes them leave. (3/3)"
 				progress += 1
 		"Play":
 			if times_found == 1:
-				$StatePlay.text = "- Will occasionally flap their antennae wildly. (1/3)"
+				$StatePlay.text = "- Will play with friendly creatures by rustling their bush and flapping their antennae. (1/3)"
 				$StatePlay.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePlay.text = "- Will play with friendly creatures by rustling their bush and flapping their antennae. (2/3)"
+				$StatePlay.text = "- Relieves stress by playing with friendly creatures, flapping their antennae when happy. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePlay.text = "- Relieves stress by playing with friendly creatures, flapping their antennae when happy. (3/3)"
+				$StatePlay.text = "- They need to play regularly or they will become unhealthy, but they are lazy. (3/3)"
 				progress += 1
 		"Drop Food":
 			if times_found == 1:
@@ -99,31 +99,31 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StateDropFood.text = "- Will shake to cause ripened fruit to fall off their body. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StateDropFood.text = "- The fruit they drop from their body allows their seeds to spread when eaten. (3/3)"
+				$StateDropFood.text = "- The fruit they drop from their body is eaten by many other creatures. (3/3)"
 				progress += 1
 		"Poison":
 			if times_found == 1:
-				$StatePoison.text = "- When attacked, shakes wildly to scare off predators. (1/3)"
+				$StatePoison.text = "- Shakes wildly to scatter a poisonous dust when threatened. (1/3)"
 				$StatePoison.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePoison.text = "- Shakes wildly to scatter a poisonous dust when threatened. (2/3)"
+				$StatePoison.text = "- The toxic dust they produce to defend themselves will deter almost any predator. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePoison.text = "- The toxic dust they produce to defend themselves will deter almost any predator. (3/3)"
+				$StatePoison.text = "- Scatters poison dust to deter predators, but it takes some time to regrow. (3/3)"
 				progress += 1
 		"Flee":
 			if times_found == 1:
-				$StateFlee.text = "- Flees when attacked. (1/3)"
+				$StateFlee.text = "- Runs away when attacked and out of poison. (1/3)"
 				$StateFlee.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateFlee.text = "- Will attempt to run away when attacked and out of poison. (2/3)"
+				$StateFlee.text = "- When left defenseless, they will attempt to run away, but they are slow. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StateFlee.text = "- When left defenseless, they will attempt to run away, but they are slow. (3/3)"
+				$StateFlee.text = "- Runs away when out of poison dust, to recover health through photosynthesis. (3/3)"
 				progress += 1
 	
 	# This is such a gross way to do it

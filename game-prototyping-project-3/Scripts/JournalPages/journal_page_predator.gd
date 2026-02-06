@@ -12,10 +12,10 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 15:
-				$StateWander.text = "- Slowly, peacefully patrols the area aroung their home. (2/3)"
+				$StateWander.text = "- Patrols constantly when hungry or annoyed. (2/3)"
 				progress += 1
 			if times_found == 30:
-				$StateWander.text = "- They spend the bulk of their day patrolling for threats and food. (3/3)"
+				$StateWander.text = "- Will constantly patrol, but will stick close to their partner. (3/3)"
 				progress += 1
 		"Idle":
 			if times_found == 1:
@@ -36,14 +36,14 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateAttackEat.text = "- Attacks smaller Creatures to absorb their energy."
+				$StateAttackEat.text = "- Prefers hunting smaller creatures to eating fruit."
 				progress += 1
 			if times_found == 10:
-				$StateAttackEat.text = "- Tends to hunt alone, searching for smaller Creatures to absorb energy from. (3/3)"
+				$StateAttackEat.text = "- Tends to hunt alone, but their partner will step in if the prey fights back. (3/3)"
 				progress += 1
 		"Rest":
 			if times_found == 1:
-				$StateRest.text = "- Regularly takes naps. (1/3)"
+				$StateRest.text = "- Regularly takes naps when tired. (1/3)"
 				$StateRest.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
@@ -63,7 +63,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StatePet.text = "- Despite appearances, they become friendly when pet. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePet.text = "- Greatly enjoy being pet, especially on the head, and will complain when petting stops. (3/3)"
+				$StatePet.text = "- Greatly enjoy being pet, and will become much calmer afterward. (3/3)"
 				progress += 1
 		"Annoyed":
 			if times_found == 1:
@@ -75,52 +75,52 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StatePoke.text = "- Short-tempered, and will flare their tails when bothered. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePoke.text = "- Easily annoyed by poked, causing their tail to heat up dramatically. (3/3)"
+				$StatePoke.text = "- Easily annoyed by pokes, seeking fights and flaring their tail. (3/3)"
 				progress += 1
 		"Play":
 			if times_found == 1:
-				$StatePlay.text = "- Occasionally laughs to relieve stress. (1/3)"
+				$StatePlay.text = "- Enjoys playing with their partner. (1/3)"
 				$StatePlay.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePlay.text = "- Players by jumping around and laughing with others of their species. (2/3)"
+				$StatePlay.text = "- Will only ever play with their partner, laughing and jumping around. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePlay.text = "- Will only ever play with their partner, laughing and jumping around. (3/3)"
+				$StatePlay.text = "- Plays with their partner to relieve stress, but will sometimes scare them off. (3/3)"
 				progress += 1
 		"Eat":
 			if times_found == 1:
-				$StateEat.text = "- Will occasionally eat fruit. (1/3)"
+				$StateEat.text = "- Will occasionally eat fruit if especially hungry. (1/3)"
 				$StateEat.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateEat.text = "- While they prefer meat, they will occasionally eat fruit, as well. (2/3)"
+				$StateEat.text = "- While they prefer meat, they will eat fruit if there is no other option. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StateEat.text = "- While they prefer meat, they will eat fruit if needed, and seem to enjoy it. (3/3)"
+				$StateEat.text = "- While they prefer meat, they will also eat fruit, which fills them up more. (3/3)"
 				progress += 1
 		"Attack":
 			if times_found == 1:
-				$StateAttack.text = "- Attacks with sharp fangs. (1/3)"
+				$StateAttack.text = "- Attacks with sharp fangs when annoyed. (1/3)"
 				$StateAttack.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateAttack.text = "- Primarily fight using their fangs, but also use claws and fire breath. (2/3)"
+				$StateAttack.text = "- When attacked, they will fight back alongside their partner. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StateAttack.text = "- Using their fangs, claws, and fire, they often fight alongside their partner. (3/3)"
+				$StateAttack.text = "- Fights alongside a partner if able, but will flee if injured. (3/3)"
 				progress += 1
 		"Intimidate":
 			if times_found == 1:
-				$StateIntimidate.text = "- Occasionally puff out their fur and flare their tail. (1/3)"
+				$StateIntimidate.text = "- Puff up to intimidate anything nearby when stressed. (1/3)"
 				$StateIntimidate.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateIntimidate.text = "- Puff up to intimidate anything nearby when stressed. (2/3)"
+				$StateIntimidate.text = "- Will attempt to intimidate nearby creatures in order to de-stress. (2/3)"
 				progress += 1
 			if times_found == 10:
 				$StateIntimidate.text = "- When irritated, will puff up and flare their tail - this can even scare their partner! (3/3)"

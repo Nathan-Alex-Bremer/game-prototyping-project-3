@@ -17,21 +17,21 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StateWander.text = "- Tends to wander aimlessly. Rarely, if ever, runs. (2/3)"
 				progress += 1
 			if times_found == 30:
-				$StateWander.text = "- When not looking for food, will leisurely patrol their home area. (3/3)"
+				$StateWander.text = "- Will wander aimlessly, often looking for food or friends. (3/3)"
 				progress += 1
 		"Idle":
 			if times_found == 1:
-				$StateIdle.text = "- Off-white in color. (1/3)"
+				$StateIdle.text = "- Pale in color. (1/3)"
 				$StateIdle.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				print("Progress:" + str(progress))
 				print("Total States: " + str(total_states))
 				progress += 1
 				found_states_creature += 1
 			if times_found == 15:
-				$StateIdle.text = "- Off-white in color. Around 1’6” in length. (2/3)"
+				$StateIdle.text = "- Pale in color, but can come in many hues. (2/3)"
 				progress += 1
 			if times_found == 30:
-				$StateIdle.text = "- Off-white in color. Around 1’6” in length. Large, emotive ears. (3/3)"
+				$StateIdle.text = "- Pale in color, but can come in many hues. Large, emotive ears. (3/3)"
 				progress += 1
 		"Eat":
 			if times_found == 1:
@@ -67,7 +67,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StatePet.text = "- Being pet seems to calm them down. They enjoy it a lot. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePet.text = "- Enjoys being pet, particularly being scratched behind the ears. (3/3)"
+				$StatePet.text = "- Being pet calms them down and also seems to make them tired. (3/3)"
 				progress += 1
 		"Annoyed":
 			if times_found == 1:
@@ -79,7 +79,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StatePoke.text = "- Struggles to sit still when agitated. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePoke.text = "- Shockingly short-tempered, even a couple of pokes will whip them into a frenzy. (3/3)"
+				$StatePoke.text = "- Even a couple pokes will whip them into a frenzy, causing them to look for fights. (3/3)"
 				progress += 1
 		"Play":
 			if times_found == 1:
@@ -91,7 +91,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StatePlay.text = "- Jumping around with others seems to lower their stress. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StatePlay.text = "- Will play with others of their species by jumping around and making squeaking noises. (3/3)"
+				$StatePlay.text = "- Will play with others of their species by jumping around, reducing stress. (3/3)"
 				progress += 1
 		"Chase":
 			if times_found == 1:
@@ -103,7 +103,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StateChase.text = "- When agitated, will often seek out and attack others of their kind. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StateChase.text = "- When agitated, will seek out and attack others of their kind until calming down. (3/3)"
+				$StateChase.text = "- When agitated, will chase down others of their kind  (3/3)"
 				progress += 1
 		"Attack":
 			if times_found == 1:
@@ -112,22 +112,22 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateAttack.text = "- Fights using their sharp front teeth, strong enough to chew through wood! (2/3)"
+				$StateAttack.text = "- Fights using their sharp front teeth to defend themselves or pick fights. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StateAttack.text = "- With their sharp front teeth that can chew through wood, they nip at anything nearby. (3/3)"
+				$StateAttack.text = "- With their sharp front teeth, they can even scare off predators. (3/3)"
 				progress += 1
 		"Flee":
 			if times_found == 1:
-				$StateFlee.text = "- Flees when attacked. (1/3)"
+				$StateFlee.text = "- Runs around aimlessly when near predators. (1/3)"
 				$StateFlee.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateFlee.text = "- When attacked, tends to panic and run aimlessly. (2/3)"
+				$StateFlee.text = "- When attacked or near a predator, runs aimlessly until safe. (2/3)"
 				progress += 1
 			if times_found == 10:
-				$StateFlee.text = "- Will panic and run aimlessly when attacked, curling their tail and ears inward to protect them. (3/3)"
+				$StateFlee.text = "- Will panic and run aimlessly when threatened, unless they're particularly feisty. (3/3)"
 				progress += 1
 	
 	# This is such a gross way to do it

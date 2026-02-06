@@ -1,8 +1,8 @@
 extends Area2D
 class_name Food
 
-var hunger_restored: float = 50
-var health_restored: float = 25
+var hunger_restored: float = 25
+var health_restored: float = 15
 var active: bool = true
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

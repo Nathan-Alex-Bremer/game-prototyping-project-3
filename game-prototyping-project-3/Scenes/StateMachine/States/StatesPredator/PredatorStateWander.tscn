@@ -63,6 +63,9 @@ metadata/_custom_type_script = "uid://bkvrfqmqmj8br"
 
 [node name="ACalcWantsToPlay" type="Node" parent="EnterActions"]
 script = ExtResource("5_rcq4e")
+max_feisty = 50.0
+min_food = 50.0
+max_tired = 50.0
 metadata/_custom_type_script = "uid://qrhmyfalcev2"
 
 [node name="ASetTargetNull" type="Node" parent="EnterActions"]
