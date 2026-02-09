@@ -9,6 +9,7 @@ class_name Blackboard
 # Kind of awkward but better than checking for overlapping bodies every frame
 var seen_food: Array[Food]
 var seen_creatures: Array[Creature]
+var seen_hiding_places: Array[Bush] # TODO: Make this more generic
 
 # Waiting
 var wait_time: float = 0
@@ -27,7 +28,11 @@ var wants_to_play: bool = false
 var aggressive: bool = false
 var current_attacker: Creature
 var stunned: bool = false
+var hidden: bool = false
 
 # Signal
 var signal_type: StringName = ""
 var signal_sender: Node2D
+
+# Hiding
+var hiding_place: Bush # TODO: Maybe make this more generic

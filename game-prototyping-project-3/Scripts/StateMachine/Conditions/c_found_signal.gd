@@ -1,6 +1,7 @@
 extends Condition
 
 class_name CFoundSignal
+# For picking up on signals produced by other creatures
 
 @export var creature_types: Array[StringName]
 @export var signal_val: StringName

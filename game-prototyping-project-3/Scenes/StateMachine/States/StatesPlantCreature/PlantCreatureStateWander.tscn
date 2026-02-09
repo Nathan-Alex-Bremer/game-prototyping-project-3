@@ -233,6 +233,11 @@ script = ExtResource("20_25a24")
 val = 25.0
 metadata/_custom_type_script = "uid://cu0y8uu17g6b0"
 
+[node name="CTiredLessThan" type="Node" parent="Transitions/TransitionToPhotosynthesize"]
+script = ExtResource("27_kusbt")
+val = 50.0
+metadata/_custom_type_script = "uid://doj6vw6folsoh"
+
 [node name="TransitionToRest" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("11_unqmx")
 conditions = [NodePath("CTiredGreaterThan")]

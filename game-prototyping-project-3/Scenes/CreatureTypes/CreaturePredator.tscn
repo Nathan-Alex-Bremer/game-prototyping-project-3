@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bgt0jmsrkbjlg"]
+[gd_scene load_steps=30 format=3 uid="uid://bgt0jmsrkbjlg"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_44uhv"]
 [ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_nr7ar"]
@@ -22,6 +22,10 @@
 [ext_resource type="PackedScene" uid="uid://cpr2x3ygyvy3r" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateIntimidate.tscn" id="20_0djou"]
 [ext_resource type="PackedScene" uid="uid://doxgerahvki2j" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateMoveToPartner.tscn" id="21_csfjt"]
 [ext_resource type="PackedScene" uid="uid://diswhbaylv65b" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStatePartnership.tscn" id="22_b44g2"]
+[ext_resource type="PackedScene" uid="uid://cor3xpqr3hnbl" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateMoveToFoodLure.tscn" id="23_qpyy4"]
+[ext_resource type="PackedScene" uid="uid://dpxpeyjljv20y" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateSkulk.tscn" id="24_csfjt"]
+[ext_resource type="PackedScene" uid="uid://ggusogu663px" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateYawn.tscn" id="25_b44g2"]
+[ext_resource type="PackedScene" uid="uid://ecdfjbdt0eej" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateZoom.tscn" id="26_21gui"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -149,6 +153,22 @@ simple_name = &"Partnership"
 blackboard = NodePath("../BlackboardPredator")
 owning_creature = NodePath("../..")
 
+[node name="PredatorStateFoodLure" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("23_qpyy4")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateSkulk" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("24_csfjt")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateYawn" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("25_b44g2")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateZoom" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("26_21gui")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
 [node name="StateLabel" type="Label" parent="."]
 offset_left = -79.0
 offset_top = 73.0
@@ -211,3 +231,5 @@ scale = Vector2(3.2, 3.2)
 [connection signal="area_exited" from="DetectRadius" to="." method="_on_detect_radius_area_exited"]
 [connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
 [connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
+[connection signal="area_entered" from="EatRadius" to="." method="_on_eat_radius_area_entered"]
+[connection signal="area_exited" from="EatRadius" to="." method="_on_eat_radius_area_exited"]

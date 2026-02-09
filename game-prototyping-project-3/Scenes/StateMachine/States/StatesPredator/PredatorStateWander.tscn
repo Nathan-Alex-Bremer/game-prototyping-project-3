@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dxx8byponniv"]
+[gd_scene load_steps=41 format=3 uid="uid://dxx8byponniv"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_qmnik"]
 [ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_frj7y"]
@@ -6,7 +6,9 @@
 [ext_resource type="Script" uid="uid://bkvrfqmqmj8br" path="res://Scripts/StateMachine/Actions/a_move_random_direction.gd" id="4_kgn1m"]
 [ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="5_rcq4e"]
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="6_tlg8y"]
+[ext_resource type="Script" uid="uid://rvqvpujats8x" path="res://Scripts/StateMachine/Actions/a_conditional_sprite_change.gd" id="7_essif"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="7_yvg2n"]
+[ext_resource type="Texture2D" uid="uid://4taqhdgxj4x0" path="res://Art/PredatorStates/PredatorLookForFight.png" id="8_2t6pg"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="8_48xun"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="9_bqv2i"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="10_rbk8g"]
@@ -18,8 +20,6 @@
 [ext_resource type="Script" uid="uid://dcvi4361rf8t4" path="res://Scripts/StateMachine/Conditions/c_food_greaterthan.gd" id="18_fmpki"]
 [ext_resource type="Script" uid="uid://b4bqfg4e2sx4l" path="res://Scripts/StateMachine/Conditions/c_feisty_lessthan.gd" id="19_c44mq"]
 [ext_resource type="Script" uid="uid://cu0y8uu17g6b0" path="res://Scripts/StateMachine/Conditions/c_food_lessthan.gd" id="20_o7rb4"]
-[ext_resource type="Script" uid="uid://b2ckkfhqqqb8o" path="res://Scripts/StateMachine/Conditions/c_found_food.gd" id="21_rdop4"]
-[ext_resource type="Script" uid="uid://10lcrv8dx721" path="res://Scripts/StateMachine/Actions/a_set_target_food.gd" id="22_c6te7"]
 [ext_resource type="Script" uid="uid://d22jqfqjcw4hl" path="res://Scripts/StateMachine/Conditions/c_random_number.gd" id="22_fdfnt"]
 [ext_resource type="Script" uid="uid://dfynx3ugamgkv" path="res://Scripts/StateMachine/Conditions/c_feisty_greaterthan.gd" id="23_3xkl0"]
 [ext_resource type="Script" uid="uid://eprd3dqvhob1" path="res://Scripts/StateMachine/Conditions/c_found_creature.gd" id="24_kdpdr"]
@@ -39,6 +39,7 @@
 [ext_resource type="Script" uid="uid://dpb5jovlm0uq6" path="res://Scripts/StateMachine/Conditions/c_found_partnerless.gd" id="34_2t6pg"]
 [ext_resource type="Script" uid="uid://0sj2j2ombtdx" path="res://Scripts/StateMachine/Conditions/c_found_signal.gd" id="35_rbk8g"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="39_7klec"]
+[ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="40_essif"]
 
 [node name="PredatorStateWander" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_qmnik")
@@ -46,7 +47,7 @@ simple_name = &"Wander"
 sprite = ExtResource("2_frj7y")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToHunt"), NodePath("Transitions/TransitionToMoveToFood"), NodePath("Transitions/TransitionToIntimidate"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToMoveToPartner"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToIntimidate"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToMoveToPartner"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToSkulk"), NodePath("Transitions/TransitionToWander")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -71,6 +72,17 @@ metadata/_custom_type_script = "uid://qrhmyfalcev2"
 [node name="ASetTargetNull" type="Node" parent="EnterActions"]
 script = ExtResource("6_tlg8y")
 metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="AConditionalSpriteChange" type="Node" parent="EnterActions" node_paths=PackedStringArray("condition")]
+script = ExtResource("7_essif")
+condition = NodePath("CFeistyGreaterThan")
+new_sprite = ExtResource("8_2t6pg")
+metadata/_custom_type_script = "uid://rvqvpujats8x"
+
+[node name="CFeistyGreaterThan" type="Node" parent="EnterActions/AConditionalSpriteChange"]
+script = ExtResource("23_3xkl0")
+val = 50.0
+metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="ExitActions" type="Node" parent="."]
 
@@ -144,13 +156,28 @@ metadata/_custom_type_script = "uid://b3sg64keruhqm"
 
 [node name="CFoodGreaterThan" type="Node" parent="Transitions/TransitionToIdle"]
 script = ExtResource("18_fmpki")
-val = 25.0
+val = 50.0
 metadata/_custom_type_script = "uid://dcvi4361rf8t4"
 
 [node name="CFeistyLessThan" type="Node" parent="Transitions/TransitionToIdle"]
 script = ExtResource("19_c44mq")
 val = 60.0
 metadata/_custom_type_script = "uid://b4bqfg4e2sx4l"
+
+[node name="TransitionToSkulk" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_blht0")
+conditions = [NodePath("CWaitTimeZero")]
+next_state = &"predatorstatewander"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToSkulk"]
+script = ExtResource("15_essif")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="CFoodLessThan" type="Node" parent="Transitions/TransitionToSkulk"]
+script = ExtResource("20_o7rb4")
+val = 50.0
+metadata/_custom_type_script = "uid://cu0y8uu17g6b0"
 
 [node name="TransitionToWander" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("11_blht0")
@@ -161,48 +188,6 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToWander"]
 script = ExtResource("15_essif")
 metadata/_custom_type_script = "uid://b3sg64keruhqm"
-
-[node name="TransitionToHunt" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
-script = ExtResource("11_blht0")
-conditions = [NodePath("CFoodLessThan"), NodePath("CFoundCreature")]
-actions = [NodePath("ASetTargetCreature")]
-next_state = &"predatorstatehunt"
-metadata/_custom_type_script = "uid://cmse6ha62ltgm"
-
-[node name="CFoodLessThan" type="Node" parent="Transitions/TransitionToHunt"]
-script = ExtResource("20_o7rb4")
-val = 40.0
-metadata/_custom_type_script = "uid://cu0y8uu17g6b0"
-
-[node name="CFoundCreature" type="Node" parent="Transitions/TransitionToHunt"]
-script = ExtResource("24_kdpdr")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature"])
-metadata/_custom_type_script = "uid://eprd3dqvhob1"
-
-[node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToHunt"]
-script = ExtResource("25_m3xcu")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature"])
-metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
-
-[node name="TransitionToMoveToFood" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
-script = ExtResource("11_blht0")
-conditions = [NodePath("CFoodLessThan"), NodePath("CFoundFood")]
-actions = [NodePath("ASetTargetFood")]
-next_state = &"predatorstatemovetofood"
-metadata/_custom_type_script = "uid://cmse6ha62ltgm"
-
-[node name="CFoodLessThan" type="Node" parent="Transitions/TransitionToMoveToFood"]
-script = ExtResource("20_o7rb4")
-val = 20.0
-metadata/_custom_type_script = "uid://cu0y8uu17g6b0"
-
-[node name="CFoundFood" type="Node" parent="Transitions/TransitionToMoveToFood"]
-script = ExtResource("21_rdop4")
-metadata/_custom_type_script = "uid://b2ckkfhqqqb8o"
-
-[node name="ASetTargetFood" type="Node" parent="Transitions/TransitionToMoveToFood"]
-script = ExtResource("22_c6te7")
-metadata/_custom_type_script = "uid://10lcrv8dx721"
 
 [node name="TransitionToIntimidate" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("11_blht0")
@@ -233,7 +218,7 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CFeistyGreaterThan" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("23_3xkl0")
-val = 60.0
+val = 50.0
 metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CFoundCreature" type="Node" parent="Transitions/TransitionToChase"]
@@ -405,3 +390,19 @@ metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 [node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget"]
 script = ExtResource("6_tlg8y")
 metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="TransitionToFoodLure" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("11_blht0")
+conditions = [NodePath("CFoundFoodLure")]
+actions = [NodePath("ASetAggressive")]
+next_state = &"predatorstatefoodlure"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToFoodLure"]
+script = ExtResource("39_7klec")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
+script = ExtResource("40_essif")
+metadata/_custom_type_script = "uid://7r0ielccdd6i"

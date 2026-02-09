@@ -1,6 +1,6 @@
-[gd_scene load_steps=20 format=3 uid="uid://br57gprheuddm"]
+[gd_scene load_steps=25 format=3 uid="uid://br57gprheuddm"]
 
-[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_b4xir"]
+[ext_resource type="Script" uid="uid://cbt8jqras72ro" path="res://Scripts/creature_plant.gd" id="1_o875t"]
 [ext_resource type="Texture2D" uid="uid://bma5cnqup6eas" path="res://Art/PlantCreatureStates/PlantCreatureWander.png" id="2_hbn7x"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_kl0p8"]
 [ext_resource type="Script" uid="uid://bmaobd7m57ure" path="res://Scripts/StateMachine/blackboard_plantcreature.gd" id="4_hbn7x"]
@@ -16,6 +16,11 @@
 [ext_resource type="PackedScene" uid="uid://d3ql6x68qeqa6" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateStunned.tscn" id="13_r1s0l"]
 [ext_resource type="PackedScene" uid="uid://vbgnc2jnptoh" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateWander.tscn" id="14_01x8t"]
 [ext_resource type="PackedScene" uid="uid://2rf5lr5cwqg" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureDropFood.tscn" id="15_01ugy"]
+[ext_resource type="PackedScene" uid="uid://c8xo7qd5r3khu" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateSneeze.tscn" id="17_gbck6"]
+[ext_resource type="Texture2D" uid="uid://bcuoob5vpmjr2" path="res://Art/PlantCreatureStates/PlantCreaturePoisonOverlay.png" id="17_o875t"]
+[ext_resource type="PackedScene" uid="uid://jkx22iulgu8q" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateStressed.tscn" id="18_r1s0l"]
+[ext_resource type="Texture2D" uid="uid://cjxlhvxnt1crj" path="res://Art/PlantCreatureStates/PlantCreatureFruitOverlay.png" id="18_tspvq"]
+[ext_resource type="PackedScene" uid="uid://2a11sfkq4wgy" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateRoll.tscn" id="19_01x8t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -26,17 +31,20 @@ radius = 271.002
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
 radius = 86.0523
 
-[node name="CreaturePlantCreature" type="CharacterBody2D" node_paths=PackedStringArray("blackboard") groups=["creature"]]
+[node name="CreaturePlantCreature" type="CharacterBody2D" node_paths=PackedStringArray("poison_sprite", "fruit_sprite", "blackboard") groups=["creature"]]
 z_index = 1
 collision_mask = 2
 input_pickable = true
-script = ExtResource("1_b4xir")
+script = ExtResource("1_o875t")
+poison_sprite = NodePath("PoisonSprite")
+fruit_sprite = NodePath("FruitSprite")
 type = &"PlantCreature"
 hit_points = 120
 move_speed = 30.0
 friend_types = Array[StringName]([&"PlantCreature", &"Creature"])
 predator_types = Array[StringName]([&"Predator"])
 blackboard = NodePath("StateMachine/BlackboardPlantCreature")
+metadata/_custom_type_script = "uid://cbt8jqras72ro"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_hbn7x")
@@ -111,6 +119,18 @@ owning_creature = NodePath("../..")
 blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
+[node name="PlantCreatureStateSneeze" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("17_gbck6")]
+blackboard = NodePath("../BlackboardPlantCreature")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStateStressed" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("18_r1s0l")]
+blackboard = NodePath("../BlackboardPlantCreature")
+owning_creature = NodePath("../..")
+
+[node name="PlantCreatureStateRoll" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_01x8t")]
+blackboard = NodePath("../BlackboardPlantCreature")
+owning_creature = NodePath("../..")
+
 [node name="StateLabel" type="Label" parent="."]
 offset_left = -79.0
 offset_top = 73.0
@@ -167,6 +187,12 @@ horizontal_alignment = 1
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0, 15)
 scale = Vector2(3.2, 3.2)
+
+[node name="PoisonSprite" type="Sprite2D" parent="."]
+texture = ExtResource("17_o875t")
+
+[node name="FruitSprite" type="Sprite2D" parent="."]
+texture = ExtResource("18_tspvq")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]

@@ -53,7 +53,7 @@ metadata/_custom_type_script = "uid://cwbg7vo8x2tme"
 
 [node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
 script = ExtResource("8_vt6pu")
-amount = -1.0
+amount = -0.8
 scalable = true
 metadata/_custom_type_script = "uid://dq3xm51g267od"
 

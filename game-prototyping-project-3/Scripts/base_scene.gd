@@ -54,6 +54,12 @@ func _ready() -> void:
 		new_creature.connect("Leaving", on_creature_leaving)
 		add_child(new_creature)
 		GameState.existing_creatures.append(new_creature)
+	
+	for i in range(5):
+		var new_bush = GameState.bush_scene.instantiate()
+		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+		new_bush.position = random_point
+		add_child(new_bush)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -152,7 +158,9 @@ func on_clicked_food(food_position: Vector2) -> void:
 	# var place_for_food = get_viewport().get_mouse_position()
 	var new_food = GameState.food_scene.instantiate()
 	new_food.position = food_position
+	new_food.lure = true
 	add_child(new_food)
+	# new_food.lure_creatures()
 
 #func _input(event):
 	#if event is InputEventMouseButton:

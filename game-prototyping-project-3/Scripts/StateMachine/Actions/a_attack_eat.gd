@@ -17,5 +17,5 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 			body.deal_damage(owning_creature, damage)
 			blackboard.aggressive = true
 			owning_creature.change_food(damage * 2, false)
-			owning_creature.change_hit_points(damage / 2)
+			owning_creature.change_hit_points(damage / 4)
 			break

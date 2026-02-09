@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://doxgerahvki2j"]
+[gd_scene load_steps=21 format=3 uid="uid://doxgerahvki2j"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_qxepq"]
 [ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_qgnmu"]
@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://du1nn5qv5kklj" path="res://Scripts/StateMachine/Conditions/c_wants_to_play.gd" id="15_1osa2"]
 [ext_resource type="Script" uid="uid://bfm4dd0jdiam8" path="res://Scripts/StateMachine/Conditions/c_partner_wants_to_play.gd" id="16_hmgwh"]
 [ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="18_idy1g"]
+[ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="20_hmgwh"]
+[ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="20_idy1g"]
 
 [node name="PredatorStateMoveToPartner" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_qxepq")
@@ -26,7 +28,7 @@ sprite = ExtResource("2_qgnmu")
 enter_actions = [NodePath("EnterActions/ASetTargetPartner")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToIdle3")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToIdle3")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -159,3 +161,19 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 script = ExtResource("13_bq77k")
 distance = 120.0
 metadata/_custom_type_script = "uid://bo8kyxhhrffj7"
+
+[node name="TransitionToFoodLure" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("7_jhx2r")
+conditions = [NodePath("CFoundFoodLure")]
+actions = [NodePath("ASetAggressive")]
+next_state = &"predatorstatefoodlure"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToFoodLure"]
+script = ExtResource("20_idy1g")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
+script = ExtResource("20_hmgwh")
+metadata/_custom_type_script = "uid://7r0ielccdd6i"

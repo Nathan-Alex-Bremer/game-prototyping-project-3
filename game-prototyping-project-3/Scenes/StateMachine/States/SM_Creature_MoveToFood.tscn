@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dckvfbg6qss6q"]
+[gd_scene load_steps=16 format=3 uid="uid://dckvfbg6qss6q"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_7kc4r"]
 [ext_resource type="Texture2D" uid="uid://dd4unmgx47w68" path="res://Art/CreatureStates/CreatureMoveToFood.png" id="2_arv4b"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="11_3vcgv"]
 [ext_resource type="Script" uid="uid://b58hvb6gow88r" path="res://Scripts/StateMachine/Conditions/c_no_target.gd" id="12_nrc1j"]
 [ext_resource type="Script" uid="uid://bo8kyxhhrffj7" path="res://Scripts/StateMachine/Conditions/c_target_within_distance.gd" id="13_ygsxn"]
+[ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="15_jw41i"]
 
 [node name="SM_Creature_MoveToFood" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_7kc4r")
@@ -22,7 +23,7 @@ sprite = ExtResource("2_arv4b")
 enter_actions = [NodePath("EnterActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToEat")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToEat")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -38,7 +39,7 @@ metadata/_custom_type_script = "uid://csf0oi2tevhan"
 
 [node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
 script = ExtResource("6_xl0x6")
-amount = -1.0
+amount = -0.8
 scalable = true
 metadata/_custom_type_script = "uid://dq3xm51g267od"
 
@@ -117,3 +118,13 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 script = ExtResource("13_ygsxn")
 distance = 50.0
 metadata/_custom_type_script = "uid://bo8kyxhhrffj7"
+
+[node name="TransitionToFoodLure" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_3vcgv")
+conditions = [NodePath("CFoundFoodLure")]
+next_state = &"creaturestatemovetofoodlure"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
+script = ExtResource("15_jw41i")
+metadata/_custom_type_script = "uid://7r0ielccdd6i"

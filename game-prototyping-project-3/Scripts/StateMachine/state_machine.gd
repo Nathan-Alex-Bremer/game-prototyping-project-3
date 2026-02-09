@@ -47,7 +47,7 @@ func on_child_transition(new_state_name) -> void:
 	var new_state = states.get(new_state_name.to_lower())
 		
 	if !new_state:
-		print("ERROR: No new state!")
+		print("ERROR: No new state: " + new_state_name)
 		return
 	
 	# Only update if the state asking for transition is current state
@@ -57,8 +57,10 @@ func on_child_transition(new_state_name) -> void:
 	# Update current state to new state
 	current_state = new_state
 	
+	state_changed.emit(new_state)
+	
 	# Call enter function
 	# print("New state: " + new_state_name)
 	new_state.enter()
 	
-	state_changed.emit(new_state)
+	

@@ -16,6 +16,9 @@ var num_food: int = 0
 @export var max_food: int = 10
 @export var food_scene: PackedScene
 
+# Hiding places
+@export var bush_scene: PackedScene
+
 # Player
 @export var player_scene: PackedScene
 var player_in_journal: bool = false

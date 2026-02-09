@@ -189,6 +189,9 @@ func change_hit_points(amount: float) -> void:
 	if hit_points < 0:
 		hit_points = 0
 		
+
+# Getters
+
 func get_type() -> StringName:
 	return type
 
@@ -200,6 +203,18 @@ func get_wants_to_play() -> bool:
 
 func get_is_visible() -> bool:
 	return $VisibleOnScreenNotifier2D.is_on_screen()
+	
+func get_food() -> float:
+	return hunger
+
+func get_tired() -> float:
+	return tired
+	
+func get_feisty() -> float:
+	return feisty
+	
+func get_hit_points() -> int:
+	return hit_points
 
 func on_state_changed(new_state: MonsterState) -> void:
 	# Update label to display "simple name" of new state
@@ -211,16 +226,28 @@ func on_state_changed(new_state: MonsterState) -> void:
 	else:
 		$StateLabel.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	$Sprite2D.texture = new_state.sprite
+	
 
+func change_sprite(new_sprite: Texture2D) -> void:
+	$Sprite2D.texture = new_sprite
+
+func change_visibility(val: bool) -> void:
+	visible = val
+
+# Way for the player to give a signal to creatures
+func send_signal(signal_type: StringName, signal_sender: Node2D) -> void:
+	blackboard.signal_type = signal_type
+	blackboard.signal_sender = signal_sender
+	
 func change_stats_visible(value: bool) -> void:
 	$Stats.visible = value
 	
 	# For now, update labels only when first being checked
 	if value == true:
-		$Stats/HPLabel.text = "HP: " + str(hit_points)
-		$Stats/HungerLabel.text = "Hunger: " + str(hunger)
-		$Stats/FeistyLabel.text = "Feisty: " + str(feisty)
-		$Stats/TiredLabel.text = "Tired: " + str(tired)
+		$Stats/HPLabel.text = "HP: " + str(int(hit_points))
+		$Stats/HungerLabel.text = "Hunger: " + str(int(hunger))
+		$Stats/FeistyLabel.text = "Feisty: " + str(int(feisty))
+		$Stats/TiredLabel.text = "Tired: " + str(int(tired))
 		
 func deal_damage(attacker: Creature, damage: int) -> void:
 	change_hit_points(damage * -1)
@@ -244,6 +271,11 @@ func spawn_food_nearby() -> void:
 # Ew ew ew
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		
+		# Don't register clicks if not visible
+		if not visible:
+			return
+		
 		print("Pressed")
 		
 		# Hacky failsafe to ensure switching 
@@ -288,16 +320,12 @@ func _on_detect_radius_area_entered(area: Area2D) -> void:
 	if area.is_in_group("food"):
 		blackboard.seen_food.append(area)
 		return
-		
-	
-
 
 func _on_detect_radius_area_exited(area: Area2D) -> void:
 	if area.is_in_group("food"):
 		blackboard.seen_food.erase(area)
 		return
 		
-
 func _on_detect_radius_body_entered(body: Node2D) -> void:
 	if body == self:
 		return
@@ -306,8 +334,21 @@ func _on_detect_radius_body_entered(body: Node2D) -> void:
 		blackboard.seen_creatures.append(body)
 		return
 
-
 func _on_detect_radius_body_exited(body: Node2D) -> void:
 	if body.is_in_group("creature"):
 		blackboard.seen_creatures.erase(body)
+		return
+
+# For now just handles hiding places
+func _on_eat_radius_area_entered(area: Area2D) -> void:
+	if area.is_in_group("hiding_place"):
+		blackboard.seen_hiding_places.append(area)
+		# print(creature_name + " found hiding place")
+		return
+
+
+func _on_eat_radius_area_exited(area: Area2D) -> void:
+	if area.is_in_group("hiding_place"):
+		blackboard.seen_hiding_places.erase(area)
+		# print(creature_name + " lost hiding place")
 		return

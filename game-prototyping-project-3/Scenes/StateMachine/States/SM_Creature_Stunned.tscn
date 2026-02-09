@@ -49,7 +49,7 @@ metadata/_custom_type_script = "uid://6h7ipph7clvh"
 
 [node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
 script = ExtResource("6_muyxl")
-amount = -1.0
+amount = -0.8
 metadata/_custom_type_script = "uid://dq3xm51g267od"
 
 [node name="AChangeFeistyDelta" type="Node" parent="UpdateActions"]

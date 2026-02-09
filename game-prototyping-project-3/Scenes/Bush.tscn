@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://lavky42twi00"]
+
+[ext_resource type="Script" uid="uid://bren1upitdyqs" path="res://Scripts/bush.gd" id="1_ykeyw"]
+[ext_resource type="Texture2D" uid="uid://ddk1qor8jydcr" path="res://Art/Bush.png" id="2_03vxk"]
+[ext_resource type="Texture2D" uid="uid://cxx7x4cjk2hlk" path="res://Art/BushOccupied.png" id="3_trd1h"]
+[ext_resource type="Texture2D" uid="uid://g8d80qaryp77" path="res://Art/BushFire.png" id="4_mu6mv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e0wpt"]
+radius = 54.0093
+
+[node name="Bush" type="Area2D" groups=["hiding_place"]]
+script = ExtResource("1_ykeyw")
+normal_sprite = ExtResource("2_03vxk")
+occupied_sprite = ExtResource("3_trd1h")
+fire_sprite = ExtResource("4_mu6mv")
+metadata/_custom_type_script = "uid://bren1upitdyqs"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_03vxk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 10)
+shape = SubResource("CircleShape2D_e0wpt")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

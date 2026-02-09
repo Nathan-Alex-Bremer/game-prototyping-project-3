@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=26 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
@@ -17,6 +17,10 @@
 [ext_resource type="PackedScene" uid="uid://b0loa2kreta3t" path="res://Scenes/StateMachine/States/SM_Creature_Attack.tscn" id="15_onri8"]
 [ext_resource type="PackedScene" uid="uid://d31u16waysn0w" path="res://Scenes/StateMachine/States/SM_Creature_Flee.tscn" id="16_2h46t"]
 [ext_resource type="PackedScene" uid="uid://q2ccn2nkxi82" path="res://Scenes/StateMachine/States/SM_Creature_Stunned.tscn" id="17_oyu43"]
+[ext_resource type="PackedScene" uid="uid://cfjbjx00xog7h" path="res://Scenes/StateMachine/States/SM_Creature_MoveToFoodLure.tscn" id="18_2h46t"]
+[ext_resource type="PackedScene" uid="uid://cr0chj50l547g" path="res://Scenes/StateMachine/States/SM_Creature_Dig.tscn" id="19_gei0v"]
+[ext_resource type="PackedScene" uid="uid://cv6dj8g08bqto" path="res://Scenes/StateMachine/States/SM_Creature_Stretch.tscn" id="20_qjnkk"]
+[ext_resource type="PackedScene" uid="uid://bfkvpyc564aok" path="res://Scenes/StateMachine/States/SM_Creature_Hide.tscn" id="21_qjnkk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -125,6 +129,22 @@ owning_creature = NodePath("../..")
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
+[node name="CreatureStateMoveToFoodLure" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("18_2h46t")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateDig" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_gei0v")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateStretch" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("20_qjnkk")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateHide" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("21_qjnkk")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
 [node name="StateLabel" type="Label" parent="."]
 offset_left = -79.0
 offset_top = 73.0
@@ -187,3 +207,5 @@ scale = Vector2(3.2, 3.2)
 [connection signal="area_exited" from="DetectRadius" to="." method="_on_detect_radius_area_exited"]
 [connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
 [connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
+[connection signal="area_entered" from="EatRadius" to="." method="_on_eat_radius_area_entered"]
+[connection signal="area_exited" from="EatRadius" to="." method="_on_eat_radius_area_exited"]

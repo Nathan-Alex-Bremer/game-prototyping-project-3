@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cpr2x3ygyvy3r"]
+[gd_scene load_steps=14 format=3 uid="uid://cpr2x3ygyvy3r"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_bkso8"]
 [ext_resource type="Texture2D" uid="uid://djpsqvtx4lh1a" path="res://Art/PredatorStates/PredatorPoke.png" id="2_m21lh"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://bukx1pqnbhomw" path="res://Scripts/StateMachine/Actions/a_set_signal.gd" id="5_6rpat"]
 [ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="5_m21lh"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="6_grfd6"]
+[ext_resource type="Script" uid="uid://70fk71dx1mdf" path="res://Scripts/StateMachine/Actions/a_ignite_nearby.gd" id="6_uherd"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="7_a3j0i"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="8_capt8"]
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="9_302ea"]
@@ -17,7 +18,7 @@
 script = ExtResource("1_bkso8")
 simple_name = &"Attack"
 sprite = ExtResource("2_m21lh")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetSignal"), NodePath("EnterActions/AChangeFeisty")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetSignal"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/AIgniteNearby")]
 exit_actions = [NodePath("ExitActions/ASetSignal")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -41,6 +42,10 @@ metadata/_custom_type_script = "uid://bukx1pqnbhomw"
 script = ExtResource("5_m21lh")
 amount = -10.0
 metadata/_custom_type_script = "uid://doudrgrfo8a6k"
+
+[node name="AIgniteNearby" type="Node" parent="EnterActions"]
+script = ExtResource("6_uherd")
+metadata/_custom_type_script = "uid://70fk71dx1mdf"
 
 [node name="ExitActions" type="Node" parent="."]
 

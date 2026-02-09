@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cvoh7q7qq38h7"]
+[gd_scene load_steps=20 format=3 uid="uid://cvoh7q7qq38h7"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_280v6"]
 [ext_resource type="Texture2D" uid="uid://din87j7skmeh7" path="res://Art/CreatureStates/CreatureChase.png" id="2_280v6"]
@@ -17,6 +17,8 @@
 [ext_resource type="Script" uid="uid://0sj2j2ombtdx" path="res://Scripts/StateMachine/Conditions/c_found_signal.gd" id="12_fmcug"]
 [ext_resource type="Script" uid="uid://bo8kyxhhrffj7" path="res://Scripts/StateMachine/Conditions/c_target_within_distance.gd" id="12_y1qdk"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="14_vennj"]
+[ext_resource type="Script" uid="uid://p3flxt7u82f0" path="res://Scripts/StateMachine/Conditions/c_target_hidden.gd" id="17_bnxii"]
+[ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="18_nbe1r"]
 
 [node name="SM_Creature_Chase" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_280v6")
@@ -25,7 +27,7 @@ sprite = ExtResource("2_280v6")
 enter_actions = [NodePath("EnterActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToAttack")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToIdle3"), NodePath("Transitions/TransitionToAttack")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -61,7 +63,7 @@ metadata/_custom_type_script = "uid://cbfb1foxoxepf"
 
 [node name="AMoveTowardTarget" type="Node" parent="PhysicsUpdateActions"]
 script = ExtResource("6_fmcug")
-speed_modifier = 1.2
+speed_modifier = 1.4
 metadata/_custom_type_script = "uid://ot7mnjg113x6"
 
 [node name="Transitions" type="Node" parent="."]
@@ -163,6 +165,26 @@ script = ExtResource("14_vennj")
 val = false
 metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 
+[node name="TransitionToIdle3" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("7_nbe1r")
+conditions = [NodePath("CTargetHidden")]
+actions = [NodePath("ASetTargetNull"), NodePath("ASetAggressive")]
+next_state = &"creaturestatewander"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToIdle3"]
+script = ExtResource("11_mmn5s")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToIdle3"]
+script = ExtResource("14_vennj")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="CTargetHidden" type="Node" parent="Transitions/TransitionToIdle3"]
+script = ExtResource("17_bnxii")
+metadata/_custom_type_script = "uid://p3flxt7u82f0"
+
 [node name="TransitionToAttack" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("7_nbe1r")
 conditions = [NodePath("CTargetWithinDistance")]
@@ -173,3 +195,23 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 script = ExtResource("12_y1qdk")
 distance = 80.0
 metadata/_custom_type_script = "uid://bo8kyxhhrffj7"
+
+[node name="TransitionToFoodLure" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("7_nbe1r")
+conditions = [NodePath("CFoundFoodLure")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
+next_state = &"creaturestatemovetofoodlure"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
+script = ExtResource("18_nbe1r")
+metadata/_custom_type_script = "uid://7r0ielccdd6i"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToFoodLure"]
+script = ExtResource("14_vennj")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFoodLure"]
+script = ExtResource("11_mmn5s")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"

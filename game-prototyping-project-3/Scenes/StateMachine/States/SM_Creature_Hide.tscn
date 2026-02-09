@@ -1,0 +1,265 @@
+[gd_scene load_steps=25 format=3 uid="uid://bfkvpyc564aok"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_xd2wr"]
+[ext_resource type="Texture2D" uid="uid://yr2w4xf5gmyj" path="res://Art/CreatureStates/CreatureFlee.png" id="2_q2db2"]
+[ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_3k8sr"]
+[ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="4_86n7e"]
+[ext_resource type="Script" uid="uid://c02jct20k1nl3" path="res://Scripts/StateMachine/Actions/a_set_is_visible.gd" id="5_3k8sr"]
+[ext_resource type="Script" uid="uid://cjra2d0hb5ro5" path="res://Scripts/StateMachine/Actions/a_set_is_hidden.gd" id="6_86n7e"]
+[ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="6_uhhl2"]
+[ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="7_57twe"]
+[ext_resource type="Script" uid="uid://b505yins4cnib" path="res://Scripts/StateMachine/Actions/a_set_hiding_place_null.gd" id="7_uhhl2"]
+[ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="8_kdgop"]
+[ext_resource type="Script" uid="uid://bhl1kvxr34utq" path="res://Scripts/StateMachine/Actions/a_set_is_pet.gd" id="8_nok8u"]
+[ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="9_nok8u"]
+[ext_resource type="Script" uid="uid://cwbg7vo8x2tme" path="res://Scripts/StateMachine/Actions/a_set_is_poked.gd" id="9_nvrve"]
+[ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="10_nvrve"]
+[ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="11_d67p4"]
+[ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="11_qah7m"]
+[ext_resource type="Script" uid="uid://04161yciemw8" path="res://Scripts/StateMachine/Conditions/c_no_attacker.gd" id="12_1sl06"]
+[ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="13_wavsi"]
+[ext_resource type="Script" uid="uid://ccvraoxfrsfh8" path="res://Scripts/StateMachine/Conditions/c_attacker_not_aggressive.gd" id="14_aun6w"]
+[ext_resource type="Script" uid="uid://bv6ao3kgm7fga" path="res://Scripts/StateMachine/Actions/a_set_attacker_null.gd" id="15_026bx"]
+[ext_resource type="Script" uid="uid://d22jqfqjcw4hl" path="res://Scripts/StateMachine/Conditions/c_random_number.gd" id="16_86n7e"]
+[ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="16_pgos7"]
+[ext_resource type="Script" uid="uid://c7b17ngr0v65q" path="res://Scripts/StateMachine/Conditions/c_attacker_within_distance.gd" id="17_de8wi"]
+[ext_resource type="Script" uid="uid://clxbtsvspmbka" path="res://Scripts/StateMachine/Conditions/c_hiding_place_compromised.gd" id="22_57twe"]
+
+[node name="SM_Creature_Hide" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
+script = ExtResource("1_xd2wr")
+simple_name = &"Hide"
+sprite = ExtResource("2_q2db2")
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/ASetIsVisible"), NodePath("EnterActions/ASetIsHidden")]
+exit_actions = [NodePath("ExitActions/ASetIsVisible"), NodePath("ExitActions/ASetIsHidden"), NodePath("ExitActions/ASetHidingPlaceNull"), NodePath("ExitActions/ASetIsPet"), NodePath("ExitActions/ASetIsPoked")]
+update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
+physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToHide"), NodePath("Transitions/TransitionToFlee2")]
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="ASetWaitTimeRandom" type="Node" parent="EnterActions"]
+script = ExtResource("3_3k8sr")
+min_time = 1.0
+max_time = 3.0
+metadata/_custom_type_script = "uid://b378gqkrvg1q5"
+
+[node name="ASetWantsToPlay" type="Node" parent="EnterActions"]
+script = ExtResource("4_86n7e")
+val = false
+metadata/_custom_type_script = "uid://csf0oi2tevhan"
+
+[node name="ASetIsVisible" type="Node" parent="EnterActions"]
+script = ExtResource("5_3k8sr")
+val = false
+metadata/_custom_type_script = "uid://c02jct20k1nl3"
+
+[node name="ASetIsHidden" type="Node" parent="EnterActions"]
+script = ExtResource("6_86n7e")
+metadata/_custom_type_script = "uid://cjra2d0hb5ro5"
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="ASetIsVisible" type="Node" parent="ExitActions"]
+script = ExtResource("5_3k8sr")
+metadata/_custom_type_script = "uid://c02jct20k1nl3"
+
+[node name="ASetIsHidden" type="Node" parent="ExitActions"]
+script = ExtResource("6_86n7e")
+val = false
+metadata/_custom_type_script = "uid://cjra2d0hb5ro5"
+
+[node name="ASetHidingPlaceNull" type="Node" parent="ExitActions"]
+script = ExtResource("7_uhhl2")
+metadata/_custom_type_script = "uid://b505yins4cnib"
+
+[node name="ASetIsPet" type="Node" parent="ExitActions"]
+script = ExtResource("8_nok8u")
+val = false
+metadata/_custom_type_script = "uid://bhl1kvxr34utq"
+
+[node name="ASetIsPoked" type="Node" parent="ExitActions"]
+script = ExtResource("9_nvrve")
+val = false
+metadata/_custom_type_script = "uid://cwbg7vo8x2tme"
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("6_uhhl2")
+amount = -0.4
+scalable = true
+metadata/_custom_type_script = "uid://dq3xm51g267od"
+
+[node name="AChangeFeistyDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("7_57twe")
+amount = 0.24
+scalable = true
+metadata/_custom_type_script = "uid://c544yfe00a2d1"
+
+[node name="AChangeTiredDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("8_kdgop")
+amount = 0.11
+scalable = true
+metadata/_custom_type_script = "uid://cbfb1foxoxepf"
+
+[node name="AReduceWaitTime" type="Node" parent="UpdateActions"]
+script = ExtResource("9_nok8u")
+metadata/_custom_type_script = "uid://ckuqr2gv4efpk"
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="AVelocityZero" type="Node" parent="PhysicsUpdateActions"]
+script = ExtResource("11_d67p4")
+metadata/_custom_type_script = "uid://cnqboljrughfj"
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="TransitionToStunned" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("10_nvrve")
+conditions = [NodePath("CIsStunned")]
+actions = [NodePath("ASetIsVisible")]
+next_state = &"creaturestatestunned"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsStunned" type="Node" parent="Transitions/TransitionToStunned"]
+script = ExtResource("11_qah7m")
+metadata/_custom_type_script = "uid://cbq20o6y4ae31"
+
+[node name="ASetIsVisible" type="Node" parent="Transitions/TransitionToStunned"]
+script = ExtResource("5_3k8sr")
+metadata/_custom_type_script = "uid://c02jct20k1nl3"
+
+[node name="TransitionToIdle" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("10_nvrve")
+conditions = [NodePath("CNoAttacker"), NodePath("CWaitTimeZero"), NodePath("CRandomNumber")]
+actions = [NodePath("ASetIsVisible")]
+next_state = &"creaturestateidle"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CNoAttacker" type="Node" parent="Transitions/TransitionToIdle"]
+script = ExtResource("12_1sl06")
+metadata/_custom_type_script = "uid://04161yciemw8"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToIdle"]
+script = ExtResource("13_wavsi")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="CRandomNumber" type="Node" parent="Transitions/TransitionToIdle"]
+script = ExtResource("16_86n7e")
+max = 10
+metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
+
+[node name="ASetIsVisible" type="Node" parent="Transitions/TransitionToIdle"]
+script = ExtResource("5_3k8sr")
+metadata/_custom_type_script = "uid://c02jct20k1nl3"
+
+[node name="TransitionToWander" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("10_nvrve")
+conditions = [NodePath("CAttackerNotAggressive"), NodePath("CWaitTimeZero"), NodePath("CRandomNumber")]
+actions = [NodePath("ASetAttackerNull"), NodePath("ASetIsVisible")]
+next_state = &"creaturestatewander"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CAttackerNotAggressive" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("14_aun6w")
+metadata/_custom_type_script = "uid://ccvraoxfrsfh8"
+
+[node name="ASetAttackerNull" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("15_026bx")
+metadata/_custom_type_script = "uid://bv6ao3kgm7fga"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("13_wavsi")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="CRandomNumber" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("16_86n7e")
+max = 10
+metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
+
+[node name="ASetIsVisible" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("5_3k8sr")
+metadata/_custom_type_script = "uid://c02jct20k1nl3"
+
+[node name="TransitionToIdle2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("10_nvrve")
+conditions = [NodePath("CNotAttackerWithinDistance"), NodePath("CWaitTimeZero"), NodePath("CRandomNumber")]
+actions = [NodePath("ASetAttackerNull"), NodePath("ASetIsVisible")]
+next_state = &"creaturestateidle"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CNotAttackerWithinDistance" type="Node" parent="Transitions/TransitionToIdle2" node_paths=PackedStringArray("base_condition")]
+script = ExtResource("16_pgos7")
+base_condition = NodePath("CAttackerWithinDistance")
+metadata/_custom_type_script = "uid://ca6ogsam06lk4"
+
+[node name="CAttackerWithinDistance" type="Node" parent="Transitions/TransitionToIdle2/CNotAttackerWithinDistance"]
+script = ExtResource("17_de8wi")
+metadata/_custom_type_script = "uid://c7b17ngr0v65q"
+
+[node name="ASetAttackerNull" type="Node" parent="Transitions/TransitionToIdle2"]
+script = ExtResource("15_026bx")
+metadata/_custom_type_script = "uid://bv6ao3kgm7fga"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToIdle2"]
+script = ExtResource("13_wavsi")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="CRandomNumber" type="Node" parent="Transitions/TransitionToIdle2"]
+script = ExtResource("16_86n7e")
+max = 10
+metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
+
+[node name="ASetIsVisible" type="Node" parent="Transitions/TransitionToIdle2"]
+script = ExtResource("5_3k8sr")
+metadata/_custom_type_script = "uid://c02jct20k1nl3"
+
+[node name="TransitionToHide" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("10_nvrve")
+conditions = [NodePath("CWaitTimeZero"), NodePath("CNot")]
+next_state = &"creaturestatehide"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToHide"]
+script = ExtResource("13_wavsi")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="CNot" type="Node" parent="Transitions/TransitionToHide" node_paths=PackedStringArray("base_condition")]
+script = ExtResource("16_pgos7")
+base_condition = NodePath("CHidingPlaceCompromised")
+metadata/_custom_type_script = "uid://ca6ogsam06lk4"
+
+[node name="CHidingPlaceCompromised" type="Node" parent="Transitions/TransitionToHide/CNot"]
+script = ExtResource("22_57twe")
+metadata/_custom_type_script = "uid://clxbtsvspmbka"
+
+[node name="TransitionToFlee" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("10_nvrve")
+conditions = [NodePath("CHidingPlaceCompromised")]
+actions = [NodePath("ASetIsVisible")]
+next_state = &"creaturestateflee"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CHidingPlaceCompromised" type="Node" parent="Transitions/TransitionToFlee"]
+script = ExtResource("22_57twe")
+metadata/_custom_type_script = "uid://clxbtsvspmbka"
+
+[node name="ASetIsVisible" type="Node" parent="Transitions/TransitionToFlee"]
+script = ExtResource("5_3k8sr")
+metadata/_custom_type_script = "uid://c02jct20k1nl3"
+
+[node name="TransitionToFlee2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("10_nvrve")
+conditions = [NodePath("CWaitTimeZero")]
+actions = [NodePath("ASetIsVisible")]
+next_state = &"creaturestateflee"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="ASetIsVisible" type="Node" parent="Transitions/TransitionToFlee2"]
+script = ExtResource("5_3k8sr")
+metadata/_custom_type_script = "uid://c02jct20k1nl3"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToFlee2"]
+script = ExtResource("13_wavsi")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
