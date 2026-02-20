@@ -30,10 +30,10 @@ script = ExtResource("1_xd2wr")
 simple_name = &"Hide"
 sprite = ExtResource("2_q2db2")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/ASetIsVisible"), NodePath("EnterActions/ASetIsHidden")]
-exit_actions = [NodePath("ExitActions/ASetIsVisible"), NodePath("ExitActions/ASetIsHidden"), NodePath("ExitActions/ASetHidingPlaceNull"), NodePath("ExitActions/ASetIsPet"), NodePath("ExitActions/ASetIsPoked")]
+exit_actions = [NodePath("ExitActions/ASetIsHidden"), NodePath("ExitActions/ASetIsPet"), NodePath("ExitActions/ASetIsPoked")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToHide"), NodePath("Transitions/TransitionToFlee2")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToHide")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -60,18 +60,10 @@ metadata/_custom_type_script = "uid://cjra2d0hb5ro5"
 
 [node name="ExitActions" type="Node" parent="."]
 
-[node name="ASetIsVisible" type="Node" parent="ExitActions"]
-script = ExtResource("5_3k8sr")
-metadata/_custom_type_script = "uid://c02jct20k1nl3"
-
 [node name="ASetIsHidden" type="Node" parent="ExitActions"]
 script = ExtResource("6_86n7e")
 val = false
 metadata/_custom_type_script = "uid://cjra2d0hb5ro5"
-
-[node name="ASetHidingPlaceNull" type="Node" parent="ExitActions"]
-script = ExtResource("7_uhhl2")
-metadata/_custom_type_script = "uid://b505yins4cnib"
 
 [node name="ASetIsPet" type="Node" parent="ExitActions"]
 script = ExtResource("8_nok8u")
@@ -118,7 +110,7 @@ metadata/_custom_type_script = "uid://cnqboljrughfj"
 [node name="TransitionToStunned" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("10_nvrve")
 conditions = [NodePath("CIsStunned")]
-actions = [NodePath("ASetIsVisible")]
+actions = [NodePath("ASetIsVisible"), NodePath("ASetHidingPlaceNull")]
 next_state = &"creaturestatestunned"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -130,10 +122,14 @@ metadata/_custom_type_script = "uid://cbq20o6y4ae31"
 script = ExtResource("5_3k8sr")
 metadata/_custom_type_script = "uid://c02jct20k1nl3"
 
+[node name="ASetHidingPlaceNull" type="Node" parent="Transitions/TransitionToStunned"]
+script = ExtResource("7_uhhl2")
+metadata/_custom_type_script = "uid://b505yins4cnib"
+
 [node name="TransitionToIdle" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("10_nvrve")
 conditions = [NodePath("CNoAttacker"), NodePath("CWaitTimeZero"), NodePath("CRandomNumber")]
-actions = [NodePath("ASetIsVisible")]
+actions = [NodePath("ASetIsVisible"), NodePath("ASetHidingPlaceNull")]
 next_state = &"creaturestateidle"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -154,10 +150,14 @@ metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
 script = ExtResource("5_3k8sr")
 metadata/_custom_type_script = "uid://c02jct20k1nl3"
 
+[node name="ASetHidingPlaceNull" type="Node" parent="Transitions/TransitionToIdle"]
+script = ExtResource("7_uhhl2")
+metadata/_custom_type_script = "uid://b505yins4cnib"
+
 [node name="TransitionToWander" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("10_nvrve")
 conditions = [NodePath("CAttackerNotAggressive"), NodePath("CWaitTimeZero"), NodePath("CRandomNumber")]
-actions = [NodePath("ASetAttackerNull"), NodePath("ASetIsVisible")]
+actions = [NodePath("ASetAttackerNull"), NodePath("ASetIsVisible"), NodePath("ASetHidingPlaceNull")]
 next_state = &"creaturestatewander"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -182,10 +182,14 @@ metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
 script = ExtResource("5_3k8sr")
 metadata/_custom_type_script = "uid://c02jct20k1nl3"
 
+[node name="ASetHidingPlaceNull" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("7_uhhl2")
+metadata/_custom_type_script = "uid://b505yins4cnib"
+
 [node name="TransitionToIdle2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("10_nvrve")
 conditions = [NodePath("CNotAttackerWithinDistance"), NodePath("CWaitTimeZero"), NodePath("CRandomNumber")]
-actions = [NodePath("ASetAttackerNull"), NodePath("ASetIsVisible")]
+actions = [NodePath("ASetAttackerNull"), NodePath("ASetIsVisible"), NodePath("ASetHidingPlaceNull")]
 next_state = &"creaturestateidle"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -215,6 +219,10 @@ metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
 script = ExtResource("5_3k8sr")
 metadata/_custom_type_script = "uid://c02jct20k1nl3"
 
+[node name="ASetHidingPlaceNull" type="Node" parent="Transitions/TransitionToIdle2"]
+script = ExtResource("7_uhhl2")
+metadata/_custom_type_script = "uid://b505yins4cnib"
+
 [node name="TransitionToHide" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("10_nvrve")
 conditions = [NodePath("CWaitTimeZero"), NodePath("CNot")]
@@ -237,7 +245,7 @@ metadata/_custom_type_script = "uid://clxbtsvspmbka"
 [node name="TransitionToFlee" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("10_nvrve")
 conditions = [NodePath("CHidingPlaceCompromised")]
-actions = [NodePath("ASetIsVisible")]
+actions = [NodePath("ASetIsVisible"), NodePath("ASetHidingPlaceNull")]
 next_state = &"creaturestateflee"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -249,10 +257,14 @@ metadata/_custom_type_script = "uid://clxbtsvspmbka"
 script = ExtResource("5_3k8sr")
 metadata/_custom_type_script = "uid://c02jct20k1nl3"
 
+[node name="ASetHidingPlaceNull" type="Node" parent="Transitions/TransitionToFlee"]
+script = ExtResource("7_uhhl2")
+metadata/_custom_type_script = "uid://b505yins4cnib"
+
 [node name="TransitionToFlee2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("10_nvrve")
 conditions = [NodePath("CWaitTimeZero")]
-actions = [NodePath("ASetIsVisible")]
+actions = [NodePath("ASetIsVisible"), NodePath("ASetHidingPlaceNull")]
 next_state = &"creaturestateflee"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -263,3 +275,7 @@ metadata/_custom_type_script = "uid://c02jct20k1nl3"
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToFlee2"]
 script = ExtResource("13_wavsi")
 metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="ASetHidingPlaceNull" type="Node" parent="Transitions/TransitionToFlee2"]
+script = ExtResource("7_uhhl2")
+metadata/_custom_type_script = "uid://b505yins4cnib"

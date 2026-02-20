@@ -8,6 +8,6 @@ func evaluate(blackboard: Blackboard, owning_creature: Creature, owning_state: M
 	if blackboard.seen_hiding_places.size() > 0:
 		# print("Sees creatures!")
 		for hiding_place in blackboard.seen_hiding_places:
-			if hiding_place.can_hide:
+			if hiding_place and hiding_place.get_can_hide():
 				return true # Ugly
 	return false

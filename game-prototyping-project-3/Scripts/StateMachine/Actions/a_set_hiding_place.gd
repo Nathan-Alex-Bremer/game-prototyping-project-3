@@ -9,6 +9,7 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 			if hiding_place and hiding_place.get_can_hide():
 				blackboard.hiding_place = hiding_place
 				hiding_place.occupy()
+				print("Hidden!")
 				return
 	else:
 		print("ERROR: NO HIDING PLACE FOUND")

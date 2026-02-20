@@ -5,9 +5,14 @@ class_name PlayerObserver
 # Variables
 # State changing
 var interact_mode_text: StringName = "Current Interact Mode: "
-var camera_speed: float = 400
+
 
 var message_timer: float = 0
+
+# Camera
+var camera_speed: float = 400
+var camera_cooldown: float = 0
+var camera_max_cooldown: float = 0.5
 
 # Signals
 signal ClickedFood(position: Vector2)
@@ -27,34 +32,40 @@ func _process(delta: float) -> void:
 	# Update flash
 	$Flash.modulate.a = lerp($Flash.modulate.a, 0.0, 0.03)
 	
+	if camera_cooldown > 0:
+		camera_cooldown -= delta
+	
 	if Input.is_action_just_pressed("capture_screen"):
+		if camera_cooldown > 0:
+			return
 		print("Capture screen!")
 		capture_creature_states()
+		camera_cooldown = camera_max_cooldown
 	
 	# Cycle between action modes when the change is preseed
 	if Input.is_action_just_pressed("change_action_mode"):
 		
 		match GameState.mode:
 			GameState.INTERACT_MODES.CHECK:
-				if GameState.num_found_states > 1:
+				if GameState.num_found_states > 4:
 					GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
 					print("New action mode: Place Food")
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				if GameState.num_found_states > 1:
+				if GameState.num_found_states > 9:
 					GameState.mode = GameState.INTERACT_MODES.PET
 					print("New action mode: Pet")
 				else:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
 			GameState.INTERACT_MODES.PET:
-				if GameState.num_found_states > 1:
+				if GameState.num_found_states > 13:
 					GameState.mode = GameState.INTERACT_MODES.POKE
 					print("New action mode: Poke")
 				else:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
 			GameState.INTERACT_MODES.POKE:
-				if GameState.num_found_states > 1:
+				if GameState.num_found_states > 17:
 					GameState.mode = GameState.INTERACT_MODES.DRAG
 					print("New action mode: Drag")
 				else:
@@ -89,6 +100,8 @@ func _process(delta: float) -> void:
 		if message_timer <= 0:
 			$UpdateLabel.text = ""
 			message_timer = 0
+			$Popup.visible = false
+			$UpdateLabel.modulate = Color(1, 1, 1)
 
 func _physics_process(delta: float) -> void:
 	velocity = Vector2.ZERO
@@ -136,6 +149,7 @@ func capture_creature_states() -> void:
 
 func open_journal() -> void:
 	$Journal.toggle_opened()
+	$Journalnotif.visible = false
 	
 func change_journal_page(forward: bool) -> void:
 	$Journal.change_page(forward)
@@ -143,6 +157,8 @@ func change_journal_page(forward: bool) -> void:
 func on_state_found(creature_type: StringName, state: StringName, times_found: int) -> void:
 	print("On state found")
 	$Journal.on_state_found(creature_type, state, times_found)
+	if times_found == 1 or times_found == 5 or times_found == 10:
+		$Journalnotif.visible = true
 	
 func change_mode(mode: int) -> void:
 	match mode:
@@ -150,6 +166,7 @@ func change_mode(mode: int) -> void:
 			$InteractModeLabel.text = interact_mode_text + "Check"
 		GameState.INTERACT_MODES.PLACE_FOOD:
 			# Since this is the state after Check, for now we disable visible stats here
+			# TODO: Figure out some way to let the player keep this up and turn it on/off   
 			GameState.selected_creature = null
 			ToggleCreatureStats.emit()
 			$InteractModeLabel.text = interact_mode_text + "Place Food"
@@ -171,4 +188,9 @@ func creature_joined(creature_name: StringName) -> void:
 	update_message(creature_name + " has arrived!")
 
 func interact_mode_unlocked(mode: StringName) -> void:
-	update_message("New interact mode unlocked: " + mode + "!")
+	update_message("Great work, researcher!\nNew interact mode unlocked: " + mode + "!")
+	$UpdateLabel.modulate = Color(0.4, 0.4, 0.4)
+	$Popup.visible = true
+
+func toggle_rain_overlay() -> void:
+	$RainingEffect.visible = (not $RainingEffect.visible)

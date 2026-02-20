@@ -45,7 +45,7 @@
 script = ExtResource("1_qmnik")
 simple_name = &"Wander"
 sprite = ExtResource("2_frj7y")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/AConditionalSpriteChange")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToIntimidate"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToMoveToPartner"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToSkulk"), NodePath("Transitions/TransitionToWander")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
@@ -166,8 +166,8 @@ metadata/_custom_type_script = "uid://b4bqfg4e2sx4l"
 
 [node name="TransitionToSkulk" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("11_blht0")
-conditions = [NodePath("CWaitTimeZero")]
-next_state = &"predatorstatewander"
+conditions = [NodePath("CWaitTimeZero"), NodePath("CFoodLessThan")]
+next_state = &"predatorstateskulk"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToSkulk"]

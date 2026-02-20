@@ -4,6 +4,7 @@ class_name Creature
 # Variables
 var creature_name: StringName
 @export var type: StringName = "Creature"
+var creature_color: Color
 
 @export var hit_points: int = 100
 @export var hunger: float = 100
@@ -36,6 +37,8 @@ var is_dragging: bool = false
 # This should not be necessary!
 @export var blackboard: Blackboard
 
+var state_captured: bool = false
+
 # Signals
 signal SelectedForCheck
 signal SpawnFood
@@ -54,9 +57,9 @@ func _ready() -> void:
 	$NameLabel.text = creature_name
 	
 	# Randomize appearance
-	$Sprite2D.modulate.r = randf_range(0.8, 1)
-	$Sprite2D.modulate.g = randf_range(0.8, 1)
-	$Sprite2D.modulate.b = randf_range(0.8, 1)
+	
+	creature_color = Color(randf_range(0.8, 1), randf_range(0.8, 1), randf_range(0.8, 1))
+	$Sprite2D.modulate = creature_color
 	var random_scale = randf_range(0.75, 1.25)
 	$Sprite2D.scale = Vector2(random_scale, random_scale)
 	
@@ -93,6 +96,11 @@ func _process(delta: float) -> void:
 			if blackboard.partner:
 				blackboard.partner.blackboard.partner = null
 		
+		# Set checking creature to null, if applicable
+		if GameState.selected_creature == self:
+			GameState.selected_creature = null
+		
+		# Erase
 		GameState.existing_creatures.erase(self)
 		GameState.num_existing_creatures -= 1
 		queue_free()
@@ -126,8 +134,9 @@ func _physics_process(delta: float) -> void:
 
 # Name generation
 
-var consonants = ["b", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "z"]
+var consonants = ["b", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "r", "s", "t", "v", "w", "z"]
 var vowels = ["a", "e", "i", "o", "u", "y"]
+var banned_words = ["dyke", "kike", "rape", "paki"] # These are slurs or other words that could be generated but should NOT be allowed
 
 func generate_name() -> StringName:
 	var final_string = ""
@@ -137,6 +146,9 @@ func generate_name() -> StringName:
 		
 		final_string += vowels.pick_random()
 	
+	if final_string in banned_words:
+		final_string = "noname"
+	final_string = final_string.capitalize()
 	return final_string
 	
 func nature_picker() -> StringName:
@@ -227,6 +239,8 @@ func on_state_changed(new_state: MonsterState) -> void:
 		$StateLabel.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	$Sprite2D.texture = new_state.sprite
 	
+	# Update state capturable
+	state_captured = false
 
 func change_sprite(new_sprite: Texture2D) -> void:
 	$Sprite2D.texture = new_sprite
@@ -262,7 +276,14 @@ func poison_damage() -> void:
 		poison_damage_timer = 1
 	else:
 		is_poisoned = false
+		toggle_poison_color(false)
 
+func toggle_poison_color(is_poisoned: bool) -> void:
+	if is_poisoned:
+		$Sprite2D.modulate = Color(1, 0, 1)
+	else:
+		$Sprite2D.modulate = creature_color
+	
 # Gross way to do this, should use signals, but for now I don't want to bother
 func spawn_food_nearby() -> void:
 	SpawnFood.emit(position, 100)
@@ -272,10 +293,6 @@ func spawn_food_nearby() -> void:
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		
-		# Don't register clicks if not visible
-		if not visible:
-			return
-		
 		print("Pressed")
 		
 		# Hacky failsafe to ensure switching 
@@ -283,6 +300,10 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 		if GameState.mode != GameState.INTERACT_MODES.DRAG:
 			is_dragging = false
 		
+		# Don't register clicks if not visible (except for disengaging dragging)
+		if not visible:
+			return
+			
 		match GameState.mode:
 			
 			GameState.INTERACT_MODES.CHECK:

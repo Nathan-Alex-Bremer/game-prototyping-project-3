@@ -39,6 +39,9 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 func occupy() -> void:
 	$Sprite2D.texture = occupied_sprite
 
+func unoccupy() -> void:
+	$Sprite2D.texture = normal_sprite
+
 func ignite() -> void:
 	can_hide = false
 	$Sprite2D.texture = fire_sprite

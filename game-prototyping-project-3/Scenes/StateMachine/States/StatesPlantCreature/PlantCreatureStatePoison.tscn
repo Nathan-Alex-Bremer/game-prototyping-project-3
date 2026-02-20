@@ -17,7 +17,7 @@
 
 [node name="PlantCreatureStatePoison" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_84hnd")
-simple_name = &"Poison"
+simple_name = &"Poison Dust"
 sprite = ExtResource("2_cxpd2")
 enter_actions = [NodePath("EnterActions/APoisonAttack"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetSignal")]
 exit_actions = [NodePath("ExitActions/ASetSignal")]

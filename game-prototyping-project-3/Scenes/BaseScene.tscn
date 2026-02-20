@@ -12,6 +12,7 @@ size = Vector2(20, 2356)
 script = ExtResource("1_58y5n")
 
 [node name="Food" parent="." instance=ExtResource("2_ufl4h")]
+z_index = -1
 position = Vector2(153, 531)
 
 [node name="Flash" type="Sprite2D" parent="."]

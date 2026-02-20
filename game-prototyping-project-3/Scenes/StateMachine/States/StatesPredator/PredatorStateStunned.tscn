@@ -37,7 +37,7 @@ metadata/_custom_type_script = "uid://3hvifjdriy5q"
 
 [node name="AChangeFeisty" type="Node" parent="EnterActions"]
 script = ExtResource("4_m0duy")
-amount = 5.0
+amount = 10.0
 metadata/_custom_type_script = "uid://doudrgrfo8a6k"
 
 [node name="ASetStunned" type="Node" parent="EnterActions"]

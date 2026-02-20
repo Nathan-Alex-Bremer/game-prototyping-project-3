@@ -11,6 +11,10 @@ var num_existing_creatures = 6
 var existing_creatures: Array[Creature]
 var selected_creature: Creature
 
+# Environment
+var raining: bool = false
+
+
 # Food
 var num_food: int = 0
 @export var max_food: int = 10
