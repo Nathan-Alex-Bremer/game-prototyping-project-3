@@ -26,6 +26,7 @@ var num_food: int = 0
 # Player
 @export var player_scene: PackedScene
 var player_in_journal: bool = false
+@export var camera_area_scene: PackedScene
 
 var screen_size: Vector2
 
@@ -94,7 +95,7 @@ func _ready() -> void:
 	found_states["PlantCreature"]["Annoyed"] = 0
 	found_states["PlantCreature"]["Play"] = 0
 	found_states["PlantCreature"]["Drop Food"] = 0
-	found_states["PlantCreature"]["Poison"] = 0
+	found_states["PlantCreature"]["Poison Dust"] = 0
 	found_states["PlantCreature"]["Flee"] = 0
 
 func get_state_in_journal(creature_name: StringName, state_name: StringName) -> bool:

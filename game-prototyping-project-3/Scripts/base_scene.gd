@@ -6,6 +6,7 @@ extends Node2D
 var timer: float
 
 var player: PlayerObserver
+var camera_area: CameraArea
 
 # State changing
 var interact_mode_text: StringName = "Current Interact Mode: "
@@ -18,6 +19,9 @@ func _ready() -> void:
 	timer = timer_count
 	
 	# Instantiate a player observer
+	#camera_area = GameState.camera_area_scene.instantiate()
+	#add_child(camera_area)
+	
 	player = GameState.player_scene.instantiate()
 	player.connect("CapturedState", on_capture_state)
 	player.connect("ClickedFood", on_clicked_food)
@@ -25,6 +29,7 @@ func _ready() -> void:
 	player.connect("ChangeJournalPage", on_change_journal_page)
 	player.connect("ChangeMode", on_change_mode)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
+	# player.connect_camera_area(camera_area)
 	add_child(player)
 	
 	# Instantiate a creature

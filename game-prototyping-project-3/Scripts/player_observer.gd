@@ -10,6 +10,7 @@ var interact_mode_text: StringName = "Current Interact Mode: "
 var message_timer: float = 0
 
 # Camera
+# var camera_area: CameraArea
 var camera_speed: float = 400
 var camera_cooldown: float = 0
 var camera_max_cooldown: float = 0.5
@@ -30,7 +31,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# Update flash
-	$Flash.modulate.a = lerp($Flash.modulate.a, 0.0, 0.03)
+	$CameraArea.get_flash().modulate.a = lerp($CameraArea.get_flash().modulate.a, 0.0, 0.03)
 	
 	if camera_cooldown > 0:
 		camera_cooldown -= delta
@@ -124,15 +125,19 @@ func _physics_process(delta: float) -> void:
 	# Handles movement, collision, and sliding along collision surfaces
 	var collision = move_and_slide()
 
+#func connect_camera_area(cam: CameraArea) -> void:
+	#camera_area = cam
+
 func capture_creature_states() -> void:
 	# Start camera flash effect
-	$Flash.modulate.a = 0.5
+	$CameraArea.get_flash().modulate.a = 0.5
 	
 	# Record found states
-	var creatures = get_tree().get_nodes_in_group("creature")
+	# var creatures = get_tree().get_nodes_in_group("creature")
+	var creatures = $CameraArea.get_overlapping_bodies()
 	
 	for creature in creatures:
-		if creature.get_is_visible():
+		if creature.is_in_group("creature") and creature.get_is_visible():
 		# if (0 <= creature.position.x and creature.position.x <= GameState.screen_size.x) and (0 <= creature.position.y and creature.position.y <= GameState.screen_size.y):
 			var creature_statemachine: StateMachine = creature.get_node("StateMachine")
 			
@@ -146,6 +151,11 @@ func capture_creature_states() -> void:
 				return
 				
 			CapturedState.emit(creature_type, creature_state)
+			
+			if GameState.get_state_in_journal(creature_type, creature_state):
+				creature.change_label_color(Color(0.1, 1.0, 0.8, 1.0))
+			else:
+				creature.change_label_color(Color(0, 0.7, 0.65, 1.0))
 
 func open_journal() -> void:
 	$Journal.toggle_opened()

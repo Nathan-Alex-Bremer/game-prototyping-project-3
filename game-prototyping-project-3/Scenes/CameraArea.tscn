@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://o0f3estdyb43"]
+
+[ext_resource type="Script" uid="uid://svk4o55rcymy" path="res://Scripts/camera_area.gd" id="1_bxgb3"]
+[ext_resource type="Texture2D" uid="uid://b1w7uswu2hdcd" path="res://Art/cameramarker.png" id="1_hsoh7"]
+[ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_m3j8b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bxgb3"]
+size = Vector2(256, 192)
+
+[node name="CameraArea" type="Area2D"]
+input_pickable = false
+script = ExtResource("1_bxgb3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_bxgb3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hsoh7")
+
+[node name="Flash" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = 7
+position = Vector2(8.46386e-06, 4.41074e-06)
+scale = Vector2(0.222222, 0.296296)
+texture = ExtResource("3_m3j8b")

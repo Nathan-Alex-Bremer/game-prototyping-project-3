@@ -109,7 +109,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StateDropFood.text = "- DROP FOOD: The fruit they drop from their body is eaten by many other creatures."
 				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
-		"Poison":
+		"Poison Dust":
 			if times_found == 1:
 				$StatePoison.text = "- POISON: Shakes wildly to scatter a poisonous dust when threatened."
 				$StatePoison.modulate = Color(0.0, 0.0, 0.0, 1.0)

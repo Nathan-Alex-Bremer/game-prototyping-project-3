@@ -1,13 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://cjh4yfiih2h2h"]
+[gd_scene load_steps=11 format=3 uid="uid://cjh4yfiih2h2h"]
 
 [ext_resource type="Script" uid="uid://b1ae65hd7fin6" path="res://Scripts/player_observer.gd" id="1_4o3b8"]
 [ext_resource type="PackedScene" uid="uid://0wnkaj8ql8" path="res://Scenes/Journal.tscn" id="2_8kdyt"]
 [ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_40w55"]
 [ext_resource type="Texture2D" uid="uid://b5de8vnm8oilm" path="res://Art/popup.png" id="4_swban"]
 [ext_resource type="Texture2D" uid="uid://2m1yrox10dmj" path="res://Art/journalnotif.png" id="5_jpdhb"]
+[ext_resource type="Texture2D" uid="uid://c7walfx5ihva3" path="res://Art/player.png" id="6_jpdhb"]
+[ext_resource type="PackedScene" uid="uid://o0f3estdyb43" path="res://Scenes/CameraArea.tscn" id="7_hnjst"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8kdyt"]
-size = Vector2(1152, 648)
+size = Vector2(85, 127)
 
 [sub_resource type="LabelSettings" id="LabelSettings_fjm26"]
 font_size = 20
@@ -22,7 +24,7 @@ outline_color = Color(0, 0, 0, 1)
 shadow_size = 0
 shadow_color = Color(0, 0, 0, 0.701961)
 
-[node name="PlayerObserver" type="CharacterBody2D"]
+[node name="PlayerObserver" type="CharacterBody2D" groups=["player"]]
 collision_layer = 4
 collision_mask = 4
 script = ExtResource("1_4o3b8")
@@ -38,8 +40,8 @@ pages = {
 &"Predator": NodePath("JournalPagePredator")
 }
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(576, 324)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
+position = Vector2(577.5, 340.5)
 shape = SubResource("RectangleShape2D_8kdyt")
 
 [node name="Flash" type="Sprite2D" parent="."]
@@ -86,3 +88,11 @@ modulate = Color(0, 0.2, 0.164706, 0.541176)
 z_index = 7
 position = Vector2(576, 324)
 texture = ExtResource("3_40w55")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(577, 308)
+texture = ExtResource("6_jpdhb")
+
+[node name="CameraArea" parent="." instance=ExtResource("7_hnjst")]
+z_index = 7

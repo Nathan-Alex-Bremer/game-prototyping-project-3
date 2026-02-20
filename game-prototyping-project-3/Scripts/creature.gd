@@ -248,6 +248,9 @@ func change_sprite(new_sprite: Texture2D) -> void:
 func change_visibility(val: bool) -> void:
 	visible = val
 
+func change_label_color(val: Color) -> void:
+	$StateLabel.modulate = val
+
 # Way for the player to give a signal to creatures
 func send_signal(signal_type: StringName, signal_sender: Node2D) -> void:
 	blackboard.signal_type = signal_type

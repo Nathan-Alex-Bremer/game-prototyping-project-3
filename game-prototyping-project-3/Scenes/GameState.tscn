@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://ia8oql3he6kc"]
+[gd_scene load_steps=9 format=3 uid="uid://ia8oql3he6kc"]
 
 [ext_resource type="Script" uid="uid://dglct3emv8njq" path="res://Scripts/game_state.gd" id="1_6swv3"]
 [ext_resource type="PackedScene" uid="uid://pax8hqcis1wq" path="res://Scenes/Creature.tscn" id="2_7ss3b"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://pc8elxh64c3m" path="res://Scenes/Food.tscn" id="3_timhb"]
 [ext_resource type="PackedScene" uid="uid://cjh4yfiih2h2h" path="res://Scenes/PlayerObserver.tscn" id="4_timhb"]
 [ext_resource type="PackedScene" uid="uid://lavky42twi00" path="res://Scenes/Bush.tscn" id="6_7pu5x"]
+[ext_resource type="PackedScene" uid="uid://o0f3estdyb43" path="res://Scenes/CameraArea.tscn" id="8_hahlw"]
 
 [node name="GameState" type="Node2D"]
 script = ExtResource("1_6swv3")
@@ -16,3 +17,4 @@ plantcreature_scene = ExtResource("2_q4mmg")
 food_scene = ExtResource("3_timhb")
 bush_scene = ExtResource("6_7pu5x")
 player_scene = ExtResource("4_timhb")
+camera_area_scene = ExtResource("8_hahlw")
