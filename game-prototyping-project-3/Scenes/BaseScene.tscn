@@ -1,12 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://vamehqonwq37"]
+[gd_scene load_steps=8 format=3 uid="uid://vamehqonwq37"]
 
 [ext_resource type="Script" uid="uid://bsfxihnntm7ml" path="res://Scripts/base_scene.gd" id="1_58y5n"]
 [ext_resource type="PackedScene" uid="uid://pc8elxh64c3m" path="res://Scenes/Food.tscn" id="2_ufl4h"]
 [ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="4_yga4i"]
 [ext_resource type="Texture2D" uid="uid://bco4po0psd8mq" path="res://Art/background.png" id="5_4ksr6"]
+[ext_resource type="Texture2D" uid="uid://bukydwnpqohrh" path="res://Art/backgroundlarge.png" id="5_uc7fm"]
+[ext_resource type="Texture2D" uid="uid://vc2jtdhulh1t" path="res://Art/backgroundlargeborder.png" id="6_56e3h"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ksr6"]
-size = Vector2(20, 2356)
+size = Vector2(20, 4628)
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_58y5n")
@@ -26,12 +28,22 @@ z_index = -10
 position = Vector2(690, 450)
 texture = ExtResource("5_4ksr6")
 
+[node name="Backgroundlarge" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(1774, 1667)
+texture = ExtResource("5_uc7fm")
+
+[node name="BackgroundLargeBorder" type="Sprite2D" parent="."]
+z_index = 4
+position = Vector2(1774, 1667)
+texture = ExtResource("6_56e3h")
+
 [node name="StaticBody2D4" type="StaticBody2D" parent="."]
 collision_layer = 7
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D4"]
-position = Vector2(692, -208)
+position = Vector2(1836, -216)
 rotation = -1.57079
 shape = SubResource("RectangleShape2D_4ksr6")
 
@@ -40,7 +52,7 @@ collision_layer = 7
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
-position = Vector2(693, 1108)
+position = Vector2(1821, 3570)
 rotation = -1.57079
 shape = SubResource("RectangleShape2D_4ksr6")
 
@@ -49,7 +61,7 @@ collision_layer = 7
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
-position = Vector2(1852, 448)
+position = Vector2(4045, 1383)
 shape = SubResource("RectangleShape2D_4ksr6")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -57,11 +69,11 @@ collision_layer = 7
 collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-472, 448)
+position = Vector2(-472, 1411)
 shape = SubResource("RectangleShape2D_4ksr6")
 
 [node name="MaxPos" type="Node2D" parent="."]
-position = Vector2(1742, 998)
+position = Vector2(3874, 3424)
 
 [node name="MinPos" type="Node2D" parent="."]
 position = Vector2(-362, -98)
