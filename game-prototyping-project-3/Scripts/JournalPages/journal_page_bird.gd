@@ -1,6 +1,6 @@
 extends JournalPage
 
-class_name JournalPageCreature
+class_name JournalPageBird
 
 func on_state_found(found_state: StringName, times_found: int) -> void:
 	
@@ -34,7 +34,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StateIdle.text = "- IDLE: Pale in color, but can come in many hues. Large, emotive ears."
-				$StateIdle.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Eat":
 			if times_found == 1:
@@ -60,7 +60,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StateRest.text = "- REST: Their highly efficient bodies can restore plenty of energy from just a short nap."
-				$StateRest.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Pet":
 			if times_found == 1:
@@ -73,7 +73,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StatePet.text = "- PET: Being pet calms them down and also seems to make them tired."
-				$StatePet.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Annoyed":
 			if times_found == 1:
@@ -86,7 +86,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StatePoke.text = "- ANNOY: Even a couple pokes will whip them into a frenzy, causing them to look for fights."
-				$StatePoke.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Play":
 			if times_found == 1:
@@ -99,7 +99,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StatePlay.text = "- PLAY: Will play with others of their species by jumping around, reducing stress."
-				$StatePlay.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Chase":
 			if times_found == 1:
@@ -112,7 +112,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StateChase.text = "- CHASE: When agitated, will chase down others of their kind until worn out."
-				$StateChase.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Attack":
 			if times_found == 1:
@@ -125,7 +125,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StateAttack.text = "- ATTACK: With their sharp front teeth, they can even scare off predators."
-				$StateAttack.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Flee":
 			if times_found == 1:
@@ -138,7 +138,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StateFlee.text = "- FLEE: Will panic and run aimlessly when threatened, unless they're particularly feisty."
-				$StateFlee.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 	
 	# This is such a gross way to do it

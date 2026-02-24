@@ -1,0 +1,209 @@
+[gd_scene load_steps=25 format=3 uid="uid://btwjxwtx4s1lq"]
+
+[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_uymxu"]
+[ext_resource type="Texture2D" uid="uid://cclry4osce1bd" path="res://Art/BirdStates/BirdWander.png" id="2_78p52"]
+[ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_qkihq"]
+[ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scripts/StateMachine/blackboard.gd" id="4_uslpr"]
+[ext_resource type="PackedScene" uid="uid://jlvodpn8v7c1" path="res://Scenes/StateMachine/States/StatesBird/BirdStateAttack.tscn" id="5_78p52"]
+[ext_resource type="PackedScene" uid="uid://bc4qc056ofwfm" path="res://Scenes/StateMachine/States/StatesBird/BirdStateChase.tscn" id="6_13kxb"]
+[ext_resource type="PackedScene" uid="uid://dhihjl33de3pv" path="res://Scenes/StateMachine/States/StatesBird/BirdStateEat.tscn" id="7_jb6mn"]
+[ext_resource type="PackedScene" uid="uid://ddbme8hk7kbx8" path="res://Scenes/StateMachine/States/StatesBird/BirdStateFlee.tscn" id="8_0d8pa"]
+[ext_resource type="PackedScene" uid="uid://hbst0lyppcsl" path="res://Scenes/StateMachine/States/StatesBird/BirdStateFleeTarget.tscn" id="9_xlapt"]
+[ext_resource type="PackedScene" uid="uid://dwa5n28pve1pn" path="res://Scenes/StateMachine/States/StatesBird/BirdStateIdle.tscn" id="10_w5gpd"]
+[ext_resource type="PackedScene" uid="uid://bwusqr2vcfj5" path="res://Scenes/StateMachine/States/StatesBird/BirdStateMoveToFood.tscn" id="11_v8eod"]
+[ext_resource type="PackedScene" uid="uid://ck1ogfdah7hr6" path="res://Scenes/StateMachine/States/StatesBird/BirdStateMoveToFoodLure.tscn" id="12_i7ddd"]
+[ext_resource type="PackedScene" uid="uid://bn8nm50wu6w7r" path="res://Scenes/StateMachine/States/StatesBird/BirdStateMoveToFriend.tscn" id="13_1y6iw"]
+[ext_resource type="PackedScene" uid="uid://c83lmhisplqy0" path="res://Scenes/StateMachine/States/StatesBird/BirdStatePet.tscn" id="14_tua05"]
+[ext_resource type="PackedScene" uid="uid://cp112sq6qhgde" path="res://Scenes/StateMachine/States/StatesBird/BirdStatePlay.tscn" id="15_1bnvo"]
+[ext_resource type="PackedScene" uid="uid://binrl7hndt50e" path="res://Scenes/StateMachine/States/StatesBird/BirdStatePoke.tscn" id="16_vkf88"]
+[ext_resource type="PackedScene" uid="uid://c1fxj5psyfn4o" path="res://Scenes/StateMachine/States/StatesBird/BirdStatePreen.tscn" id="17_l2kcr"]
+[ext_resource type="PackedScene" uid="uid://n8mnxgf1h0qy" path="res://Scenes/StateMachine/States/StatesBird/BirdStateRest.tscn" id="18_bchrq"]
+[ext_resource type="PackedScene" uid="uid://06hao5qyflx0" path="res://Scenes/StateMachine/States/StatesBird/BirdStateStunned.tscn" id="19_rduko"]
+[ext_resource type="PackedScene" uid="uid://cbl7tn7s7u3mq" path="res://Scenes/StateMachine/States/StatesBird/BirdStateWander.tscn" id="20_1tui2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onri8"]
+radius = 56.0357
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
+radius = 342.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
+radius = 86.0523
+
+[node name="CreatureBird" type="CharacterBody2D" node_paths=PackedStringArray("blackboard") groups=["creature"]]
+z_index = 1
+collision_mask = 2
+input_pickable = true
+script = ExtResource("1_uymxu")
+type = &"Bird"
+hit_points = 60
+feisty = 20.0
+move_speed = 250.0
+friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird"])
+predator_types = Array[StringName]([&"Predator"])
+blackboard = NodePath("StateMachine/Blackboard")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_78p52")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="SelectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectRadius"]
+shape = SubResource("CircleShape2D_onri8")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_xbil5")
+
+[node name="EatRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
+shape = SubResource("CircleShape2D_8gas3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_qkihq")
+initial_state = NodePath("BirdStateWander")
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="Blackboard" type="Node" parent="StateMachine"]
+script = ExtResource("4_uslpr")
+
+[node name="BirdStateAttack" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("5_78p52")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateChase" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("6_13kxb")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateEat" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("7_jb6mn")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateFlee" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("8_0d8pa")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateFleeTarget" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("9_xlapt")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateIdle" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("10_w5gpd")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateMoveToFood" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("11_v8eod")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateMoveToFoodLure" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("12_i7ddd")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateMoveToFriend" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("13_1y6iw")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStatePet" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("14_tua05")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStatePlay" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("15_1bnvo")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStatePoke" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("16_vkf88")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStatePreen" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("17_l2kcr")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateRest" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("18_bchrq")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateStunned" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_rduko")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="BirdStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("20_1tui2")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="StateLabel" type="Label" parent="."]
+offset_left = -79.0
+offset_top = 73.0
+offset_right = 87.0
+offset_bottom = 96.0
+text = "Wander"
+horizontal_alignment = 1
+
+[node name="Stats" type="Node2D" parent="."]
+visible = false
+
+[node name="HPLabel" type="Label" parent="Stats"]
+offset_left = 74.0
+offset_top = -59.0
+offset_right = 114.0
+offset_bottom = -36.0
+text = "HP: 100/100"
+
+[node name="HungerLabel" type="Label" parent="Stats"]
+offset_left = 74.0
+offset_top = -32.0
+offset_right = 114.0
+offset_bottom = -9.0
+text = "Hunger: 100"
+
+[node name="FeistyLabel" type="Label" parent="Stats"]
+offset_left = 75.0
+offset_top = -7.0
+offset_right = 115.0
+offset_bottom = 16.0
+text = "Feisty: 0"
+
+[node name="TiredLabel" type="Label" parent="Stats"]
+offset_left = 76.0
+offset_top = 18.0
+offset_right = 134.0
+offset_bottom = 41.0
+text = "Tired: 0"
+
+[node name="NatureLabel" type="Label" parent="Stats"]
+offset_left = 76.0
+offset_top = 40.0
+offset_right = 134.0
+offset_bottom = 63.0
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -70.0
+offset_top = -95.0
+offset_right = 58.0
+offset_bottom = -72.0
+text = "Name"
+horizontal_alignment = 1
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 15)
+scale = Vector2(3.2, 3.2)
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]
+[connection signal="area_exited" from="DetectRadius" to="." method="_on_detect_radius_area_exited"]
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
+[connection signal="area_entered" from="EatRadius" to="." method="_on_eat_radius_area_entered"]
+[connection signal="area_exited" from="EatRadius" to="." method="_on_eat_radius_area_exited"]

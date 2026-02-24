@@ -7,5 +7,7 @@ class_name ARunFromTarget
 # Function to be implemented by Actions
 func act(blackboard: Blackboard, owning_creature: Creature, owning_state: MonsterState, _delta: float) -> void:
 	if blackboard.current_target:
-		var direction = blackboard.current_target.global_position - owning_creature.global_position
-		owning_creature.velocity = direction.normalized() * owning_creature.move_speed * speed_modifier * -1
+		print("Owning creature position: " + str(owning_creature.global_position))
+		print("Target position: " + str(blackboard.current_target.global_position))
+		var direction = owning_creature.global_position - blackboard.current_target.global_position
+		owning_creature.velocity = blackboard.current_target.position.direction_to(owning_creature.global_position) * owning_creature.move_speed * speed_modifier

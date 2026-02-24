@@ -1,16 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctj630glflkqv"]
+[gd_scene load_steps=5 format=3 uid="uid://bqmjf8o4ehnwf"]
 
-[ext_resource type="Script" uid="uid://4lfew6byfi5" path="res://Scripts/JournalPages/journal_page_plant_creature.gd" id="1_ubx25"]
-[ext_resource type="Texture2D" uid="uid://8suuqae56fl4" path="res://Art/journal_plantcreature.png" id="2_ubx25"]
-[ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_3hn1k"]
+[ext_resource type="Script" uid="uid://bbn60gfsecq5e" path="res://Scripts/JournalPages/journal_page_bird.gd" id="1_t2jp7"]
+[ext_resource type="Texture2D" uid="uid://dhe0ua3vcfehu" path="res://Art/journal_bird.png" id="2_t2jp7"]
+[ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_k278j"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_x7bok"]
+[sub_resource type="LabelSettings" id="LabelSettings_lttsj"]
 font_size = 200
 
-[node name="JournalPagePlantCreature" type="Node2D"]
+[node name="JournalPageBird" type="Node2D"]
 visible = false
-script = ExtResource("1_ubx25")
-total_states = 30.0
+script = ExtResource("1_t2jp7")
 
 [node name="CreatureName" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -19,7 +18,7 @@ offset_left = 476.0
 offset_top = 34.0
 offset_right = 595.0
 offset_bottom = 57.0
-text = "BITTYBUSH"
+text = "SONICOO"
 horizontal_alignment = 1
 
 [node name="StatesFound" type="Label" parent="."]
@@ -41,16 +40,16 @@ offset_bottom = 93.0
 text = "Progress: 0%"
 
 [node name="StateWander" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 160.0
 offset_right = 299.0
 offset_bottom = 183.0
-text = "- (LOCKED: I wonder if it moves...)"
+text = "- (LOCKED: I wonder how it moves...)"
 
 [node name="StateIdle" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 116.0
@@ -58,77 +57,77 @@ offset_right = 299.0
 offset_bottom = 139.0
 text = "- (LOCKED: I should take a picture of it...)"
 
-[node name="StatePhotosynthesize" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+[node name="StateEat" type="Label" parent="."]
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 206.0
 offset_right = 344.0
 offset_bottom = 229.0
-text = "- (LOCKED: I wonder how it gets energy...)"
+text = "- (LOCKED: I wonder what it eats...)"
 
 [node name="StateRest" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 246.0
 offset_right = 344.0
 offset_bottom = 269.0
-text = "- (LOCKED: Does it sleep...?)"
+text = "- (LOCKED: I wonder what happens when it gets tired...)"
 
 [node name="StatePet" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 296.0
 offset_right = 344.0
 offset_bottom = 319.0
-text = "- (LOCKED: I wonder what happens if I pet it...)"
+text = "- (LOCKED: I wonder what happens when I pet it...)"
 
 [node name="StatePoke" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 341.0
 offset_right = 344.0
 offset_bottom = 364.0
-text = "- (LOCKED: I wonder what happens if I poke it...)"
+text = "- (LOCKED: I wonder what happens when I poke it...)"
 
 [node name="StatePlay" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 386.0
 offset_right = 358.0
 offset_bottom = 409.0
-text = "- (LOCKED: I wonder if it gets excited...)"
+text = "- (LOCKED: I wonder how it behaves with others...)"
 
-[node name="StateDropFood" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+[node name="StateChase" type="Label" parent="."]
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 435.0
 offset_right = 358.0
 offset_bottom = 458.0
-text = "- (LOCKED: What happens to the fruit it grows?)"
+text = "- (LOCKED: I wonder what happens when it gets angry...)"
 
-[node name="StatePoison" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+[node name="StateAttack" type="Label" parent="."]
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 480.0
 offset_right = 344.0
 offset_bottom = 503.0
-text = "- (LOCKED: I wonder how it defends itself...)"
+text = "- (LOCKED: I wonder how it fights...)"
 
 [node name="StateFlee" type="Label" parent="."]
-modulate = Color(0.364706, 0.364706, 0.364706, 1)
+modulate = Color(0.366595, 0.366595, 0.366594, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 532.0
 offset_right = 343.0
 offset_bottom = 555.0
-text = "- (LOCKED: I wonder what happens when it's scared...)"
+text = "- (LOCKED: I wonder how it defends itself...)"
 
 [node name="Instructions" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -143,14 +142,14 @@ horizontal_alignment = 1
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 10
 position = Vector2(576, 324)
-texture = ExtResource("2_ubx25")
+texture = ExtResource("2_t2jp7")
 
 [node name="HiddenSprite" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0, 0, 1)
 z_index = 11
-position = Vector2(878, 181)
+position = Vector2(875, 166)
 scale = Vector2(0.123264, 0.195988)
-texture = ExtResource("3_3hn1k")
+texture = ExtResource("3_k278j")
 
 [node name="Label" type="Label" parent="HiddenSprite"]
 z_index = 12
@@ -159,4 +158,4 @@ offset_top = -132.661
 offset_right = 365.521
 offset_bottom = 143.339
 text = "? ? ?"
-label_settings = SubResource("LabelSettings_x7bok")
+label_settings = SubResource("LabelSettings_lttsj")

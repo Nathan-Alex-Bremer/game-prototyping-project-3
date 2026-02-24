@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cjh4yfiih2h2h"]
+[gd_scene load_steps=12 format=3 uid="uid://cjh4yfiih2h2h"]
 
 [ext_resource type="Script" uid="uid://b1ae65hd7fin6" path="res://Scripts/player_observer.gd" id="1_4o3b8"]
 [ext_resource type="PackedScene" uid="uid://0wnkaj8ql8" path="res://Scenes/Journal.tscn" id="2_8kdyt"]
@@ -24,24 +24,30 @@ outline_color = Color(0, 0, 0, 1)
 shadow_size = 0
 shadow_color = Color(0, 0, 0, 0.701961)
 
+[sub_resource type="LabelSettings" id="LabelSettings_hnjst"]
+outline_size = 5
+outline_color = Color(0, 0, 0, 1)
+
 [node name="PlayerObserver" type="CharacterBody2D" groups=["player"]]
-collision_layer = 4
+collision_layer = 5
 collision_mask = 4
 script = ExtResource("1_4o3b8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(576, 324)
+position = Vector2(-2, -7)
 
 [node name="Journal" parent="." node_paths=PackedStringArray("pages") instance=ExtResource("2_8kdyt")]
 z_index = 5
+position = Vector2(-578, -331)
 pages = {
+&"Bird": NodePath("JournalPageBird"),
 &"Creature": NodePath("JournalPageCreature"),
 &"PlantCreature": NodePath("JournalPagePlantCreature"),
 &"Predator": NodePath("JournalPagePredator")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
-position = Vector2(577.5, 340.5)
+position = Vector2(-0.5, 9.5)
 shape = SubResource("RectangleShape2D_8kdyt")
 
 [node name="Flash" type="Sprite2D" parent="."]
@@ -52,46 +58,54 @@ texture = ExtResource("3_40w55")
 
 [node name="InteractModeLabel" type="Label" parent="."]
 z_index = 10
-offset_left = 449.0
-offset_top = 10.0
-offset_right = 734.0
-offset_bottom = 38.0
+offset_left = -129.0
+offset_top = -321.0
+offset_right = 156.0
+offset_bottom = -293.0
 text = "Current Interact Mode: Check"
 label_settings = SubResource("LabelSettings_fjm26")
 horizontal_alignment = 1
 
 [node name="UpdateLabel" type="Label" parent="."]
 z_index = 10
-offset_left = 337.0
-offset_top = 49.0
-offset_right = 852.0
-offset_bottom = 72.0
+offset_left = -241.0
+offset_top = -282.0
+offset_right = 274.0
+offset_bottom = -254.0
 label_settings = SubResource("LabelSettings_40w55")
 horizontal_alignment = 1
 
 [node name="Popup" type="Sprite2D" parent="."]
 visible = false
 z_index = 8
-position = Vector2(593, 316)
+position = Vector2(15, -15)
 scale = Vector2(1.58, 1.58)
 texture = ExtResource("4_swban")
 
 [node name="Journalnotif" type="Sprite2D" parent="."]
 visible = false
 z_index = 10
-position = Vector2(68, 575)
+position = Vector2(-510, 244)
 texture = ExtResource("5_jpdhb")
+
+[node name="Label" type="Label" parent="Journalnotif"]
+offset_left = 8.0
+offset_top = 42.0
+offset_right = 304.0
+offset_bottom = 65.0
+text = "New info unlocked - check the Journal!"
+label_settings = SubResource("LabelSettings_hnjst")
 
 [node name="RainingEffect" type="Sprite2D" parent="."]
 visible = false
 modulate = Color(0, 0.2, 0.164706, 0.541176)
 z_index = 7
-position = Vector2(576, 324)
+position = Vector2(-2, -7)
 texture = ExtResource("3_40w55")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = 2
-position = Vector2(577, 308)
+position = Vector2(-1, -23)
 texture = ExtResource("6_jpdhb")
 
 [node name="CameraArea" parent="." instance=ExtResource("7_hnjst")]

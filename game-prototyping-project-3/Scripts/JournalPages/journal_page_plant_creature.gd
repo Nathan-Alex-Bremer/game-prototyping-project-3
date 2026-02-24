@@ -11,10 +11,10 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StateWander.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
-			if times_found == 15:
+			if times_found == 5:
 				$StateWander.text = "- WANDER: Only moves when necessary, because of their short legs."
 				progress += 1
-			if times_found == 30:
+			if times_found == 10:
 				$StateWander.text = "- WANDER: To conserve energy, they only move when needed."
 				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
@@ -24,12 +24,12 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StateIdle.modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
-			if times_found == 15:
+			if times_found == 5:
 				$StateIdle.text = "- IDLE: Their body is covered in a thick bush that grows fruits."
 				progress += 1
-			if times_found == 30:
+			if times_found == 10:
 				$StateIdle.text = "- IDLE: Has a symbiotic relationship with their bush cover, which generates energy."
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateIdle.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Photosynthesize":
 			if times_found == 1:
@@ -42,7 +42,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StatePhotosynthesize.text = "- PHOTO.: They rarely need to eat, but they can't absorb light when tired."
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StatePhotosynthesize.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Rest":
 			if times_found == 1:
@@ -55,7 +55,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StateRest.text = "- REST: To conserve energy, they regularly fall into a deep sleep."
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateRest.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Pet":
 			if times_found == 1:
@@ -68,7 +68,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StatePet.text = "- PET: Being pet relieves stress, causing them to be healthier overall."
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StatePet.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Annoyed":
 			if times_found == 1:
@@ -81,7 +81,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StatePoke.text = "- ANNOY: When poked, their fruit will drop off if ripe. Becoming too annoyed makes them leave"
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StatePoke.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Play":
 			if times_found == 1:
@@ -94,7 +94,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StatePlay.text = "- They need to play regularly or they will become unhealthy, but they are lazy."
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StatePlay.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Drop Food":
 			if times_found == 1:
@@ -107,7 +107,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StateDropFood.text = "- DROP FOOD: The fruit they drop from their body is eaten by many other creatures."
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateDropFood.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Poison Dust":
 			if times_found == 1:
@@ -120,7 +120,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StatePoison.text = "- POISON: Scatters poison dust to deter predators, but it takes some time to regrow."
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StatePoison.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Flee":
 			if times_found == 1:
@@ -133,7 +133,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 			if times_found == 10:
 				$StateFlee.text = "- FLEE: Runs away when out of poison dust, to recover health through photosynthesis."
-				$StateWander.modulate = Color(0.0, 0.5, 0.0, 1.0)
+				$StateFlee.modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 	
 	# This is such a gross way to do it
@@ -145,6 +145,9 @@ func update_progress() -> void:
 	# Entirely because it'd get annoying otherwise
 	$Progress.text = "Progress: " + str(int((progress / total_states) * 100)) + "%"
 	
+	if progress == 1:
+		$HiddenSprite.visible = false
+		
 	if progress == 5:
 		$Instructions.text = "Use interaction modes to find new states!"
 		

@@ -8,6 +8,8 @@ var timer: float
 var player: PlayerObserver
 var camera_area: CameraArea
 
+var next_creature_type: StringName = ""
+
 # State changing
 var interact_mode_text: StringName = "Current Interact Mode: "
 
@@ -42,23 +44,32 @@ func _ready() -> void:
 		new_creature.connect("Leaving", on_creature_leaving)
 		add_child(new_creature)
 		GameState.existing_creatures.append(new_creature)
-	for i in range(1):
-		var new_creature = GameState.predator_scene.instantiate()
-		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
-		new_creature.position = random_point
-		new_creature.connect("SelectedForCheck", on_creature_selected_check)
-		new_creature.connect("Leaving", on_creature_leaving)
-		add_child(new_creature)
-		GameState.existing_creatures.append(new_creature)
-	for i in range(1):
-		var new_creature = GameState.plantcreature_scene.instantiate()
-		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
-		new_creature.position = random_point
-		new_creature.connect("SelectedForCheck", on_creature_selected_check)
-		new_creature.connect("SpawnFood", spawn_food_near_position)
-		new_creature.connect("Leaving", on_creature_leaving)
-		add_child(new_creature)
-		GameState.existing_creatures.append(new_creature)
+	if GameState.debug_on:
+		for i in range(1):
+			var new_creature = GameState.bird_scene.instantiate()
+			var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+			new_creature.position = random_point
+			new_creature.connect("SelectedForCheck", on_creature_selected_check)
+			new_creature.connect("Leaving", on_creature_leaving)
+			add_child(new_creature)
+			GameState.existing_creatures.append(new_creature)
+		for i in range(1):
+			var new_creature = GameState.predator_scene.instantiate()
+			var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+			new_creature.position = random_point
+			new_creature.connect("SelectedForCheck", on_creature_selected_check)
+			new_creature.connect("Leaving", on_creature_leaving)
+			add_child(new_creature)
+			GameState.existing_creatures.append(new_creature)
+		for i in range(1):
+			var new_creature = GameState.plantcreature_scene.instantiate()
+			var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+			new_creature.position = random_point
+			new_creature.connect("SelectedForCheck", on_creature_selected_check)
+			new_creature.connect("SpawnFood", spawn_food_near_position)
+			new_creature.connect("Leaving", on_creature_leaving)
+			add_child(new_creature)
+			GameState.existing_creatures.append(new_creature)
 	
 	for i in range(5):
 		var new_bush = GameState.bush_scene.instantiate()
@@ -120,13 +131,30 @@ func spawn_food_near_position(position: Vector2, range: float) -> void:
 
 func spawn_creature() -> void:
 	var new_creature
-	var randnum = randi_range(1, 6)
-	if randnum == 1 and GameState.num_existing_creatures >= 5 and GameState.num_found_states <= 5:
-		new_creature = GameState.predator_scene.instantiate()
-	elif randnum == 2 and GameState.num_found_states <= 10:
-		new_creature = GameState.plantcreature_scene.instantiate()
+	
+	# If the next creature to spawn is pre-set, do that
+	if next_creature_type != "":
+		match next_creature_type:
+			"Predator":
+				new_creature = GameState.predator_scene.instantiate()
+			"PlantCreature":
+				new_creature = GameState.plantcreature_scene.instantiate()
+			"Bird":
+				new_creature = GameState.bird_scene.instantiate()
+		next_creature_type = ""
+	
+	# Otherwise, randomize the next creature spawn
 	else:
-		new_creature = GameState.creature_scene.instantiate()
+		var randnum = randi_range(1, 6)
+		if randnum == 1 and GameState.num_existing_creatures >= 5 and GameState.num_found_states >= 5:
+			new_creature = GameState.predator_scene.instantiate()
+		elif randnum == 2 and GameState.num_found_states >= 10:
+			new_creature = GameState.plantcreature_scene.instantiate()
+		elif randnum == 3 and GameState.num_found_states >= 15:
+			new_creature = GameState.bird_scene.instantiate()
+		else:
+			new_creature = GameState.creature_scene.instantiate()
+			
 	var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 	new_creature.position = random_point
 	new_creature.connect("SelectedForCheck", on_creature_selected_check)
@@ -154,18 +182,30 @@ func found_states_updated() -> void:
 	match GameState.num_found_states:
 		5:
 			player.interact_mode_unlocked("Place Food")
+			next_creature_type = "Predator"
 		10:
 			player.interact_mode_unlocked("Pet")
+			next_creature_type = "PlantCreature"
 		14:
 			player.interact_mode_unlocked("Poke")
+		15:
+			next_creature_type = "Bird"
 		18:
 			player.interact_mode_unlocked("Drag")
+		20:
+			next_creature_type = "Predator"
 
 func on_clicked_food(food_position: Vector2) -> void:
 	if GameState.num_found_states < 1:
 		print("Not enough research done!")
 		return
-		
+	
+	if food_position.x <= $MinPos.position.x or food_position.x >= $MaxPos.position.x:
+		return
+	
+	if food_position.y <= $MinPos.position.y or food_position.y >= $MaxPos.position.y:
+		return
+	
 	# Instantiate food object
 	# var place_for_food = get_viewport().get_mouse_position()
 	var new_food = GameState.food_scene.instantiate()

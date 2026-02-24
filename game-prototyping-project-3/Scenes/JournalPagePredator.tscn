@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://w6v1vlxctcit"]
+[gd_scene load_steps=5 format=3 uid="uid://w6v1vlxctcit"]
 
 [ext_resource type="Script" uid="uid://d0m7tdnffqn1t" path="res://Scripts/JournalPages/journal_page_predator.gd" id="1_q2k5f"]
 [ext_resource type="Texture2D" uid="uid://qd0dta5cvdp0" path="res://Art/journal_predator.png" id="2_q2k5f"]
+[ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_4dsmh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_x4xpc"]
+font_size = 200
 
 [node name="JournalPagePredator" type="Node2D"]
 visible = false
@@ -140,3 +144,19 @@ horizontal_alignment = 1
 z_index = 10
 position = Vector2(576, 324)
 texture = ExtResource("2_q2k5f")
+
+[node name="HiddenSprite" type="Sprite2D" parent="."]
+self_modulate = Color(0, 0, 0, 1)
+z_index = 11
+position = Vector2(879, 174)
+scale = Vector2(0.123264, 0.195988)
+texture = ExtResource("3_4dsmh")
+
+[node name="Label" type="Label" parent="HiddenSprite"]
+z_index = 12
+offset_left = -178.479
+offset_top = -132.661
+offset_right = 365.521
+offset_bottom = 143.339
+text = "? ? ?"
+label_settings = SubResource("LabelSettings_x4xpc")

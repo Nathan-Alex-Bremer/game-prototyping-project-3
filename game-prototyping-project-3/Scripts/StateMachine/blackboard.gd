@@ -9,6 +9,7 @@ class_name Blackboard
 # Kind of awkward but better than checking for overlapping bodies every frame
 var seen_food: Array[Food]
 var seen_creatures: Array[Creature]
+var seen_players: Array[PlayerObserver]
 var seen_hiding_places: Array[Bush] # TODO: Make this more generic
 
 # Waiting

@@ -88,7 +88,7 @@ func _process(delta: float) -> void:
 		if poison_damage_timer <= 0:
 			poison_damage()
 	
-	if (hunger == 0 or hit_points == 0) and not $VisibleOnScreenNotifier2D.is_on_screen():
+	if (hunger == 0 or hit_points == 0) and not $VisibleOnScreenNotifier2D.is_on_screen() and not blackboard.hidden:
 		Leaving.emit(creature_name)
 		
 		# Remove partner, if applicable
@@ -357,10 +357,19 @@ func _on_detect_radius_body_entered(body: Node2D) -> void:
 	if body.is_in_group("creature"):
 		blackboard.seen_creatures.append(body)
 		return
+	
+	if body.is_in_group("player"):
+		print("Found player!")
+		blackboard.seen_players.append(body)
+		return
 
 func _on_detect_radius_body_exited(body: Node2D) -> void:
 	if body.is_in_group("creature"):
 		blackboard.seen_creatures.erase(body)
+		return
+	
+	if body.is_in_group("player"):
+		blackboard.seen_players.erase(body)
 		return
 
 # For now just handles hiding places
