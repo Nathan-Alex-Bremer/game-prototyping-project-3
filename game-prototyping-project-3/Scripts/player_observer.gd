@@ -48,9 +48,11 @@ func _process(delta: float) -> void:
 		
 		match GameState.mode:
 			GameState.INTERACT_MODES.CHECK:
-				if GameState.num_found_states > 4:
+				if GameState.num_found_states > 2:
 					GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
 					print("New action mode: Place Food")
+					$CameraArea.set_interact_marker_visible(true)
+					$InteractArea2D.visible = true
 			GameState.INTERACT_MODES.PLACE_FOOD:
 				if GameState.num_found_states > 9:
 					GameState.mode = GameState.INTERACT_MODES.PET
@@ -58,6 +60,8 @@ func _process(delta: float) -> void:
 				else:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
+					$CameraArea.set_interact_marker_visible(false)
+					$InteractArea2D.visible = false
 			GameState.INTERACT_MODES.PET:
 				if GameState.num_found_states > 13:
 					GameState.mode = GameState.INTERACT_MODES.POKE
@@ -65,6 +69,8 @@ func _process(delta: float) -> void:
 				else:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
+					$CameraArea.set_interact_marker_visible(false)
+					$InteractArea2D.visible = false
 			GameState.INTERACT_MODES.POKE:
 				if GameState.num_found_states > 17:
 					GameState.mode = GameState.INTERACT_MODES.DRAG
@@ -72,9 +78,13 @@ func _process(delta: float) -> void:
 				else:
 					GameState.mode = GameState.INTERACT_MODES.CHECK
 					print("New action mode: Check")
+					$CameraArea.set_interact_marker_visible(false)
+					$InteractArea2D.visible = false
 			GameState.INTERACT_MODES.DRAG:
 				GameState.mode = GameState.INTERACT_MODES.CHECK
 				print("New action mode: Check")
+				$CameraArea.set_interact_marker_visible(false)
+				$InteractArea2D.visible = false
 		
 		ChangeMode.emit(GameState.mode)
 	
@@ -82,8 +92,9 @@ func _process(delta: float) -> void:
 		print("Use action!")
 		match GameState.mode:
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				var camera = get_viewport().get_camera_2d()
-				ClickedFood.emit(camera.get_global_mouse_position())
+				if GameState.in_interact_range:
+					var camera = get_viewport().get_camera_2d()
+					ClickedFood.emit(camera.get_global_mouse_position())
 				
 	if Input.is_action_just_pressed("open_journal"):
 		OpenJournal.emit()
@@ -204,3 +215,13 @@ func interact_mode_unlocked(mode: StringName) -> void:
 
 func toggle_rain_overlay() -> void:
 	$RainingEffect.visible = (not $RainingEffect.visible)
+
+
+func _on_interact_area_2d_mouse_entered() -> void:
+	GameState.in_interact_range = true
+	print("In interact range!")
+
+
+func _on_interact_area_2d_mouse_exited() -> void:
+	GameState.in_interact_range = false
+	print("Out of interact range!")

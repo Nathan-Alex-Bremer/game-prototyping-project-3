@@ -237,12 +237,12 @@ metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CFoundCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("24_bjtgm")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird"])
 metadata/_custom_type_script = "uid://eprd3dqvhob1"
 
 [node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("25_k08xu")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird"])
 metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
 
 [node name="TransitionToRest" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]

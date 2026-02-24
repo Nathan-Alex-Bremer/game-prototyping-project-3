@@ -94,9 +94,10 @@ func _process(delta: float) -> void:
 		print("Max creatures: " + str(GameState.max_creatures))
 		
 		# Small chance to begin raining
-		if randi_range(1, 30) == 1:
-			GameState.raining = not(GameState.raining)
-			player.toggle_rain_overlay()
+		# Commented out for now
+		#if randi_range(1, 30) == 1:
+			#GameState.raining = not(GameState.raining)
+			#player.toggle_rain_overlay()
 		# Reset timer
 		timer = timer_count
 
@@ -146,7 +147,7 @@ func spawn_creature() -> void:
 	# Otherwise, randomize the next creature spawn
 	else:
 		var randnum = randi_range(1, 6)
-		if randnum == 1 and GameState.num_existing_creatures >= 5 and GameState.num_found_states >= 5:
+		if randnum == 1 and GameState.num_existing_creatures >= 5 and GameState.num_found_states >= 4:
 			new_creature = GameState.predator_scene.instantiate()
 		elif randnum == 2 and GameState.num_found_states >= 10:
 			new_creature = GameState.plantcreature_scene.instantiate()
@@ -180,8 +181,9 @@ func found_states_updated() -> void:
 	GameState.max_creatures = 6 + int(GameState.num_found_states / 2)
 	
 	match GameState.num_found_states:
-		5:
+		3:
 			player.interact_mode_unlocked("Place Food")
+		4:
 			next_creature_type = "Predator"
 		10:
 			player.interact_mode_unlocked("Pet")

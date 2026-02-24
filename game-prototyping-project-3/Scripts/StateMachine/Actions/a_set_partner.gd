@@ -12,6 +12,7 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 					blackboard.partner = other_creature # This might cause trouble! Beware!
 					print("Partner: " + blackboard.partner.creature_name)
 					other_creature.blackboard.partner = owning_creature
+					print("Partner: " + blackboard.partner.blackboard.partner.creature_name)
 				return
 		else:
 			print("ERROR: NO CREATURE FOUND")

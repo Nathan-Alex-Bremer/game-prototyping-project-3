@@ -170,6 +170,7 @@ blackboard = NodePath("../BlackboardPredator")
 owning_creature = NodePath("../..")
 
 [node name="StateLabel" type="Label" parent="."]
+z_index = 4
 offset_left = -79.0
 offset_top = 73.0
 offset_right = 87.0
@@ -181,6 +182,7 @@ horizontal_alignment = 1
 visible = false
 
 [node name="HPLabel" type="Label" parent="Stats"]
+z_index = 4
 offset_left = 74.0
 offset_top = -59.0
 offset_right = 114.0
@@ -188,6 +190,7 @@ offset_bottom = -36.0
 text = "HP: 100/100"
 
 [node name="HungerLabel" type="Label" parent="Stats"]
+z_index = 4
 offset_left = 74.0
 offset_top = -32.0
 offset_right = 114.0
@@ -195,6 +198,7 @@ offset_bottom = -9.0
 text = "Hunger: 100"
 
 [node name="FeistyLabel" type="Label" parent="Stats"]
+z_index = 4
 offset_left = 75.0
 offset_top = -7.0
 offset_right = 115.0
@@ -202,6 +206,7 @@ offset_bottom = 16.0
 text = "Feisty: 0"
 
 [node name="TiredLabel" type="Label" parent="Stats"]
+z_index = 4
 offset_left = 76.0
 offset_top = 18.0
 offset_right = 134.0
@@ -209,12 +214,14 @@ offset_bottom = 41.0
 text = "Tired: 0"
 
 [node name="NatureLabel" type="Label" parent="Stats"]
+z_index = 4
 offset_left = 76.0
 offset_top = 40.0
 offset_right = 134.0
 offset_bottom = 63.0
 
 [node name="NameLabel" type="Label" parent="."]
+z_index = 4
 offset_left = -70.0
 offset_top = -95.0
 offset_right = 58.0

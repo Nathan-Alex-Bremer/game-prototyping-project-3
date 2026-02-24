@@ -3,6 +3,9 @@ extends Node2D
 # Controls debug testing things!
 var debug_on: bool = false
 
+# Player interact options!
+var in_interact_range: bool = true
+
 # Creatures
 var num_existing_creatures = 6
 @export var max_creatures: int = 6
@@ -119,3 +122,6 @@ func get_state_in_journal(creature_name: StringName, state_name: StringName) -> 
 	
 func get_state_found(creature_name: StringName, state_name: StringName) -> bool:
 	return (found_states[creature_name][state_name] > 0)
+	
+func get_state_complete(creature_name: StringName, state_name: StringName) -> bool:
+	return (found_states[creature_name][state_name] >= 10)

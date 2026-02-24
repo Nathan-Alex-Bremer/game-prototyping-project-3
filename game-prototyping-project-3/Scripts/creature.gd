@@ -233,6 +233,8 @@ func on_state_changed(new_state: MonsterState) -> void:
 	$StateLabel.text = new_state.simple_name
 	if not GameState.get_state_in_journal(type, new_state.simple_name):
 		$StateLabel.modulate = Color(0.8, 0.8, 0.8, 1.0)
+	elif GameState.get_state_complete(type, new_state.simple_name):
+		$StateLabel.modulate = Color(0.1, 1.0, 0.2, 1.0)
 	elif GameState.get_state_found(type, new_state.simple_name):
 		$StateLabel.modulate = Color(1.0, 0.8, 0.1, 1.0)
 	else:
@@ -305,6 +307,9 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 		
 		# Don't register clicks if not visible (except for disengaging dragging)
 		if not visible:
+			return
+			
+		if not GameState.in_interact_range and GameState.mode != GameState.INTERACT_MODES.CHECK:
 			return
 			
 		match GameState.mode:

@@ -6,6 +6,7 @@ var progress: float = 0
 @export var pages: Dictionary[StringName, Node]
 var page_names: Array[StringName] # This is so dumb and so ugly
 var active_page: int = 0
+var open = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,6 +33,9 @@ func update_progress() -> void:
 func toggle_opened() -> void:
 	print("Toggle opened")
 	pages[page_names[active_page]].toggle_opened()
+	open = not open
+	if open == false:
+		pages[page_names[active_page]].clear_update_labels()
 	# self.visible = (not self.visible)
 
 func change_page(forward: bool) -> void:

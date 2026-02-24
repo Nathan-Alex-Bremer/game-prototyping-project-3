@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cjh4yfiih2h2h"]
+[gd_scene load_steps=14 format=3 uid="uid://cjh4yfiih2h2h"]
 
 [ext_resource type="Script" uid="uid://b1ae65hd7fin6" path="res://Scripts/player_observer.gd" id="1_4o3b8"]
 [ext_resource type="PackedScene" uid="uid://0wnkaj8ql8" path="res://Scenes/Journal.tscn" id="2_8kdyt"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://2m1yrox10dmj" path="res://Art/journalnotif.png" id="5_jpdhb"]
 [ext_resource type="Texture2D" uid="uid://c7walfx5ihva3" path="res://Art/player.png" id="6_jpdhb"]
 [ext_resource type="PackedScene" uid="uid://o0f3estdyb43" path="res://Scenes/CameraArea.tscn" id="7_hnjst"]
+[ext_resource type="Texture2D" uid="uid://dajlbkp3nkp04" path="res://Art/circle.png" id="8_ofae6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8kdyt"]
 size = Vector2(85, 127)
@@ -28,7 +29,11 @@ shadow_color = Color(0, 0, 0, 0.701961)
 outline_size = 5
 outline_color = Color(0, 0, 0, 1)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_hnjst"]
+radius = 258.048
+
 [node name="PlayerObserver" type="CharacterBody2D" groups=["player"]]
+z_index = 2
 collision_layer = 5
 collision_mask = 4
 script = ExtResource("1_4o3b8")
@@ -104,9 +109,25 @@ position = Vector2(-2, -7)
 texture = ExtResource("3_40w55")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 2
 position = Vector2(-1, -23)
 texture = ExtResource("6_jpdhb")
 
 [node name="CameraArea" parent="." instance=ExtResource("7_hnjst")]
 z_index = 7
+
+[node name="InteractArea2D" type="Area2D" parent="."]
+visible = false
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea2D"]
+shape = SubResource("CircleShape2D_hnjst")
+
+[node name="Sprite2D" type="Sprite2D" parent="InteractArea2D"]
+modulate = Color(1, 1, 1, 0.109804)
+position = Vector2(0.500001, 1.5)
+scale = Vector2(1.2925, 1.2925)
+texture = ExtResource("8_ofae6")
+
+[connection signal="mouse_entered" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_exited"]

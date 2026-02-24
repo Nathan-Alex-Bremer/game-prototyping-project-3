@@ -84,7 +84,7 @@ metadata/_custom_type_script = "uid://rvqvpujats8x"
 
 [node name="CFeistyGreaterThan" type="Node" parent="EnterActions/AConditionalSpriteChangeFight"]
 script = ExtResource("11_0irc6")
-val = 60.0
+val = 80.0
 metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="ExitActions" type="Node" parent="."]

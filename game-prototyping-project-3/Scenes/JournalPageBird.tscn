@@ -11,6 +11,11 @@ font_size = 200
 visible = false
 script = ExtResource("1_t2jp7")
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 10
+position = Vector2(576, 324)
+texture = ExtResource("2_t2jp7")
+
 [node name="CreatureName" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
 z_index = 11
@@ -40,7 +45,7 @@ offset_bottom = 93.0
 text = "Progress: 0%"
 
 [node name="StateWander" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 160.0
@@ -48,8 +53,16 @@ offset_right = 299.0
 offset_bottom = 183.0
 text = "- (LOCKED: I wonder how it moves...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StateWander"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StateIdle" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 116.0
@@ -57,8 +70,16 @@ offset_right = 299.0
 offset_bottom = 139.0
 text = "- (LOCKED: I should take a picture of it...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StateIdle"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StateEat" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 206.0
@@ -66,8 +87,16 @@ offset_right = 344.0
 offset_bottom = 229.0
 text = "- (LOCKED: I wonder what it eats...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StateEat"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StateRest" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 246.0
@@ -75,8 +104,16 @@ offset_right = 344.0
 offset_bottom = 269.0
 text = "- (LOCKED: I wonder what happens when it gets tired...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StateRest"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StatePet" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 296.0
@@ -84,8 +121,16 @@ offset_right = 344.0
 offset_bottom = 319.0
 text = "- (LOCKED: I wonder what happens when I pet it...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StatePet"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StatePoke" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 341.0
@@ -93,8 +138,16 @@ offset_right = 344.0
 offset_bottom = 364.0
 text = "- (LOCKED: I wonder what happens when I poke it...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StatePoke"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StatePlay" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 386.0
@@ -102,8 +155,16 @@ offset_right = 358.0
 offset_bottom = 409.0
 text = "- (LOCKED: I wonder how it behaves with others...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StatePlay"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StateChase" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 435.0
@@ -111,8 +172,16 @@ offset_right = 358.0
 offset_bottom = 458.0
 text = "- (LOCKED: I wonder what happens when it gets angry...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StateChase"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StateAttack" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 141.0
 offset_top = 480.0
@@ -120,14 +189,30 @@ offset_right = 344.0
 offset_bottom = 503.0
 text = "- (LOCKED: I wonder how it fights...)"
 
+[node name="UpdateLabel" type="Sprite2D" parent="StateAttack"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
+
 [node name="StateFlee" type="Label" parent="."]
-modulate = Color(0.366595, 0.366595, 0.366594, 1)
+self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 11
 offset_left = 140.0
 offset_top = 532.0
 offset_right = 343.0
 offset_bottom = 555.0
 text = "- (LOCKED: I wonder how it defends itself...)"
+
+[node name="UpdateLabel" type="Sprite2D" parent="StateFlee"]
+visible = false
+self_modulate = Color(1, 1, 1, 0.541176)
+z_index = -1
+position = Vector2(300, 9)
+scale = Vector2(0.52691, 0.066358)
+texture = ExtResource("3_k278j")
 
 [node name="Instructions" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -138,11 +223,6 @@ offset_right = 684.0
 offset_bottom = 606.0
 text = "Take photos to fill out the journal!"
 horizontal_alignment = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 10
-position = Vector2(576, 324)
-texture = ExtResource("2_t2jp7")
 
 [node name="HiddenSprite" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0, 0, 1)

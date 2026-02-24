@@ -17,3 +17,5 @@ func toggle_opened() -> void:
 	print("Page toggle opened")
 	self.visible = (not self.visible)
 	
+func clear_update_labels() -> void:
+	pass

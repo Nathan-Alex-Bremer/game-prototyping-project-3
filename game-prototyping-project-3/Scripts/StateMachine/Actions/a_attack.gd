@@ -16,9 +16,9 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 		if body.is_in_group("creature") and body != owning_creature:
 			if body is Creature:
 				if body.get_type() not in creature_types:
-					pass
-				if blackboard is BlackboardPredator and blackboard.partner and blackboard.partner.creature_name == body.creature_name:
-					pass
+					continue
+				elif blackboard is BlackboardPredator and blackboard.partner and blackboard.partner.creature_name == body.creature_name:
+					continue
 				body.deal_damage(owning_creature, damage)
 				blackboard.aggressive = true
 				owning_creature.change_feisty(-10, false)

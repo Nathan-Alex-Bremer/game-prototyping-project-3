@@ -37,6 +37,7 @@ metadata/_custom_type_script = "uid://b378gqkrvg1q5"
 
 [node name="AAttack" type="Node" parent="EnterActions"]
 script = ExtResource("4_t3dts")
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator"])
 metadata/_custom_type_script = "uid://dkkco5pqtqlys"
 
 [node name="ExitActions" type="Node" parent="."]
