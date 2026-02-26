@@ -1,0 +1,112 @@
+[gd_scene load_steps=16 format=3 uid="uid://8wu3hpwumu8i"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_j1ay8"]
+[ext_resource type="Texture2D" uid="uid://om8euss5qa36" path="res://Art/FrogStates/FrogAnnoyed.png" id="2_f3ytw"]
+[ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="3_8sii3"]
+[ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_2si1f"]
+[ext_resource type="Script" uid="uid://3hvifjdriy5q" path="res://Scripts/StateMachine/Actions/a_set_wait_time.gd" id="5_x77qi"]
+[ext_resource type="Script" uid="uid://cwbg7vo8x2tme" path="res://Scripts/StateMachine/Actions/a_set_is_poked.gd" id="6_6gnuc"]
+[ext_resource type="Script" uid="uid://bukx1pqnbhomw" path="res://Scripts/StateMachine/Actions/a_set_signal.gd" id="6_bc2mu"]
+[ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="7_vkv6k"]
+[ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="8_2gr68"]
+[ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="9_jipix"]
+[ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="10_qtx46"]
+[ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="11_mkyfv"]
+[ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="12_ot757"]
+[ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="13_cytxk"]
+[ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="14_pcmku"]
+
+[node name="FrogStatePoke" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
+script = ExtResource("1_j1ay8")
+simple_name = &"Annoyed"
+sprite = ExtResource("2_f3ytw")
+enter_actions = [NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/ASetSignal")]
+exit_actions = [NodePath("ExitActions/ASetIsPoked"), NodePath("ExitActions/ASetSignal")]
+update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
+physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToWander")]
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="AChangeFeisty" type="Node" parent="EnterActions"]
+script = ExtResource("3_8sii3")
+amount = 50.0
+metadata/_custom_type_script = "uid://doudrgrfo8a6k"
+
+[node name="ACalcWantsToPlay" type="Node" parent="EnterActions"]
+script = ExtResource("4_2si1f")
+metadata/_custom_type_script = "uid://qrhmyfalcev2"
+
+[node name="ASetWaitTime" type="Node" parent="EnterActions"]
+script = ExtResource("5_x77qi")
+time_to_wait = 2.0
+metadata/_custom_type_script = "uid://3hvifjdriy5q"
+
+[node name="ASetSignal" type="Node" parent="EnterActions"]
+script = ExtResource("6_bc2mu")
+signal_val = &"spray"
+metadata/_custom_type_script = "uid://bukx1pqnbhomw"
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="ASetIsPoked" type="Node" parent="ExitActions"]
+script = ExtResource("6_6gnuc")
+val = false
+metadata/_custom_type_script = "uid://cwbg7vo8x2tme"
+
+[node name="ASetSignal" type="Node" parent="ExitActions"]
+script = ExtResource("6_bc2mu")
+metadata/_custom_type_script = "uid://bukx1pqnbhomw"
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("7_vkv6k")
+amount = -0.8
+scalable = true
+metadata/_custom_type_script = "uid://dq3xm51g267od"
+
+[node name="AChangeFeistyDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("8_2gr68")
+amount = 0.48
+scalable = true
+metadata/_custom_type_script = "uid://c544yfe00a2d1"
+
+[node name="AChangeTiredDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("9_jipix")
+amount = 0.21
+scalable = true
+metadata/_custom_type_script = "uid://cbfb1foxoxepf"
+
+[node name="AReduceWaitTime" type="Node" parent="UpdateActions"]
+script = ExtResource("10_qtx46")
+metadata/_custom_type_script = "uid://ckuqr2gv4efpk"
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="AVelocityZero" type="Node" parent="PhysicsUpdateActions"]
+script = ExtResource("11_mkyfv")
+metadata/_custom_type_script = "uid://cnqboljrughfj"
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="TransitionToStunned" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("12_ot757")
+conditions = [NodePath("CIsStunned")]
+next_state = &"frogstatestunned"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsStunned" type="Node" parent="Transitions/TransitionToStunned"]
+script = ExtResource("13_cytxk")
+metadata/_custom_type_script = "uid://cbq20o6y4ae31"
+
+[node name="TransitionToWander" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("12_ot757")
+conditions = [NodePath("CWaitTimeZero")]
+next_state = &"frogstatewander"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("14_pcmku")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"

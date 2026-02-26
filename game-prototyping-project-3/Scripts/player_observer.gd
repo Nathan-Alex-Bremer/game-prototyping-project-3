@@ -48,13 +48,13 @@ func _process(delta: float) -> void:
 		
 		match GameState.mode:
 			GameState.INTERACT_MODES.CHECK:
-				if GameState.num_found_states > 2:
+				if GameState.num_found_states > 2 or GameState.debug_on:
 					GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
 					print("New action mode: Place Food")
 					$CameraArea.set_interact_marker_visible(true)
 					$InteractArea2D.visible = true
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				if GameState.num_found_states > 9:
+				if GameState.num_found_states > 9 or GameState.debug_on:
 					GameState.mode = GameState.INTERACT_MODES.PET
 					print("New action mode: Pet")
 				else:
@@ -63,7 +63,7 @@ func _process(delta: float) -> void:
 					$CameraArea.set_interact_marker_visible(false)
 					$InteractArea2D.visible = false
 			GameState.INTERACT_MODES.PET:
-				if GameState.num_found_states > 13:
+				if GameState.num_found_states > 13 or GameState.debug_on:
 					GameState.mode = GameState.INTERACT_MODES.POKE
 					print("New action mode: Poke")
 				else:
@@ -72,7 +72,7 @@ func _process(delta: float) -> void:
 					$CameraArea.set_interact_marker_visible(false)
 					$InteractArea2D.visible = false
 			GameState.INTERACT_MODES.POKE:
-				if GameState.num_found_states > 17:
+				if GameState.num_found_states > 17 or GameState.debug_on:
 					GameState.mode = GameState.INTERACT_MODES.DRAG
 					print("New action mode: Drag")
 				else:

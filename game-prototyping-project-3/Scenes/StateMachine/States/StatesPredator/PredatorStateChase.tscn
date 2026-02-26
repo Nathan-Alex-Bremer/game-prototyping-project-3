@@ -27,7 +27,7 @@ sprite = ExtResource("2_ns3m4")
 enter_actions = [NodePath("EnterActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToIdle3"), NodePath("Transitions/TransitionToAttack")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFleeTarget2"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToIdle3"), NodePath("Transitions/TransitionToAttack")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -121,6 +121,32 @@ val = false
 metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 
 [node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("13_281s0")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="TransitionToFleeTarget2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("8_5pvd3")
+conditions = [NodePath("CFoundSignal"), NodePath("CFeistyLessThan")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
+next_state = &"predatorstatefleetarget"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CFoundSignal" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("12_vt3c3")
+signal_val = &"spray"
+metadata/_custom_type_script = "uid://0sj2j2ombtdx"
+
+[node name="CFeistyLessThan" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("12_cb6l7")
+val = 75.0
+metadata/_custom_type_script = "uid://b4bqfg4e2sx4l"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("14_ciskl")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget2"]
 script = ExtResource("13_281s0")
 metadata/_custom_type_script = "uid://wtbvohgc37nl"
 

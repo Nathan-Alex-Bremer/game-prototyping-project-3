@@ -47,7 +47,7 @@ simple_name = &"Wander"
 sprite = ExtResource("2_frj7y")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/AConditionalSpriteChange")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToIntimidate"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToMoveToPartner"), NodePath("Transitions/TransitionToSkulk"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFleeTarget2"), NodePath("Transitions/TransitionToIntimidate"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToMoveToPartner"), NodePath("Transitions/TransitionToSkulk"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -223,12 +223,12 @@ metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CFoundCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("24_kdpdr")
-creature_types = Array[StringName]([&"Predator", &"Creature", &"PlantCreature", &"Bird"])
+creature_types = Array[StringName]([&"Predator", &"Creature", &"PlantCreature", &"Bird", &"Frog"])
 metadata/_custom_type_script = "uid://eprd3dqvhob1"
 
 [node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("25_m3xcu")
-creature_types = Array[StringName]([&"Predator", &"Creature", &"PlantCreature"])
+creature_types = Array[StringName]([&"Predator", &"Creature", &"PlantCreature", &"Bird", &"Frog"])
 metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
 
 [node name="TransitionToRest" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
@@ -388,6 +388,32 @@ val = false
 metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 
 [node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("6_tlg8y")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="TransitionToFleeTarget2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("11_blht0")
+conditions = [NodePath("CFoundSignal"), NodePath("CFeistyLessThan")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
+next_state = &"predatorstatefleetarget"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CFoundSignal" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("35_rbk8g")
+signal_val = &"spray"
+metadata/_custom_type_script = "uid://0sj2j2ombtdx"
+
+[node name="CFeistyLessThan" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("19_c44mq")
+val = 75.0
+metadata/_custom_type_script = "uid://b4bqfg4e2sx4l"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("39_7klec")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget2"]
 script = ExtResource("6_tlg8y")
 metadata/_custom_type_script = "uid://wtbvohgc37nl"
 

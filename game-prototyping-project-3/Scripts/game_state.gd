@@ -1,7 +1,7 @@
 extends Node2D
 
 # Controls debug testing things!
-var debug_on: bool = false
+var debug_on: bool = true
 
 # Player interact options!
 var in_interact_range: bool = true
@@ -12,6 +12,7 @@ var num_existing_creatures = 6
 @export var creature_scene: PackedScene
 @export var predator_scene: PackedScene
 @export var plantcreature_scene: PackedScene
+@export var frog_scene: PackedScene
 @export var bird_scene: PackedScene
 
 
@@ -59,7 +60,8 @@ var found_states = {
 	"Creature" = {},
 	"Predator" = {},
 	"PlantCreature" = {},
-	"Bird" = {}
+	"Bird" = {},
+	"Frog" = {}
 }
 
 var num_found_states: int = 0
@@ -116,6 +118,17 @@ func _ready() -> void:
 	found_states["Bird"]["Chase"] = 0
 	found_states["Bird"]["Attack"] = 0
 	found_states["Bird"]["Flee"] = 0
+	
+	found_states["Frog"]["Eat"] = 0
+	found_states["Frog"]["Idle"] = 0
+	found_states["Frog"]["Wander"] = 0
+	found_states["Frog"]["Rest"] = 0
+	found_states["Frog"]["Pet"] = 0
+	found_states["Frog"]["Annoyed"] = 0
+	found_states["Frog"]["Play"] = 0
+	found_states["Frog"]["Chase"] = 0
+	found_states["Frog"]["Attack"] = 0
+	found_states["Frog"]["Flee"] = 0
 
 func get_state_in_journal(creature_name: StringName, state_name: StringName) -> bool:
 	return (found_states[creature_name].has(state_name))

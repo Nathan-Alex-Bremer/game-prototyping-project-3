@@ -41,6 +41,9 @@ func get_current_state_name() -> StringName:
 
 func on_child_transition(new_state_name) -> void:
 	
+	if new_state_name == "birdstatefleetarget":
+		print("State before: " + get_current_state_name())
+	
 	#if state != current_state:
 		#return
 		

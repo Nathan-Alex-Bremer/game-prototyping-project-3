@@ -35,7 +35,7 @@ sprite = ExtResource("2_obe8g")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToYawn"), NodePath("Transitions/TransitionToZoom"), NodePath("Transitions/TransitionToSkulk2"), NodePath("Transitions/TransitionToSkulk"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToWander")]
+transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFleeTarget2"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToYawn"), NodePath("Transitions/TransitionToZoom"), NodePath("Transitions/TransitionToSkulk2"), NodePath("Transitions/TransitionToSkulk"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToWander")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -144,6 +144,32 @@ val = false
 metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 
 [node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("5_f3lj2")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="TransitionToFleeTarget2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("11_5ftbw")
+conditions = [NodePath("CFoundSignal"), NodePath("CFeistyLessThan")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
+next_state = &"predatorstatefleetarget"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CFoundSignal" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("15_2wuer")
+signal_val = &"spray"
+metadata/_custom_type_script = "uid://0sj2j2ombtdx"
+
+[node name="CFeistyLessThan" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("16_eqktl")
+val = 75.0
+metadata/_custom_type_script = "uid://b4bqfg4e2sx4l"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToFleeTarget2"]
+script = ExtResource("17_oy4h0")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget2"]
 script = ExtResource("5_f3lj2")
 metadata/_custom_type_script = "uid://wtbvohgc37nl"
 

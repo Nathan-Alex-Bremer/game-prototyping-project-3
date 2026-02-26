@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cbl7tn7s7u3mq"]
+[gd_scene load_steps=37 format=3 uid="uid://cbl7tn7s7u3mq"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_sg7b5"]
 [ext_resource type="Texture2D" uid="uid://cclry4osce1bd" path="res://Art/BirdStates/BirdWander.png" id="2_8jt8b"]
@@ -34,6 +34,7 @@
 [ext_resource type="Script" uid="uid://0sj2j2ombtdx" path="res://Scripts/StateMachine/Conditions/c_found_signal.gd" id="32_rftlo"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="33_37hre"]
 [ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="34_87t75"]
+[ext_resource type="Script" uid="uid://biltg1f4gcn4v" path="res://Scripts/StateMachine/Actions/a_set_target_signal.gd" id="35_3r2vo"]
 [ext_resource type="Script" uid="uid://d22jqfqjcw4hl" path="res://Scripts/StateMachine/Conditions/c_random_number.gd" id="36_hrqiy"]
 
 [node name="BirdStateWander" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
@@ -259,12 +260,12 @@ metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CFoundCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("28_8mp1w")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog"])
 metadata/_custom_type_script = "uid://eprd3dqvhob1"
 
 [node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("29_jbghp")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog"])
 metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
 
 [node name="TransitionToRest" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
@@ -278,10 +279,11 @@ script = ExtResource("30_vfrl1")
 val = 75.0
 metadata/_custom_type_script = "uid://bbyxbf84ncqh6"
 
-[node name="TransitionToFlee" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+[node name="TransitionToFlee" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("16_0k4xs")
 conditions = [NodePath("CFeistyGreaterThan"), NodePath("CTiredLessThan"), NodePath("CFoundCreature")]
-next_state = &"birdstateflee"
+actions = [NodePath("ASetTargetCreature")]
+next_state = &"birdstatefleetarget"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CFeistyGreaterThan" type="Node" parent="Transitions/TransitionToFlee"]
@@ -299,11 +301,16 @@ script = ExtResource("28_8mp1w")
 creature_types = Array[StringName]([&"Predator"])
 metadata/_custom_type_script = "uid://eprd3dqvhob1"
 
+[node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToFlee"]
+script = ExtResource("29_jbghp")
+creature_types = Array[StringName]([&"Predator"])
+metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
+
 [node name="TransitionToFleeTarget" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("16_0k4xs")
 conditions = [NodePath("CFoundSignal"), NodePath("CFeistyLessThan")]
-actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
-next_state = &"birdstateflee"
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetSignal")]
+next_state = &"birdstatefleetarget"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CFoundSignal" type="Node" parent="Transitions/TransitionToFleeTarget"]
@@ -321,9 +328,9 @@ script = ExtResource("33_37hre")
 val = false
 metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 
-[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget"]
-script = ExtResource("6_l2udg")
-metadata/_custom_type_script = "uid://wtbvohgc37nl"
+[node name="ASetTargetSignal" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("35_3r2vo")
+metadata/_custom_type_script = "uid://biltg1f4gcn4v"
 
 [node name="TransitionToFoodLure" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("16_0k4xs")

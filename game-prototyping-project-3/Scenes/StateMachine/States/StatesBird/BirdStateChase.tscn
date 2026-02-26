@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bc4qc056ofwfm"]
+[gd_scene load_steps=21 format=3 uid="uid://bc4qc056ofwfm"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_cd6v3"]
 [ext_resource type="Texture2D" uid="uid://t8jmp3l2wfv0" path="res://Art/BirdStates/BirdChase.png" id="2_cd6v3"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://0sj2j2ombtdx" path="res://Scripts/StateMachine/Conditions/c_found_signal.gd" id="12_m56xn"]
 [ext_resource type="Script" uid="uid://b4bqfg4e2sx4l" path="res://Scripts/StateMachine/Conditions/c_feisty_lessthan.gd" id="13_bl4ck"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="14_gl6dq"]
+[ext_resource type="Script" uid="uid://biltg1f4gcn4v" path="res://Scripts/StateMachine/Actions/a_set_target_signal.gd" id="15_s23pt"]
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="15_t18fk"]
 [ext_resource type="Script" uid="uid://b58hvb6gow88r" path="res://Scripts/StateMachine/Conditions/c_no_target.gd" id="16_ygtkv"]
 [ext_resource type="Script" uid="uid://p3flxt7u82f0" path="res://Scripts/StateMachine/Conditions/c_target_hidden.gd" id="17_2kcem"]
@@ -101,8 +102,8 @@ metadata/_custom_type_script = "uid://bs4mi7jrtrlhv"
 [node name="TransitionToFleeTarget" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("8_pb7e7")
 conditions = [NodePath("CFoundSignal"), NodePath("CFeistyLessThan")]
-actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
-next_state = &"birdstateflee"
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetSignal")]
+next_state = &"birdstatefleetarget"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CFoundSignal" type="Node" parent="Transitions/TransitionToFleeTarget"]
@@ -120,9 +121,9 @@ script = ExtResource("14_gl6dq")
 val = false
 metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 
-[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToFleeTarget"]
-script = ExtResource("15_t18fk")
-metadata/_custom_type_script = "uid://wtbvohgc37nl"
+[node name="ASetTargetSignal" type="Node" parent="Transitions/TransitionToFleeTarget"]
+script = ExtResource("15_s23pt")
+metadata/_custom_type_script = "uid://biltg1f4gcn4v"
 
 [node name="TransitionToIdle" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("8_pb7e7")

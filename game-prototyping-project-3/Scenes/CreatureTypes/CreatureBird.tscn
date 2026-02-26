@@ -44,6 +44,7 @@ feisty = 20.0
 move_speed = 250.0
 friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird"])
 predator_types = Array[StringName]([&"Predator"])
+prey_types = Array[StringName]([&"Frog"])
 blackboard = NodePath("StateMachine/Blackboard")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
