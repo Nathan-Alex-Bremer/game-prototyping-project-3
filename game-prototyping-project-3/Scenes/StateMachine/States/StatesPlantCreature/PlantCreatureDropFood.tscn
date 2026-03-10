@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://2rf5lr5cwqg"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_d2uqo"]
-[ext_resource type="Texture2D" uid="uid://76cg3epp2l8o" path="res://Art/PlantCreatureStates/PlantCreaturePoke.png" id="2_d2uqo"]
+[ext_resource type="Texture2D" uid="uid://bulyam087bqce" path="res://Art/PlantCreatureStates/PlantCreaturePokeDrop.png" id="2_d2uqo"]
 [ext_resource type="Script" uid="uid://3hvifjdriy5q" path="res://Scripts/StateMachine/Actions/a_set_wait_time.gd" id="3_sv2pm"]
 [ext_resource type="Script" uid="uid://bg5ykpgljn4ab" path="res://Scripts/StateMachine/Actions/a_drop_food.gd" id="4_4uvw8"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="5_7isy4"]

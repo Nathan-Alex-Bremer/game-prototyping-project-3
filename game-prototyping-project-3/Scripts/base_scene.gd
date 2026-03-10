@@ -95,17 +95,22 @@ func _process(delta: float) -> void:
 		if randi_range(1, 3) == 3:
 			spawn_food()
 		
-		if randi_range(1, 5) == 5 and GameState.num_existing_creatures < GameState.max_creatures:
+		# Redefining this thing is annoying, maybe move the variable and just change the value each time
+		var required_spawn_roll = 5
+		if GameState.num_existing_creatures <= (GameState.max_creatures / 2):
+			required_spawn_roll -= 1 # More creatures are more likely if we're far below the cap
+		if GameState.num_food <= 10: # More creatures are more likely with a lot of food
+			required_spawn_roll -= 1
+		if randi_range(1, 5) >= required_spawn_roll and GameState.num_existing_creatures < GameState.max_creatures:
 			spawn_creature()
 			
 		print("Num creatures: " + str(GameState.num_existing_creatures))
 		print("Max creatures: " + str(GameState.max_creatures))
 		
 		# Small chance to begin raining
-		# Commented out for now
-		#if randi_range(1, 30) == 1:
-			#GameState.raining = not(GameState.raining)
-			#player.toggle_rain_overlay()
+		if randi_range(1, 30) == 1:
+			GameState.raining = not(GameState.raining)
+			player.toggle_rain_overlay()
 		# Reset timer
 		timer = timer_count
 
@@ -150,13 +155,17 @@ func spawn_creature() -> void:
 				new_creature = GameState.plantcreature_scene.instantiate()
 			"Bird":
 				new_creature = GameState.bird_scene.instantiate()
+			"Frog":
+				new_creature = GameState.frog_scene.instantiate()
 		next_creature_type = ""
 	
 	# Otherwise, randomize the next creature spawn
 	else:
 		var randnum = randi_range(1, 6)
-		if randnum == 1 and GameState.num_existing_creatures >= 5 and GameState.num_found_states >= 4:
+		if randnum == 1 and GameState.num_existing_creatures >= 5 and GameState.num_found_states >= 4 and not GameState.raining:
 			new_creature = GameState.predator_scene.instantiate()
+		elif randnum == 1 and GameState.num_found_states >= 4:
+			new_creature = GameState.frog_scene.instantiate()
 		elif randnum == 2 and GameState.num_found_states >= 10:
 			new_creature = GameState.plantcreature_scene.instantiate()
 		elif randnum == 3 and GameState.num_found_states >= 15:
@@ -192,7 +201,10 @@ func found_states_updated() -> void:
 		3:
 			player.interact_mode_unlocked("Place Food")
 		4:
-			next_creature_type = "Predator"
+			if GameState.raining:
+				next_creature_type = "Frog"
+			else:
+				next_creature_type = "Predator"
 		10:
 			player.interact_mode_unlocked("Pet")
 			next_creature_type = "PlantCreature"
@@ -203,7 +215,8 @@ func found_states_updated() -> void:
 		18:
 			player.interact_mode_unlocked("Drag")
 		20:
-			next_creature_type = "Predator"
+			if not GameState.raining:
+				next_creature_type = "Predator"
 
 func on_clicked_food(food_position: Vector2) -> void:
 	if GameState.num_found_states < 1:

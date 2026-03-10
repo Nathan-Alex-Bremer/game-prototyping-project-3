@@ -8,4 +8,5 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 		if blackboard.has_food:
 			owning_creature.spawn_food_nearby()
 			blackboard.has_food = false
+			blackboard.dropped_food = true
 			blackboard.food_timer = blackboard.food_timer_max

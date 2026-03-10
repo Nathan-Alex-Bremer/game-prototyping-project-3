@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cjh4yfiih2h2h"]
+[gd_scene load_steps=15 format=3 uid="uid://cjh4yfiih2h2h"]
 
 [ext_resource type="Script" uid="uid://b1ae65hd7fin6" path="res://Scripts/player_observer.gd" id="1_4o3b8"]
 [ext_resource type="PackedScene" uid="uid://0wnkaj8ql8" path="res://Scenes/Journal.tscn" id="2_8kdyt"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://c7walfx5ihva3" path="res://Art/player.png" id="6_jpdhb"]
 [ext_resource type="PackedScene" uid="uid://o0f3estdyb43" path="res://Scenes/CameraArea.tscn" id="7_hnjst"]
 [ext_resource type="Texture2D" uid="uid://dajlbkp3nkp04" path="res://Art/circle.png" id="8_ofae6"]
+[ext_resource type="PackedScene" uid="uid://qdq5e3o7qiw8" path="res://Scenes/Quest/QuestHandler.tscn" id="9_xekgo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8kdyt"]
 size = Vector2(85, 127)
@@ -47,6 +48,7 @@ position = Vector2(-578, -331)
 pages = {
 &"Bird": NodePath("JournalPageBird"),
 &"Creature": NodePath("JournalPageCreature"),
+&"Frog": NodePath("JournalPageFrog"),
 &"PlantCreature": NodePath("JournalPagePlantCreature"),
 &"Predator": NodePath("JournalPagePredator")
 }
@@ -98,8 +100,23 @@ offset_left = 8.0
 offset_top = 42.0
 offset_right = 304.0
 offset_bottom = 65.0
-text = "New info unlocked - check the Journal!"
+text = "New info unlocked - check the Journal! (E)"
 label_settings = SubResource("LabelSettings_hnjst")
+
+[node name="Questnotif" type="Sprite2D" parent="."]
+visible = false
+z_index = 10
+position = Vector2(563, 249)
+texture = ExtResource("5_jpdhb")
+
+[node name="Label" type="Label" parent="Questnotif"]
+offset_left = -368.0
+offset_top = 35.0
+offset_right = -72.0
+offset_bottom = 58.0
+text = "Quest complete!"
+label_settings = SubResource("LabelSettings_hnjst")
+horizontal_alignment = 2
 
 [node name="RainingEffect" type="Sprite2D" parent="."]
 visible = false
@@ -129,5 +146,10 @@ position = Vector2(0.500001, 1.5)
 scale = Vector2(1.2925, 1.2925)
 texture = ExtResource("8_ofae6")
 
+[node name="QuestHandler" parent="." instance=ExtResource("9_xekgo")]
+
 [connection signal="mouse_entered" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_exited"]
+[connection signal="new_quest" from="QuestHandler" to="." method="_on_quest_handler_new_quest"]
+[connection signal="quest_complete" from="QuestHandler" to="." method="_on_quest_handler_quest_complete"]
+[connection signal="quest_menu_opened" from="QuestHandler" to="." method="_on_quest_handler_quest_menu_opened"]

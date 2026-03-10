@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnjko78dsirrr"]
+
+[ext_resource type="Script" uid="uid://igrv4wj1gxwm" path="res://Scripts/small_tree.gd" id="1_0suky"]
+[ext_resource type="Texture2D" uid="uid://cnhssix7paiq6" path="res://Art/TreeLog.png" id="5_rtd5e"]
+[ext_resource type="Texture2D" uid="uid://dbb1dxceujiig" path="res://Art/TreeLeaves.png" id="6_1s7xt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e0wpt"]
+radius = 96.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0suky"]
+radius = 88.2043
+
+[node name="Tree" type="Node2D"]
+script = ExtResource("1_0suky")
+
+[node name="Area2D" type="Area2D" parent="." groups=["cover"]]
+
+[node name="CoverShape2D" type="CollisionShape2D" parent="Area2D" groups=["cover"]]
+position = Vector2(0, 10)
+shape = SubResource("CircleShape2D_e0wpt")
+
+[node name="ClickShape2D" type="Area2D" parent="."]
+z_index = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ClickShape2D"]
+position = Vector2(0, -130)
+shape = SubResource("CircleShape2D_0suky")
+
+[node name="LogSprite" type="Sprite2D" parent="."]
+position = Vector2(5, -64)
+texture = ExtResource("5_rtd5e")
+
+[node name="LeavesSprite" type="Sprite2D" parent="."]
+z_index = 3
+position = Vector2(5, -64)
+texture = ExtResource("6_1s7xt")

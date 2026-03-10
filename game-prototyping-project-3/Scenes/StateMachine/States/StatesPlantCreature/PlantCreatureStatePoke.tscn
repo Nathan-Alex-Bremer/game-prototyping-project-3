@@ -1,10 +1,13 @@
-[gd_scene load_steps=18 format=3 uid="uid://b5vh2uutc5k2m"]
+[gd_scene load_steps=21 format=3 uid="uid://b5vh2uutc5k2m"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_g7x3i"]
 [ext_resource type="Texture2D" uid="uid://76cg3epp2l8o" path="res://Art/PlantCreatureStates/PlantCreaturePoke.png" id="2_mkf6h"]
 [ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="3_2qvoy"]
+[ext_resource type="Script" uid="uid://rvqvpujats8x" path="res://Scripts/StateMachine/Actions/a_conditional_sprite_change.gd" id="3_qrok5"]
 [ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_cvo06"]
+[ext_resource type="Texture2D" uid="uid://bulyam087bqce" path="res://Art/PlantCreatureStates/PlantCreaturePokeDrop.png" id="4_tfqkx"]
 [ext_resource type="Script" uid="uid://3hvifjdriy5q" path="res://Scripts/StateMachine/Actions/a_set_wait_time.gd" id="5_6nnse"]
+[ext_resource type="Script" uid="uid://j0x7ssfop1dd" path="res://Scripts/StateMachine/Conditions/c_has_food.gd" id="5_qfdav"]
 [ext_resource type="Script" uid="uid://cwbg7vo8x2tme" path="res://Scripts/StateMachine/Actions/a_set_is_poked.gd" id="6_e47xr"]
 [ext_resource type="Script" uid="uid://bg5ykpgljn4ab" path="res://Scripts/StateMachine/Actions/a_drop_food.gd" id="6_lqmaw"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="7_6cmxn"]
@@ -22,7 +25,7 @@
 script = ExtResource("1_g7x3i")
 simple_name = &"Annoyed"
 sprite = ExtResource("2_mkf6h")
-enter_actions = [NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/ADropFood")]
+enter_actions = [NodePath("EnterActions/AConditionalSpriteChange"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/ADropFood")]
 exit_actions = [NodePath("ExitActions/ASetIsPoked")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -30,6 +33,16 @@ transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transition
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
+
+[node name="AConditionalSpriteChange" type="Node" parent="EnterActions" node_paths=PackedStringArray("condition")]
+script = ExtResource("3_qrok5")
+condition = NodePath("CHasFood")
+new_sprite = ExtResource("4_tfqkx")
+metadata/_custom_type_script = "uid://rvqvpujats8x"
+
+[node name="CHasFood" type="Node" parent="EnterActions/AConditionalSpriteChange"]
+script = ExtResource("5_qfdav")
+metadata/_custom_type_script = "uid://j0x7ssfop1dd"
 
 [node name="AChangeFeisty" type="Node" parent="EnterActions"]
 script = ExtResource("3_2qvoy")

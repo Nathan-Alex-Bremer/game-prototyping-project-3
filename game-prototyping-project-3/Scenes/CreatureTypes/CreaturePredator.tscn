@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://bgt0jmsrkbjlg"]
 
-[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_44uhv"]
+[ext_resource type="Script" uid="uid://dp6vkvalyuvki" path="res://Scripts/creature_predator.gd" id="1_csfjt"]
 [ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_nr7ar"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_qplfc"]
 [ext_resource type="Script" uid="uid://d174jxvau1vy1" path="res://Scripts/StateMachine/blackboard_predator.gd" id="4_lmsrt"]
@@ -40,7 +40,7 @@ radius = 86.0523
 z_index = 1
 collision_mask = 2
 input_pickable = true
-script = ExtResource("1_44uhv")
+script = ExtResource("1_csfjt")
 type = &"Predator"
 move_speed = 60.0
 friend_types = Array[StringName]([&"Predator"])

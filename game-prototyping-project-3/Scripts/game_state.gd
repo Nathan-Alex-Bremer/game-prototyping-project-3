@@ -1,7 +1,7 @@
 extends Node2D
 
 # Controls debug testing things!
-var debug_on: bool = true
+var debug_on: bool = false
 
 # Player interact options!
 var in_interact_range: bool = true
@@ -34,6 +34,7 @@ var num_food: int = 0
 # Player
 @export var player_scene: PackedScene
 var player_in_journal: bool = false
+var player_in_quest_menu: bool = false
 @export var camera_area_scene: PackedScene
 
 var screen_size: Vector2

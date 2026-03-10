@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://cp7by1k8iepur"]
+
+[ext_resource type="Script" uid="uid://b45vc5ihnn01u" path="res://Scripts/Quest/quest_label.gd" id="1_wnqsw"]
+
+[node name="QuestLabel" type="Node2D"]
+z_index = 1
+script = ExtResource("1_wnqsw")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -167.0
+offset_top = -14.0
+offset_right = -64.0
+offset_bottom = 9.0
+text = "QUEST NAME"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 93.0
+offset_top = -16.0
+offset_right = 191.0
+offset_bottom = 15.0
+text = "MORE INFO"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

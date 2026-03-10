@@ -28,3 +28,8 @@ func _physics_process(delta: float) -> void:
 		poison_sprite.flip_h = false
 		fruit_sprite.flip_h = false
 	# $Sprite2D.flip_h = (velocity.x > 0)
+
+func on_state_changed(new_state: MonsterState) -> void:
+	super.on_state_changed(new_state)
+	if blackboard is BlackboardPlantCreature:
+		blackboard.dropped_food = false

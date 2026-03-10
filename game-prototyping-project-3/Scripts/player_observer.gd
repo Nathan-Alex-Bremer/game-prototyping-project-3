@@ -97,8 +97,16 @@ func _process(delta: float) -> void:
 					ClickedFood.emit(camera.get_global_mouse_position())
 				
 	if Input.is_action_just_pressed("open_journal"):
+		if GameState.player_in_quest_menu:
+			return
 		OpenJournal.emit()
 		GameState.player_in_journal = not (GameState.player_in_journal)
+	
+	if Input.is_action_just_pressed("open_quest_manager"):
+		if GameState.player_in_journal:
+			return
+		$QuestHandler.toggle_quest_menu()
+		GameState.player_in_quest_menu = not (GameState.player_in_quest_menu)
 	
 	# Change page in journal
 	if GameState.player_in_journal:
@@ -163,6 +171,8 @@ func capture_creature_states() -> void:
 				
 			CapturedState.emit(creature_type, creature_state)
 			
+			$QuestHandler.update_quest(creature, creature_state)
+			
 			if GameState.get_state_in_journal(creature_type, creature_state):
 				creature.change_label_color(Color(0.1, 1.0, 0.8, 1.0))
 			else:
@@ -209,7 +219,7 @@ func creature_joined(creature_name: StringName) -> void:
 	update_message(creature_name + " has arrived!")
 
 func interact_mode_unlocked(mode: StringName) -> void:
-	update_message("Great work, researcher!\nNew interact mode unlocked: " + mode + "!")
+	update_message("Great work, researcher!\nNew interact mode unlocked: " + mode + "! (Q)")
 	$UpdateLabel.modulate = Color(0.4, 0.4, 0.4)
 	$Popup.visible = true
 
@@ -225,3 +235,17 @@ func _on_interact_area_2d_mouse_entered() -> void:
 func _on_interact_area_2d_mouse_exited() -> void:
 	GameState.in_interact_range = false
 	print("Out of interact range!")
+
+
+func _on_quest_handler_quest_complete(quest: Quest) -> void:
+	$Questnotif.visible = true
+	$Questnotif/Label.text = "Quest Complete! (R)"
+
+
+func _on_quest_handler_new_quest() -> void:
+	$Questnotif.visible = true
+	$Questnotif/Label.text = "New quest available! (R)"
+
+
+func _on_quest_handler_quest_menu_opened() -> void:
+	$Questnotif.visible = false

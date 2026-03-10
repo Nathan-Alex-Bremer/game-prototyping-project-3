@@ -1,0 +1,233 @@
+[gd_scene load_steps=17 format=3 uid="uid://qdq5e3o7qiw8"]
+
+[ext_resource type="Script" uid="uid://c5bpai0w1a10x" path="res://Scripts/Quest/quest_handler.gd" id="1_t8urw"]
+[ext_resource type="PackedScene" uid="uid://cp7by1k8iepur" path="res://Scenes/Quest/QuestLabel.tscn" id="2_com2b"]
+[ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="2_r6jfu"]
+[ext_resource type="Script" uid="uid://ba085toduev2w" path="res://Scripts/Quest/quest.gd" id="4_tk7nk"]
+[ext_resource type="Script" uid="uid://p0tno20gfsdk" path="res://Scripts/Quest/Quests/quest_01_rat.gd" id="5_iaio2"]
+[ext_resource type="Script" uid="uid://cs6fdjxlnac6a" path="res://Scripts/Quest/Quests/quest_02_fox.gd" id="6_3bsjc"]
+[ext_resource type="Script" uid="uid://bych8u0e5ycws" path="res://Scripts/Quest/Quests/quest_03_plantcreature.gd" id="7_uycd1"]
+[ext_resource type="Script" uid="uid://tlni8678i0u5" path="res://Scripts/Quest/Quests/quest_04_frog.gd" id="8_0bqo3"]
+[ext_resource type="Script" uid="uid://bm46buym35smk" path="res://Scripts/Quest/Quests/quest_05_bird.gd" id="9_h6rv3"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_iaio2"]
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_vphur"]
+font_size = 30
+font_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_war4n"]
+font_size = 30
+font_color = Color(0, 0.278431, 0, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_va4qa"]
+size = Vector2(688, 387)
+
+[sub_resource type="LabelSettings" id="LabelSettings_3bsjc"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_va4qa"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_uycd1"]
+font_size = 30
+
+[node name="QuestHandler" type="Node2D" node_paths=PackedStringArray("quest_list")]
+script = ExtResource("1_t8urw")
+quest_label_object = ExtResource("2_com2b")
+first_label_pos = Vector2(0, -200)
+label_pos_move = 100.0
+quest_list = [NodePath("Quests/Quest1"), NodePath("Quests/Quest2"), NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest05")]
+
+[node name="QuestMenu" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.227451, 0.14902, 0.105882, 1)
+scale = Vector2(0.756076, 0.830247)
+texture = ExtResource("2_r6jfu")
+
+[node name="HeadLabel" type="Label" parent="QuestMenu"]
+z_index = 1
+offset_left = -31.7428
+offset_top = -301.115
+offset_right = 29.2572
+offset_bottom = -278.115
+text = "QUESTS"
+horizontal_alignment = 1
+
+[node name="ActiveQuestLabel" type="Label" parent="QuestMenu"]
+z_index = 1
+offset_left = -92.5832
+offset_top = -261.368
+offset_right = 72.4168
+offset_bottom = -238.368
+text = "ACTIVE QUEST: NONE"
+horizontal_alignment = 1
+
+[node name="QuestLabels" type="Node2D" parent="QuestMenu"]
+
+[node name="QuestInfo" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.610839, 0.498007, 0.387195, 1)
+z_index = 2
+position = Vector2(3, -3)
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_r6jfu")
+
+[node name="AcceptButton" type="Button" parent="QuestInfo"]
+z_index = 2
+offset_left = -181.667
+offset_top = 161.667
+offset_right = -43.6667
+offset_bottom = 218.667
+text = "ACCEPT"
+
+[node name="RejectButton" type="Button" parent="QuestInfo"]
+z_index = 2
+offset_left = 41.6667
+offset_top = 160.0
+offset_right = 184.667
+offset_bottom = 218.0
+text = "REJECT"
+
+[node name="Title" type="Label" parent="QuestInfo"]
+z_index = 2
+offset_left = -332.0
+offset_top = -283.0
+offset_right = 322.0
+offset_bottom = -216.0
+text = "QUEST TITLE"
+label_settings = SubResource("LabelSettings_iaio2")
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="QuestInfo"]
+z_index = 2
+offset_left = -563.0
+offset_top = -163.0
+offset_right = 562.0
+offset_bottom = -121.0
+text = "DEFAULT DESCRIPTION"
+label_settings = SubResource("LabelSettings_vphur")
+horizontal_alignment = 1
+
+[node name="Reward" type="Label" parent="QuestInfo"]
+z_index = 2
+offset_left = -353.0
+offset_top = 58.0
+offset_right = 348.0
+offset_bottom = 100.0
+text = "REWARD"
+label_settings = SubResource("LabelSettings_war4n")
+horizontal_alignment = 1
+
+[node name="InteractBlocker" type="Area2D" parent="QuestInfo"]
+position = Vector2(-5, 5)
+scale = Vector2(1.66667, 1.66667)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="QuestInfo/InteractBlocker"]
+position = Vector2(3, -3.5)
+shape = SubResource("RectangleShape2D_va4qa")
+
+[node name="QuestComplete" type="Sprite2D" parent="."]
+visible = false
+self_modulate = Color(0.700784, 0.467079, 0, 1)
+z_index = 2
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_r6jfu")
+
+[node name="Congrats" type="Label" parent="QuestComplete"]
+z_index = 2
+offset_left = -241.667
+offset_top = -275.0
+offset_right = 238.333
+offset_bottom = -208.0
+text = "GREAT WORK!"
+label_settings = SubResource("LabelSettings_3bsjc")
+horizontal_alignment = 1
+
+[node name="Thanks" type="Label" parent="QuestComplete"]
+z_index = 2
+offset_left = -558.0
+offset_top = -165.0
+offset_right = 558.0
+offset_bottom = -131.0
+text = "THANKS MESSAGE"
+label_settings = SubResource("LabelSettings_va4qa")
+horizontal_alignment = 1
+
+[node name="Reward" type="Label" parent="QuestComplete"]
+z_index = 2
+offset_left = -196.667
+offset_top = 23.3333
+offset_right = 208.333
+offset_bottom = 65.3336
+text = "REWARD"
+label_settings = SubResource("LabelSettings_uycd1")
+horizontal_alignment = 1
+
+[node name="RewardExitButton" type="Button" parent="QuestComplete"]
+z_index = 2
+offset_left = -161.667
+offset_top = 173.333
+offset_right = 162.333
+offset_bottom = 272.333
+text = "GREAT, THANKS"
+
+[node name="InteractBlocker" type="Area2D" parent="QuestComplete"]
+position = Vector2(-5, 5)
+scale = Vector2(1.66667, 1.66667)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="QuestComplete/InteractBlocker"]
+position = Vector2(3, -3.5)
+shape = SubResource("RectangleShape2D_va4qa")
+
+[node name="Quests" type="Node" parent="."]
+
+[node name="Quest1" type="Node" parent="Quests"]
+script = ExtResource("4_tk7nk")
+quest_name = &"Quest1"
+description = "Test quest"
+reward_desc = &"Reward: Nothing"
+creature_type = &"Creature"
+state_types = Dictionary[StringName, int]({
+&"Idle": 0
+})
+pics_per_state = 1
+metadata/_custom_type_script = "uid://ba085toduev2w"
+
+[node name="Quest2" type="Node" parent="Quests"]
+script = ExtResource("4_tk7nk")
+quest_name = &"Quest2"
+description = "This is also a quest."
+reward_desc = &"Reward: Something"
+creature_type = &"Predator"
+state_types = Dictionary[StringName, int]({
+&"Idle": 0
+})
+pics_per_state = 1
+metadata/_custom_type_script = "uid://ba085toduev2w"
+
+[node name="Quest01" type="Node" parent="Quests"]
+script = ExtResource("5_iaio2")
+metadata/_custom_type_script = "uid://p0tno20gfsdk"
+
+[node name="Quest02" type="Node" parent="Quests"]
+script = ExtResource("6_3bsjc")
+metadata/_custom_type_script = "uid://cs6fdjxlnac6a"
+
+[node name="Quest03" type="Node" parent="Quests"]
+script = ExtResource("7_uycd1")
+metadata/_custom_type_script = "uid://bych8u0e5ycws"
+
+[node name="Quest04" type="Node" parent="Quests"]
+script = ExtResource("8_0bqo3")
+metadata/_custom_type_script = "uid://tlni8678i0u5"
+
+[node name="Quest05" type="Node" parent="Quests"]
+script = ExtResource("9_h6rv3")
+metadata/_custom_type_script = "uid://bm46buym35smk"
+
+[connection signal="pressed" from="QuestInfo/AcceptButton" to="." method="_on_accept_button_pressed"]
+[connection signal="pressed" from="QuestInfo/RejectButton" to="." method="_on_reject_button_pressed"]
+[connection signal="pressed" from="QuestComplete/RewardExitButton" to="." method="_on_reward_exit_button_pressed"]
