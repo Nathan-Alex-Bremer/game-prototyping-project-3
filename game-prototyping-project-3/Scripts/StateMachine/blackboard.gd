@@ -11,6 +11,8 @@ var seen_food: Array[Food]
 var seen_creatures: Array[Creature]
 var seen_players: Array[PlayerObserver]
 var seen_hiding_places: Array[Bush] # TODO: Make this more generic
+var seen_cover: Array[SmallTree] # TODO: Make this more generic
+var entered_cover: int = 0 # Hacky way to handle potential overlapping cover areas
 
 # Waiting
 var wait_time: float = 0

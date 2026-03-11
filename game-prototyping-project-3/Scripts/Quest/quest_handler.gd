@@ -42,6 +42,7 @@ func toggle_quest_menu() -> void:
 	
 func show_quest_menu() -> void:
 	menu_open = true
+	GameState.player_in_quest_menu = true # A bit hacky, but solves the issue of the quest menu staying down
 	quest_menu_opened.emit()
 	if complete:
 		show_complete_quest()
@@ -67,6 +68,7 @@ func show_quest_menu() -> void:
 func hide_quest_menu() -> void:
 	menu_open = false
 	$QuestMenu.visible = false
+	GameState.player_in_quest_menu = false # A bit hacky, but solves the issue of the quest menu flag not updating correctly if a button is clicked
 	
 	for quest in quest_list:
 		if quest.newly_available == 1:

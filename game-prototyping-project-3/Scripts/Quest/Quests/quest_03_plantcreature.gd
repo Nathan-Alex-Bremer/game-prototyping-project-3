@@ -11,7 +11,7 @@ func _ready() -> void:
 	
 	creature_type = "PlantCreature"
 	state_types = {
-		"Poke": 0,
+		"Annoyed": 0,
 		"Stunned": 0
 	}
 	pics_per_state = 3

@@ -53,7 +53,8 @@ func _ready() -> void:
 	$StateMachine.connect("state_changed", on_state_changed)
 	
 	# Random name generation, for funsies
-	creature_name = generate_name()
+	# creature_name = generate_name()
+	creature_name = GameState.creature_names[type].pick_random()
 	$NameLabel.text = creature_name
 	
 	# Randomize appearance
@@ -349,10 +350,18 @@ func _on_detect_radius_area_entered(area: Area2D) -> void:
 	if area.is_in_group("food"):
 		blackboard.seen_food.append(area)
 		return
+	
+	if area.is_in_group("cover"):
+		blackboard.seen_cover.append(area.get_parent())
+		return
 
 func _on_detect_radius_area_exited(area: Area2D) -> void:
 	if area.is_in_group("food"):
 		blackboard.seen_food.erase(area)
+		return
+	
+	if area.is_in_group("cover"):
+		blackboard.seen_cover.erase(area.get_parent())
 		return
 		
 func _on_detect_radius_body_entered(body: Node2D) -> void:
@@ -383,10 +392,18 @@ func _on_eat_radius_area_entered(area: Area2D) -> void:
 		blackboard.seen_hiding_places.append(area)
 		# print(creature_name + " found hiding place")
 		return
+	
+	if area.is_in_group("cover"):
+		blackboard.entered_cover += 1
+		return
 
 
 func _on_eat_radius_area_exited(area: Area2D) -> void:
 	if area.is_in_group("hiding_place"):
 		blackboard.seen_hiding_places.erase(area)
 		# print(creature_name + " lost hiding place")
+		return
+	
+	if area.is_in_group("cover"):
+		blackboard.entered_cover -= 1
 		return

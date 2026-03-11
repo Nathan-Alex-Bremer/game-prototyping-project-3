@@ -12,8 +12,13 @@ var open = false
 func _ready() -> void:
 	# GameState.connect("StateFound", on_state_found)
 	# Building out our list of pages to iterate around
-	for page in pages:
-		page_names.append(page)
+	#for page in pages:
+		#page_names.append(page)
+	page_names.append("Creature")
+	page_names.append("Predator")
+	page_names.append("PlantCreature")
+	page_names.append("Frog")
+	page_names.append("Bird")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://bgt0jmsrkbjlg"]
+[gd_scene load_steps=31 format=3 uid="uid://bgt0jmsrkbjlg"]
 
 [ext_resource type="Script" uid="uid://dp6vkvalyuvki" path="res://Scripts/creature_predator.gd" id="1_csfjt"]
 [ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_nr7ar"]
@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" uid="uid://dpxpeyjljv20y" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateSkulk.tscn" id="24_csfjt"]
 [ext_resource type="PackedScene" uid="uid://ggusogu663px" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateYawn.tscn" id="25_b44g2"]
 [ext_resource type="PackedScene" uid="uid://ecdfjbdt0eej" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateZoom.tscn" id="26_21gui"]
+[ext_resource type="PackedScene" uid="uid://bxu278wc1pkao" path="res://Scenes/StateMachine/States/StatesPredator/PredatorStateMoveToCover.tscn" id="27_b44g2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -166,6 +167,10 @@ blackboard = NodePath("../BlackboardPredator")
 owning_creature = NodePath("../..")
 
 [node name="PredatorStateZoom" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("26_21gui")]
+blackboard = NodePath("../BlackboardPredator")
+owning_creature = NodePath("../..")
+
+[node name="PredatorStateMoveToCover" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("27_b44g2")]
 blackboard = NodePath("../BlackboardPredator")
 owning_creature = NodePath("../..")
 

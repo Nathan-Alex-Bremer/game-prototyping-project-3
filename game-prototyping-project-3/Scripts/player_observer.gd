@@ -106,7 +106,7 @@ func _process(delta: float) -> void:
 		if GameState.player_in_journal:
 			return
 		$QuestHandler.toggle_quest_menu()
-		GameState.player_in_quest_menu = not (GameState.player_in_quest_menu)
+	
 	
 	# Change page in journal
 	if GameState.player_in_journal:

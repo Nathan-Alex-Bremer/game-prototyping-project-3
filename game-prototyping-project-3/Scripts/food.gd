@@ -5,6 +5,7 @@ var hunger_restored: float = 25
 var health_restored: float = 15
 var active: bool = true
 var lure: bool = false
+var lure_timer: float = 5.0
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	GameState.num_food += 1 # TODO: Set this up in base_scene or our game manager instead
@@ -12,7 +13,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	pass
+	if lure_timer > 0:
+		lure_timer -= delta
+		if lure_timer <= 0:
+			lure = false
 
 func consume(eating_creature: Creature):
 	if active:
@@ -37,3 +41,10 @@ func lure_creatures() -> void:
 			body.send_signal("foodlure", self)
 			lure = false
 			
+func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		
+		# Clicking on food makes it a lure
+		print("Pressed")
+		lure = true
+		lure_timer = 5.0

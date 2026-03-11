@@ -66,8 +66,7 @@ func check_completion() -> int:
 	var progress_val = 0
 	var total_val = 0
 	for state in state_types:
-		if state_types[state] > pics_per_state:
-			progress_val += min(state_types[state], pics_per_state) # Count up number of pictures taken for each state (up to required amount)
+		progress_val += min(state_types[state], pics_per_state) # Count up number of pictures taken for each state (up to required amount)
 		total_val += pics_per_state # Count up total number of pictures required
 	
 	if progress_val >= total_val * percent_needed:

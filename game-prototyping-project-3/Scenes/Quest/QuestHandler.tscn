@@ -35,11 +35,12 @@ font_size = 24
 font_size = 30
 
 [node name="QuestHandler" type="Node2D" node_paths=PackedStringArray("quest_list")]
+z_index = 8
 script = ExtResource("1_t8urw")
 quest_label_object = ExtResource("2_com2b")
 first_label_pos = Vector2(0, -200)
 label_pos_move = 100.0
-quest_list = [NodePath("Quests/Quest1"), NodePath("Quests/Quest2"), NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest05")]
+quest_list = [NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest05")]
 
 [node name="QuestMenu" type="Sprite2D" parent="."]
 visible = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://dxx8byponniv"]
+[gd_scene load_steps=44 format=3 uid="uid://dxx8byponniv"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_qmnik"]
 [ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_frj7y"]
@@ -40,6 +40,9 @@
 [ext_resource type="Script" uid="uid://0sj2j2ombtdx" path="res://Scripts/StateMachine/Conditions/c_found_signal.gd" id="35_rbk8g"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="39_7klec"]
 [ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="40_essif"]
+[ext_resource type="Script" uid="uid://c0lxjw3o2jfj8" path="res://Scripts/StateMachine/Conditions/c_is_raining.gd" id="41_fmpki"]
+[ext_resource type="Script" uid="uid://bbea16jg1dyt2" path="res://Scripts/StateMachine/Conditions/c_found_cover.gd" id="42_c44mq"]
+[ext_resource type="Script" uid="uid://cuwfhc7aml6al" path="res://Scripts/StateMachine/Actions/a_set_target_cover.gd" id="43_o7rb4"]
 
 [node name="PredatorStateWander" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_qmnik")
@@ -432,3 +435,27 @@ metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 [node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
 script = ExtResource("40_essif")
 metadata/_custom_type_script = "uid://7r0ielccdd6i"
+
+[node name="TransitionToMoveToCover" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("11_blht0")
+conditions = [NodePath("CIsRaining"), NodePath("CFoodGreaterThan"), NodePath("CFoundCover")]
+actions = [NodePath("ASetTargetCover")]
+next_state = &"predatorstatemovetocover"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsRaining" type="Node" parent="Transitions/TransitionToMoveToCover"]
+script = ExtResource("41_fmpki")
+metadata/_custom_type_script = "uid://c0lxjw3o2jfj8"
+
+[node name="CFoodGreaterThan" type="Node" parent="Transitions/TransitionToMoveToCover"]
+script = ExtResource("18_fmpki")
+val = 40.0
+metadata/_custom_type_script = "uid://dcvi4361rf8t4"
+
+[node name="CFoundCover" type="Node" parent="Transitions/TransitionToMoveToCover"]
+script = ExtResource("42_c44mq")
+metadata/_custom_type_script = "uid://bbea16jg1dyt2"
+
+[node name="ASetTargetCover" type="Node" parent="Transitions/TransitionToMoveToCover"]
+script = ExtResource("43_o7rb4")
+metadata/_custom_type_script = "uid://cuwfhc7aml6al"

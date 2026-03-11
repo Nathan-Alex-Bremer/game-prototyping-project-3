@@ -63,10 +63,10 @@ position = Vector2(-472, 448)
 shape = SubResource("RectangleShape2D_4ksr6")
 
 [node name="MaxPos" type="Node2D" parent="."]
-position = Vector2(1742, 998)
+position = Vector2(1803, 1042)
 
 [node name="MinPos" type="Node2D" parent="."]
-position = Vector2(-362, -98)
+position = Vector2(-426, -147)
 
 [node name="Backgroundfoliage" type="Sprite2D" parent="."]
 z_index = 3

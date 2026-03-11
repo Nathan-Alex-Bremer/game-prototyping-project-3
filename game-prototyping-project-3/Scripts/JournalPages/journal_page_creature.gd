@@ -186,7 +186,7 @@ func update_progress() -> void:
 		$HiddenSprite.visible = false
 		
 	if progress == 5:
-		$Instructions.text = "Use interaction modes to find new states!"
+		$Instructions.text = "Use interaction modes (Q) to find new states!"
 		
 	if progress == 10:
 		$Instructions.text = "Take lots of photos of a state for more info!"

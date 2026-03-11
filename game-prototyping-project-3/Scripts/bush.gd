@@ -43,6 +43,8 @@ func unoccupy() -> void:
 	$Sprite2D.texture = normal_sprite
 
 func ignite() -> void:
+	if GameState.raining:
+		return
 	can_hide = false
 	$Sprite2D.texture = fire_sprite
 	signal_cooldown = signal_cooldown_max

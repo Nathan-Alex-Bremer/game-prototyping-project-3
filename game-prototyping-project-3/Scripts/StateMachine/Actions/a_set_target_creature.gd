@@ -17,6 +17,5 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 					pass
 				blackboard.current_target = other_creature
 				return
-	else:
-		print("ERROR: NO CREATURE FOUND")
-		blackboard.current_target = null
+	print("ERROR: NO CREATURE FOUND")
+	blackboard.current_target = null

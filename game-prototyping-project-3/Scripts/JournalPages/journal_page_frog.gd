@@ -7,7 +7,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 	match found_state:
 		"Wander":
 			if times_found == 1:
-				$StateWander.text = "- WANDER: Tends to wander aimlessly."
+				$StateWander.text = "- WANDER: Hops around in a carefree manner."
 				$StateWander.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				$StateWander/UpdateLabel.visible = true
 				print("Progress:" + str(progress))
@@ -15,18 +15,18 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateWander.text = "- WANDER: Tends to wander aimlessly. Rarely, if ever, runs."
+				$StateWander.text = "- WANDER: Hops along in a straight line when not bothered."
 				$StateWander/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StateWander.text = "- WANDER: Will wander aimlessly, often looking for food or friends."
+				$StateWander.text = "- WANDER: Hops around, generally taking breaks, but can turn on a dime."
 				$StateWander/UpdateLabel.visible = true
 				$StateWander.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 			
 		"Idle":
 			if times_found == 1:
-				$StateIdle.text = "- IDLE: Pale in color."
+				$StateIdle.text = "- IDLE: Blue in color."
 				$StateIdle.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				$StateIdle/UpdateLabel.visible = true
 				print("Progress:" + str(progress))
@@ -34,11 +34,11 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateIdle.text = "- IDLE: Pale in color, but can come in many hues."
+				$StateIdle.text = "- IDLE: Blue in color, with a hole in their back to spray out water."
 				$StateIdle/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StateIdle.text = "- IDLE: Pale in color, but can come in many hues. Large, emotive ears."
+				$StateIdle.text = "- IDLE: Blue in color, with rubbery skin that can puff up or spray water."
 				$StateIdle/UpdateLabel.visible = true
 				$StateIdle.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
@@ -50,11 +50,11 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateEat.text = "- EAT: Eats primarily fruit. Their favorite is large, red, juicy fruits."
+				$StateEat.text = "- EAT: Use their long tongues to grab fruit from afar."
 				$StateEat/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StateEat.text = "- EAT: Can eat their entire body weight in fruit a single day."
+				$StateEat.text = "- EAT: Their tongue can stretch up to their entire body length to grab food!"
 				$StateEat/UpdateLabel.visible = true
 				$StateEat.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
@@ -66,27 +66,27 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateRest.text = "- REST: To avoid danger, sleeps only in short bursts."
+				$StateRest.text = "- REST: Sleeps for a long time to recover stamina."
 				$StateRest/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StateRest.text = "- REST: Their highly efficient bodies can restore plenty of energy from just a short nap."
+				$StateRest.text = "- REST: Rarely sleeps, but takes long naps when they do get worn out."
 				$StateRest/UpdateLabel.visible = true
 				$StateRest.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Pet":
 			if times_found == 1:
-				$StatePet.text = "- PET: Their fur is soft and velvety."
+				$StatePet.text = "- PET: Their skin is slippery."
 				$StatePet/UpdateLabel.visible = true
 				$StatePet.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePet.text = "- PET: Being pet seems to calm them down. They enjoy it a lot."
+				$StatePet.text = "- PET: Their skin is covered in slime which keeps them from drying out."
 				$StatePet/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StatePet.text = "- PET: Being pet calms them down and also seems to make them tired."
+				$StatePet.text = "- PET: Their slimy skin prevents drying out, but they can't stay in the sun for long."
 				$StatePet/UpdateLabel.visible = true
 				$StatePet.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
@@ -98,75 +98,75 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePoke.text = "- ANNOY: Struggles to sit still when agitated."
+				$StatePoke.text = "- ANNOY: Will puff out their cheeks when poked."
 				$StatePoke/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StatePoke.text = "- ANNOY: Even a couple pokes will whip them into a frenzy, causing them to look for fights."
+				$StatePoke.text = "- ANNOY: When annoyed, will puff out their cheeks and spray water to intimidate foes."
 				$StatePoke/UpdateLabel.visible = true
 				$StatePoke.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Play":
 			if times_found == 1:
-				$StatePlay.text = "- PLAY: Will sometimes jump around and make squeaking noises with others of their species."
+				$StatePlay.text = "- PLAY: Enjoys spraying water to relieve stress."
 				$StatePlay/UpdateLabel.visible = true
 				$StatePlay.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePlay.text = "- PLAY: Jumping around with others seems to lower their stress."
+				$StatePlay.text = "- PLAY: Enjoys playing with other creatures by spraying a fountain of water.."
 				$StatePlay/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StatePlay.text = "- PLAY: Will play with others of their species by jumping around, reducing stress."
+				$StatePlay.text = "- PLAY: Will play with many types of creatures by hopping about and spraying water."
 				$StatePlay/UpdateLabel.visible = true
 				$StatePlay.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Chase":
 			if times_found == 1:
-				$StateChase.text = "- CHASE: Runs around when agitated."
+				$StateChase.text = "- CHASE: Will pursue other creatures when agitated."
 				$StateChase/UpdateLabel.visible = true
 				$StateChase.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateChase.text = "- CHASE: When agitated, will often seek out and attack others of their kind."
+				$StateChase.text = "- CHASE: When agitated, will puff up and hop after a target."
 				$StateChase/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StateChase.text = "- CHASE: When agitated, will chase down others of their kind until worn out."
+				$StateChase.text = "- CHASE: Enjoys fighting to relieve stress, hopping toward any target."
 				$StateChase/UpdateLabel.visible = true
 				$StateChase.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Attack":
 			if times_found == 1:
-				$StateAttack.text = "- ATTACK: Fights primarily by biting."
+				$StateAttack.text = "- ATTACK: Uses their long tongue to fight."
 				$StateAttack/UpdateLabel.visible = true
 				$StateAttack.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateAttack.text = "- ATTACK: Fights using their sharp front teeth to defend themselves or pick fights."
+				$StateAttack.text = "- ATTACK: Their tongue is their primary weapon, giving them high range."
 				$StateAttack/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StateAttack.text = "- ATTACK: With their sharp front teeth, they can even scare off predators."
+				$StateAttack.text = "- ATTACK: Attacks with their whiplike tongue, which can strike instantly."
 				$StateAttack/UpdateLabel.visible = true
 				$StateAttack.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Flee":
 			if times_found == 1:
-				$StateFlee.text = "- FLEE: Runs around aimlessly when near predators."
+				$StateFlee.text = "- FLEE: Runs around aimlessly when attacked."
 				$StateFlee/UpdateLabel.visible = true
 				$StateFlee.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StateFlee.text = "- FLEE: When attacked or near a predator, runs aimlessly until safe."
+				$StateFlee.text = "- FLEE: Will flee attackers, as well as Sonicoo, for some reason."
 				$StateFlee/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StateFlee.text = "- FLEE: Will panic and run aimlessly when threatened, unless they're particularly feisty."
+				$StateFlee.text = "- FLEE: Will hop about aimlessly to flee attackers or Sonicoo."
 				$StateFlee/UpdateLabel.visible = true
 				$StateFlee.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
@@ -186,7 +186,7 @@ func update_progress() -> void:
 		$HiddenSprite.visible = false
 		
 	if progress == 5:
-		$Instructions.text = "Use interaction modes to find new states!"
+		$Instructions.text = "Use interaction modes (Q) to find new states!"
 		
 	if progress == 10:
 		$Instructions.text = "Take lots of photos of a state for more info!"
