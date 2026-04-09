@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://d31u16waysn0w"]
+[gd_scene load_steps=21 format=3 uid="uid://d31u16waysn0w"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_85fje"]
 [ext_resource type="Texture2D" uid="uid://yr2w4xf5gmyj" path="res://Art/CreatureStates/CreatureFlee.png" id="2_odtvb"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="15_dnxrc"]
 [ext_resource type="Script" uid="uid://dhjej0bldsesk" path="res://Scripts/StateMachine/Conditions/c_found_hiding_place.gd" id="18_yshxi"]
 [ext_resource type="Script" uid="uid://ccg5mem57y4mf" path="res://Scripts/StateMachine/Actions/a_set_hiding_place.gd" id="19_wvw78"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="20_wvw78"]
 
 [node name="SM_Creature_Flee" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_85fje")
@@ -26,7 +27,7 @@ simple_name = &"Flee"
 sprite = ExtResource("2_odtvb")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/AMoveRandomDirection")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToHide"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFlee")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToHide"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFlee")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -168,3 +169,13 @@ metadata/_custom_type_script = "uid://dhjej0bldsesk"
 [node name="ASetHidingPlace" type="Node" parent="Transitions/TransitionToHide"]
 script = ExtResource("19_wvw78")
 metadata/_custom_type_script = "uid://ccg5mem57y4mf"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("8_wvw78")
+conditions = [NodePath("CIsDragging")]
+next_state = &"creaturestatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("20_wvw78")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

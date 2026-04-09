@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bkdrsgdm0eqbf"]
+[gd_scene load_steps=18 format=3 uid="uid://bkdrsgdm0eqbf"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_tpi1d"]
 [ext_resource type="Texture2D" uid="uid://drasiox41ltay" path="res://Art/PredatorStates/PredatorHurt.png" id="2_hxr1q"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://dfynx3ugamgkv" path="res://Scripts/StateMachine/Conditions/c_feisty_greaterthan.gd" id="13_ycy7o"]
 [ext_resource type="Script" uid="uid://beqkh6hgy2u5p" path="res://Scripts/StateMachine/Conditions/c_hit_points_greaterthan.gd" id="14_k4u6h"]
 [ext_resource type="Script" uid="uid://bpi3chb3u8byh" path="res://Scripts/StateMachine/Actions/a_set_target_attacker.gd" id="15_cuje7"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="17_8egmy"]
 
 [node name="PredatorStateStunned" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_tpi1d")
@@ -25,7 +26,7 @@ enter_actions = [NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/A
 exit_actions = [NodePath("ExitActions/ASetSignal")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToFlee")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToFlee")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -121,3 +122,13 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToFlee"]
 script = ExtResource("12_m2eyc")
 metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_itn7t")
+conditions = [NodePath("CIsDragging")]
+next_state = &"predatorstatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("17_8egmy")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

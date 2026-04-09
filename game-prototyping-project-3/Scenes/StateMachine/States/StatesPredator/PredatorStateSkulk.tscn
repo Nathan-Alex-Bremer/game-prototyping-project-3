@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://dpxpeyjljv20y"]
+[gd_scene load_steps=42 format=3 uid="uid://dpxpeyjljv20y"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_5rpqv"]
 [ext_resource type="Texture2D" uid="uid://l8nspe2wiwur" path="res://Art/PredatorStates/PredatorSkulk.png" id="2_5rpqv"]
@@ -40,6 +40,7 @@
 [ext_resource type="Script" uid="uid://0sj2j2ombtdx" path="res://Scripts/StateMachine/Conditions/c_found_signal.gd" id="38_pgl70"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="39_nsegg"]
 [ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="40_rbj8q"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="41_1fl4q"]
 
 [node name="PredatorStateSkulk" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "transitions")]
 script = ExtResource("1_5rpqv")
@@ -48,7 +49,7 @@ sprite = ExtResource("2_5rpqv")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ASetIsHidden"), NodePath("EnterActions/AConditionalSpriteChange")]
 exit_actions = [NodePath("ExitActions/ASetIsHidden")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFleeTarget2"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToHunt"), NodePath("Transitions/TransitionToMoveToFood"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToSkulk")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFleeTarget2"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToHunt"), NodePath("Transitions/TransitionToMoveToFood"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToSkulk")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -420,3 +421,13 @@ metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 [node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
 script = ExtResource("40_rbj8q")
 metadata/_custom_type_script = "uid://7r0ielccdd6i"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_jdtbk")
+conditions = [NodePath("CIsDragging")]
+next_state = &"predatorstatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("41_1fl4q")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

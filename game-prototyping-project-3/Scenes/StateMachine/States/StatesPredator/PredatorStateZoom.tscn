@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://ecdfjbdt0eej"]
+[gd_scene load_steps=33 format=3 uid="uid://ecdfjbdt0eej"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_ds7de"]
 [ext_resource type="Texture2D" uid="uid://i41yokfsol5m" path="res://Art/PredatorStates/PredatorZoom.png" id="2_4prrs"]
@@ -23,6 +23,7 @@
 [ext_resource type="Script" uid="uid://bfm4dd0jdiam8" path="res://Scripts/StateMachine/Conditions/c_partner_wants_to_play.gd" id="30_51d75"]
 [ext_resource type="Script" uid="uid://0kx21aduidpp" path="res://Scripts/StateMachine/Conditions/c_has_partner.gd" id="31_caeec"]
 [ext_resource type="Script" uid="uid://bvwhbnbfpwy1d" path="res://Scripts/StateMachine/Conditions/c_partner_signal.gd" id="32_dnk5o"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="32_vwuyf"]
 [ext_resource type="Script" uid="uid://beqkh6hgy2u5p" path="res://Scripts/StateMachine/Conditions/c_hit_points_greaterthan.gd" id="33_n88mt"]
 [ext_resource type="Script" uid="uid://d30u0ym5fpd0b" path="res://Scripts/StateMachine/Actions/a_set_target_partner_target.gd" id="34_mw3ap"]
 [ext_resource type="Script" uid="uid://c3rbtqrfgb34r" path="res://Scripts/StateMachine/Actions/a_set_target_partner_attacker.gd" id="35_nla6m"]
@@ -38,7 +39,7 @@ simple_name = &"Zoom"
 sprite = ExtResource("2_4prrs")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToZoom")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToZoom")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -284,3 +285,13 @@ metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 [node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
 script = ExtResource("40_fpj5k")
 metadata/_custom_type_script = "uid://7r0ielccdd6i"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_r3ust")
+conditions = [NodePath("CIsDragging")]
+next_state = &"predatorstatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("32_vwuyf")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

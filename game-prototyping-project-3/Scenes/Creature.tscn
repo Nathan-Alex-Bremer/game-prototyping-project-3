@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=36 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
@@ -21,6 +21,16 @@
 [ext_resource type="PackedScene" uid="uid://cr0chj50l547g" path="res://Scenes/StateMachine/States/SM_Creature_Dig.tscn" id="19_gei0v"]
 [ext_resource type="PackedScene" uid="uid://cv6dj8g08bqto" path="res://Scenes/StateMachine/States/SM_Creature_Stretch.tscn" id="20_qjnkk"]
 [ext_resource type="PackedScene" uid="uid://bfkvpyc564aok" path="res://Scenes/StateMachine/States/SM_Creature_Hide.tscn" id="21_qjnkk"]
+[ext_resource type="PackedScene" uid="uid://bsnetpfjm7lka" path="res://Scenes/StateMachine/States/SM_Creature_Drag.tscn" id="22_y4mml"]
+[ext_resource type="Texture2D" uid="uid://clheg8l4qyfdw" path="res://Art/Meters/EmptyMeterBG.png" id="23_7qsqt"]
+[ext_resource type="Texture2D" uid="uid://d3noiejpn8e4p" path="res://Art/Meters/HPFrame.png" id="24_gbwjd"]
+[ext_resource type="Texture2D" uid="uid://hgsltsp022y6" path="res://Art/Meters/HPMeter.png" id="25_i1aex"]
+[ext_resource type="Texture2D" uid="uid://dd4cl82ickpmp" path="res://Art/Meters/HungerFrame.png" id="26_dviqs"]
+[ext_resource type="Texture2D" uid="uid://jnilsi6iiq3j" path="res://Art/Meters/HungerMeter.png" id="27_sc4he"]
+[ext_resource type="Texture2D" uid="uid://barer1pbqnqpd" path="res://Art/Meters/FeistyFrame.png" id="28_ms2kq"]
+[ext_resource type="Texture2D" uid="uid://dwui4vl1tcqov" path="res://Art/Meters/FeistyMeter.png" id="29_x3d5h"]
+[ext_resource type="Texture2D" uid="uid://863ba5uydxmy" path="res://Art/Meters/TiredFrame.png" id="30_xpye3"]
+[ext_resource type="Texture2D" uid="uid://bcafxjorfg62j" path="res://Art/Meters/TiredMeter.png" id="31_xs1ps"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -145,6 +155,10 @@ owning_creature = NodePath("../..")
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
+[node name="CreatureStateDrag" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("22_y4mml")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
 [node name="StateLabel" type="Label" parent="."]
 z_index = 4
 offset_left = -79.0
@@ -168,25 +182,25 @@ text = "HP: 100/100"
 [node name="HungerLabel" type="Label" parent="Stats"]
 z_index = 4
 offset_left = 74.0
-offset_top = -32.0
-offset_right = 114.0
-offset_bottom = -9.0
+offset_top = -30.0
+offset_right = 168.0
+offset_bottom = -7.0
 text = "Hunger: 100"
 
 [node name="FeistyLabel" type="Label" parent="Stats"]
 z_index = 4
 offset_left = 75.0
-offset_top = -7.0
-offset_right = 115.0
-offset_bottom = 16.0
+offset_top = -1.0
+offset_right = 138.0
+offset_bottom = 22.0
 text = "Feisty: 0"
 
 [node name="TiredLabel" type="Label" parent="Stats"]
 z_index = 4
 offset_left = 76.0
-offset_top = 18.0
+offset_top = 31.0
 offset_right = 134.0
-offset_bottom = 41.0
+offset_bottom = 54.0
 text = "Tired: 0"
 
 [node name="NatureLabel" type="Label" parent="Stats"]
@@ -195,6 +209,46 @@ offset_left = 76.0
 offset_top = 40.0
 offset_right = 134.0
 offset_bottom = 63.0
+
+[node name="HPMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -59.0
+offset_right = 198.0
+offset_bottom = 69.0
+value = 100.0
+texture_under = ExtResource("23_7qsqt")
+texture_over = ExtResource("24_gbwjd")
+texture_progress = ExtResource("25_i1aex")
+
+[node name="HungerMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -29.0
+offset_right = 198.0
+offset_bottom = 99.0
+value = 100.0
+texture_under = ExtResource("23_7qsqt")
+texture_over = ExtResource("26_dviqs")
+texture_progress = ExtResource("27_sc4he")
+
+[node name="FeistyMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 1.0
+offset_right = 198.0
+offset_bottom = 129.0
+value = 100.0
+texture_under = ExtResource("23_7qsqt")
+texture_over = ExtResource("28_ms2kq")
+texture_progress = ExtResource("29_x3d5h")
+
+[node name="TiredMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 32.0
+offset_right = 198.0
+offset_bottom = 160.0
+value = 100.0
+texture_under = ExtResource("23_7qsqt")
+texture_over = ExtResource("30_xpye3")
+texture_progress = ExtResource("31_xs1ps")
 
 [node name="NameLabel" type="Label" parent="."]
 z_index = 4

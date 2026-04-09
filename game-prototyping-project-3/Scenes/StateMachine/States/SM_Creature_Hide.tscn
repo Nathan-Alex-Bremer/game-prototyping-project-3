@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://bfkvpyc564aok"]
+[gd_scene load_steps=26 format=3 uid="uid://bfkvpyc564aok"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_xd2wr"]
 [ext_resource type="Texture2D" uid="uid://yr2w4xf5gmyj" path="res://Art/CreatureStates/CreatureFlee.png" id="2_q2db2"]
@@ -24,6 +24,7 @@
 [ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="16_pgos7"]
 [ext_resource type="Script" uid="uid://c7b17ngr0v65q" path="res://Scripts/StateMachine/Conditions/c_attacker_within_distance.gd" id="17_de8wi"]
 [ext_resource type="Script" uid="uid://clxbtsvspmbka" path="res://Scripts/StateMachine/Conditions/c_hiding_place_compromised.gd" id="22_57twe"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="25_nok8u"]
 
 [node name="SM_Creature_Hide" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_xd2wr")
@@ -33,7 +34,7 @@ enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterAct
 exit_actions = [NodePath("ExitActions/ASetIsHidden"), NodePath("ExitActions/ASetIsPet"), NodePath("ExitActions/ASetIsPoked")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToHide")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToHide")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -279,3 +280,13 @@ metadata/_custom_type_script = "uid://b3sg64keruhqm"
 [node name="ASetHidingPlaceNull" type="Node" parent="Transitions/TransitionToFlee2"]
 script = ExtResource("7_uhhl2")
 metadata/_custom_type_script = "uid://b505yins4cnib"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("10_nvrve")
+conditions = [NodePath("CIsDragging")]
+next_state = &"creaturestatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("25_nok8u")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

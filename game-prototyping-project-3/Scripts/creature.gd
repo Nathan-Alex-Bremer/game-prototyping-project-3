@@ -61,8 +61,9 @@ func _ready() -> void:
 	
 	creature_color = Color(randf_range(0.8, 1), randf_range(0.8, 1), randf_range(0.8, 1))
 	$Sprite2D.modulate = creature_color
-	var random_scale = randf_range(0.75, 1.25)
-	$Sprite2D.scale = Vector2(random_scale, random_scale)
+	## SCALE: Removed for the sake of pixel consistency
+	# var random_scale = randf_range(0.75, 1.25)
+	# $Sprite2D.scale = Vector2(random_scale, random_scale)
 	
 	# Randomize stat growth rates
 	hunger_scale = randf_range(0.75, 1.25)
@@ -176,6 +177,7 @@ func change_food(amount: float, scalable: bool) -> void:
 		hunger = 100
 	if hunger < 0:
 		hunger = 0
+	$Stats/HungerMeter.value = hunger
 
 func change_feisty(amount: float, scalable: bool) -> void:
 	if scalable:
@@ -185,6 +187,7 @@ func change_feisty(amount: float, scalable: bool) -> void:
 		feisty = 100
 	if feisty < 0:
 		feisty = 0
+	$Stats/FeistyMeter.value = feisty
 
 func change_tired(amount: float, scalable: bool) -> void:
 	if scalable:
@@ -194,6 +197,7 @@ func change_tired(amount: float, scalable: bool) -> void:
 		tired = 100
 	if tired < 0:
 		tired = 0
+	$Stats/TiredMeter.value = tired
 
 func change_hit_points(amount: float) -> void:
 	hit_points += amount
@@ -201,7 +205,7 @@ func change_hit_points(amount: float) -> void:
 		hit_points = 100
 	if hit_points < 0:
 		hit_points = 0
-		
+	$Stats/HPMeter.value = hit_points
 
 # Getters
 

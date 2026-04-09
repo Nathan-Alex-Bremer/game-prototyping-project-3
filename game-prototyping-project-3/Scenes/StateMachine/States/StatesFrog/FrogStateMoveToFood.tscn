@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://drh0vs3lk5amp"]
+[gd_scene load_steps=21 format=3 uid="uid://drh0vs3lk5amp"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_u7om3"]
 [ext_resource type="Texture2D" uid="uid://ckujvp11r2nt1" path="res://Art/FrogStates/FrogLookForFood.png" id="2_5yudt"]
@@ -19,6 +19,7 @@
 [ext_resource type="Script" uid="uid://bo8kyxhhrffj7" path="res://Scripts/StateMachine/Conditions/c_target_within_distance.gd" id="14_ajupf"]
 [ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="15_mqxgw"]
 [ext_resource type="Script" uid="uid://cafro0rhn1fr4" path="res://Scripts/StateMachine/Actions/a_set_frog_tongue.gd" id="18_j2bft"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="20_ajq78"]
 
 [node name="FrogStateMoveToFood" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_u7om3")
@@ -28,7 +29,7 @@ enter_actions = [NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterAction
 exit_actions = [NodePath("ExitActions/AStopHopping")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget"), NodePath("PhysicsUpdateActions/AReduceHopTimer")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToEat")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToEat")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -151,3 +152,13 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
 script = ExtResource("15_mqxgw")
 metadata/_custom_type_script = "uid://7r0ielccdd6i"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("8_fsr2x")
+conditions = [NodePath("CIsDragging")]
+next_state = &"frogstatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("20_ajq78")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

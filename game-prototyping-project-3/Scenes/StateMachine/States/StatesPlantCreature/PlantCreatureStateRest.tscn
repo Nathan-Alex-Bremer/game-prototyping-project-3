@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://8pjb5jy2ucu"]
+[gd_scene load_steps=16 format=3 uid="uid://8pjb5jy2ucu"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_sdptw"]
 [ext_resource type="Texture2D" uid="uid://gkw3nciv4bsf" path="res://Art/PlantCreatureStates/PlantCreatureRest.png" id="2_t5lqg"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="10_qhgjc"]
 [ext_resource type="Script" uid="uid://doj6vw6folsoh" path="res://Scripts/StateMachine/Conditions/c_tired_lessthan.gd" id="11_mxylp"]
 [ext_resource type="Script" uid="uid://cu0y8uu17g6b0" path="res://Scripts/StateMachine/Conditions/c_food_lessthan.gd" id="12_7wcx1"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="15_ogpkl"]
 
 [node name="PlantCreatureStateRest" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_sdptw")
@@ -22,7 +23,7 @@ sprite = ExtResource("2_t5lqg")
 enter_actions = [NodePath("EnterActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AChangeHitPoints"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionWakeUp")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionWakeUp")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -111,3 +112,13 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 script = ExtResource("11_mxylp")
 val = 25.0
 metadata/_custom_type_script = "uid://doj6vw6folsoh"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("9_45mc4")
+conditions = [NodePath("CIsDragging")]
+next_state = &"plantcreaturestatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("15_ogpkl")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

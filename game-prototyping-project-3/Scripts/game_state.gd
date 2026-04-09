@@ -1,7 +1,7 @@
 extends Node2D
 
 # Controls debug testing things!
-var debug_on: bool = false
+var debug_on: bool = true
 
 # Player interact options!
 var in_interact_range: bool = true

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://hbst0lyppcsl"]
+[gd_scene load_steps=17 format=3 uid="uid://hbst0lyppcsl"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_yfbij"]
 [ext_resource type="Texture2D" uid="uid://cydkask64akue" path="res://Art/BirdStates/BirdFlee.png" id="2_isff3"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="13_sd4fi"]
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="14_yfbij"]
 [ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="16_isyit"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="16_qcrc1"]
 
 [node name="BirdStateFleeTarget" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_yfbij")
@@ -22,7 +23,7 @@ simple_name = &"Flee Target"
 sprite = ExtResource("2_isff3")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/ARunFromTarget")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFleeTarget")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFleeTarget")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -116,3 +117,13 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToFleeTarget"]
 script = ExtResource("13_sd4fi")
 metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("10_jo1fw")
+conditions = [NodePath("CIsDragging")]
+next_state = &"birdstatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("16_qcrc1")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

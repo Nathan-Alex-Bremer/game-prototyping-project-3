@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bn8nm50wu6w7r"]
+[gd_scene load_steps=16 format=3 uid="uid://bn8nm50wu6w7r"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_6b1xx"]
 [ext_resource type="Texture2D" uid="uid://cclry4osce1bd" path="res://Art/BirdStates/BirdWander.png" id="2_6b1xx"]
@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="12_148dm"]
 [ext_resource type="Script" uid="uid://bo8kyxhhrffj7" path="res://Scripts/StateMachine/Conditions/c_target_within_distance.gd" id="13_0w2yb"]
 [ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="14_gmq0v"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="15_omexm"]
 
 [node name="BirdStateMoveToFriend" type="Node" node_paths=PackedStringArray("update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_6b1xx")
@@ -21,7 +22,7 @@ simple_name = &"Move To Friend"
 sprite = ExtResource("2_6b1xx")
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]
-transitions = [NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToPlay")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToPlay")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -121,3 +122,13 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CFoundFoodLure" type="Node" parent="Transitions/TransitionToFoodLure"]
 script = ExtResource("14_gmq0v")
 metadata/_custom_type_script = "uid://7r0ielccdd6i"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("7_5s3p5")
+conditions = [NodePath("CIsDragging")]
+next_state = &"birdstatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("15_omexm")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

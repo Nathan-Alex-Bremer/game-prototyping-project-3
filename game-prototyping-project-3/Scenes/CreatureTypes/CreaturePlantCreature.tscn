@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://br57gprheuddm"]
+[gd_scene load_steps=35 format=3 uid="uid://br57gprheuddm"]
 
 [ext_resource type="Script" uid="uid://cbt8jqras72ro" path="res://Scripts/creature_plant.gd" id="1_o875t"]
 [ext_resource type="Texture2D" uid="uid://bma5cnqup6eas" path="res://Art/PlantCreatureStates/PlantCreatureWander.png" id="2_hbn7x"]
@@ -15,12 +15,22 @@
 [ext_resource type="PackedScene" uid="uid://8pjb5jy2ucu" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateRest.tscn" id="12_gbck6"]
 [ext_resource type="PackedScene" uid="uid://d3ql6x68qeqa6" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateStunned.tscn" id="13_r1s0l"]
 [ext_resource type="PackedScene" uid="uid://vbgnc2jnptoh" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateWander.tscn" id="14_01x8t"]
-[ext_resource type="PackedScene" uid="uid://2rf5lr5cwqg" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureDropFood.tscn" id="15_01ugy"]
+[ext_resource type="PackedScene" uid="uid://2rf5lr5cwqg" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateDropFood.tscn" id="15_01ugy"]
 [ext_resource type="PackedScene" uid="uid://c8xo7qd5r3khu" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateSneeze.tscn" id="17_gbck6"]
 [ext_resource type="Texture2D" uid="uid://bcuoob5vpmjr2" path="res://Art/PlantCreatureStates/PlantCreaturePoisonOverlay.png" id="17_o875t"]
 [ext_resource type="PackedScene" uid="uid://jkx22iulgu8q" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateStressed.tscn" id="18_r1s0l"]
 [ext_resource type="Texture2D" uid="uid://cjxlhvxnt1crj" path="res://Art/PlantCreatureStates/PlantCreatureFruitOverlay.png" id="18_tspvq"]
 [ext_resource type="PackedScene" uid="uid://2a11sfkq4wgy" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateRoll.tscn" id="19_01x8t"]
+[ext_resource type="PackedScene" uid="uid://072pdyitglvd" path="res://Scenes/StateMachine/States/StatesPlantCreature/PlantCreatureStateDrag.tscn" id="19_r1s0l"]
+[ext_resource type="Texture2D" uid="uid://clheg8l4qyfdw" path="res://Art/Meters/EmptyMeterBG.png" id="21_aoltk"]
+[ext_resource type="Texture2D" uid="uid://d3noiejpn8e4p" path="res://Art/Meters/HPFrame.png" id="22_lji0x"]
+[ext_resource type="Texture2D" uid="uid://hgsltsp022y6" path="res://Art/Meters/HPMeter.png" id="23_r32g3"]
+[ext_resource type="Texture2D" uid="uid://dd4cl82ickpmp" path="res://Art/Meters/HungerFrame.png" id="24_pap64"]
+[ext_resource type="Texture2D" uid="uid://jnilsi6iiq3j" path="res://Art/Meters/HungerMeter.png" id="25_1td3y"]
+[ext_resource type="Texture2D" uid="uid://barer1pbqnqpd" path="res://Art/Meters/FeistyFrame.png" id="26_ql3g5"]
+[ext_resource type="Texture2D" uid="uid://dwui4vl1tcqov" path="res://Art/Meters/FeistyMeter.png" id="27_ty2f1"]
+[ext_resource type="Texture2D" uid="uid://863ba5uydxmy" path="res://Art/Meters/TiredFrame.png" id="28_yq1em"]
+[ext_resource type="Texture2D" uid="uid://bcafxjorfg62j" path="res://Art/Meters/TiredMeter.png" id="29_lwnfg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -127,6 +137,10 @@ owning_creature = NodePath("../..")
 blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
 
+[node name="PlantCreatureStateDrag" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_r1s0l")]
+blackboard = NodePath("../BlackboardPlantCreature")
+owning_creature = NodePath("../..")
+
 [node name="PlantCreatureStateRoll" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_01x8t")]
 blackboard = NodePath("../BlackboardPlantCreature")
 owning_creature = NodePath("../..")
@@ -154,25 +168,25 @@ text = "HP: 100/100"
 [node name="HungerLabel" type="Label" parent="Stats"]
 z_index = 4
 offset_left = 74.0
-offset_top = -32.0
-offset_right = 114.0
-offset_bottom = -9.0
+offset_top = -30.0
+offset_right = 168.0
+offset_bottom = -7.0
 text = "Hunger: 100"
 
 [node name="FeistyLabel" type="Label" parent="Stats"]
 z_index = 4
 offset_left = 75.0
-offset_top = -7.0
-offset_right = 115.0
-offset_bottom = 16.0
+offset_top = -1.0
+offset_right = 138.0
+offset_bottom = 22.0
 text = "Feisty: 0"
 
 [node name="TiredLabel" type="Label" parent="Stats"]
 z_index = 4
 offset_left = 76.0
-offset_top = 18.0
+offset_top = 31.0
 offset_right = 134.0
-offset_bottom = 41.0
+offset_bottom = 54.0
 text = "Tired: 0"
 
 [node name="NatureLabel" type="Label" parent="Stats"]
@@ -181,6 +195,46 @@ offset_left = 76.0
 offset_top = 40.0
 offset_right = 134.0
 offset_bottom = 63.0
+
+[node name="HPMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -59.0
+offset_right = 198.0
+offset_bottom = 69.0
+value = 100.0
+texture_under = ExtResource("21_aoltk")
+texture_over = ExtResource("22_lji0x")
+texture_progress = ExtResource("23_r32g3")
+
+[node name="HungerMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -29.0
+offset_right = 198.0
+offset_bottom = 99.0
+value = 100.0
+texture_under = ExtResource("21_aoltk")
+texture_over = ExtResource("24_pap64")
+texture_progress = ExtResource("25_1td3y")
+
+[node name="FeistyMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 1.0
+offset_right = 198.0
+offset_bottom = 129.0
+value = 100.0
+texture_under = ExtResource("21_aoltk")
+texture_over = ExtResource("26_ql3g5")
+texture_progress = ExtResource("27_ty2f1")
+
+[node name="TiredMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 32.0
+offset_right = 198.0
+offset_bottom = 160.0
+value = 100.0
+texture_under = ExtResource("21_aoltk")
+texture_over = ExtResource("28_yq1em")
+texture_progress = ExtResource("29_lwnfg")
 
 [node name="NameLabel" type="Label" parent="."]
 z_index = 4
