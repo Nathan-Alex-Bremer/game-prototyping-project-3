@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NameList" load_steps=2 format=3 uid="uid://dcwii8duwbhyg"]
+
+[ext_resource type="Script" uid="uid://bdc5xfljqnhye" path="res://Scripts/name_list.gd" id="1_6w2i5"]
+
+[resource]
+script = ExtResource("1_6w2i5")
+names = Array[String](["Jonathan", "Mozilla", "McCloud", "Ashley", "Foximillian", "Renard", "Caine", "Hot Dog", "The Bastard", "Jebediah", "Fangley", "Burnie", "Torchy", "Jeffrey", "Critter", "Her", "Foxane Teto", "Trixie", "Miles", "Scorching Scott", "Vixen", "Foxandra", "Fluff Puppy", "Space Heater", "Smithy", "Inferdinand", "Hot Pocket", "Smooth Criminal", "Reed Biteman", "Pokey", "Ember", "Burnathan", "Fir E. Coyote", "Spice Boy", "Sparks", "Katie", "Warm Hug Machine", "Bushfire", "Barkiplier", "Hot Stuff", "Toast", "Bunsen", "Blazkit", "La Flamme", "Ember", "Charchy", "Charchibald", "The Listener", "Slim Jim", "Little Dude"])
+metadata/_custom_type_script = "uid://bdc5xfljqnhye"

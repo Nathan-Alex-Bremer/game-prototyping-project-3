@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dfrp8gf07lnxu"
+path="res://.godot/imported/Lyd_SFX_255_ Scalpel_1.wav-54473be16bec61eca39af655aed13161.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/CreatureInteraction/Lyd_SFX_255_ Scalpel_1.wav"
+dest_files=["res://.godot/imported/Lyd_SFX_255_ Scalpel_1.wav-54473be16bec61eca39af655aed13161.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

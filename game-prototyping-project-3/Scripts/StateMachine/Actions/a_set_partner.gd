@@ -8,12 +8,15 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 		if blackboard.seen_creatures.size() > 0:
 			# print("Set partner: Sees creatures!")
 			for other_creature in blackboard.seen_creatures:
-				if other_creature.get_type() in owning_creature.friend_types and (not other_creature.blackboard.partner):
-					blackboard.partner = other_creature # This might cause trouble! Beware!
-					print("Partner: " + blackboard.partner.creature_name)
-					other_creature.blackboard.partner = owning_creature
-					print("Partner: " + blackboard.partner.blackboard.partner.creature_name)
-				return
+				if other_creature.blackboard is BlackboardPredator:
+					if other_creature.get_type() in owning_creature.friend_types and (not other_creature.blackboard.partner):
+						blackboard.partner = other_creature # This might cause trouble! Beware!
+						print("Partner: " + blackboard.partner.creature_name)
+						other_creature.blackboard.partner = owning_creature
+						print("Partner: " + blackboard.partner.blackboard.partner.creature_name)
+						return
 		else:
 			print("ERROR: NO CREATURE FOUND")
 			blackboard.current_target = null
+			
+	

@@ -1,12 +1,49 @@
-[gd_scene load_steps=6 format=3 uid="uid://lavky42twi00"]
+[gd_scene load_steps=10 format=3 uid="uid://lavky42twi00"]
 
 [ext_resource type="Script" uid="uid://bren1upitdyqs" path="res://Scripts/bush.gd" id="1_ykeyw"]
 [ext_resource type="Texture2D" uid="uid://ddk1qor8jydcr" path="res://Art/Bush.png" id="2_03vxk"]
 [ext_resource type="Texture2D" uid="uid://cxx7x4cjk2hlk" path="res://Art/BushOccupied.png" id="3_trd1h"]
 [ext_resource type="Texture2D" uid="uid://g8d80qaryp77" path="res://Art/BushFire.png" id="4_mu6mv"]
+[ext_resource type="AudioStream" uid="uid://byni4xgq6wmqp" path="res://Audio/SFX/Foliage Interact/SWSH_BushClick Dry Bamboo Leaf Swishes 1_RogueWaves_DruidMagic.wav" id="5_03vxk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e0wpt"]
 radius = 54.0093
+
+[sub_resource type="Animation" id="Animation_trd1h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_03vxk"]
+resource_name = "on_click"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.18, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-10, 0), Vector2(7, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mu6mv"]
+_data = {
+&"RESET": SubResource("Animation_trd1h"),
+&"on_click": SubResource("Animation_03vxk")
+}
 
 [node name="Bush" type="Area2D" groups=["hiding_place"]]
 script = ExtResource("1_ykeyw")
@@ -21,5 +58,14 @@ texture = ExtResource("2_03vxk")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 10)
 shape = SubResource("CircleShape2D_e0wpt")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_03vxk")
+bus = &"Proximity SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_mu6mv")
+}
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]

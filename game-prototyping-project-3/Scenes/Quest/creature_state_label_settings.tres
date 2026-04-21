@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://c4pg6vucq1524"]
+
+[ext_resource type="FontFile" uid="uid://cyh8m3aecu1mu" path="res://Fonts/lazy_dog.ttf" id="1_0sgpu"]
+
+[resource]
+font = ExtResource("1_0sgpu")
+font_size = 24
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)

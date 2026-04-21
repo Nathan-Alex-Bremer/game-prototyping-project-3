@@ -18,6 +18,20 @@ var label_pos: Vector2
 
 var complete: bool = false
 
+# Audio
+@export_group("Sounds")
+
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
+@onready var audio_player_2: AudioStreamPlayer = $AudioStreamPlayer2
+
+@export var open_sound: AudioStream
+@export var close_sound: AudioStream
+
+@export var button_click_sound: AudioStream
+@export var quest_complete_sound: AudioStream
+
+@export_group("")
+
 # Signals
 signal new_quest()
 signal quest_menu_opened()
@@ -30,6 +44,7 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	$Flash.modulate.a = lerp($Flash.modulate.a, 0.0, 0.03)
 	pass
 
 func toggle_quest_menu() -> void:
@@ -37,6 +52,10 @@ func toggle_quest_menu() -> void:
 	if menu_open:
 		hide_quest_info()
 		hide_quest_menu()
+		
+		# Close QuestComplete and make sure to run all relevant code if the popup is open
+		if $QuestComplete.visible:
+			_on_reward_exit_button_pressed() 
 	else:
 		show_quest_menu()
 	
@@ -64,6 +83,7 @@ func show_quest_menu() -> void:
 		$QuestMenu/ActiveQuestLabel.text = "ACTIVE QUEST: " + current_quest.quest_name + " (" + current_quest.calculate_progress() + ")"
 	
 	$QuestMenu.visible = true
+	play_sound(open_sound, 1)
 
 func hide_quest_menu() -> void:
 	menu_open = false
@@ -72,11 +92,13 @@ func hide_quest_menu() -> void:
 	
 	for quest in quest_list:
 		if quest.newly_available == 1:
-			quest.newly_available = 2 # Mark quest as not newly available anymore
+			# quest.newly_available = 2 # Mark quest as not newly available anymore
+			pass
 	
 	for n in $QuestMenu/QuestLabels.get_children():
 		$QuestMenu/QuestLabels.remove_child(n)
 		n.queue_free()
+	play_sound(close_sound, 1)
 	
 func show_quest_info() -> void:
 	
@@ -90,6 +112,7 @@ func hide_quest_info() -> void:
 	
 func on_quest_label_clicked(quest) -> void:
 	selected_quest = quest
+	play_sound(button_click_sound, 2)
 	
 	show_quest_info()
 
@@ -102,11 +125,12 @@ func update_quest(creature: Creature, state_name: StringName) -> void:
 	if state_progress == 2:
 		complete_quest()
 
-# FIre out signal to show icon if new quest is available
+# Fire out signal to show icon if new quest is available
 func check_new_availability() -> void:
 	for quest in quest_list:
 		if quest.check_available() and quest.newly_available == 1:
 			new_quest.emit()
+			quest.newly_available = 2 # Mark quest as not newly available anymore
 
 func complete_quest() -> void:
 	# Tell player observer to show icon
@@ -119,6 +143,21 @@ func show_complete_quest() -> void:
 	$QuestComplete/Reward.text = current_quest.reward_desc
 	$QuestComplete/Thanks.text = current_quest.reward_thanks
 	$QuestComplete.visible = true
+	$Flash.modulate.a = 0.6
+	play_sound(quest_complete_sound, 2)
+	
+# Audio
+
+func play_sound(sound: AudioStream, player_num: int) -> void:
+	# Separating sounds into two audio players to ensure things play - polyphony wasn't helping
+	if player_num == 1:
+		audio_player.stream = sound
+		audio_player.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
+		audio_player.play()
+	else:
+		audio_player_2.stream = sound
+		audio_player_2.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
+		audio_player_2.play()
 	
 func _on_accept_button_pressed() -> void:
 	# TODO: What to do if player selects a quest while one is active
@@ -129,10 +168,12 @@ func _on_accept_button_pressed() -> void:
 	selected_quest = null
 	hide_quest_info()
 	hide_quest_menu()
+	play_sound(button_click_sound, 2)
 
 func _on_reject_button_pressed() -> void:
 	selected_quest = null
 	hide_quest_info()
+	play_sound(button_click_sound, 2)
 
 
 func _on_reward_exit_button_pressed() -> void:
@@ -140,3 +181,4 @@ func _on_reward_exit_button_pressed() -> void:
 	complete = false
 	$QuestMenu/ActiveQuestLabel.text = "ACTIVE QUEST: NONE"
 	$QuestComplete.visible = false
+	play_sound(button_click_sound,2 )

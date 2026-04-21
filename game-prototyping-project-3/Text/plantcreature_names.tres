@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NameList" load_steps=2 format=3 uid="uid://bdnxxisydg38t"]
+
+[ext_resource type="Script" uid="uid://bdc5xfljqnhye" path="res://Scripts/name_list.gd" id="1_t2qie"]
+
+[resource]
+script = ExtResource("1_t2qie")
+names = Array[String](["Steve", "Seedrick", "George", "Fruitricia", "Sonic", "Hedge Fund", "Granny Smith", "Industry Plant", "Astroturf", "Leif", "Bramblina", "Betty Bush", "Flourisha", "Dandel", "Pia", "Crisp", "Lettuce", "Fiona", "The Unaware One", "Attila", "Mossy", "Fern", "Subsonic", "Toast", "Bitter Bonnie", "Sneed", "Thornton", "Hedgerick", "Rose", "Toxic Love", "Pomme", "Root Brute", "Itchy", "Branchine", "Doodle", "Dirt Man", "Emerald", "Sunbather", "Snoopy", "Droopy", "Cabbage", "Sticks", "Maracas", "Dubya", "Apple Man", "Potato", "Apple Pie", "Stumpy", "Jack", "Rustlin' Randy"])
+metadata/_custom_type_script = "uid://bdc5xfljqnhye"

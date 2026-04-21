@@ -32,6 +32,9 @@ func get_can_hide() -> bool:
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		$AudioStreamPlayer2D.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
+		$AudioStreamPlayer2D.play()
+		$AnimationPlayer.play("on_click")
 		can_hide = false
 		$Sprite2D.texture = normal_sprite
 		signal_cooldown = (signal_cooldown_max / 2)

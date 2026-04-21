@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://d0ciutr63nd7o"
+path="res://.godot/imported/walkloop grass 3 single step 3.wav-cb2c8e99f39c777c10e5666ca5049937.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/Walk/walkloop grass 3 single step 3.wav"
+dest_files=["res://.godot/imported/walkloop grass 3 single step 3.wav-cb2c8e99f39c777c10e5666ca5049937.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

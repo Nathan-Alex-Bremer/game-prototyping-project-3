@@ -1,12 +1,17 @@
-[gd_scene load_steps=35 format=3 uid="uid://btknxav57ab5f"]
+[gd_scene load_steps=42 format=3 uid="uid://btknxav57ab5f"]
 
 [ext_resource type="Script" uid="uid://ctpgpoe0473x6" path="res://Scripts/creature_frog.gd" id="1_qj58y"]
 [ext_resource type="Texture2D" uid="uid://8rf2632n341x" path="res://Art/FrogStates/FrogWander.png" id="2_r6rnu"]
+[ext_resource type="AudioStream" uid="uid://dfrp8gf07lnxu" path="res://Audio/SFX/CreatureInteraction/Lyd_SFX_255_ Scalpel_1.wav" id="2_rcjc3"]
+[ext_resource type="AudioStream" uid="uid://culd6ph4uphpj" path="res://Audio/SFX/CreatureInteraction/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav" id="3_ob3vm"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_qkihq"]
 [ext_resource type="Script" uid="uid://dc66jnsdk5el1" path="res://Scripts/StateMachine/blackboard_frog.gd" id="4_qj58y"]
+[ext_resource type="AudioStream" uid="uid://b23fxucbjwntq" path="res://Audio/SFX/CreatureInteraction/EFX SD Heads Hit Together 02.wav" id="4_xq481"]
 [ext_resource type="Texture2D" uid="uid://buo6cikmg7fjr" path="res://Art/FrogStates/FrogIdle.png" id="5_0c53n"]
+[ext_resource type="AudioStream" uid="uid://cfcu1f27ai24f" path="res://Audio/SFX/CreatureInteraction/PickUp - Bag Foley_Wallet_Leather_Grab.wav" id="5_n7qjo"]
 [ext_resource type="PackedScene" uid="uid://bftucumagyjve" path="res://Scenes/StateMachine/States/StatesFrog/FrogStateAttack.tscn" id="5_qj58y"]
 [ext_resource type="PackedScene" uid="uid://b7tllptf3q6x2" path="res://Scenes/StateMachine/States/StatesFrog/FrogStateChase.tscn" id="6_0c53n"]
+[ext_resource type="AudioStream" uid="uid://ly81x8jd8r4c" path="res://Audio/SFX/CreatureInteraction/PutDown Bag Foley_Wallet_Leather_Grab.wav" id="6_nqly7"]
 [ext_resource type="PackedScene" uid="uid://cailfv4dacwqe" path="res://Scenes/StateMachine/States/StatesFrog/FrogStateEat.tscn" id="7_r6rnu"]
 [ext_resource type="PackedScene" uid="uid://cfjlbiihcorf8" path="res://Scenes/StateMachine/States/StatesFrog/FrogStateFlee.tscn" id="8_wrabp"]
 [ext_resource type="PackedScene" uid="uid://cp4p7xjg40at7" path="res://Scenes/StateMachine/States/StatesFrog/FrogStateIdle.tscn" id="9_rr5j8"]
@@ -27,9 +32,11 @@
 [ext_resource type="Texture2D" uid="uid://dd4cl82ickpmp" path="res://Art/Meters/HungerFrame.png" id="25_jj3fi"]
 [ext_resource type="Texture2D" uid="uid://jnilsi6iiq3j" path="res://Art/Meters/HungerMeter.png" id="26_khxmi"]
 [ext_resource type="Texture2D" uid="uid://barer1pbqnqpd" path="res://Art/Meters/FeistyFrame.png" id="27_rcjc3"]
+[ext_resource type="LabelSettings" uid="uid://c4pg6vucq1524" path="res://Scenes/Quest/creature_state_label_settings.tres" id="27_xq481"]
 [ext_resource type="Texture2D" uid="uid://dwui4vl1tcqov" path="res://Art/Meters/FeistyMeter.png" id="28_ob3vm"]
 [ext_resource type="Texture2D" uid="uid://863ba5uydxmy" path="res://Art/Meters/TiredFrame.png" id="29_xq481"]
 [ext_resource type="Texture2D" uid="uid://bcafxjorfg62j" path="res://Art/Meters/TiredMeter.png" id="30_n7qjo"]
+[ext_resource type="LabelSettings" uid="uid://btu73f4pk84vl" path="res://Scenes/Quest/creature_name_label_settings.tres" id="37_n7qjo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -54,6 +61,11 @@ move_speed = 100.0
 friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Frog"])
 predator_types = Array[StringName]([&"Bird"])
 blackboard = NodePath("StateMachine/Blackboard")
+check_sound = ExtResource("2_rcjc3")
+pet_sound = ExtResource("3_ob3vm")
+poke_sound = ExtResource("4_xq481")
+pickup_sound = ExtResource("5_n7qjo")
+place_sound = ExtResource("6_nqly7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_r6rnu")
@@ -153,19 +165,21 @@ owning_creature = NodePath("../..")
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
-[node name="StateLabel" type="Label" parent="."]
+[node name="Stats" type="Node2D" parent="."]
+visible = false
+
+[node name="StateLabel" type="Label" parent="Stats"]
 z_index = 4
 offset_left = -79.0
 offset_top = 73.0
 offset_right = 87.0
 offset_bottom = 96.0
 text = "Wander"
+label_settings = ExtResource("27_xq481")
 horizontal_alignment = 1
 
-[node name="Stats" type="Node2D" parent="."]
-visible = false
-
 [node name="HPLabel" type="Label" parent="Stats"]
+visible = false
 z_index = 4
 offset_left = 74.0
 offset_top = -59.0
@@ -174,6 +188,7 @@ offset_bottom = -36.0
 text = "HP: 100/100"
 
 [node name="HungerLabel" type="Label" parent="Stats"]
+visible = false
 z_index = 4
 offset_left = 74.0
 offset_top = -30.0
@@ -182,6 +197,7 @@ offset_bottom = -7.0
 text = "Hunger: 100"
 
 [node name="FeistyLabel" type="Label" parent="Stats"]
+visible = false
 z_index = 4
 offset_left = 75.0
 offset_top = -1.0
@@ -190,19 +206,13 @@ offset_bottom = 22.0
 text = "Feisty: 0"
 
 [node name="TiredLabel" type="Label" parent="Stats"]
+visible = false
 z_index = 4
 offset_left = 76.0
 offset_top = 31.0
 offset_right = 134.0
 offset_bottom = 54.0
 text = "Tired: 0"
-
-[node name="NatureLabel" type="Label" parent="Stats"]
-z_index = 4
-offset_left = 76.0
-offset_top = 40.0
-offset_right = 134.0
-offset_bottom = 63.0
 
 [node name="HPMeter" type="TextureProgressBar" parent="Stats"]
 offset_left = 70.0
@@ -244,13 +254,22 @@ texture_under = ExtResource("22_8nmy5")
 texture_over = ExtResource("29_xq481")
 texture_progress = ExtResource("30_n7qjo")
 
+[node name="NatureLabel" type="Label" parent="Stats"]
+z_index = 4
+offset_left = 76.0
+offset_top = 67.0
+offset_right = 134.0
+offset_bottom = 90.0
+label_settings = ExtResource("27_xq481")
+
 [node name="NameLabel" type="Label" parent="."]
 z_index = 4
-offset_left = -70.0
-offset_top = -95.0
-offset_right = 58.0
-offset_bottom = -72.0
+offset_left = -87.0
+offset_top = -103.0
+offset_right = 87.0
+offset_bottom = -74.0
 text = "Name"
+label_settings = ExtResource("37_n7qjo")
 horizontal_alignment = 1
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -262,6 +281,8 @@ visible = false
 position = Vector2(-1, 1)
 points = PackedVector2Array(-37, 9, -43, 9)
 default_color = Color(1, 0.635678, 0.684195, 1)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]

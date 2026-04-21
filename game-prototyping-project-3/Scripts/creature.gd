@@ -39,6 +39,22 @@ var is_dragging: bool = false
 
 var state_captured: bool = false
 
+# Audio
+@onready var audio_player: AudioStreamPlayer2D = $AudioStreamPlayer2D
+
+@export_group("Sounds")
+# General
+@export var check_sound: AudioStream
+@export var pet_sound: AudioStream
+@export var poke_sound: AudioStream
+@export var pickup_sound: AudioStream
+@export var place_sound: AudioStream
+
+# Unique
+## NEVER MIND! These can be implemented in States!
+
+@export_group("") # Ending Sounds group
+
 # Signals
 signal SelectedForCheck
 signal SpawnFood
@@ -116,6 +132,12 @@ func _physics_process(delta: float) -> void:
 	var collision_info = move_and_collide(velocity * delta)
 	if collision_info:
 		velocity = velocity.bounce(collision_info.get_normal())
+	
+	# Disengage dragging if creature leaves interact range, to avoid messes
+	# TODO: Maybe instead cause the player to stop dragging when the creature re-enters after the player lets go of click, instead?
+	if is_dragging and not GameState.in_interact_range and GameState.mode == GameState.INTERACT_MODES.DRAG:
+		is_dragging = false
+		play_sound(place_sound)
 	
 	## Reverse x-value movement if going out of bounds
 	#if position.x >= GameState.screen_size.x or position.x <= 0:
@@ -235,16 +257,17 @@ func get_hit_points() -> int:
 
 func on_state_changed(new_state: MonsterState) -> void:
 	# Update label to display "simple name" of new state
-	$StateLabel.text = new_state.simple_name
+	$Stats/StateLabel.text = new_state.simple_name
 	if not GameState.get_state_in_journal(type, new_state.simple_name):
-		$StateLabel.modulate = Color(0.8, 0.8, 0.8, 1.0)
+		$Stats/StateLabel.modulate = Color(0.8, 0.8, 0.8, 1.0)
 	elif GameState.get_state_complete(type, new_state.simple_name):
-		$StateLabel.modulate = Color(0.1, 1.0, 0.2, 1.0)
+		$Stats/StateLabel.modulate = Color(0.1, 1.0, 0.2, 1.0)
 	elif GameState.get_state_found(type, new_state.simple_name):
-		$StateLabel.modulate = Color(1.0, 0.8, 0.1, 1.0)
+		$Stats/StateLabel.modulate = Color(1.0, 0.8, 0.1, 1.0)
 	else:
-		$StateLabel.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		$Stats/StateLabel.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	$Sprite2D.texture = new_state.sprite
+	print(creature_name + " new state: " + new_state.simple_name)
 	
 	# Update state capturable
 	state_captured = false
@@ -256,7 +279,7 @@ func change_visibility(val: bool) -> void:
 	visible = val
 
 func change_label_color(val: Color) -> void:
-	$StateLabel.modulate = val
+	$Stats/StateLabel.modulate = val
 
 # Way for the player to give a signal to creatures
 func send_signal(signal_type: StringName, signal_sender: Node2D) -> void:
@@ -297,6 +320,13 @@ func toggle_poison_color(is_poisoned: bool) -> void:
 # Gross way to do this, should use signals, but for now I don't want to bother
 func spawn_food_nearby() -> void:
 	SpawnFood.emit(position, 100)
+	
+# Audio
+
+func play_sound(sound: AudioStream) -> void:
+	audio_player.stream = sound
+	audio_player.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
+	audio_player.play()
 
 # Input
 # Ew ew ew
@@ -308,7 +338,10 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 		# Hacky failsafe to ensure switching 
 		# TODO: Find a better way to do this so a ceature stops being dragged if the player isn't in drag mode!
 		if GameState.mode != GameState.INTERACT_MODES.DRAG:
+			if is_dragging: 
+				play_sound(place_sound)
 			is_dragging = false
+			# Set and play sound
 		
 		# Don't register clicks if not visible (except for disengaging dragging)
 		if not visible:
@@ -324,6 +357,9 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 					print("Mode is check")
 					GameState.selected_creature = self
 					SelectedForCheck.emit()
+					
+					# Set and play sound
+					play_sound(check_sound)
 				
 			GameState.INTERACT_MODES.PET:
 				if event.pressed:
@@ -334,6 +370,9 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 						return
 					
 					blackboard.is_pet = true
+					
+					# Set and play sound
+					play_sound(pet_sound)
 			
 			GameState.INTERACT_MODES.POKE:
 				if event.pressed:
@@ -344,10 +383,19 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 						return
 					
 					blackboard.is_poked = true
+					
+					# Set and play sound
+					play_sound(poke_sound)
 			
 			GameState.INTERACT_MODES.DRAG:
 				print("Mode is drag")
 				is_dragging = event.is_pressed()
+				
+				if is_dragging:
+					# Set and play sound
+					play_sound(pickup_sound)
+				else:
+					play_sound(place_sound)
 			
 
 func _on_detect_radius_area_entered(area: Area2D) -> void:

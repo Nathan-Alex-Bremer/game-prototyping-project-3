@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://w6v1vlxctcit"]
+[gd_scene load_steps=8 format=3 uid="uid://w6v1vlxctcit"]
 
 [ext_resource type="Script" uid="uid://d0m7tdnffqn1t" path="res://Scripts/JournalPages/journal_page_predator.gd" id="1_q2k5f"]
 [ext_resource type="Texture2D" uid="uid://qd0dta5cvdp0" path="res://Art/journal_predator.png" id="2_q2k5f"]
 [ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_4dsmh"]
+[ext_resource type="LabelSettings" uid="uid://ckfxrvijyuu5t" path="res://Scenes/Quest/journal_title_label_settings.tres" id="3_7s41e"]
+[ext_resource type="LabelSettings" uid="uid://2ju8wgdoo7bj" path="res://Scenes/Quest/journal_label_settings.tres" id="4_dfgpj"]
+[ext_resource type="LabelSettings" uid="uid://qe31gosd3ar6" path="res://Scenes/Quest/instructions_label_settings.tres" id="6_0a5cb"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_x4xpc"]
 font_size = 200
@@ -20,11 +23,12 @@ texture = ExtResource("2_q2k5f")
 [node name="CreatureName" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
 z_index = 11
-offset_left = 476.0
-offset_top = 34.0
-offset_right = 595.0
-offset_bottom = 57.0
+offset_left = 444.0
+offset_top = 31.0
+offset_right = 680.0
+offset_bottom = 68.0
 text = "CHARNINE"
+label_settings = ExtResource("3_7s41e")
 horizontal_alignment = 1
 
 [node name="StatesFound" type="Label" parent="."]
@@ -35,6 +39,7 @@ offset_top = 70.0
 offset_right = 260.0
 offset_bottom = 93.0
 text = "States Found: 0"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="Progress" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
@@ -44,6 +49,7 @@ offset_top = 70.0
 offset_right = 433.0
 offset_bottom = 93.0
 text = "Progress: 0%"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="StateWander" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
@@ -53,6 +59,7 @@ offset_top = 160.0
 offset_right = 299.0
 offset_bottom = 183.0
 text = "- (LOCKED: I wonder how it moves...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StateWander"]
 visible = false
@@ -70,6 +77,7 @@ offset_top = 116.0
 offset_right = 299.0
 offset_bottom = 139.0
 text = "- (LOCKED: I should take a picture of it...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StateIdle"]
 visible = false
@@ -87,6 +95,7 @@ offset_top = 206.0
 offset_right = 344.0
 offset_bottom = 229.0
 text = "- (LOCKED: I wonder what it eats...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StateAttackEat"]
 visible = false
@@ -104,6 +113,7 @@ offset_top = 246.0
 offset_right = 344.0
 offset_bottom = 269.0
 text = "- (LOCKED:  I wonder what happens when it's tired...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StateRest"]
 visible = false
@@ -121,6 +131,7 @@ offset_top = 296.0
 offset_right = 344.0
 offset_bottom = 319.0
 text = "- (LOCKED: I wonder what happens if I pet it...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StatePet"]
 visible = false
@@ -138,6 +149,7 @@ offset_top = 341.0
 offset_right = 344.0
 offset_bottom = 364.0
 text = "- (LOCKED:I wonder what happens if I poke it...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StatePoke"]
 visible = false
@@ -155,6 +167,7 @@ offset_top = 386.0
 offset_right = 358.0
 offset_bottom = 409.0
 text = "- (LOCKED: I wonder how it behaves socially...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StatePlay"]
 visible = false
@@ -172,6 +185,7 @@ offset_top = 435.0
 offset_right = 358.0
 offset_bottom = 458.0
 text = "- (LOCKED: I wonder if it eats fruit...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StateEat"]
 visible = false
@@ -189,6 +203,7 @@ offset_top = 480.0
 offset_right = 344.0
 offset_bottom = 503.0
 text = "- (LOCKED: I wonder how it defends itself...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StateAttack"]
 visible = false
@@ -206,6 +221,7 @@ offset_top = 532.0
 offset_right = 343.0
 offset_bottom = 555.0
 text = "- (LOCKED: I wonder how it behaves when angry...)"
+label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="StateIntimidate"]
 visible = false
@@ -218,11 +234,12 @@ texture = ExtResource("3_4dsmh")
 [node name="Instructions" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
 z_index = 11
-offset_left = 421.0
-offset_top = 583.0
-offset_right = 684.0
-offset_bottom = 606.0
+offset_left = 166.0
+offset_top = 578.0
+offset_right = 982.0
+offset_bottom = 607.0
 text = "Take photos to fill out the journal!"
+label_settings = ExtResource("6_0a5cb")
 horizontal_alignment = 1
 
 [node name="HiddenSprite" type="Sprite2D" parent="."]

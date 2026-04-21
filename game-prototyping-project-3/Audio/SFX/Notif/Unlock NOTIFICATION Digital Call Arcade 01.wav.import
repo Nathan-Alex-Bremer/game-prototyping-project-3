@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://mog66jfpax4i"
+path="res://.godot/imported/Unlock NOTIFICATION Digital Call Arcade 01.wav-c8afced6128d6dad0d6950661e00c52e.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/Notif/Unlock NOTIFICATION Digital Call Arcade 01.wav"
+dest_files=["res://.godot/imported/Unlock NOTIFICATION Digital Call Arcade 01.wav-c8afced6128d6dad0d6950661e00c52e.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

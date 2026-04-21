@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NameList" load_steps=2 format=3 uid="uid://btng5lmi3gxcr"]
+
+[ext_resource type="Script" uid="uid://bdc5xfljqnhye" path="res://Scripts/name_list.gd" id="1_uxbym"]
+
+[resource]
+script = ExtResource("1_uxbym")
+names = Array[String](["Avery", "Wing Thing", "Merrifeather", "Beakquerel", "Superfly", "Jet", "Berdly", "Eric", "Andre", "Roger", "Big Eye", "Donald", "Birdbrain", "Scrooge", "Squawkabilly", "Pitoo", "The Fog", "The Watcher", "Yosuke", "Zip Zoom", "Feather Frank", "Nestasia", "Bitty Bird", "Big Pecks", "Chirpinsky", "Sound Barrier", "Turbine", "Azure", "Marble", "Peter Pecks", "Quill", "Fastball", "Storm", "Jet", "Tweety", "Megaphone", "Peepers", "Beep", "The Awoken One", "Golf Ball", "Peckenzie", "Noisy Boy", "The Oddball", "Wendy", "Gumball", "Chicken Nugget", "Screamo", "Air Traffic Control", "Flight Response", "Skywalker"])
+metadata/_custom_type_script = "uid://bdc5xfljqnhye"

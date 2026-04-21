@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://culd6ph4uphpj"
+path="res://.godot/imported/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav-448627c41166d9de047e5caca92f0fea.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/CreatureInteraction/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav"
+dest_files=["res://.godot/imported/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav-448627c41166d9de047e5caca92f0fea.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

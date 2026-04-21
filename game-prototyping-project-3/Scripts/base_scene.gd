@@ -240,6 +240,7 @@ func on_clicked_food(food_position: Vector2) -> void:
 	var new_food = GameState.food_scene.instantiate()
 	new_food.position = food_position
 	new_food.lure = true
+	new_food.first_pressed = true
 	add_child(new_food)
 	# new_food.lure_creatures()
 

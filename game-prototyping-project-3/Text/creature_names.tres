@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NameList" load_steps=2 format=3 uid="uid://c3q0avpv7dcet"]
+
+[ext_resource type="Script" uid="uid://bdc5xfljqnhye" path="res://Scripts/name_list.gd" id="1_yxhup"]
+
+[resource]
+script = ExtResource("1_yxhup")
+names = Array[String](["Todd", "Michael", "Ratrick", "The Rat", "Ratricia", "Ratginald", "The Creature", "Friend", "Little Man", "Minerva", "George", "Georgina", "Nyquil", "Piko", "Nondescript", "Ratsune Miku", "Jerry", "Ratthew", "Jaws", "Chewnior", "Big Boy", "Kevin", "Pikantu", "Reginald", "Johnny Cheese", "Squeekums", "Snuggles", "Biggie Ears", "Big Cheese", "Pom-Pom", "Slim", "Rat Bastard", "Roderrick", "Squorl", "Chip Punk", "Squeakley", "Chu Chu Rocket", "Socks", "Stylin' Steve", "Pookie", "Furball", "White Boy", "Mouseketeer", "Joey", "Linguini", "The Chosen One", "Mr. Cheeks", "Cotton-Ball Joe", "Ribbon", "Dot", "Gnawman", "Triangle Head", "Doofus", "Jerma", "Inchmus"])
+metadata/_custom_type_script = "uid://bdc5xfljqnhye"

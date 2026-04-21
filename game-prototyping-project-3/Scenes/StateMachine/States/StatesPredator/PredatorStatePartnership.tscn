@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://diswhbaylv65b"]
+[gd_scene load_steps=17 format=3 uid="uid://diswhbaylv65b"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_pjpbv"]
 [ext_resource type="Texture2D" uid="uid://qjflw7fyvp4v" path="res://Art/PredatorStates/PredatorPlay.png" id="2_xpp3j"]
 [ext_resource type="Script" uid="uid://3hvifjdriy5q" path="res://Scripts/StateMachine/Actions/a_set_wait_time.gd" id="3_mcfmv"]
 [ext_resource type="Script" uid="uid://6x5gepnanjcu" path="res://Scripts/StateMachine/Actions/a_set_partner.gd" id="5_jj62v"]
+[ext_resource type="Script" uid="uid://dda6jgtx3ld4c" path="res://Scripts/StateMachine/Actions/a_print_partner.gd" id="5_mcfmv"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="6_k3fsu"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="7_qwpuc"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="8_ti3ui"]
@@ -16,11 +17,12 @@
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="15_pjpbv"]
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="15_tq2n2"]
 
-[node name="PredatorStatePartnership" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
+[node name="PredatorStatePartnership" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_pjpbv")
 simple_name = &"Play"
 sprite = ExtResource("2_xpp3j")
 enter_actions = [NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/ASetPartner")]
+exit_actions = [NodePath("ExitActions/APrintPartner")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
 transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToIdle")]
@@ -38,6 +40,10 @@ script = ExtResource("5_jj62v")
 metadata/_custom_type_script = "uid://6x5gepnanjcu"
 
 [node name="ExitActions" type="Node" parent="."]
+
+[node name="APrintPartner" type="Node" parent="ExitActions"]
+script = ExtResource("5_mcfmv")
+metadata/_custom_type_script = "uid://dda6jgtx3ld4c"
 
 [node name="UpdateActions" type="Node" parent="."]
 

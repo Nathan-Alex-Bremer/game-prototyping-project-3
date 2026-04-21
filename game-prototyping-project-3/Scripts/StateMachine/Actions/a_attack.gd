@@ -17,7 +17,10 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 			if body is Creature:
 				if body.get_type() not in creature_types:
 					continue
-				elif blackboard is BlackboardPredator and blackboard.partner and blackboard.partner.creature_name == body.creature_name:
+				if blackboard is BlackboardPredator and blackboard.partner and blackboard.partner.creature_name == body.creature_name:
+					continue
+				
+				if blackboard.current_target.creature_name != body.creature_name:
 					continue
 				body.deal_damage(owning_creature, damage)
 				blackboard.aggressive = true

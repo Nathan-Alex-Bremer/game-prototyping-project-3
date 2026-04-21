@@ -15,6 +15,19 @@ var camera_speed: float = 400
 var camera_cooldown: float = 0
 var camera_max_cooldown: float = 0.5
 
+# Audio
+@export_group("Sounds")
+
+@onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
+
+@export var camera_sound: AudioStream
+@export var notif_sound: AudioStream
+
+@export var new_interact_mode_sound: AudioStream
+@export var quest_complete_sound: AudioStream
+
+@export_group("")
+
 # Signals
 signal ClickedFood(position: Vector2)
 signal CapturedState(creature_type: StringName, state: StringName)
@@ -35,6 +48,13 @@ func _process(delta: float) -> void:
 	
 	if camera_cooldown > 0:
 		camera_cooldown -= delta
+		
+	if Input.is_action_just_pressed("pause"):
+		print("Pausing!")
+		$PauseMenu.visible = true
+		$PauseMenu.accept_input = false
+		get_tree().paused = true
+		return
 	
 	if Input.is_action_just_pressed("capture_screen"):
 		if camera_cooldown > 0:
@@ -121,7 +141,7 @@ func _process(delta: float) -> void:
 			$UpdateLabel.text = ""
 			message_timer = 0
 			$Popup.visible = false
-			$UpdateLabel.modulate = Color(1, 1, 1)
+			$UpdateLabel.label_settings.font_color = Color(0.635, 0.998, 0.934)
 
 func _physics_process(delta: float) -> void:
 	velocity = Vector2.ZERO
@@ -140,6 +160,12 @@ func _physics_process(delta: float) -> void:
 	if velocity.length() > 0:
 		# Normalize the movement direction vector
 		velocity = velocity.normalized() * camera_speed
+		if not $WalkStreamPlayer.playing:
+			$WalkStreamPlayer.play()
+	#elif $WalkStreamPlayer.playing:
+		#$WalkStreamPlayer.stop()
+	
+	# $WalkStreamPlayer.playing = (velocity.length() > 0) # Only play when we're moving
 	
 	# Handles movement, collision, and sliding along collision surfaces
 	var collision = move_and_slide()
@@ -150,6 +176,8 @@ func _physics_process(delta: float) -> void:
 func capture_creature_states() -> void:
 	# Start camera flash effect
 	$CameraArea.get_flash().modulate.a = 0.5
+	$CameraAudioStreamPlayer.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightlyautoplay
+	$CameraAudioStreamPlayer.play()
 	
 	# Record found states
 	# var creatures = get_tree().get_nodes_in_group("creature")
@@ -190,6 +218,8 @@ func on_state_found(creature_type: StringName, state: StringName, times_found: i
 	$Journal.on_state_found(creature_type, state, times_found)
 	if times_found == 1 or times_found == 5 or times_found == 10:
 		$Journalnotif.visible = true
+		$JournalAnimPlayer.play("JournalNotifBounce")
+		play_sound(notif_sound)
 	
 func change_mode(mode: int) -> void:
 	match mode:
@@ -220,11 +250,19 @@ func creature_joined(creature_name: StringName) -> void:
 
 func interact_mode_unlocked(mode: StringName) -> void:
 	update_message("Great work, researcher!\nNew interact mode unlocked: " + mode + "! (Q)")
-	$UpdateLabel.modulate = Color(0.4, 0.4, 0.4)
+	$FanfareAudioStreamPlayer.play()
+	$UpdateLabel.label_settings.font_color = Color(0.992, 0.887, 0.521)
 	$Popup.visible = true
 
 func toggle_rain_overlay() -> void:
 	$RainingEffect.visible = (not $RainingEffect.visible)
+	
+# Audio
+
+func play_sound(sound: AudioStream) -> void:
+	audio_player.stream = sound
+	audio_player.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
+	audio_player.play()
 
 
 func _on_interact_area_2d_mouse_entered() -> void:
@@ -240,12 +278,23 @@ func _on_interact_area_2d_mouse_exited() -> void:
 func _on_quest_handler_quest_complete(quest: Quest) -> void:
 	$Questnotif.visible = true
 	$Questnotif/Label.text = "Quest Complete! (R)"
+	$QuestAnimPlayer.play("QuestNotifBounce")
+	## Maybe play sound to let the player know the quest is complete?
+	# play_sound(quest_complete_sound)
 
 
 func _on_quest_handler_new_quest() -> void:
 	$Questnotif.visible = true
 	$Questnotif/Label.text = "New quest available! (R)"
+	$QuestAnimPlayer.play("QuestNotifBounce")
 
 
 func _on_quest_handler_quest_menu_opened() -> void:
 	$Questnotif.visible = false
+
+
+func _on_walk_stream_player_finished() -> void:
+	print("Finished")
+	if velocity.length() > 0:
+		$WalkStreamPlayer.pitch_scale = randf_range(0.8, 1.0) # Randomize pitch slightly
+		# $WalkStreamPlayer.play()

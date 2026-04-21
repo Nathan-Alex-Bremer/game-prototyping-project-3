@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://qe31gosd3ar6"]
+
+[ext_resource type="FontFile" uid="uid://cyh8m3aecu1mu" path="res://Fonts/lazy_dog.ttf" id="1_ayu6u"]
+
+[resource]
+font = ExtResource("1_ayu6u")
+font_size = 28

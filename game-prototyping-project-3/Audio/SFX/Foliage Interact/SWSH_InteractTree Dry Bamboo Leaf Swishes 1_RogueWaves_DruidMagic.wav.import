@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bt4smulf1iioo"
+path="res://.godot/imported/SWSH_InteractTree Dry Bamboo Leaf Swishes 1_RogueWaves_DruidMagic.wav-4118a3cefe2d6f0101b9c9502212b119.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/Foliage Interact/SWSH_InteractTree Dry Bamboo Leaf Swishes 1_RogueWaves_DruidMagic.wav"
+dest_files=["res://.godot/imported/SWSH_InteractTree Dry Bamboo Leaf Swishes 1_RogueWaves_DruidMagic.wav-4118a3cefe2d6f0101b9c9502212b119.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NameList" load_steps=2 format=3 uid="uid://dqyk3iftkd3il"]
+
+[ext_resource type="Script" uid="uid://bdc5xfljqnhye" path="res://Scripts/name_list.gd" id="1_nvmcd"]
+
+[resource]
+script = ExtResource("1_nvmcd")
+names = Array[String](["Earl", "Croaker", "Croakenzie", "Spraythan", "Spigot", "Wart", "Gerry", "Slippy", "The Storm", "Springy", "Poseidon", "Hoptimizer", "Humidifier", "Water Balloon", "Todd Howard", "The Scrungler", "Sophia", "Fig Newton", "Salamander Steph", "Toad Licker", "Slippery Jim", "Froggita", "Rainette", "Funkle", "Tad", "Frubble", "Pam Phibian", "Geyser Gary", "Pond Boy", "Lily", "Isaac", "Newtron", "The Tongue", "Splash Zone", "Droplet", "Pondrian", "Bubbles", "Bonk", "Gormless Fellow", "The Ancient One", "River", "Hip Hop", "Groovy Grover", "Kermit", "Slime Man", "Flubber", "Pondwalker", "Rana", "Lil Squirt", "Doctor Frog"])
+metadata/_custom_type_script = "uid://bdc5xfljqnhye"

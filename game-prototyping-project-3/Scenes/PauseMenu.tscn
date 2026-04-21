@@ -1,0 +1,71 @@
+[gd_scene load_steps=7 format=3 uid="uid://c0mt8vdk4ijfd"]
+
+[ext_resource type="Script" uid="uid://dxyoc57nsprif" path="res://Scripts/pause_menu.gd" id="1_5w4ur"]
+[ext_resource type="Texture2D" uid="uid://bug6tx8kcrg5q" path="res://Art/QuestMenu/questinfo.png" id="1_qwhev"]
+[ext_resource type="FontFile" uid="uid://cyh8m3aecu1mu" path="res://Fonts/lazy_dog.ttf" id="2_5w4ur"]
+[ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="4_ey1tb"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ey1tb"]
+font = ExtResource("2_5w4ur")
+font_size = 60
+outline_size = 2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_siy43"]
+size = Vector2(1156.2, 655.799)
+
+[node name="PauseMenu" type="Node2D"]
+process_mode = 2
+visible = false
+z_index = 12
+script = ExtResource("1_5w4ur")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_qwhev")
+
+[node name="Label" type="Label" parent="Sprite2D"]
+modulate = Color(0, 0, 0, 1)
+offset_left = -97.0
+offset_top = -157.0
+offset_right = 96.0
+offset_bottom = -96.0
+text = "PAUSED"
+label_settings = SubResource("LabelSettings_ey1tb")
+
+[node name="ReturnButton" type="Button" parent="Sprite2D"]
+offset_left = -77.0
+offset_top = 4.0
+offset_right = 77.0
+offset_bottom = 59.0
+text = "RETURN TO GAME"
+
+[node name="SettingsButton" type="Button" parent="Sprite2D"]
+offset_left = -77.0
+offset_top = 73.0
+offset_right = 77.0
+offset_bottom = 128.0
+text = "SETTINGS"
+
+[node name="ExitButton" type="Button" parent="Sprite2D"]
+offset_left = -77.0
+offset_top = 143.0
+offset_right = 77.0
+offset_bottom = 198.0
+text = "EXIT TO MENU"
+
+[node name="InteractBlocker" type="Area2D" parent="."]
+z_index = -1
+position = Vector2(-5, 5)
+scale = Vector2(1.66667, 1.66667)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractBlocker"]
+position = Vector2(1.50004, 2.70004)
+shape = SubResource("RectangleShape2D_siy43")
+
+[node name="Sprite2D" type="Sprite2D" parent="InteractBlocker"]
+self_modulate = Color(0, 0, 0, 0.258824)
+z_index = -1
+texture = ExtResource("4_ey1tb")
+
+[connection signal="pressed" from="Sprite2D/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="Sprite2D/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="Sprite2D/ExitButton" to="." method="_on_exit_button_pressed"]

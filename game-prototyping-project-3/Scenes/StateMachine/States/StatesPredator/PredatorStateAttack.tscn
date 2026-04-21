@@ -98,7 +98,7 @@ metadata/_custom_type_script = "uid://cbq20o6y4ae31"
 [node name="TransitionToIdle" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("9_yo082")
 conditions = [NodePath("CWaitTimeZero"), NodePath("CFeistyLessThan")]
-actions = [NodePath("ASetAggressive")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
 next_state = &"predatorstateidle"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -116,10 +116,14 @@ script = ExtResource("13_04w6y")
 val = false
 metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToIdle"]
+script = ExtResource("18_eceml")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
 [node name="TransitionToIdle2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("9_yo082")
 conditions = [NodePath("CWaitTimeZero"), NodePath("CNoTarget")]
-actions = [NodePath("ASetAggressive")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
 next_state = &"predatorstatewander"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -135,6 +139,10 @@ metadata/_custom_type_script = "uid://b58hvb6gow88r"
 script = ExtResource("13_04w6y")
 val = false
 metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToIdle2"]
+script = ExtResource("18_eceml")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
 
 [node name="TransitionToChase" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("9_yo082")
@@ -172,12 +180,22 @@ metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 script = ExtResource("18_eceml")
 metadata/_custom_type_script = "uid://wtbvohgc37nl"
 
-[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
 script = ExtResource("9_yo082")
 conditions = [NodePath("CIsDragging")]
+actions = [NodePath("ASetAggressive"), NodePath("ASetTargetNull")]
 next_state = &"predatorstatedrag"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
 script = ExtResource("19_eceml")
 metadata/_custom_type_script = "uid://ca11g70lj4553"
+
+[node name="ASetAggressive" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("13_04w6y")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("18_eceml")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"

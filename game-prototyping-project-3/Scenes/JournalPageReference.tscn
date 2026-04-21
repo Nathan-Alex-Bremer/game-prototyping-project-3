@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxdoj2gxpp7oh"]
+
+[ext_resource type="Script" uid="uid://b2vsdqclbhylu" path="res://Scripts/journal_page.gd" id="1_qwv8g"]
+[ext_resource type="Texture2D" uid="uid://bhdnejbfirlyf" path="res://Art/journal_reference.png" id="2_4sq2n"]
+
+[node name="JournalPageReference" type="Node2D"]
+visible = false
+script = ExtResource("1_qwv8g")
+metadata/_custom_type_script = "uid://b2vsdqclbhylu"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 10
+position = Vector2(576, 324)
+texture = ExtResource("2_4sq2n")
+script = ExtResource("1_qwv8g")

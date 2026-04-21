@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ca3kanggj8h5r"
+path="res://.godot/imported/grass 3 single step 3.wav-5fe79cf1427bc1a20b4406446221ecc9.sample"
+
+[deps]
+
+source_file="res://Audio/SFX/Foliage Interact/grass 3 single step 3.wav"
+dest_files=["res://.godot/imported/grass 3 single step 3.wav-5fe79cf1427bc1a20b4406446221ecc9.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

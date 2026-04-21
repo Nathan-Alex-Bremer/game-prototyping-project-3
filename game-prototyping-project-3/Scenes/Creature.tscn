@@ -1,9 +1,14 @@
-[gd_scene load_steps=36 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=43 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
+[ext_resource type="AudioStream" uid="uid://dfrp8gf07lnxu" path="res://Audio/SFX/CreatureInteraction/Lyd_SFX_255_ Scalpel_1.wav" id="2_xs1ps"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="3_bdkse"]
+[ext_resource type="AudioStream" uid="uid://culd6ph4uphpj" path="res://Audio/SFX/CreatureInteraction/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav" id="3_lf5ep"]
+[ext_resource type="AudioStream" uid="uid://b23fxucbjwntq" path="res://Audio/SFX/CreatureInteraction/EFX SD Heads Hit Together 02.wav" id="4_no660"]
 [ext_resource type="Texture2D" uid="uid://bhy3deva1fdd1" path="res://Art/CreatureStates/CreatureWalk.png" id="5_2h46t"]
 [ext_resource type="PackedScene" uid="uid://wl8raa7s5i8y" path="res://Scenes/StateMachine/States/SM_Creature_Idle.tscn" id="5_8gas3"]
+[ext_resource type="AudioStream" uid="uid://cfcu1f27ai24f" path="res://Audio/SFX/CreatureInteraction/PickUp - Bag Foley_Wallet_Leather_Grab.wav" id="5_oj7ct"]
+[ext_resource type="AudioStream" uid="uid://ly81x8jd8r4c" path="res://Audio/SFX/CreatureInteraction/PutDown Bag Foley_Wallet_Leather_Grab.wav" id="6_btbf3"]
 [ext_resource type="PackedScene" uid="uid://c23s65tkj6afo" path="res://Scenes/StateMachine/States/SM_Creature_Wander.tscn" id="6_mdtnb"]
 [ext_resource type="PackedScene" uid="uid://dckvfbg6qss6q" path="res://Scenes/StateMachine/States/SM_Creature_MoveToFood.tscn" id="7_wc6yb"]
 [ext_resource type="PackedScene" uid="uid://bxb1dyglck742" path="res://Scenes/StateMachine/States/SM_Creature_Eat.tscn" id="8_kyo3b"]
@@ -31,6 +36,8 @@
 [ext_resource type="Texture2D" uid="uid://dwui4vl1tcqov" path="res://Art/Meters/FeistyMeter.png" id="29_x3d5h"]
 [ext_resource type="Texture2D" uid="uid://863ba5uydxmy" path="res://Art/Meters/TiredFrame.png" id="30_xpye3"]
 [ext_resource type="Texture2D" uid="uid://bcafxjorfg62j" path="res://Art/Meters/TiredMeter.png" id="31_xs1ps"]
+[ext_resource type="LabelSettings" uid="uid://c4pg6vucq1524" path="res://Scenes/Quest/creature_state_label_settings.tres" id="37_no660"]
+[ext_resource type="LabelSettings" uid="uid://btu73f4pk84vl" path="res://Scenes/Quest/creature_name_label_settings.tres" id="38_oj7ct"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
 size = Vector2(64, 64)
@@ -53,6 +60,11 @@ move_speed = 50.0
 friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog"])
 predator_types = Array[StringName]([&"Predator"])
 blackboard = NodePath("StateMachine/Blackboard")
+check_sound = ExtResource("2_xs1ps")
+pet_sound = ExtResource("3_lf5ep")
+poke_sound = ExtResource("4_no660")
+pickup_sound = ExtResource("5_oj7ct")
+place_sound = ExtResource("6_btbf3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("5_2h46t")
@@ -159,19 +171,11 @@ owning_creature = NodePath("../..")
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
-[node name="StateLabel" type="Label" parent="."]
-z_index = 4
-offset_left = -79.0
-offset_top = 73.0
-offset_right = 87.0
-offset_bottom = 96.0
-text = "Wander"
-horizontal_alignment = 1
-
 [node name="Stats" type="Node2D" parent="."]
 visible = false
 
 [node name="HPLabel" type="Label" parent="Stats"]
+visible = false
 z_index = 4
 offset_left = 74.0
 offset_top = -59.0
@@ -180,6 +184,7 @@ offset_bottom = -36.0
 text = "HP: 100/100"
 
 [node name="HungerLabel" type="Label" parent="Stats"]
+visible = false
 z_index = 4
 offset_left = 74.0
 offset_top = -30.0
@@ -188,6 +193,7 @@ offset_bottom = -7.0
 text = "Hunger: 100"
 
 [node name="FeistyLabel" type="Label" parent="Stats"]
+visible = false
 z_index = 4
 offset_left = 75.0
 offset_top = -1.0
@@ -196,19 +202,13 @@ offset_bottom = 22.0
 text = "Feisty: 0"
 
 [node name="TiredLabel" type="Label" parent="Stats"]
+visible = false
 z_index = 4
 offset_left = 76.0
 offset_top = 31.0
 offset_right = 134.0
 offset_bottom = 54.0
 text = "Tired: 0"
-
-[node name="NatureLabel" type="Label" parent="Stats"]
-z_index = 4
-offset_left = 76.0
-offset_top = 40.0
-offset_right = 134.0
-offset_bottom = 63.0
 
 [node name="HPMeter" type="TextureProgressBar" parent="Stats"]
 offset_left = 70.0
@@ -250,18 +250,39 @@ texture_under = ExtResource("23_7qsqt")
 texture_over = ExtResource("30_xpye3")
 texture_progress = ExtResource("31_xs1ps")
 
+[node name="NatureLabel" type="Label" parent="Stats"]
+z_index = 4
+offset_left = 76.0
+offset_top = 67.0
+offset_right = 134.0
+offset_bottom = 90.0
+label_settings = ExtResource("37_no660")
+
+[node name="StateLabel" type="Label" parent="Stats"]
+z_index = 4
+offset_left = -83.0
+offset_top = 73.0
+offset_right = 83.0
+offset_bottom = 96.0
+text = "Wander"
+label_settings = ExtResource("37_no660")
+horizontal_alignment = 1
+
 [node name="NameLabel" type="Label" parent="."]
 z_index = 4
-offset_left = -70.0
-offset_top = -95.0
-offset_right = 58.0
-offset_bottom = -72.0
+offset_left = -87.0
+offset_top = -103.0
+offset_right = 87.0
+offset_bottom = -74.0
 text = "Name"
+label_settings = ExtResource("38_oj7ct")
 horizontal_alignment = 1
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(0, 15)
 scale = Vector2(3.2, 3.2)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]
