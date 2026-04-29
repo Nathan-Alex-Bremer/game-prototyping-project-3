@@ -3,6 +3,12 @@ extends Node2D
 # Controls debug testing things!
 var debug_on: bool = true
 
+# Scene
+var main_scene: Node
+var current_scene: Node
+
+var player_node: Node
+
 # Player interact options!
 var in_interact_range: bool = true
 
@@ -14,6 +20,7 @@ var num_existing_creatures = 6
 @export var plantcreature_scene: PackedScene
 @export var frog_scene: PackedScene
 @export var bird_scene: PackedScene
+@export var tutorialcreature_scene: PackedScene
 
 
 var existing_creatures: Array[Creature]
@@ -36,6 +43,7 @@ var num_food: int = 0
 @export var player_scene: PackedScene
 var player_in_journal: bool = false
 var player_in_quest_menu: bool = false
+var dialogue_open: bool = false
 @export var camera_area_scene: PackedScene
 
 var screen_size: Vector2
@@ -88,12 +96,35 @@ var names_bird = names_bird_file.names
 var names_frog_file: NameList = load("res://Text/frog_names.tres")
 var names_frog = names_frog_file.names
 
+var names_tutorialcreature_file: NameList = load("res://Text/testcreature_names.tres")
+var names_tutorialcreature = names_tutorialcreature_file.names
+
 var creature_names = {"Creature" = names_creature,
 			"Predator" = names_predator,
 			"PlantCreature" = names_plantcreature,
 			"Bird" = names_bird,
-			"Frog" = names_frog
+			"Frog" = names_frog,
+			"TutorialCreature" = names_tutorialcreature
 			}
+			
+
+# Tutorial
+
+# Whether to use tutorial mode/restrict things
+var tutorial_mode: bool = false
+
+# Keep track of tutorial steps
+var tutorial_checks: Array = ["Move", "Check", "Picture", "Journal", "Complete"]
+var tutorial_stage: int = 0
+
+# Tutorial data
+var tutorial_found_states = {
+	"TutorialCreature" = {
+		"Idle" = 0
+	}
+}
+
+## FUNCTIONS
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -157,10 +188,68 @@ func _ready() -> void:
 	found_states["Frog"]["Flee"] = 0
 
 func get_state_in_journal(creature_name: StringName, state_name: StringName) -> bool:
+	if tutorial_mode:
+		return tutorial_found_states[creature_name].has(state_name)
+		
 	return (found_states[creature_name].has(state_name))
 	
 func get_state_found(creature_name: StringName, state_name: StringName) -> bool:
+	if tutorial_mode:
+		return tutorial_found_states[creature_name][state_name] > 0
+		
 	return (found_states[creature_name][state_name] > 0)
 	
 func get_state_complete(creature_name: StringName, state_name: StringName) -> bool:
+	if tutorial_mode:
+		return tutorial_found_states[creature_name][state_name] > 10
+		
 	return (found_states[creature_name][state_name] >= 10)
+
+func update_tutorial(stage: int) -> bool:
+	print("Current stage: " + str(tutorial_stage))
+	print("Next stage: " + str(stage))
+	if stage == (tutorial_stage + 1):
+		tutorial_stage = stage
+		return true
+	
+	print("ERROR: Tutorial completed out of order!")
+	return false
+
+var tutorial_scene = preload("res://Scenes/TutorialScene.tscn")
+var base_scene = preload("res://Scenes/BaseScene.tscn")
+
+func set_initial_scene() -> void:
+	if main_scene:
+		current_scene = tutorial_scene.instantiate()
+		main_scene.add_child(current_scene)
+	else:
+		print("ERROR: Main scene not loaded!")
+
+func change_scene(new_scene_name: String) -> void:
+	
+	# Unload old scene
+	# get_tree().root.remove_child(current_scene)
+	# Remove remaining other references in GameState
+	existing_creatures.clear()
+	selected_creature = null
+	
+	# Load in new scene
+	var new_scene: Node
+	match new_scene_name:
+		"TutorialScene":
+			new_scene = tutorial_scene.instantiate()
+			main_scene.add_child(new_scene)
+		"BaseScene":
+			new_scene = base_scene.instantiate()
+			main_scene.add_child(new_scene)
+		_:
+			print("ERROR: UNKNOWN SCENE")
+			return
+	
+	# Remove old scene
+	current_scene.queue_free()
+	
+	# Update current scene
+	current_scene = new_scene
+	
+	

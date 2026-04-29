@@ -1,0 +1,209 @@
+[gd_scene load_steps=26 format=3 uid="uid://btfs7ga8bnhcg"]
+
+[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_fvnwb"]
+[ext_resource type="AudioStream" uid="uid://dfrp8gf07lnxu" path="res://Audio/SFX/CreatureInteraction/Lyd_SFX_255_ Scalpel_1.wav" id="2_4ovpd"]
+[ext_resource type="AudioStream" uid="uid://culd6ph4uphpj" path="res://Audio/SFX/CreatureInteraction/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav" id="3_l2hbr"]
+[ext_resource type="AudioStream" uid="uid://b23fxucbjwntq" path="res://Audio/SFX/CreatureInteraction/EFX SD Heads Hit Together 02.wav" id="4_13ib2"]
+[ext_resource type="AudioStream" uid="uid://cfcu1f27ai24f" path="res://Audio/SFX/CreatureInteraction/PickUp - Bag Foley_Wallet_Leather_Grab.wav" id="5_hqx13"]
+[ext_resource type="AudioStream" uid="uid://ly81x8jd8r4c" path="res://Audio/SFX/CreatureInteraction/PutDown Bag Foley_Wallet_Leather_Grab.wav" id="6_yowvc"]
+[ext_resource type="Texture2D" uid="uid://bgvytgr0o688" path="res://Art/TutorialCreatureStates/TutorialCreatureIdle.png" id="7_ydux8"]
+[ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="8_pmdnp"]
+[ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scripts/StateMachine/blackboard.gd" id="9_a3p7m"]
+[ext_resource type="PackedScene" uid="uid://bcyceucolx8au" path="res://Scenes/StateMachine/States/StatesTutorialCreature/TutorialCreatureStateIdle.tscn" id="10_ydux8"]
+[ext_resource type="Texture2D" uid="uid://clheg8l4qyfdw" path="res://Art/Meters/EmptyMeterBG.png" id="28_p0fow"]
+[ext_resource type="Texture2D" uid="uid://d3noiejpn8e4p" path="res://Art/Meters/HPFrame.png" id="29_bws18"]
+[ext_resource type="Texture2D" uid="uid://hgsltsp022y6" path="res://Art/Meters/HPMeter.png" id="30_foeda"]
+[ext_resource type="Texture2D" uid="uid://dd4cl82ickpmp" path="res://Art/Meters/HungerFrame.png" id="31_bnmx6"]
+[ext_resource type="Texture2D" uid="uid://jnilsi6iiq3j" path="res://Art/Meters/HungerMeter.png" id="32_8jb1o"]
+[ext_resource type="Texture2D" uid="uid://barer1pbqnqpd" path="res://Art/Meters/FeistyFrame.png" id="33_r86l4"]
+[ext_resource type="Texture2D" uid="uid://dwui4vl1tcqov" path="res://Art/Meters/FeistyMeter.png" id="34_dgrm0"]
+[ext_resource type="Texture2D" uid="uid://863ba5uydxmy" path="res://Art/Meters/TiredFrame.png" id="35_wur85"]
+[ext_resource type="Texture2D" uid="uid://bcafxjorfg62j" path="res://Art/Meters/TiredMeter.png" id="36_fn486"]
+[ext_resource type="LabelSettings" uid="uid://c4pg6vucq1524" path="res://Scenes/Quest/creature_state_label_settings.tres" id="37_bpel6"]
+[ext_resource type="LabelSettings" uid="uid://btu73f4pk84vl" path="res://Scenes/Quest/creature_name_label_settings.tres" id="38_yc4nx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onri8"]
+radius = 56.0357
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
+radius = 342.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
+radius = 86.0523
+
+[node name="TutorialCreature" type="CharacterBody2D" node_paths=PackedStringArray("blackboard") groups=["creature"]]
+z_index = 1
+collision_mask = 2
+input_pickable = true
+script = ExtResource("1_fvnwb")
+type = &"TutorialCreature"
+move_speed = 50.0
+friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog"])
+predator_types = Array[StringName]([&"Predator"])
+blackboard = NodePath("StateMachine/Blackboard")
+check_sound = ExtResource("2_4ovpd")
+pet_sound = ExtResource("3_l2hbr")
+poke_sound = ExtResource("4_13ib2")
+pickup_sound = ExtResource("5_hqx13")
+place_sound = ExtResource("6_yowvc")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("7_ydux8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="SelectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectRadius"]
+shape = SubResource("CircleShape2D_onri8")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_xbil5")
+
+[node name="EatRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
+shape = SubResource("CircleShape2D_8gas3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_pmdnp")
+initial_state = NodePath("TutorialCreatureStateIdle")
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="Blackboard" type="Node" parent="StateMachine"]
+script = ExtResource("9_a3p7m")
+
+[node name="TutorialCreatureStateIdle" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("10_ydux8")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="Stats" type="Node2D" parent="."]
+visible = false
+
+[node name="HPLabel" type="Label" parent="Stats"]
+visible = false
+z_index = 4
+offset_left = 74.0
+offset_top = -59.0
+offset_right = 114.0
+offset_bottom = -36.0
+text = "HP: 100/100"
+
+[node name="HungerLabel" type="Label" parent="Stats"]
+visible = false
+z_index = 4
+offset_left = 74.0
+offset_top = -30.0
+offset_right = 168.0
+offset_bottom = -7.0
+text = "Hunger: 100"
+
+[node name="FeistyLabel" type="Label" parent="Stats"]
+visible = false
+z_index = 4
+offset_left = 75.0
+offset_top = -1.0
+offset_right = 138.0
+offset_bottom = 22.0
+text = "Feisty: 0"
+
+[node name="TiredLabel" type="Label" parent="Stats"]
+visible = false
+z_index = 4
+offset_left = 76.0
+offset_top = 31.0
+offset_right = 134.0
+offset_bottom = 54.0
+text = "Tired: 0"
+
+[node name="HPMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -59.0
+offset_right = 198.0
+offset_bottom = 69.0
+value = 100.0
+texture_under = ExtResource("28_p0fow")
+texture_over = ExtResource("29_bws18")
+texture_progress = ExtResource("30_foeda")
+
+[node name="HungerMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -29.0
+offset_right = 198.0
+offset_bottom = 99.0
+value = 100.0
+texture_under = ExtResource("28_p0fow")
+texture_over = ExtResource("31_bnmx6")
+texture_progress = ExtResource("32_8jb1o")
+
+[node name="FeistyMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 1.0
+offset_right = 198.0
+offset_bottom = 129.0
+value = 100.0
+texture_under = ExtResource("28_p0fow")
+texture_over = ExtResource("33_r86l4")
+texture_progress = ExtResource("34_dgrm0")
+
+[node name="TiredMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 32.0
+offset_right = 198.0
+offset_bottom = 160.0
+value = 100.0
+texture_under = ExtResource("28_p0fow")
+texture_over = ExtResource("35_wur85")
+texture_progress = ExtResource("36_fn486")
+
+[node name="NatureLabel" type="Label" parent="Stats"]
+z_index = 4
+offset_left = 76.0
+offset_top = 67.0
+offset_right = 134.0
+offset_bottom = 90.0
+label_settings = ExtResource("37_bpel6")
+
+[node name="NameLabel" type="Label" parent="."]
+z_index = 4
+offset_left = -87.0
+offset_top = -103.0
+offset_right = 87.0
+offset_bottom = -74.0
+text = "Name"
+label_settings = ExtResource("38_yc4nx")
+horizontal_alignment = 1
+
+[node name="StateLabel" type="Label" parent="."]
+z_index = 4
+offset_left = -83.0
+offset_top = 73.0
+offset_right = 83.0
+offset_bottom = 98.0
+text = "Idle"
+label_settings = ExtResource("37_bpel6")
+horizontal_alignment = 1
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 15)
+scale = Vector2(3.2, 3.2)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]
+[connection signal="area_exited" from="DetectRadius" to="." method="_on_detect_radius_area_exited"]
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
+[connection signal="area_entered" from="EatRadius" to="." method="_on_eat_radius_area_entered"]
+[connection signal="area_exited" from="EatRadius" to="." method="_on_eat_radius_area_exited"]

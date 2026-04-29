@@ -19,3 +19,7 @@ func toggle_opened() -> void:
 	
 func clear_update_labels() -> void:
 	pass
+	
+func toggle_star() -> void:
+	print("Toggling star!")
+	$CompletionStar.visible = true

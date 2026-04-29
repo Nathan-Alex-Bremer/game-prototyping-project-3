@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cvwhppgvqv1r5"]
+[gd_scene load_steps=9 format=3 uid="uid://cvwhppgvqv1r5"]
 
 [ext_resource type="Script" uid="uid://b28rrwd7hxhlc" path="res://Scripts/JournalPages/journal_page_frog.gd" id="1_t6vrf"]
 [ext_resource type="Texture2D" uid="uid://dettkwmukv77v" path="res://Art/journal_frog.png" id="2_t6vrf"]
@@ -6,6 +6,7 @@
 [ext_resource type="LabelSettings" uid="uid://ckfxrvijyuu5t" path="res://Scenes/Quest/journal_title_label_settings.tres" id="3_gxl8c"]
 [ext_resource type="LabelSettings" uid="uid://2ju8wgdoo7bj" path="res://Scenes/Quest/journal_label_settings.tres" id="4_kf6wp"]
 [ext_resource type="LabelSettings" uid="uid://qe31gosd3ar6" path="res://Scenes/Quest/instructions_label_settings.tres" id="6_j4761"]
+[ext_resource type="Texture2D" uid="uid://cn4s38skcaf38" path="res://Art/completion_star.png" id="7_kf6wp"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_s46wy"]
 font_size = 200
@@ -257,3 +258,9 @@ offset_right = 365.521
 offset_bottom = 143.339
 text = "? ? ?"
 label_settings = SubResource("LabelSettings_s46wy")
+
+[node name="CompletionStar" type="Sprite2D" parent="."]
+visible = false
+z_index = 11
+position = Vector2(576, 324)
+texture = ExtResource("7_kf6wp")

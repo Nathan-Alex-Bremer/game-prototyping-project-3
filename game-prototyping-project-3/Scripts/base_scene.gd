@@ -17,14 +17,19 @@ signal journal_opened
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	print("Ready!")
 	timer = timer_count
 	
 	# Instantiate a player observer
 	#camera_area = GameState.camera_area_scene.instantiate()
 	#add_child(camera_area)
 	
-	player = GameState.player_scene.instantiate()
+	if GameState.player_node:
+		player = GameState.player_node
+	else:
+		player = GameState.player_scene.instantiate()
+		
+	player.position = Vector2(0, 0)
 	player.connect("CapturedState", on_capture_state)
 	player.connect("ClickedFood", on_clicked_food)
 	player.connect("OpenJournal", on_open_journal)
@@ -32,7 +37,10 @@ func _ready() -> void:
 	player.connect("ChangeMode", on_change_mode)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
 	# player.connect_camera_area(camera_area)
-	add_child(player)
+	
+	if not GameState.player_node:
+		GameState.player_node = player
+		add_child(player)
 	
 	# Instantiate a creature
 	for i in range(GameState.max_creatures - 2):
@@ -90,6 +98,8 @@ func _ready() -> void:
 		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 		new_tree.position = random_point
 		add_child(new_tree)
+		
+	GameState.tutorial_mode = false
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

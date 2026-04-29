@@ -257,15 +257,15 @@ func get_hit_points() -> int:
 
 func on_state_changed(new_state: MonsterState) -> void:
 	# Update label to display "simple name" of new state
-	$Stats/StateLabel.text = new_state.simple_name
+	$StateLabel.text = new_state.simple_name
 	if not GameState.get_state_in_journal(type, new_state.simple_name):
-		$Stats/StateLabel.modulate = Color(0.8, 0.8, 0.8, 1.0)
+		$StateLabel.modulate = Color(0.8, 0.8, 0.8, 1.0)
 	elif GameState.get_state_complete(type, new_state.simple_name):
-		$Stats/StateLabel.modulate = Color(0.1, 1.0, 0.2, 1.0)
+		$StateLabel.modulate = Color(0.1, 1.0, 0.2, 1.0)
 	elif GameState.get_state_found(type, new_state.simple_name):
-		$Stats/StateLabel.modulate = Color(1.0, 0.8, 0.1, 1.0)
+		$StateLabel.modulate = Color(1.0, 0.8, 0.1, 1.0)
 	else:
-		$Stats/StateLabel.modulate = Color(1.0, 1.0, 1.0, 1.0)
+		$StateLabel.modulate = Color(1.0, 1.0, 1.0, 1.0)
 	$Sprite2D.texture = new_state.sprite
 	print(creature_name + " new state: " + new_state.simple_name)
 	
@@ -279,7 +279,7 @@ func change_visibility(val: bool) -> void:
 	visible = val
 
 func change_label_color(val: Color) -> void:
-	$Stats/StateLabel.modulate = val
+	$StateLabel.modulate = val
 
 # Way for the player to give a signal to creatures
 func send_signal(signal_type: StringName, signal_sender: Node2D) -> void:
@@ -331,9 +331,13 @@ func play_sound(sound: AudioStream) -> void:
 # Input
 # Ew ew ew
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
 		
 		print("Pressed")
+		
+		# If in the tutorial, don't let the player click until they reach the proper stage
+		if GameState.tutorial_mode and GameState.tutorial_stage < 1:
+			return
 		
 		# Hacky failsafe to ensure switching 
 		# TODO: Find a better way to do this so a ceature stops being dragged if the player isn't in drag mode!

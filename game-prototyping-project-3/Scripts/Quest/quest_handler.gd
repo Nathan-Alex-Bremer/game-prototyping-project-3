@@ -36,6 +36,7 @@ var complete: bool = false
 signal new_quest()
 signal quest_menu_opened()
 signal quest_complete(quest: Quest)
+signal quest_complete_popup(creature_type: StringName)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -145,6 +146,7 @@ func show_complete_quest() -> void:
 	$QuestComplete.visible = true
 	$Flash.modulate.a = 0.6
 	play_sound(quest_complete_sound, 2)
+	quest_complete_popup.emit(current_quest.creature_type) # Signal to add star
 	
 # Audio
 

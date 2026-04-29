@@ -28,6 +28,17 @@ var camera_max_cooldown: float = 0.5
 
 @export_group("")
 
+# Tutorial stuff
+var walk_distance: float = 0
+
+# Dialogue Box
+@onready var dialogue_box: DialogueBox = $DialogueBox
+
+# Dialogue collection
+@export var tutorial_dialogue: Array[DialogueSet]
+var current_dialogue: Array[String]
+var dialogue_line: int # Current line of dialogue to pull
+
 # Signals
 signal ClickedFood(position: Vector2)
 signal CapturedState(creature_type: StringName, state: StringName)
@@ -35,6 +46,9 @@ signal OpenJournal()
 signal ChangeJournalPage(forward: bool)
 signal ChangeMode(new_mode)
 signal ToggleCreatureStats()
+signal TutorialWalkUpdate(distance: float)
+signal TutorialUpdate(stage: int)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -57,14 +71,37 @@ func _process(delta: float) -> void:
 		return
 	
 	if Input.is_action_just_pressed("capture_screen"):
+		
+		# Advance text if dialogue screen is open
+		if GameState.dialogue_open:
+			print("Click to advance!")
+			advance_text()
+			return
+			
+		if GameState.tutorial_mode:
+			# Don't let the player take pictures before the proper tutorial point
+			if GameState.tutorial_stage < 2:
+				return
+		
 		if camera_cooldown > 0:
+			return
+		if GameState.player_in_journal or GameState.player_in_quest_menu or GameState.dialogue_open:
 			return
 		print("Capture screen!")
 		capture_creature_states()
 		camera_cooldown = camera_max_cooldown
 	
+	if Input.is_action_just_pressed("confirm"):
+		if GameState.dialogue_open:
+			print("Click to advance!")
+			advance_text()
+	
 	# Cycle between action modes when the change is preseed
 	if Input.is_action_just_pressed("change_action_mode"):
+		
+		# Don't register any non-pause, non-click inputs when menuing
+		if GameState.player_in_journal or GameState.player_in_quest_menu or GameState.dialogue_open:
+			return
 		
 		match GameState.mode:
 			GameState.INTERACT_MODES.CHECK:
@@ -106,9 +143,14 @@ func _process(delta: float) -> void:
 				$CameraArea.set_interact_marker_visible(false)
 				$InteractArea2D.visible = false
 		
-		ChangeMode.emit(GameState.mode)
+		change_mode(GameState.mode)
+		# ChangeMode.emit(GameState.mode)
 	
 	if Input.is_action_just_pressed("use_action"):
+		# Don't register any non-pause, non-click inputs when menuing
+		if GameState.player_in_journal or GameState.player_in_quest_menu or GameState.dialogue_open:
+			return
+			
 		print("Use action!")
 		match GameState.mode:
 			GameState.INTERACT_MODES.PLACE_FOOD:
@@ -117,13 +159,17 @@ func _process(delta: float) -> void:
 					ClickedFood.emit(camera.get_global_mouse_position())
 				
 	if Input.is_action_just_pressed("open_journal"):
-		if GameState.player_in_quest_menu:
+		if GameState.player_in_quest_menu or GameState.dialogue_open:
 			return
-		OpenJournal.emit()
+		# OpenJournal.emit()
+		open_journal()
 		GameState.player_in_journal = not (GameState.player_in_journal)
 	
 	if Input.is_action_just_pressed("open_quest_manager"):
-		if GameState.player_in_journal:
+		if GameState.tutorial_mode:
+			return
+			
+		if GameState.player_in_journal or GameState.dialogue_open:
 			return
 		$QuestHandler.toggle_quest_menu()
 	
@@ -131,9 +177,11 @@ func _process(delta: float) -> void:
 	# Change page in journal
 	if GameState.player_in_journal:
 		if Input.is_action_just_pressed("move_right"):
-			ChangeJournalPage.emit(true)
+			change_journal_page(true)
+			# ChangeJournalPage.emit(true)
 		if Input.is_action_just_pressed("move_left"):
-			ChangeJournalPage.emit(false)
+			# ChangeJournalPage.emit(false)
+			change_journal_page(false)
 	
 	if message_timer > 0:
 		message_timer -= delta
@@ -146,7 +194,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	velocity = Vector2.ZERO
 	
-	if (not GameState.player_in_journal):
+	if (not GameState.player_in_journal and not GameState.player_in_quest_menu and not GameState.dialogue_open):
 	
 		if Input.is_action_pressed("move_up"):
 			velocity.y -= 1
@@ -162,6 +210,11 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.normalized() * camera_speed
 		if not $WalkStreamPlayer.playing:
 			$WalkStreamPlayer.play()
+			
+		# Handle tutorial
+		if GameState.tutorial_mode and GameState.tutorial_stage == 0:
+			TutorialWalkUpdate.emit(delta)
+			
 	#elif $WalkStreamPlayer.playing:
 		#$WalkStreamPlayer.stop()
 	
@@ -174,6 +227,7 @@ func _physics_process(delta: float) -> void:
 	#camera_area = cam
 
 func capture_creature_states() -> void:
+	
 	# Start camera flash effect
 	$CameraArea.get_flash().modulate.a = 0.5
 	$CameraAudioStreamPlayer.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightlyautoplay
@@ -201,12 +255,20 @@ func capture_creature_states() -> void:
 			
 			$QuestHandler.update_quest(creature, creature_state)
 			
+			# Tutorial only has one state, just let em have it
+			if GameState.tutorial_mode:
+				creature.change_label_color(Color(0.1, 1.0, 0.8, 1.0))
+			
+			# Update label colors
 			if GameState.get_state_in_journal(creature_type, creature_state):
 				creature.change_label_color(Color(0.1, 1.0, 0.8, 1.0))
 			else:
 				creature.change_label_color(Color(0, 0.7, 0.65, 1.0))
 
 func open_journal() -> void:
+	if GameState.tutorial_mode and GameState.tutorial_stage < 3:
+		return # I'd like the player to be able to open the journal ahead of this, but just not progress
+		
 	$Journal.toggle_opened()
 	$Journalnotif.visible = false
 	
@@ -263,7 +325,31 @@ func play_sound(sound: AudioStream) -> void:
 	audio_player.stream = sound
 	audio_player.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
 	audio_player.play()
+	
 
+# Dialogue
+
+func toggle_text_box() -> void:
+	# Opens/closes text box
+	dialogue_box.show_hide_box()
+
+func initialize_text_box() -> void:
+	# Prepare text box for next dialogue set
+	# NOTE: Currently only set to work for tutorial!
+	current_dialogue = tutorial_dialogue[GameState.tutorial_stage].dialogue
+	dialogue_line = 0
+	dialogue_box.set_text(current_dialogue[dialogue_line])
+	
+func advance_text() -> void:
+	# Display next dialogue line
+	dialogue_line += 1
+	if dialogue_line >= current_dialogue.size():
+		toggle_text_box()
+		return
+	dialogue_box.set_text(current_dialogue[dialogue_line])
+
+
+# Signal Connection
 
 func _on_interact_area_2d_mouse_entered() -> void:
 	GameState.in_interact_range = true
@@ -298,3 +384,13 @@ func _on_walk_stream_player_finished() -> void:
 	if velocity.length() > 0:
 		$WalkStreamPlayer.pitch_scale = randf_range(0.8, 1.0) # Randomize pitch slightly
 		# $WalkStreamPlayer.play()
+
+
+func _on_journal_tutorial_close() -> void:
+	TutorialUpdate.emit(4)
+	pass # Replace with function body.
+
+
+func _on_quest_handler_quest_complete_popup(creature_type: StringName) -> void:
+	$Journal.toggle_star(creature_type) #TODO: Test
+	pass # Replace with function body.

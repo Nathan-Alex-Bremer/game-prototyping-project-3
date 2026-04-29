@@ -160,16 +160,6 @@ owning_creature = NodePath("../..")
 [node name="Stats" type="Node2D" parent="."]
 visible = false
 
-[node name="StateLabel" type="Label" parent="Stats"]
-z_index = 4
-offset_left = -79.0
-offset_top = 73.0
-offset_right = 87.0
-offset_bottom = 96.0
-text = "Wander"
-label_settings = ExtResource("26_yq1em")
-horizontal_alignment = 1
-
 [node name="HPLabel" type="Label" parent="Stats"]
 visible = false
 z_index = 4
@@ -262,6 +252,16 @@ offset_right = 87.0
 offset_bottom = -74.0
 text = "Name"
 label_settings = ExtResource("36_lwnfg")
+horizontal_alignment = 1
+
+[node name="StateLabel" type="Label" parent="."]
+z_index = 4
+offset_left = -79.0
+offset_top = 73.0
+offset_right = 87.0
+offset_bottom = 98.0
+text = "Wander"
+label_settings = ExtResource("26_yq1em")
 horizontal_alignment = 1
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DialogueSet" load_steps=2 format=3 uid="uid://buyyjm2p1xhhg"]
+
+[ext_resource type="Script" uid="uid://dwjeik6rfd36d" path="res://Scripts/dialogue_set.gd" id="1_qibib"]
+
+[resource]
+script = ExtResource("1_qibib")
+dialogue = Array[String](["Lovely, isn’t it? You can flip between pages  in the journal using A and D, as well.", "The more research you collect, the more attentive you’ll become, and the more creatures you’ll be able to spot.", "I've even heard rumors of some kind of legendary beast in the area - who knows? Maybe you'll find it!", "…Well, probably not, though. Sorry to get your hopes up.", "That should be everything! If you forget anything, don’t worry: I’ve put a reference guide in your journal, so just press E to review!", "Now then, the exit should be down the hall and to the right. Go get 'em, tiger!"])
+metadata/_custom_type_script = "uid://dwjeik6rfd36d"

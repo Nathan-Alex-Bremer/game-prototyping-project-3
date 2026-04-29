@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://cjh4yfiih2h2h"]
+[gd_scene load_steps=33 format=3 uid="uid://cjh4yfiih2h2h"]
 
 [ext_resource type="Script" uid="uid://b1ae65hd7fin6" path="res://Scripts/player_observer.gd" id="1_4o3b8"]
 [ext_resource type="AudioStream" uid="uid://coyb5j1kecdj6" path="res://Audio/SFX/UI/CAMERA Minolta 505 Shutter.wav" id="2_6gyj7"]
@@ -7,15 +7,22 @@
 [ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_40w55"]
 [ext_resource type="AudioStream" uid="uid://mog66jfpax4i" path="res://Audio/SFX/Notif/Unlock NOTIFICATION Digital Call Arcade 01.wav" id="4_fku7y"]
 [ext_resource type="Texture2D" uid="uid://2m1yrox10dmj" path="res://Art/journalnotif.png" id="5_jpdhb"]
+[ext_resource type="Script" uid="uid://dwjeik6rfd36d" path="res://Scripts/dialogue_set.gd" id="5_q8njw"]
 [ext_resource type="Texture2D" uid="uid://c7walfx5ihva3" path="res://Art/player.png" id="6_jpdhb"]
 [ext_resource type="Texture2D" uid="uid://b5vri11qj10wo" path="res://Art/questnotif.png" id="6_pdcr2"]
+[ext_resource type="Resource" uid="uid://xl7nqbgg5cgf" path="res://Text/tutorial_0.tres" id="6_ucv0e"]
+[ext_resource type="Resource" uid="uid://dbb87q52owy68" path="res://Text/tutorial_1.tres" id="7_3dyck"]
 [ext_resource type="FontFile" uid="uid://cyh8m3aecu1mu" path="res://Fonts/lazy_dog.ttf" id="7_681o5"]
 [ext_resource type="PackedScene" uid="uid://o0f3estdyb43" path="res://Scenes/CameraArea.tscn" id="7_hnjst"]
+[ext_resource type="Resource" uid="uid://0yk47l48quic" path="res://Text/tutorial_2.tres" id="8_8eltq"]
 [ext_resource type="Texture2D" uid="uid://b8beu32oqsclv" path="res://Art/unlock_popup.png" id="8_681o5"]
 [ext_resource type="Texture2D" uid="uid://dajlbkp3nkp04" path="res://Art/circle.png" id="8_ofae6"]
+[ext_resource type="Resource" uid="uid://balosuuldt27m" path="res://Text/tutorial_3.tres" id="9_w1wju"]
 [ext_resource type="PackedScene" uid="uid://qdq5e3o7qiw8" path="res://Scenes/Quest/QuestHandler.tscn" id="9_xekgo"]
+[ext_resource type="Resource" uid="uid://buyyjm2p1xhhg" path="res://Text/tutorial_4.tres" id="10_gi5eh"]
 [ext_resource type="AudioStream" uid="uid://d0ciutr63nd7o" path="res://Audio/SFX/Walk/walkloop grass 3 single step 3.wav" id="14_fku7y"]
 [ext_resource type="PackedScene" uid="uid://c0mt8vdk4ijfd" path="res://Scenes/PauseMenu.tscn" id="16_3u7jl"]
+[ext_resource type="PackedScene" uid="uid://wkqr8tm35tth" path="res://Scenes/DialogueBox.tscn" id="17_8xlws"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8kdyt"]
 size = Vector2(85, 127)
@@ -115,6 +122,7 @@ camera_sound = ExtResource("2_6gyj7")
 notif_sound = ExtResource("3_6gyj7")
 new_interact_mode_sound = ExtResource("4_fku7y")
 quest_complete_sound = ExtResource("4_fku7y")
+tutorial_dialogue = Array[ExtResource("5_q8njw")]([ExtResource("6_ucv0e"), ExtResource("7_3dyck"), ExtResource("8_8eltq"), ExtResource("9_w1wju"), ExtResource("10_gi5eh")])
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(-2, -7)
@@ -268,9 +276,13 @@ bus = &"World SFX"
 
 [node name="PauseMenu" parent="." instance=ExtResource("16_3u7jl")]
 
+[node name="DialogueBox" parent="." instance=ExtResource("17_8xlws")]
+
+[connection signal="tutorial_close" from="Journal" to="." method="_on_journal_tutorial_close"]
 [connection signal="mouse_entered" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_exited"]
 [connection signal="new_quest" from="QuestHandler" to="." method="_on_quest_handler_new_quest"]
 [connection signal="quest_complete" from="QuestHandler" to="." method="_on_quest_handler_quest_complete"]
+[connection signal="quest_complete_popup" from="QuestHandler" to="." method="_on_quest_handler_quest_complete_popup"]
 [connection signal="quest_menu_opened" from="QuestHandler" to="." method="_on_quest_handler_quest_menu_opened"]
 [connection signal="finished" from="WalkStreamPlayer" to="." method="_on_walk_stream_player_finished"]

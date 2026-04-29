@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DialogueSet" load_steps=2 format=3 uid="uid://0yk47l48quic"]
+
+[ext_resource type="Script" uid="uid://dwjeik6rfd36d" path="res://Scripts/dialogue_set.gd" id="1_w0i7d"]
+
+[resource]
+script = ExtResource("1_w0i7d")
+dialogue = Array[String](["Great work! Now you can see the creature’s HEALTH, HUNGER, FEISTINESS, and TIREDNESS. Creatures won’t stick around if their health or hunger gets too low, so be careful!", "As you take pictures, I’ll be able to get you permits for other interaction modes besides just checking. You’ll be able to cycle through those with Q.", "Oh! I should probably tell you how to use the camera, shouldn’t I?", "To take a picture, just position your mouse over a creature and left-click. Try it out!"])
+metadata/_custom_type_script = "uid://dwjeik6rfd36d"

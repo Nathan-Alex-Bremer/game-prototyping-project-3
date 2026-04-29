@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcyceucolx8au"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_xqt88"]
+[ext_resource type="Texture2D" uid="uid://cq5m1gdlwvye6" path="res://Art/CreatureStates/CreatureIdle.png" id="2_20nhx"]
+[ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="5_nc684"]
+[ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="10_xien5"]
+
+[node name="TutorialCreatureStateIdle" type="Node" node_paths=PackedStringArray("enter_actions", "physics_update_actions")]
+script = ExtResource("1_xqt88")
+simple_name = &"Idle"
+sprite = ExtResource("2_20nhx")
+enter_actions = [NodePath("EnterActions/ASetTargetNull")]
+physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="ASetTargetNull" type="Node" parent="EnterActions"]
+script = ExtResource("5_nc684")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="AVelocityZero" type="Node" parent="PhysicsUpdateActions"]
+script = ExtResource("10_xien5")
+metadata/_custom_type_script = "uid://cnqboljrughfj"
+
+[node name="Transitions" type="Node" parent="."]

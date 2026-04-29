@@ -8,6 +8,9 @@ var page_names: Array[StringName] # This is so dumb and so ugly
 var active_page: int = 0
 var open = false
 
+# Tutorial
+@export var tutorial_page: Node2D
+
 # Audio
 @export_group("Sounds")
 
@@ -18,6 +21,10 @@ var open = false
 @export var open_journal_sound: AudioStream
 @export var close_journal_sound: AudioStream
 @export var change_page_sound: AudioStream
+
+# Signals
+
+signal tutorial_close()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -38,6 +45,13 @@ func _process(delta: float) -> void:
 	pass
 
 func on_state_found(creature_type: StringName, found_state: StringName, times_found: int) -> void:
+	
+	# If tutorial mode, there's only one creature
+	if GameState.tutorial_mode:
+		play_sound(new_unlock_sound)
+		tutorial_page.on_state_found(found_state, times_found)
+		return
+		
 	print("On state found")
 	# Play a little sound if a new creature has been found
 	if pages[creature_type].progress == 0:
@@ -52,6 +66,22 @@ func update_progress() -> void:
 	
 func toggle_opened() -> void:
 	print("Toggle opened")
+	# For tutorial mode, open the designated tutorial page
+	if GameState.tutorial_mode:
+		tutorial_page.toggle_opened()
+		open = not open
+		if open == false:
+			tutorial_page.clear_update_labels()
+			play_sound(close_journal_sound)
+			
+			# If the journal has new info during the tutorial, update tutorial progress on close
+			if tutorial_page.progress > 0:
+				tutorial_close.emit()
+		else:
+			play_sound(open_journal_sound)
+		
+		return # I don't want an else statement here because it'd look ugly
+	
 	pages[page_names[active_page]].toggle_opened()
 	open = not open
 	if open == false:
@@ -62,6 +92,11 @@ func toggle_opened() -> void:
 	# self.visible = (not self.visible)
 
 func change_page(forward: bool) -> void:
+	
+	# Unnecessary for tutorial
+	if GameState.tutorial_mode:
+		return
+		
 	# Hides current page, shows next/previous page depending on direction
 	if forward:
 		if active_page >= (page_names.size() - 1):
@@ -77,6 +112,9 @@ func change_page(forward: bool) -> void:
 		active_page -= 1
 		pages[page_names[active_page]].toggle_opened()
 		play_sound(change_page_sound)
+		
+func toggle_star(selected_page: StringName) -> void:
+	pages[selected_page].toggle_star()
 		
 # Audio
 
