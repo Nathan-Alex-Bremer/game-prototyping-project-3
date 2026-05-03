@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://qdq5e3o7qiw8"]
+[gd_scene load_steps=34 format=3 uid="uid://qdq5e3o7qiw8"]
 
 [ext_resource type="Script" uid="uid://c5bpai0w1a10x" path="res://Scripts/Quest/quest_handler.gd" id="1_t8urw"]
 [ext_resource type="PackedScene" uid="uid://cp7by1k8iepur" path="res://Scenes/Quest/QuestLabel.tscn" id="2_com2b"]
@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://dgnhwxc42dywy" path="res://Art/QuestMenu/back_button.png" id="10_pe762"]
 [ext_resource type="Texture2D" uid="uid://bdevv3cw63k8i" path="res://Art/QuestMenu/questcomplete.png" id="12_47dfg"]
 [ext_resource type="Texture2D" uid="uid://c7wid8d14qhyy" path="res://Art/QuestMenu/close_button.png" id="13_p2dr7"]
+[ext_resource type="Script" uid="uid://b8clyao4j75w4" path="res://Scripts/Quest/Quests/quest_06_boss.gd" id="22_pe762"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_f51rn"]
 font = ExtResource("8_hif3n")
@@ -46,9 +47,14 @@ font = ExtResource("9_pe762")
 font_size = 24
 font_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_47dfg"]
+font = ExtResource("9_pe762")
+font_size = 24
+font_color = Color(0, 0, 0, 1)
+
 [sub_resource type="LabelSettings" id="LabelSettings_war4n"]
 font = ExtResource("9_pe762")
-font_size = 30
+font_size = 24
 font_color = Color(0, 0.278431, 0, 1)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_va4qa"]
@@ -75,7 +81,7 @@ script = ExtResource("1_t8urw")
 quest_label_object = ExtResource("2_com2b")
 first_label_pos = Vector2(0, -100)
 label_pos_move = 100.0
-quest_list = [NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest05")]
+quest_list = [NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest05"), NodePath("Quests/Quest06")]
 open_sound = ExtResource("3_jgyw0")
 close_sound = ExtResource("4_4bce7")
 button_click_sound = ExtResource("5_jgyw0")
@@ -170,15 +176,25 @@ text = "DEFAULT DESCRIPTION"
 label_settings = SubResource("LabelSettings_pe762")
 autowrap_mode = 2
 
+[node name="Task" type="Label" parent="QuestInfo"]
+z_index = 2
+offset_left = -329.0
+offset_top = 61.0
+offset_right = 335.0
+offset_bottom = 103.0
+text = "    - TASK:"
+label_settings = SubResource("LabelSettings_47dfg")
+autowrap_mode = 2
+
 [node name="Reward" type="Label" parent="QuestInfo"]
 z_index = 2
 offset_left = -329.0
-offset_top = 58.0
+offset_top = 119.0
 offset_right = 335.0
-offset_bottom = 100.0
-text = "REWARD"
+offset_bottom = 161.0
+text = "    - REWARD: "
 label_settings = SubResource("LabelSettings_war4n")
-horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="InteractBlocker" type="Area2D" parent="QuestInfo"]
 z_index = -1
@@ -307,6 +323,10 @@ metadata/_custom_type_script = "uid://tlni8678i0u5"
 [node name="Quest05" type="Node" parent="Quests"]
 script = ExtResource("9_h6rv3")
 metadata/_custom_type_script = "uid://bm46buym35smk"
+
+[node name="Quest06" type="Node" parent="Quests"]
+script = ExtResource("22_pe762")
+metadata/_custom_type_script = "uid://b8clyao4j75w4"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 max_polyphony = 2

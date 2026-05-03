@@ -5,8 +5,9 @@ class_name Quest05
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	quest_name = "Distract Sonicoo!"
-	description = "Hello, researcher!\nI love Sonicoo very much! But, they always run away from me!\nI hear there are ways to distract them so they won't run away...\nCould you take some photos showing me how to do it?\n(TASK: Take five pictures of ways to distract or placate Sonicoo!)"
-	reward_desc = "REWARD: A big smile"
+	description = "Hello, researcher!\n\nI love Sonicoo very much! But, they always run away from me!\nI hear there are ways to distract them so they won't run away...\nCould you take some photos showing me how to do it?"
+	task_desc = "    - TASK: Take five pictures of ways to distract or placate Sonicoo!"
+	reward_desc = "    - REWARD: A big smile"
 	reward_thanks = "Thank you, researcher!\nI'll be sure to gather lots of fruits for Sonicoo.\nI tried poking them, but they always just ran away when I did that..."
 	
 	creature_type = "Bird"
@@ -21,8 +22,8 @@ func _ready() -> void:
 func check_requirements() -> bool:
 	if GameState.found_states["Bird"]["Idle"] == 0:
 		return false
-	if GameState.num_found_states < 24:
-		return false
+	#if GameState.num_found_states < 35:
+		#return false
 	return true
 
 # TODO: Only update if Bittybush dropped a fruit! This means making a sprite!

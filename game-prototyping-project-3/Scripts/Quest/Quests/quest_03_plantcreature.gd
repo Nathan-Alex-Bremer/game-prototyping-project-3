@@ -5,8 +5,9 @@ class_name Quest03
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	quest_name = "Bittybush Fruit Dropping"
-	description = "Hello, researcher!\nI'm a forager who just loves Bittybush fruit.\nBut, waiting for it to fall off is such a pain!\nI've heard there's a way to make them drop it, though...\n(TASK: Take three pictures of you - or something else - making Bittybush drop its fruit!)"
-	reward_desc = "REWARD: A big smile"
+	description = "Hello,\n\nI'm a forager who just loves Bittybush fruit.\nBut, waiting for it to fall off is such a pain!\nI've heard there's a way to make them drop it, though...\nCould you look into it for me?"
+	task_desc = "    - TASK: Take three pictures of you - or something else - making Bittybush drop its fruit!"
+	reward_desc = "    - REWARD: A big smile"
 	reward_thanks = "Thank you, researcher!\nI'll try poking the Bittybushes, since attacking them seems cruel.\nBy the way, I heard Bittybushes run away if they get too stressed,\nso be sure to give them a good petting soemtimes!"
 	
 	creature_type = "PlantCreature"
@@ -20,8 +21,8 @@ func _ready() -> void:
 func check_requirements() -> bool:
 	if GameState.found_states["PlantCreature"]["Idle"] == 0:
 		return false
-	if GameState.num_found_states < 12:
-		return false
+	#if GameState.num_found_states < 19:
+		#return false
 	return true
 
 # TODO: Only update if Bittybush dropped a fruit! This means making a sprite!

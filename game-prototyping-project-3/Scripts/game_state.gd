@@ -20,6 +20,7 @@ var num_existing_creatures = 6
 @export var plantcreature_scene: PackedScene
 @export var frog_scene: PackedScene
 @export var bird_scene: PackedScene
+@export var boss_scene: PackedScene
 @export var tutorialcreature_scene: PackedScene
 
 
@@ -41,12 +42,20 @@ var num_food: int = 0
 
 # Player
 @export var player_scene: PackedScene
+var input_allowed: bool = true
 var player_in_journal: bool = false
 var player_in_quest_menu: bool = false
 var dialogue_open: bool = false
 @export var camera_area_scene: PackedScene
 
 var screen_size: Vector2
+
+# Progress
+var completed_quests: int = 0
+var has_horn: bool = false
+var horn_sounded: bool = false # Handles "final boss" incoming
+var boss_ever_summoned: bool = false # Handles first-time boss behavior
+var boss_active: bool = false
 
 
 
@@ -63,7 +72,8 @@ enum INTERACT_MODES {
 	PLACE_FOOD,
 	PET,
 	POKE,
-	DRAG
+	DRAG,
+	HORN
 }
 var mode = INTERACT_MODES.CHECK
 
@@ -74,6 +84,7 @@ var found_states = {
 	"PlantCreature" = {},
 	"Bird" = {},
 	"Frog" = {},
+	"Boss" = {},
 	"Reference" = {} # I think the game might freak out here otherwise
 }
 
@@ -99,11 +110,15 @@ var names_frog = names_frog_file.names
 var names_tutorialcreature_file: NameList = load("res://Text/testcreature_names.tres")
 var names_tutorialcreature = names_tutorialcreature_file.names
 
+var names_boss_file: NameList = load("res://Text/boss_names.tres")
+var names_boss = names_boss_file.names
+
 var creature_names = {"Creature" = names_creature,
 			"Predator" = names_predator,
 			"PlantCreature" = names_plantcreature,
 			"Bird" = names_bird,
 			"Frog" = names_frog,
+			"Boss" = names_frog,
 			"TutorialCreature" = names_tutorialcreature
 			}
 			
@@ -186,6 +201,17 @@ func _ready() -> void:
 	found_states["Frog"]["Chase"] = 0
 	found_states["Frog"]["Attack"] = 0
 	found_states["Frog"]["Flee"] = 0
+	
+	found_states["Boss"]["Idle"] = 0
+	found_states["Boss"]["Wander"] = 0
+	found_states["Boss"]["Rest"] = 0
+	found_states["Boss"]["Pet"] = 0
+	found_states["Boss"]["Alerted"] = 0
+	found_states["Boss"]["Play"] = 0
+	found_states["Boss"]["Eat"] = 0
+	found_states["Boss"]["Attack"] = 0
+	found_states["Boss"]["Attack Eat"] = 0
+	found_states["Boss"]["Chase"] = 0
 
 func get_state_in_journal(creature_name: StringName, state_name: StringName) -> bool:
 	if tutorial_mode:
@@ -204,6 +230,10 @@ func get_state_complete(creature_name: StringName, state_name: StringName) -> bo
 		return tutorial_found_states[creature_name][state_name] > 10
 		
 	return (found_states[creature_name][state_name] >= 10)
+
+func unlock_horn() -> void: # Ugly way to do this
+	has_horn = true
+	player_node.interact_mode_unlocked("Ancient Horn")
 
 func update_tutorial(stage: int) -> bool:
 	print("Current stage: " + str(tutorial_stage))
@@ -225,8 +255,7 @@ func set_initial_scene() -> void:
 	else:
 		print("ERROR: Main scene not loaded!")
 
-func change_scene(new_scene_name: String) -> void:
-	
+func change_scene(new_scene_name: String) -> void:	
 	# Unload old scene
 	# get_tree().root.remove_child(current_scene)
 	# Remove remaining other references in GameState
@@ -238,10 +267,12 @@ func change_scene(new_scene_name: String) -> void:
 	match new_scene_name:
 		"TutorialScene":
 			new_scene = tutorial_scene.instantiate()
-			main_scene.add_child(new_scene)
+			main_scene.call_deferred("add_child", new_scene)
+			# main_scene.add_child(new_scene)
 		"BaseScene":
 			new_scene = base_scene.instantiate()
-			main_scene.add_child(new_scene)
+			main_scene.call_deferred("add_child", new_scene)
+			# main_scene.add_child(new_scene)
 		_:
 			print("ERROR: UNKNOWN SCENE")
 			return

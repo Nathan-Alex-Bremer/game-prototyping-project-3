@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=3 uid="uid://sx2bhm0cqbfs"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_tnu3c"]
+[ext_resource type="Texture2D" uid="uid://bgfaqobqlk74q" path="res://Art/BossStates/BossDrag.png" id="2_ejrgb"]
+[ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="3_48xdy"]
+[ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="4_mkthm"]
+[ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="5_j4hi7"]
+[ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="6_i54p6"]
+[ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="7_oeeas"]
+[ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="8_7umgf"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="9_wfv28"]
+
+[node name="BossStateDrag" type="Node" node_paths=PackedStringArray("enter_actions", "physics_update_actions", "transitions")]
+script = ExtResource("1_tnu3c")
+simple_name = &"Drag"
+sprite = ExtResource("2_ejrgb")
+enter_actions = [NodePath("EnterActions/ASetAggressive"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ASetWantsToPlay")]
+physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
+transitions = [NodePath("Transitions/TransitionToIdle")]
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="ASetAggressive" type="Node" parent="EnterActions"]
+script = ExtResource("3_48xdy")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetTargetNull" type="Node" parent="EnterActions"]
+script = ExtResource("4_mkthm")
+metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="ASetWantsToPlay" type="Node" parent="EnterActions"]
+script = ExtResource("5_j4hi7")
+metadata/_custom_type_script = "uid://csf0oi2tevhan"
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="AVelocityZero" type="Node" parent="PhysicsUpdateActions"]
+script = ExtResource("6_i54p6")
+metadata/_custom_type_script = "uid://cnqboljrughfj"
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="TransitionToIdle" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("7_oeeas")
+conditions = [NodePath("CNot")]
+next_state = &"bossstateidle"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CNot" type="Node" parent="Transitions/TransitionToIdle" node_paths=PackedStringArray("base_condition")]
+script = ExtResource("8_7umgf")
+base_condition = NodePath("CIsDragging")
+metadata/_custom_type_script = "uid://ca6ogsam06lk4"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToIdle/CNot"]
+script = ExtResource("9_wfv28")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

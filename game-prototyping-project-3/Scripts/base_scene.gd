@@ -36,6 +36,7 @@ func _ready() -> void:
 	player.connect("ChangeJournalPage", on_change_journal_page)
 	player.connect("ChangeMode", on_change_mode)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
+	player.connect("BossFightStarted", on_boss_fight_started)
 	# player.connect_camera_area(camera_area)
 	
 	if not GameState.player_node:
@@ -100,6 +101,8 @@ func _ready() -> void:
 		add_child(new_tree)
 		
 	GameState.tutorial_mode = false
+	player.set_step_sound("grass")
+	player.start_fade_in()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -180,11 +183,11 @@ func spawn_creature() -> void:
 		var randnum = randi_range(1, 6)
 		if randnum == 1 and GameState.num_existing_creatures >= 5 and GameState.num_found_states >= 4 and not GameState.raining:
 			new_creature = GameState.predator_scene.instantiate()
-		elif randnum == 1 and GameState.num_found_states >= 4:
-			new_creature = GameState.frog_scene.instantiate()
 		elif randnum == 2 and GameState.num_found_states >= 10:
 			new_creature = GameState.plantcreature_scene.instantiate()
-		elif randnum == 3 and GameState.num_found_states >= 15:
+		elif randnum == 1 and GameState.num_found_states >= 18:
+			new_creature = GameState.frog_scene.instantiate()
+		elif randnum == 3 and GameState.num_found_states >= 25:
 			new_creature = GameState.bird_scene.instantiate()
 		else:
 			new_creature = GameState.creature_scene.instantiate()
@@ -217,22 +220,31 @@ func found_states_updated() -> void:
 		3:
 			player.interact_mode_unlocked("Place Food")
 		4:
+			next_creature_type = "Predator"
 			if GameState.raining:
-				next_creature_type = "Frog"
-			else:
-				next_creature_type = "Predator"
+				GameState.raining = false
+				player.toggle_rain_overlay()
+			
 		10:
 			player.interact_mode_unlocked("Pet")
 			next_creature_type = "PlantCreature"
-		14:
+		16:
 			player.interact_mode_unlocked("Poke")
-		15:
-			next_creature_type = "Bird"
+		
 		18:
-			player.interact_mode_unlocked("Drag")
+			next_creature_type = "Frog"
+			if not GameState.raining:
+				GameState.raining = true
+				player.toggle_rain_overlay()
+			
 		20:
+			player.interact_mode_unlocked("Drag")
 			if not GameState.raining:
 				next_creature_type = "Predator"
+		
+		25:
+			next_creature_type = "Bird"
+		
 
 func on_clicked_food(food_position: Vector2) -> void:
 	if GameState.num_found_states < 1:
@@ -287,3 +299,16 @@ func on_creature_selected_check() -> void:
 
 func on_creature_leaving(creature_name: StringName) -> void:
 	player.creature_left(creature_name)
+
+func on_boss_fight_started() -> void:
+	# Spawn boss
+	var new_creature = GameState.boss_scene.instantiate()
+	var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+	new_creature.position = random_point
+	new_creature.connect("SelectedForCheck", on_creature_selected_check)
+	new_creature.connect("SpawnFood", spawn_food_near_position)
+	new_creature.connect("Leaving", on_creature_leaving)
+	add_child(new_creature)
+	GameState.existing_creatures.append(new_creature)
+	GameState.boss_active = true
+	GameState.boss_ever_summoned = true

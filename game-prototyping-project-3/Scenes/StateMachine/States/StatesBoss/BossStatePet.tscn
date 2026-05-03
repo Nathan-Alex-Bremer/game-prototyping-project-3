@@ -1,0 +1,126 @@
+[gd_scene load_steps=18 format=3 uid="uid://bt81n5ujfu2xq"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_wq5b8"]
+[ext_resource type="Texture2D" uid="uid://l4pi5nfcuwok" path="res://Art/BossStates/BossPet.png" id="2_70vc7"]
+[ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="3_8cyp3"]
+[ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_emk1m"]
+[ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="5_xmi7l"]
+[ext_resource type="Script" uid="uid://3hvifjdriy5q" path="res://Scripts/StateMachine/Actions/a_set_wait_time.gd" id="6_fgu6p"]
+[ext_resource type="Script" uid="uid://vyj32sakaxrd" path="res://Scripts/StateMachine/Actions/a_change_tired.gd" id="7_gav0j"]
+[ext_resource type="Script" uid="uid://bhl1kvxr34utq" path="res://Scripts/StateMachine/Actions/a_set_is_pet.gd" id="8_x1igt"]
+[ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="9_kbjxt"]
+[ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="10_hrmbt"]
+[ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="11_rfvn3"]
+[ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="12_o6rq1"]
+[ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="13_5emno"]
+[ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="14_tkqn6"]
+[ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="15_xrs4v"]
+[ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="16_dwjjf"]
+[ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="17_j6g3s"]
+
+[node name="BossStatePet" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
+script = ExtResource("1_wq5b8")
+simple_name = &"Pet"
+sprite = ExtResource("2_70vc7")
+enter_actions = [NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetAggressive"), NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/AChangeTired")]
+exit_actions = [NodePath("ExitActions/ASetIsPet")]
+update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
+physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToWander")]
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="AChangeFeisty" type="Node" parent="EnterActions"]
+script = ExtResource("3_8cyp3")
+amount = -50.0
+metadata/_custom_type_script = "uid://doudrgrfo8a6k"
+
+[node name="ACalcWantsToPlay" type="Node" parent="EnterActions"]
+script = ExtResource("4_emk1m")
+min_food = 30.0
+metadata/_custom_type_script = "uid://qrhmyfalcev2"
+
+[node name="ASetAggressive" type="Node" parent="EnterActions"]
+script = ExtResource("5_xmi7l")
+val = false
+metadata/_custom_type_script = "uid://bbo1ou2k7esct"
+
+[node name="ASetWaitTime" type="Node" parent="EnterActions"]
+script = ExtResource("6_fgu6p")
+time_to_wait = 2.0
+metadata/_custom_type_script = "uid://3hvifjdriy5q"
+
+[node name="AChangeTired" type="Node" parent="EnterActions"]
+script = ExtResource("7_gav0j")
+amount = 20.0
+metadata/_custom_type_script = "uid://vyj32sakaxrd"
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="ASetIsPet" type="Node" parent="ExitActions"]
+script = ExtResource("8_x1igt")
+val = false
+metadata/_custom_type_script = "uid://bhl1kvxr34utq"
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="AChangeFoodDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("9_kbjxt")
+amount = -1.8
+scalable = true
+metadata/_custom_type_script = "uid://dq3xm51g267od"
+
+[node name="AChangeFeistyDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("10_hrmbt")
+amount = 1.44
+scalable = true
+metadata/_custom_type_script = "uid://c544yfe00a2d1"
+
+[node name="AChangeTiredDelta" type="Node" parent="UpdateActions"]
+script = ExtResource("11_rfvn3")
+amount = 0.63
+scalable = true
+metadata/_custom_type_script = "uid://cbfb1foxoxepf"
+
+[node name="AReduceWaitTime" type="Node" parent="UpdateActions"]
+script = ExtResource("12_o6rq1")
+metadata/_custom_type_script = "uid://ckuqr2gv4efpk"
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="AVelocityZero" type="Node" parent="PhysicsUpdateActions"]
+script = ExtResource("13_5emno")
+metadata/_custom_type_script = "uid://cnqboljrughfj"
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="TransitionToStunned" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("14_tkqn6")
+conditions = [NodePath("CIsStunned")]
+next_state = &"bossstatestunned"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsStunned" type="Node" parent="Transitions/TransitionToStunned"]
+script = ExtResource("15_xrs4v")
+metadata/_custom_type_script = "uid://cbq20o6y4ae31"
+
+[node name="TransitionToWander" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("14_tkqn6")
+conditions = [NodePath("CWaitTimeZero")]
+next_state = &"bossstatewander"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToWander"]
+script = ExtResource("16_dwjjf")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("14_tkqn6")
+conditions = [NodePath("CIsDragging")]
+next_state = &"bossstatedrag"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
+script = ExtResource("17_j6g3s")
+metadata/_custom_type_script = "uid://ca11g70lj4553"

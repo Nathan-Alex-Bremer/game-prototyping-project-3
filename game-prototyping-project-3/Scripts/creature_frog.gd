@@ -37,6 +37,11 @@ func _physics_process(delta: float) -> void:
 	#if position.y >= GameState.screen_size.y or position.y <= 0:
 		#velocity.y *= -1
 	
+	# TODO: Maybe instead cause the player to stop dragging when the creature re-enters after the player lets go of click, instead?
+	if is_dragging and not GameState.in_interact_range and GameState.mode == GameState.INTERACT_MODES.DRAG:
+		is_dragging = false
+		play_sound(place_sound)
+	
 	# This is ugly but it preserves direction when velocity = 0
 	if velocity.x > 0:
 		$Sprite2D.flip_h = true

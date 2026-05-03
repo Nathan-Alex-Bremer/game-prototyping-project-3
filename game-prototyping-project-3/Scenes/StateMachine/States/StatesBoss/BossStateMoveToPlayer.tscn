@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dr6i6m2yvawy0"]
+
+[ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_r4imc"]
+[ext_resource type="Texture2D" uid="uid://2f578oyx74nh" path="res://Art/BossStates/BossWalk.png" id="2_sdnrf"]
+[ext_resource type="Script" uid="uid://ot7mnjg113x6" path="res://Scripts/StateMachine/Actions/a_move_toward_target.gd" id="6_ra6w1"]
+[ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="7_nx4t7"]
+[ext_resource type="Script" uid="uid://bo8kyxhhrffj7" path="res://Scripts/StateMachine/Conditions/c_target_within_distance.gd" id="13_hd2cu"]
+
+[node name="BossStateMoveToPlayer" type="Node" node_paths=PackedStringArray("physics_update_actions", "transitions")]
+script = ExtResource("1_r4imc")
+simple_name = &"Move To Player"
+sprite = ExtResource("2_sdnrf")
+physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]
+transitions = [NodePath("Transitions/TransitionToLick")]
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="EnterActions" type="Node" parent="."]
+
+[node name="ExitActions" type="Node" parent="."]
+
+[node name="UpdateActions" type="Node" parent="."]
+
+[node name="PhysicsUpdateActions" type="Node" parent="."]
+
+[node name="AMoveTowardTarget" type="Node" parent="PhysicsUpdateActions"]
+script = ExtResource("6_ra6w1")
+metadata/_custom_type_script = "uid://ot7mnjg113x6"
+
+[node name="Transitions" type="Node" parent="."]
+
+[node name="TransitionToLick" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("7_nx4t7")
+conditions = [NodePath("CTargetWithinDistance")]
+next_state = &"bossstatelick"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CTargetWithinDistance" type="Node" parent="Transitions/TransitionToLick"]
+script = ExtResource("13_hd2cu")
+distance = 250.0
+metadata/_custom_type_script = "uid://bo8kyxhhrffj7"

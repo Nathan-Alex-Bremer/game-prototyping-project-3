@@ -1,0 +1,305 @@
+[gd_scene load_steps=41 format=3 uid="uid://hx57aq3bep8d"]
+
+[ext_resource type="Script" uid="uid://b7krer05pkca6" path="res://Scripts/creature_boss.gd" id="1_mdx7g"]
+[ext_resource type="Script" uid="uid://b250yl8mswdia" path="res://Scripts/StateMachine/blackboard_boss.gd" id="4_mdx7g"]
+[ext_resource type="Texture2D" uid="uid://2f578oyx74nh" path="res://Art/BossStates/BossWalk.png" id="7_w00kq"]
+[ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="8_tgcmb"]
+[ext_resource type="PackedScene" uid="uid://xvhsy5600fv0" path="res://Scenes/StateMachine/States/StatesBoss/BossStateAttack.tscn" id="10_ut4tn"]
+[ext_resource type="PackedScene" uid="uid://cd615tknio8yo" path="res://Scenes/StateMachine/States/StatesBoss/BossStateAttackEat.tscn" id="11_r238f"]
+[ext_resource type="PackedScene" uid="uid://brilf7uxa22ah" path="res://Scenes/StateMachine/States/StatesBoss/BossStateChase.tscn" id="12_ls18g"]
+[ext_resource type="PackedScene" uid="uid://sx2bhm0cqbfs" path="res://Scenes/StateMachine/States/StatesBoss/BossStateDrag.tscn" id="13_vsyc2"]
+[ext_resource type="PackedScene" uid="uid://cqeh0bxc1q1jc" path="res://Scenes/StateMachine/States/StatesBoss/BossStateEat.tscn" id="14_tgcmb"]
+[ext_resource type="PackedScene" uid="uid://cynm2a03ek8je" path="res://Scenes/StateMachine/States/StatesBoss/BossStateFlee.tscn" id="15_688jt"]
+[ext_resource type="PackedScene" uid="uid://iwh7m7r6ni0y" path="res://Scenes/StateMachine/States/StatesBoss/BossStateHunt.tscn" id="16_iol4s"]
+[ext_resource type="PackedScene" uid="uid://cqfsog5mtqhen" path="res://Scenes/StateMachine/States/StatesBoss/BossStateIdle.tscn" id="17_ojtp6"]
+[ext_resource type="PackedScene" uid="uid://ctg102tdbu7yv" path="res://Scenes/StateMachine/States/StatesBoss/BossStateLeaveFail.tscn" id="18_g7301"]
+[ext_resource type="PackedScene" uid="uid://dpa6412u217t" path="res://Scenes/StateMachine/States/StatesBoss/BossStateLeaveHappy.tscn" id="19_us60a"]
+[ext_resource type="PackedScene" uid="uid://cp2e6x2eypipv" path="res://Scenes/StateMachine/States/StatesBoss/BossStateLick.tscn" id="20_fyoqn"]
+[ext_resource type="PackedScene" uid="uid://b10utdufamv38" path="res://Scenes/StateMachine/States/StatesBoss/BossStateMoveToFood.tscn" id="21_ckhaa"]
+[ext_resource type="PackedScene" uid="uid://rdmsmivaulqf" path="res://Scenes/StateMachine/States/StatesBoss/BossStateMoveToFoodLure.tscn" id="22_66l0y"]
+[ext_resource type="PackedScene" uid="uid://c8el3xtdvfeha" path="res://Scenes/StateMachine/States/StatesBoss/BossStateMoveToFriend.tscn" id="23_qvjg5"]
+[ext_resource type="PackedScene" uid="uid://dr6i6m2yvawy0" path="res://Scenes/StateMachine/States/StatesBoss/BossStateMoveToPlayer.tscn" id="24_rlv3d"]
+[ext_resource type="PackedScene" uid="uid://bt81n5ujfu2xq" path="res://Scenes/StateMachine/States/StatesBoss/BossStatePet.tscn" id="25_sv36g"]
+[ext_resource type="PackedScene" uid="uid://clcvuc7elmyl2" path="res://Scenes/StateMachine/States/StatesBoss/BossStatePlay.tscn" id="26_377b0"]
+[ext_resource type="PackedScene" uid="uid://c0w1j6qqjd6xe" path="res://Scenes/StateMachine/States/StatesBoss/BossStatePoke.tscn" id="27_vsdn3"]
+[ext_resource type="PackedScene" uid="uid://jvf1sun0u2dj" path="res://Scenes/StateMachine/States/StatesBoss/BossStateRest.tscn" id="28_3bj21"]
+[ext_resource type="Texture2D" uid="uid://clheg8l4qyfdw" path="res://Art/Meters/EmptyMeterBG.png" id="28_b3yvg"]
+[ext_resource type="Texture2D" uid="uid://d3noiejpn8e4p" path="res://Art/Meters/HPFrame.png" id="29_frs31"]
+[ext_resource type="PackedScene" uid="uid://ckyvfp1e0ftx4" path="res://Scenes/StateMachine/States/StatesBoss/BossStateStunned.tscn" id="29_qsgcb"]
+[ext_resource type="PackedScene" uid="uid://c6dit1hfdlyrp" path="res://Scenes/StateMachine/States/StatesBoss/BossStateWander.tscn" id="30_5i6dq"]
+[ext_resource type="Texture2D" uid="uid://hgsltsp022y6" path="res://Art/Meters/HPMeter.png" id="30_6qfof"]
+[ext_resource type="Texture2D" uid="uid://dd4cl82ickpmp" path="res://Art/Meters/HungerFrame.png" id="31_nqxa7"]
+[ext_resource type="Texture2D" uid="uid://jnilsi6iiq3j" path="res://Art/Meters/HungerMeter.png" id="32_wpi4u"]
+[ext_resource type="Texture2D" uid="uid://barer1pbqnqpd" path="res://Art/Meters/FeistyFrame.png" id="33_l0ef4"]
+[ext_resource type="Texture2D" uid="uid://dwui4vl1tcqov" path="res://Art/Meters/FeistyMeter.png" id="34_5u6i5"]
+[ext_resource type="Texture2D" uid="uid://863ba5uydxmy" path="res://Art/Meters/TiredFrame.png" id="35_srbsc"]
+[ext_resource type="Texture2D" uid="uid://bcafxjorfg62j" path="res://Art/Meters/TiredMeter.png" id="36_qe1mu"]
+[ext_resource type="LabelSettings" uid="uid://c4pg6vucq1524" path="res://Scenes/Quest/creature_state_label_settings.tres" id="37_3xg4w"]
+[ext_resource type="LabelSettings" uid="uid://btu73f4pk84vl" path="res://Scenes/Quest/creature_name_label_settings.tres" id="38_7jo2h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
+size = Vector2(185, 170)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onri8"]
+radius = 56.0357
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
+radius = 342.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
+radius = 86.0523
+
+[node name="CreatureBoss" type="CharacterBody2D" node_paths=PackedStringArray("blackboard") groups=["creature"]]
+z_index = 1
+collision_mask = 2
+input_pickable = true
+script = ExtResource("1_mdx7g")
+type = &"Boss"
+hit_points = 200
+move_speed = 50.0
+friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Predator"])
+prey_types = Array[StringName]([&"Creature", &"PlantCreature", &"Predator", &"Frog", &"Bird"])
+blackboard = NodePath("StateMachine/BlackboardBoss")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("7_w00kq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3.5, 15)
+shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="SelectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(1.95248, 1.95248)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectRadius"]
+shape = SubResource("CircleShape2D_onri8")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(1.28, 1.28)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_xbil5")
+
+[node name="EatRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+scale = Vector2(1.92, 1.92)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
+shape = SubResource("CircleShape2D_8gas3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_tgcmb")
+initial_state = NodePath("BossStateWander")
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="BlackboardBoss" type="Node" parent="StateMachine"]
+script = ExtResource("4_mdx7g")
+metadata/_custom_type_script = "uid://b250yl8mswdia"
+
+[node name="BossStateAttack" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("10_ut4tn")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateAttackEat" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("11_r238f")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateChase" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("12_ls18g")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateDrag" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("13_vsyc2")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateEat" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("14_tgcmb")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateFlee" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("15_688jt")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateHunt" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("16_iol4s")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateIdle" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("17_ojtp6")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateLeaveFail" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("18_g7301")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateLeaveHappy" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_us60a")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateLick" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("20_fyoqn")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateMoveToFood" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("21_ckhaa")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateMoveToFoodLure" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("22_66l0y")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateMoveToFriend" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("23_qvjg5")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateMoveToPlayer" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("24_rlv3d")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStatePet" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("25_sv36g")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStatePlay" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("26_377b0")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStatePoke" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("27_vsdn3")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateRest" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("28_3bj21")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateStunned" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("29_qsgcb")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="BossStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("30_5i6dq")]
+blackboard = NodePath("../BlackboardBoss")
+owning_creature = NodePath("../..")
+
+[node name="Stats" type="Node2D" parent="."]
+visible = false
+position = Vector2(29, -1)
+
+[node name="HPLabel" type="Label" parent="Stats"]
+visible = false
+z_index = 4
+offset_left = 74.0
+offset_top = -59.0
+offset_right = 114.0
+offset_bottom = -36.0
+text = "HP: 100/100"
+
+[node name="HungerLabel" type="Label" parent="Stats"]
+visible = false
+z_index = 4
+offset_left = 74.0
+offset_top = -30.0
+offset_right = 168.0
+offset_bottom = -7.0
+text = "Hunger: 100"
+
+[node name="FeistyLabel" type="Label" parent="Stats"]
+visible = false
+z_index = 4
+offset_left = 75.0
+offset_top = -1.0
+offset_right = 138.0
+offset_bottom = 22.0
+text = "Feisty: 0"
+
+[node name="TiredLabel" type="Label" parent="Stats"]
+visible = false
+z_index = 4
+offset_left = 76.0
+offset_top = 31.0
+offset_right = 134.0
+offset_bottom = 54.0
+text = "Tired: 0"
+
+[node name="HPMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -59.0
+offset_right = 198.0
+offset_bottom = 69.0
+value = 100.0
+texture_under = ExtResource("28_b3yvg")
+texture_over = ExtResource("29_frs31")
+texture_progress = ExtResource("30_6qfof")
+
+[node name="HungerMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -29.0
+offset_right = 198.0
+offset_bottom = 99.0
+value = 100.0
+texture_under = ExtResource("28_b3yvg")
+texture_over = ExtResource("31_nqxa7")
+texture_progress = ExtResource("32_wpi4u")
+
+[node name="FeistyMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 1.0
+offset_right = 198.0
+offset_bottom = 129.0
+value = 100.0
+texture_under = ExtResource("28_b3yvg")
+texture_over = ExtResource("33_l0ef4")
+texture_progress = ExtResource("34_5u6i5")
+
+[node name="TiredMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 32.0
+offset_right = 198.0
+offset_bottom = 160.0
+value = 100.0
+texture_under = ExtResource("28_b3yvg")
+texture_over = ExtResource("35_srbsc")
+texture_progress = ExtResource("36_qe1mu")
+
+[node name="NatureLabel" type="Label" parent="Stats"]
+z_index = 4
+offset_left = 76.0
+offset_top = 67.0
+offset_right = 134.0
+offset_bottom = 90.0
+label_settings = ExtResource("37_3xg4w")
+
+[node name="NameLabel" type="Label" parent="."]
+z_index = 4
+offset_left = -87.0
+offset_top = -141.0
+offset_right = 87.0
+offset_bottom = -112.0
+text = "Name"
+label_settings = ExtResource("38_7jo2h")
+horizontal_alignment = 1
+
+[node name="StateLabel" type="Label" parent="."]
+z_index = 4
+offset_left = -83.0
+offset_top = 121.0
+offset_right = 83.0
+offset_bottom = 146.0
+text = "Wander"
+label_settings = ExtResource("37_3xg4w")
+horizontal_alignment = 1
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 15)
+scale = Vector2(3.2, 3.2)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]
+[connection signal="area_exited" from="DetectRadius" to="." method="_on_detect_radius_area_exited"]
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
+[connection signal="area_entered" from="EatRadius" to="." method="_on_eat_radius_area_entered"]
+[connection signal="area_exited" from="EatRadius" to="." method="_on_eat_radius_area_exited"]

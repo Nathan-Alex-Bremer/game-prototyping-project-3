@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://ia8oql3he6kc"]
+[gd_scene load_steps=14 format=3 uid="uid://ia8oql3he6kc"]
 
 [ext_resource type="Script" uid="uid://dglct3emv8njq" path="res://Scripts/game_state.gd" id="1_6swv3"]
 [ext_resource type="PackedScene" uid="uid://pax8hqcis1wq" path="res://Scenes/Creature.tscn" id="2_7ss3b"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://btwjxwtx4s1lq" path="res://Scenes/CreatureTypes/CreatureBird.tscn" id="5_xtrlp"]
 [ext_resource type="PackedScene" uid="uid://lavky42twi00" path="res://Scenes/Bush.tscn" id="6_7pu5x"]
 [ext_resource type="PackedScene" uid="uid://btfs7ga8bnhcg" path="res://Scenes/TutorialCreature.tscn" id="7_jcvnr"]
+[ext_resource type="PackedScene" uid="uid://hx57aq3bep8d" path="res://Scenes/CreatureTypes/CreatureBoss.tscn" id="7_y1ok4"]
 [ext_resource type="PackedScene" uid="uid://o0f3estdyb43" path="res://Scenes/CameraArea.tscn" id="8_hahlw"]
 [ext_resource type="PackedScene" uid="uid://dnjko78dsirrr" path="res://Scenes/Tree.tscn" id="9_b637u"]
 
@@ -20,6 +21,7 @@ predator_scene = ExtResource("3_q4mmg")
 plantcreature_scene = ExtResource("2_q4mmg")
 frog_scene = ExtResource("5_dma1l")
 bird_scene = ExtResource("5_xtrlp")
+boss_scene = ExtResource("7_y1ok4")
 tutorialcreature_scene = ExtResource("7_jcvnr")
 food_scene = ExtResource("3_timhb")
 bush_scene = ExtResource("6_7pu5x")

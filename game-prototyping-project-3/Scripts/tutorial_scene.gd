@@ -37,7 +37,6 @@ func _ready() -> void:
 		player = GameState.player_node
 	else:
 		player = GameState.player_scene.instantiate()
-		GameState.player_node = player
 	player.position = Vector2(-200, 200)
 	player.connect("CapturedState", on_capture_state)
 	player.connect("ClickedFood", on_clicked_food)
@@ -47,8 +46,11 @@ func _ready() -> void:
 	player.connect("TutorialWalkUpdate", on_tutorial_walk_update)
 	player.connect("TutorialUpdate", on_tutorial_update)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
+	player.connect("FadeOutComplete", on_fade_out_complete)
 	# player.connect_camera_area(camera_area)
-	add_child(player)
+	if not GameState.player_node:
+		GameState.player_node = player
+		add_child(player)
 	
 	 # Instantiate tutorial creature
 	 # TODO: Add tutorial creature spawn
@@ -63,6 +65,7 @@ func _ready() -> void:
 		
 	player.initialize_text_box()
 	player.toggle_text_box()
+	player.set_step_sound("indoors")
 	GameState.tutorial_mode = true
 	print("Ready complete!")
 
@@ -138,7 +141,7 @@ func on_creature_leaving(creature_name: StringName) -> void:
 	
 func on_tutorial_walk_update(distance: float) -> void:
 	walk_distance += distance
-	print("Walk distance: " + str(walk_distance))
+	# print("Walk distance: " + str(walk_distance))
 	if walk_distance >= required_walk_distance:
 		var success = GameState.update_tutorial(1)
 		
@@ -159,6 +162,10 @@ func on_tutorial_update(stage: int) -> void:
 		$LabDoors.visible = false
 		$LabDoors.process_mode = Node.PROCESS_MODE_DISABLED
 
+func on_fade_out_complete() -> void:
+	GameState.change_scene("BaseScene")
+	
 func _on_to_base_scene_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		GameState.change_scene("BaseScene")
+		print("Transition found player")
+		player.start_fade_out()

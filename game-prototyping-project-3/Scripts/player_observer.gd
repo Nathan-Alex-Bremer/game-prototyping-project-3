@@ -15,6 +15,10 @@ var camera_speed: float = 400
 var camera_cooldown: float = 0
 var camera_max_cooldown: float = 0.5
 
+# Transition stuff
+var fading_out: bool = false
+var fading_in: bool = false
+
 # Audio
 @export_group("Sounds")
 
@@ -25,6 +29,9 @@ var camera_max_cooldown: float = 0.5
 
 @export var new_interact_mode_sound: AudioStream
 @export var quest_complete_sound: AudioStream
+
+@export var step_sound_grass: AudioStream
+@export var step_sound_indoors: AudioStream
 
 @export_group("")
 
@@ -48,6 +55,8 @@ signal ChangeMode(new_mode)
 signal ToggleCreatureStats()
 signal TutorialWalkUpdate(distance: float)
 signal TutorialUpdate(stage: int)
+signal FadeOutComplete()
+signal BossFightStarted() # For when the boss fight quest is begun/the game needs to spawn a Boss
 
 
 # Called when the node enters the scene tree for the first time.
@@ -62,6 +71,26 @@ func _process(delta: float) -> void:
 	
 	if camera_cooldown > 0:
 		camera_cooldown -= delta
+		
+	# Handling text
+	if message_timer > 0:
+		message_timer -= delta
+		if message_timer <= 0:
+			$UpdateLabel.text = ""
+			message_timer = 0
+			$Popup.visible = false
+			$UpdateLabel.label_settings.font_color = Color(0.635, 0.998, 0.934)
+	
+	# Handling fade out/in
+	if fading_out:
+		fade_out(delta)
+	
+	elif fading_in:
+		fade_in(delta)
+	
+	# Don't let the player input anything during screen transition
+	if not GameState.input_allowed:
+		return
 		
 	if Input.is_action_just_pressed("pause"):
 		print("Pausing!")
@@ -120,7 +149,7 @@ func _process(delta: float) -> void:
 					$CameraArea.set_interact_marker_visible(false)
 					$InteractArea2D.visible = false
 			GameState.INTERACT_MODES.PET:
-				if GameState.num_found_states > 13 or GameState.debug_on:
+				if GameState.num_found_states > 15 or GameState.debug_on:
 					GameState.mode = GameState.INTERACT_MODES.POKE
 					print("New action mode: Poke")
 				else:
@@ -129,7 +158,7 @@ func _process(delta: float) -> void:
 					$CameraArea.set_interact_marker_visible(false)
 					$InteractArea2D.visible = false
 			GameState.INTERACT_MODES.POKE:
-				if GameState.num_found_states > 17 or GameState.debug_on:
+				if GameState.num_found_states > 19 or GameState.debug_on:
 					GameState.mode = GameState.INTERACT_MODES.DRAG
 					print("New action mode: Drag")
 				else:
@@ -138,6 +167,15 @@ func _process(delta: float) -> void:
 					$CameraArea.set_interact_marker_visible(false)
 					$InteractArea2D.visible = false
 			GameState.INTERACT_MODES.DRAG:
+				if GameState.completed_quests >= 5 or GameState.debug_on:
+					GameState.mode = GameState.INTERACT_MODES.HORN
+					print("New action mode: Ancient Horn")
+				else:
+					GameState.mode = GameState.INTERACT_MODES.CHECK
+					print("New action mode: Check")
+					$CameraArea.set_interact_marker_visible(false)
+					$InteractArea2D.visible = false
+			GameState.INTERACT_MODES.HORN:
 				GameState.mode = GameState.INTERACT_MODES.CHECK
 				print("New action mode: Check")
 				$CameraArea.set_interact_marker_visible(false)
@@ -157,6 +195,17 @@ func _process(delta: float) -> void:
 				if GameState.in_interact_range:
 					var camera = get_viewport().get_camera_2d()
 					ClickedFood.emit(camera.get_global_mouse_position())
+			GameState.INTERACT_MODES.HORN:
+				if GameState.horn_sounded:
+					if not GameState.boss_active:
+						BossFightStarted.emit()
+						update_message("Something is coming...")
+				else:
+					GameState.horn_sounded = true
+					$QuestHandler.check_new_availability() # Update quest line
+					print("Horn sounded")
+					update_message("Something is coming...")
+				# TODO: Set GameState horn sounded, set quest available if not prior, else summon new boss, add popup
 				
 	if Input.is_action_just_pressed("open_journal"):
 		if GameState.player_in_quest_menu or GameState.dialogue_open:
@@ -182,17 +231,12 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("move_left"):
 			# ChangeJournalPage.emit(false)
 			change_journal_page(false)
-	
-	if message_timer > 0:
-		message_timer -= delta
-		if message_timer <= 0:
-			$UpdateLabel.text = ""
-			message_timer = 0
-			$Popup.visible = false
-			$UpdateLabel.label_settings.font_color = Color(0.635, 0.998, 0.934)
 
 func _physics_process(delta: float) -> void:
 	velocity = Vector2.ZERO
+	
+	if not GameState.input_allowed:
+		return
 	
 	if (not GameState.player_in_journal and not GameState.player_in_quest_menu and not GameState.dialogue_open):
 	
@@ -299,10 +343,15 @@ func change_mode(mode: int) -> void:
 			$InteractModeLabel.text = interact_mode_text + "Poke"
 		GameState.INTERACT_MODES.DRAG:
 			$InteractModeLabel.text = interact_mode_text + "Drag"
+		GameState.INTERACT_MODES.HORN:
+			$InteractModeLabel.text = interact_mode_text + "Ancient Horn"
 
 func update_message(message: String) -> void:
-	$UpdateLabel.text = message
-	message_timer = 5
+	# Show new message and reset message timer, unless the popup is visible
+	# TODO: Maybe just keep the two message types separate?
+	if not $Popup.visible:
+		$UpdateLabel.text = message
+		message_timer = 5
 
 func creature_left(creature_name: StringName) -> void:
 	update_message(creature_name + " seems to have left...")
@@ -325,7 +374,13 @@ func play_sound(sound: AudioStream) -> void:
 	audio_player.stream = sound
 	audio_player.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
 	audio_player.play()
-	
+
+func set_step_sound(sound: StringName) -> void:
+	match sound:
+		"grass":
+			$WalkStreamPlayer.stream = step_sound_grass
+		"indoors":
+			$WalkStreamPlayer.stream = step_sound_indoors
 
 # Dialogue
 
@@ -347,7 +402,36 @@ func advance_text() -> void:
 		toggle_text_box()
 		return
 	dialogue_box.set_text(current_dialogue[dialogue_line])
+	
+	
+# Transitions (Fade)
 
+func start_fade_out() -> void:
+	print("Start fade out")
+	GameState.input_allowed = false
+	fading_out = true
+
+func fade_out(delta: float) -> void:
+	if $Flash.modulate.a + delta >= 1:
+		print("Fade out complete")
+		$Flash.modulate.a = 1
+		fading_out = false
+		# signal
+		FadeOutComplete.emit()
+	else:
+		$Flash.modulate.a += delta
+
+func start_fade_in() -> void:
+	fading_in = true
+
+func fade_in(delta: float) -> void:
+	if $Flash.modulate.a - delta <= 0:
+		$Flash.modulate.a = 0
+		GameState.input_allowed = true
+		FadeOutComplete.emit()
+		# signal
+	else:
+		$Flash.modulate.a -= delta
 
 # Signal Connection
 
@@ -394,3 +478,8 @@ func _on_journal_tutorial_close() -> void:
 func _on_quest_handler_quest_complete_popup(creature_type: StringName) -> void:
 	$Journal.toggle_star(creature_type) #TODO: Test
 	pass # Replace with function body.
+
+
+func _on_quest_handler_quest_started(quest: Quest) -> void:
+	if quest.creature_type == "Boss" and not GameState.boss_ever_summoned:
+		BossFightStarted.emit()

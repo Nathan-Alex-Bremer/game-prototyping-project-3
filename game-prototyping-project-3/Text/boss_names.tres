@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NameList" load_steps=2 format=3 uid="uid://n7ihqy2il3d7"]
+
+[ext_resource type="Script" uid="uid://bdc5xfljqnhye" path="res://Scripts/name_list.gd" id="1_hvl5u"]
+
+[resource]
+script = ExtResource("1_hvl5u")
+names = Array[String](["Big Boy", "Giga Friend", "Gluttonous Gladys", "Rumble", "The Duke", "Cuddle Monster", "Jaws", "Tiny", "Crusher", "Fluff Pile"])
+metadata/_custom_type_script = "uid://bdc5xfljqnhye"

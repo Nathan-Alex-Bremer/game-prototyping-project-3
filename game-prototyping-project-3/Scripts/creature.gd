@@ -11,6 +11,7 @@ var creature_color: Color
 @export var feisty: float = 0
 @export var tired: float = 0
 @export var move_speed: float = 10
+var is_leaving: bool = false
 
 @export var friend_types: Array[StringName]
 @export var predator_types: Array[StringName]
@@ -106,7 +107,7 @@ func _process(delta: float) -> void:
 		if poison_damage_timer <= 0:
 			poison_damage()
 	
-	if (hunger == 0 or hit_points == 0) and not $VisibleOnScreenNotifier2D.is_on_screen() and not blackboard.hidden:
+	if (hunger == 0 or hit_points == 0 or is_leaving) and not $VisibleOnScreenNotifier2D.is_on_screen() and not blackboard.hidden:
 		Leaving.emit(creature_name)
 		
 		# Remove partner, if applicable

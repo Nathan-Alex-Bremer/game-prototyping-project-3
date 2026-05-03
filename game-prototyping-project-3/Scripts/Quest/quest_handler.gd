@@ -35,6 +35,7 @@ var complete: bool = false
 # Signals
 signal new_quest()
 signal quest_menu_opened()
+signal quest_started(quest: Quest)
 signal quest_complete(quest: Quest)
 signal quest_complete_popup(creature_type: StringName)
 
@@ -69,8 +70,9 @@ func show_quest_menu() -> void:
 	
 	# Check which quests are available, display those which are
 	label_pos = first_label_pos # Reset position to add label pos to
+	var quests_shown: int = 0
 	for quest in quest_list:
-		if quest.check_available():
+		if quest.check_available() and quests_shown <= 4:
 			var new_quest_label = quest_label_object.instantiate()
 			new_quest_label.quest = quest
 			new_quest_label.quest_name = quest.quest_name
@@ -79,6 +81,7 @@ func show_quest_menu() -> void:
 			new_quest_label.connect("quest_label_clicked", on_quest_label_clicked)
 			$QuestMenu/QuestLabels.add_child(new_quest_label)
 			label_pos.y += label_pos_move # Move position to spawn down
+			quests_shown += 1 # Prevent quests from going off the screen
 	
 	if current_quest:
 		$QuestMenu/ActiveQuestLabel.text = "ACTIVE QUEST: " + current_quest.quest_name + " (" + current_quest.calculate_progress() + ")"
@@ -105,6 +108,7 @@ func show_quest_info() -> void:
 	
 	$QuestInfo/Title.text = selected_quest.quest_name
 	$QuestInfo/Description.text = selected_quest.description
+	$QuestInfo/Task.text = selected_quest.task_desc
 	$QuestInfo/Reward.text = selected_quest.reward_desc
 	$QuestInfo.visible = true
 
@@ -147,6 +151,7 @@ func show_complete_quest() -> void:
 	$Flash.modulate.a = 0.6
 	play_sound(quest_complete_sound, 2)
 	quest_complete_popup.emit(current_quest.creature_type) # Signal to add star
+	GameState.completed_quests += 1 # Keep track of number of ompleted quests
 	
 # Audio
 
@@ -171,6 +176,7 @@ func _on_accept_button_pressed() -> void:
 	hide_quest_info()
 	hide_quest_menu()
 	play_sound(button_click_sound, 2)
+	quest_started.emit(current_quest)
 
 func _on_reject_button_pressed() -> void:
 	selected_quest = null

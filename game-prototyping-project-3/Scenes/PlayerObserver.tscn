@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cjh4yfiih2h2h"]
+[gd_scene load_steps=34 format=3 uid="uid://cjh4yfiih2h2h"]
 
 [ext_resource type="Script" uid="uid://b1ae65hd7fin6" path="res://Scripts/player_observer.gd" id="1_4o3b8"]
 [ext_resource type="AudioStream" uid="uid://coyb5j1kecdj6" path="res://Audio/SFX/UI/CAMERA Minolta 505 Shutter.wav" id="2_6gyj7"]
@@ -8,6 +8,7 @@
 [ext_resource type="AudioStream" uid="uid://mog66jfpax4i" path="res://Audio/SFX/Notif/Unlock NOTIFICATION Digital Call Arcade 01.wav" id="4_fku7y"]
 [ext_resource type="Texture2D" uid="uid://2m1yrox10dmj" path="res://Art/journalnotif.png" id="5_jpdhb"]
 [ext_resource type="Script" uid="uid://dwjeik6rfd36d" path="res://Scripts/dialogue_set.gd" id="5_q8njw"]
+[ext_resource type="AudioStream" uid="uid://c2evxrkv502to" path="res://Audio/SFX/Walk/wooden floor 1 step.wav" id="6_3dyck"]
 [ext_resource type="Texture2D" uid="uid://c7walfx5ihva3" path="res://Art/player.png" id="6_jpdhb"]
 [ext_resource type="Texture2D" uid="uid://b5vri11qj10wo" path="res://Art/questnotif.png" id="6_pdcr2"]
 [ext_resource type="Resource" uid="uid://xl7nqbgg5cgf" path="res://Text/tutorial_0.tres" id="6_ucv0e"]
@@ -122,6 +123,8 @@ camera_sound = ExtResource("2_6gyj7")
 notif_sound = ExtResource("3_6gyj7")
 new_interact_mode_sound = ExtResource("4_fku7y")
 quest_complete_sound = ExtResource("4_fku7y")
+step_sound_grass = ExtResource("14_fku7y")
+step_sound_indoors = ExtResource("6_3dyck")
 tutorial_dialogue = Array[ExtResource("5_q8njw")]([ExtResource("6_ucv0e"), ExtResource("7_3dyck"), ExtResource("8_8eltq"), ExtResource("9_w1wju"), ExtResource("10_gi5eh")])
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -144,11 +147,9 @@ position = Vector2(-0.5, 9.5)
 shape = SubResource("RectangleShape2D_8kdyt")
 
 [node name="Flash" type="Sprite2D" parent="."]
-visible = false
 modulate = Color(1, 1, 1, 0)
 z_index = 7
-position = Vector2(576, 324)
-texture = ExtResource("6_pdcr2")
+texture = ExtResource("3_40w55")
 
 [node name="InteractModeLabel" type="Label" parent="."]
 z_index = 10
@@ -237,6 +238,7 @@ scale = Vector2(1.2925, 1.2925)
 texture = ExtResource("8_ofae6")
 
 [node name="QuestHandler" parent="." instance=ExtResource("9_xekgo")]
+position = Vector2(-24, -11)
 
 [node name="AudioListener2D" type="AudioListener2D" parent="."]
 current = true
@@ -285,4 +287,5 @@ bus = &"World SFX"
 [connection signal="quest_complete" from="QuestHandler" to="." method="_on_quest_handler_quest_complete"]
 [connection signal="quest_complete_popup" from="QuestHandler" to="." method="_on_quest_handler_quest_complete_popup"]
 [connection signal="quest_menu_opened" from="QuestHandler" to="." method="_on_quest_handler_quest_menu_opened"]
+[connection signal="quest_started" from="QuestHandler" to="." method="_on_quest_handler_quest_started"]
 [connection signal="finished" from="WalkStreamPlayer" to="." method="_on_walk_stream_player_finished"]

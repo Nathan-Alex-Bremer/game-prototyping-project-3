@@ -38,6 +38,7 @@ func _ready() -> void:
 	page_names.append("PlantCreature")
 	page_names.append("Frog")
 	page_names.append("Bird")
+	page_names.append("Boss")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

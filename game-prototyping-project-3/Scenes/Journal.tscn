@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://0wnkaj8ql8"]
+[gd_scene load_steps=14 format=3 uid="uid://0wnkaj8ql8"]
 
 [ext_resource type="Script" uid="uid://b6jow321w1c36" path="res://Scripts/journal.gd" id="1_a6r1n"]
 [ext_resource type="PackedScene" uid="uid://celi5uju0h446" path="res://Scenes/JournalPageCreature.tscn" id="2_gmf2j"]
@@ -11,12 +11,14 @@
 [ext_resource type="PackedScene" uid="uid://bqmjf8o4ehnwf" path="res://Scenes/JournalPageBird.tscn" id="5_xs0aa"]
 [ext_resource type="PackedScene" uid="uid://cxdoj2gxpp7oh" path="res://Scenes/JournalPageReference.tscn" id="6_fukfx"]
 [ext_resource type="PackedScene" uid="uid://cvwhppgvqv1r5" path="res://Scenes/JournalPageFrog.tscn" id="6_l8ppr"]
+[ext_resource type="PackedScene" uid="uid://do2kdqf4m56wk" path="res://Scenes/JournalPageBoss.tscn" id="12_45ywv"]
 [ext_resource type="PackedScene" uid="uid://40iydg3oiusc" path="res://Scenes/JournalPageTutorialCreature.tscn" id="12_ag7jj"]
 
 [node name="Journal" type="Node2D" node_paths=PackedStringArray("pages", "tutorial_page")]
 script = ExtResource("1_a6r1n")
 pages = {
 &"Bird": NodePath("JournalPageBird"),
+&"Boss": NodePath("JournalPageBoss"),
 &"Creature": NodePath("JournalPageCreature"),
 &"Frog": NodePath("JournalPageFrog"),
 &"PlantCreature": NodePath("JournalPagePlantCreature"),
@@ -41,6 +43,8 @@ change_page_sound = ExtResource("5_jta6q")
 total_states = 30.0
 
 [node name="JournalPageFrog" parent="." instance=ExtResource("6_l8ppr")]
+
+[node name="JournalPageBoss" parent="." instance=ExtResource("12_45ywv")]
 
 [node name="JournalPageTutorialCreature" parent="." instance=ExtResource("12_ag7jj")]
 

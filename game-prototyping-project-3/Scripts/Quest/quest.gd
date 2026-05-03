@@ -6,6 +6,7 @@ class_name Quest
 var status: int = QuestStates.NOT_STARTED
 @export var quest_name: StringName = ""
 @export var description: String = ""
+@export var task_desc: StringName = ""
 @export var reward_desc: StringName = ""
 @export var reward_thanks: StringName = ""
 
