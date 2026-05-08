@@ -88,8 +88,17 @@ func toggle_opened() -> void:
 	if open == false:
 		pages[page_names[active_page]].clear_update_labels()
 		play_sound(close_journal_sound)
+		
+		# Hide arrows
+		$RightArrow.visible = false
+		$LeftArrow.visible = false
 	else:
 		play_sound(open_journal_sound)
+		
+		# Show arrows
+		$RightArrow.visible = (active_page < (page_names.size() - 1))
+		$LeftArrow.visible = (active_page > 0)
+		
 	# self.visible = (not self.visible)
 
 func change_page(forward: bool) -> void:
@@ -106,6 +115,10 @@ func change_page(forward: bool) -> void:
 		active_page += 1
 		pages[page_names[active_page]].toggle_opened()
 		play_sound(change_page_sound)
+		
+		if active_page >= (page_names.size() - 1):
+			$RightArrow.visible = false
+		$LeftArrow.visible = true
 	else:
 		if active_page <= 0:
 			return
@@ -113,6 +126,10 @@ func change_page(forward: bool) -> void:
 		active_page -= 1
 		pages[page_names[active_page]].toggle_opened()
 		play_sound(change_page_sound)
+		
+		if active_page <= 0:
+			$LeftArrow.visible = false
+		$RightArrow.visible = true
 		
 func toggle_star(selected_page: StringName) -> void:
 	pages[selected_page].toggle_star()

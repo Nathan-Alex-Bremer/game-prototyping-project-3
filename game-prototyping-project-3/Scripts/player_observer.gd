@@ -15,9 +15,22 @@ var camera_speed: float = 400
 var camera_cooldown: float = 0
 var camera_max_cooldown: float = 0.5
 
+# Notifs
+@export var journal_notif_on_sprite: Texture2D
+@export var journal_notif_off_sprite: Texture2D
+@export var quest_notif_on_sprite: Texture2D
+@export var quest_notif_off_sprite: Texture2D
+
 # Transition stuff
 var fading_out: bool = false
 var fading_in: bool = false
+
+# Ending stuff
+var ending_queued: bool = false
+var ending_timer: float = 0
+var ending_timer_max: float = 15
+var ending: bool = false
+var ending_fading_out: bool = false
 
 # Audio
 @export_group("Sounds")
@@ -25,7 +38,9 @@ var fading_in: bool = false
 @onready var audio_player: AudioStreamPlayer = $AudioStreamPlayer
 
 @export var camera_sound: AudioStream
+@export var text_sound: AudioStream
 @export var notif_sound: AudioStream
+@export var horn_sound: AudioStream
 
 @export var new_interact_mode_sound: AudioStream
 @export var quest_complete_sound: AudioStream
@@ -53,10 +68,16 @@ signal OpenJournal()
 signal ChangeJournalPage(forward: bool)
 signal ChangeMode(new_mode)
 signal ToggleCreatureStats()
+
 signal TutorialWalkUpdate(distance: float)
 signal TutorialUpdate(stage: int)
+signal EndDialogue()
 signal FadeOutComplete()
+
+signal HornSounded()
 signal BossFightStarted() # For when the boss fight quest is begun/the game needs to spawn a Boss
+signal BossSatisfied() # For when the boss fight quest is begun/the game needs to spawn a Boss
+signal BossQuestComplete() # For when the boss fight quest is begun/the game needs to spawn a Boss
 
 
 # Called when the node enters the scene tree for the first time.
@@ -87,6 +108,17 @@ func _process(delta: float) -> void:
 	
 	elif fading_in:
 		fade_in(delta)
+		
+	
+	# Handling ending
+	if ending_queued:
+		ending_timer -= delta
+		if ending_timer <= 0:
+			ending = true
+			$EndScreen.fading_out = true
+			get_tree().paused = true
+			
+	
 	
 	# Don't let the player input anything during screen transition
 	if not GameState.input_allowed:
@@ -104,6 +136,7 @@ func _process(delta: float) -> void:
 		# Advance text if dialogue screen is open
 		if GameState.dialogue_open:
 			print("Click to advance!")
+			play_sound(text_sound)
 			advance_text()
 			return
 			
@@ -114,7 +147,7 @@ func _process(delta: float) -> void:
 		
 		if camera_cooldown > 0:
 			return
-		if GameState.player_in_journal or GameState.player_in_quest_menu or GameState.dialogue_open:
+		if GameState.player_in_journal or GameState.player_in_quest_menu:
 			return
 		print("Capture screen!")
 		capture_creature_states()
@@ -123,6 +156,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("confirm"):
 		if GameState.dialogue_open:
 			print("Click to advance!")
+			play_sound(text_sound)
 			advance_text()
 	
 	# Cycle between action modes when the change is preseed
@@ -196,15 +230,17 @@ func _process(delta: float) -> void:
 					var camera = get_viewport().get_camera_2d()
 					ClickedFood.emit(camera.get_global_mouse_position())
 			GameState.INTERACT_MODES.HORN:
+				HornSounded.emit()
+				play_sound(horn_sound)
 				if GameState.horn_sounded:
-					if not GameState.boss_active:
+					if not GameState.boss_active and GameState.boss_ever_summoned:
 						BossFightStarted.emit()
 						update_message("Something is coming...")
 				else:
 					GameState.horn_sounded = true
 					$QuestHandler.check_new_availability() # Update quest line
 					print("Horn sounded")
-					update_message("Something is coming...")
+					update_message("Something is coming... Check the Quest Log!")
 				# TODO: Set GameState horn sounded, set quest available if not prior, else summon new boss, add popup
 				
 	if Input.is_action_just_pressed("open_journal"):
@@ -314,7 +350,8 @@ func open_journal() -> void:
 		return # I'd like the player to be able to open the journal ahead of this, but just not progress
 		
 	$Journal.toggle_opened()
-	$Journalnotif.visible = false
+	toggle_journal_notif(false)
+	$Journalnotif/Label.visible = false
 	
 func change_journal_page(forward: bool) -> void:
 	$Journal.change_page(forward)
@@ -323,7 +360,8 @@ func on_state_found(creature_type: StringName, state: StringName, times_found: i
 	print("On state found")
 	$Journal.on_state_found(creature_type, state, times_found)
 	if times_found == 1 or times_found == 5 or times_found == 10:
-		$Journalnotif.visible = true
+		toggle_journal_notif(true)
+		$Journalnotif/Label.visible = true
 		$JournalAnimPlayer.play("JournalNotifBounce")
 		play_sound(notif_sound)
 	
@@ -400,9 +438,30 @@ func advance_text() -> void:
 	dialogue_line += 1
 	if dialogue_line >= current_dialogue.size():
 		toggle_text_box()
+		
+		# Ideally this would be held in the dialogue box but for now this'll do
+		EndDialogue.emit()
+		
 		return
 	dialogue_box.set_text(current_dialogue[dialogue_line])
-	
+
+# Notifs
+
+func toggle_journal_notif(active: bool) -> void:
+	if active:
+		$Journalnotif/JournalIcon.texture = journal_notif_on_sprite
+	else:
+		$Journalnotif/JournalIcon.texture = journal_notif_off_sprite
+
+func toggle_quest_notif(active: bool) -> void:
+	if active:
+		$Questnotif/QuestIcon.texture = quest_notif_on_sprite
+	else:
+		$Questnotif/QuestIcon.texture = quest_notif_off_sprite
+
+# Tutorial
+func show_camera_crosshair() -> void:
+	$CameraArea.set_camera_crosshair_visible(true)
 	
 # Transitions (Fade)
 
@@ -432,6 +491,13 @@ func fade_in(delta: float) -> void:
 		# signal
 	else:
 		$Flash.modulate.a -= delta
+		
+
+# Ending
+
+func start_ending() -> void:
+	ending_queued = true
+	ending_timer = ending_timer_max
 
 # Signal Connection
 
@@ -446,21 +512,27 @@ func _on_interact_area_2d_mouse_exited() -> void:
 
 
 func _on_quest_handler_quest_complete(quest: Quest) -> void:
-	$Questnotif.visible = true
+	toggle_quest_notif(true)
+	$Questnotif/Label.visible = true
 	$Questnotif/Label.text = "Quest Complete! (R)"
 	$QuestAnimPlayer.play("QuestNotifBounce")
+	
+	if quest is Quest06:
+		BossSatisfied.emit()
 	## Maybe play sound to let the player know the quest is complete?
 	# play_sound(quest_complete_sound)
 
 
 func _on_quest_handler_new_quest() -> void:
-	$Questnotif.visible = true
+	toggle_quest_notif(true)
+	$Questnotif/Label.visible = true
 	$Questnotif/Label.text = "New quest available! (R)"
 	$QuestAnimPlayer.play("QuestNotifBounce")
 
 
 func _on_quest_handler_quest_menu_opened() -> void:
-	$Questnotif.visible = false
+	toggle_quest_notif(false)
+	$Questnotif/Label.visible = false
 
 
 func _on_walk_stream_player_finished() -> void:
@@ -477,6 +549,9 @@ func _on_journal_tutorial_close() -> void:
 
 func _on_quest_handler_quest_complete_popup(creature_type: StringName) -> void:
 	$Journal.toggle_star(creature_type) #TODO: Test
+	
+	if creature_type == "Boss":
+		BossQuestComplete.emit()
 	pass # Replace with function body.
 
 

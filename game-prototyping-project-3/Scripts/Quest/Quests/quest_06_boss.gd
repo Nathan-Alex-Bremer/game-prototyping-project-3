@@ -23,8 +23,8 @@ func _ready() -> void:
 		"Play": 0,
 		"Rest": 0
 	}
-	pics_per_state = 5
-	percent_needed = 0.33 # Only need 3/4 images
+	pics_per_state = 1
+	percent_needed = 1.0 # Only need 3/4 images
 
 func check_requirements() -> bool:
 	if GameState.completed_quests < 5 and (GameState.debug_on == false): # All other quests must be complete

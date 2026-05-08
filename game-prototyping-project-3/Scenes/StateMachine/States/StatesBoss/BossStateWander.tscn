@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://c6dit1hfdlyrp"]
+[gd_scene load_steps=40 format=3 uid="uid://c6dit1hfdlyrp"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_2pwr8"]
 [ext_resource type="Texture2D" uid="uid://2f578oyx74nh" path="res://Art/BossStates/BossWalk.png" id="2_txedv"]
@@ -33,6 +33,11 @@
 [ext_resource type="Script" uid="uid://bbyxbf84ncqh6" path="res://Scripts/StateMachine/Conditions/c_tired_greaterthan.gd" id="30_mdyye"]
 [ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="34_fi8qe"]
 [ext_resource type="Script" uid="uid://beqkh6hgy2u5p" path="res://Scripts/StateMachine/Conditions/c_hit_points_greaterthan.gd" id="34_vxusa"]
+[ext_resource type="Script" uid="uid://dayy0qxwjdiiu" path="res://Scripts/StateMachine/Conditions/c_boss_is_quest_completed.gd" id="35_18ebi"]
+[ext_resource type="Script" uid="uid://b2hmdvvjypgkt" path="res://Scripts/StateMachine/Actions/a_set_target_player.gd" id="36_qxkhp"]
+[ext_resource type="Script" uid="uid://c2ok7mest4syr" path="res://Scripts/StateMachine/Conditions/c_boss_wants_to_leave.gd" id="37_eqpwt"]
+[ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="38_ghgym"]
+[ext_resource type="Script" uid="uid://cm1qmmlkuishu" path="res://Scripts/StateMachine/Conditions/c_is_satisfied.gd" id="39_085y2"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="39_ht4sx"]
 
 [node name="BossStateWander" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
@@ -41,7 +46,7 @@ simple_name = &"Wander"
 sprite = ExtResource("2_txedv")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/AConditionalSpriteChangeFight"), NodePath("EnterActions/AConditionalSpriteChangeFriend"), NodePath("EnterActions/AConditionalSpriteChangeHungry")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToMoveToFriend"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToHunt"), NodePath("Transitions/TransitionToMoveToFood"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest")]
+transitions = [NodePath("Transitions/TransitionToMoveToPlayer"), NodePath("Transitions/TransitionToLeaveFail"), NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToMoveToFriend"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToHunt"), NodePath("Transitions/TransitionToMoveToFood"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -309,3 +314,42 @@ metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
 script = ExtResource("34_vxusa")
 val = 50.0
 metadata/_custom_type_script = "uid://beqkh6hgy2u5p"
+
+[node name="TransitionToMoveToPlayer" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("16_83mru")
+conditions = [NodePath("CBossIsQuestComplete")]
+actions = [NodePath("ASetTargetPlayer")]
+next_state = &"bossstatemovetoplayer"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CBossIsQuestComplete" type="Node" parent="Transitions/TransitionToMoveToPlayer"]
+script = ExtResource("35_18ebi")
+metadata/_custom_type_script = "uid://dayy0qxwjdiiu"
+
+[node name="ASetTargetPlayer" type="Node" parent="Transitions/TransitionToMoveToPlayer"]
+script = ExtResource("36_qxkhp")
+metadata/_custom_type_script = "uid://b2hmdvvjypgkt"
+
+[node name="TransitionToLeaveFail" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("16_83mru")
+conditions = [NodePath("CBossWantsToLeave"), NodePath("CNotIsSatisfied")]
+actions = [NodePath("ASetTargetPlayer")]
+next_state = &"bossstateleavefail"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CBossWantsToLeave" type="Node" parent="Transitions/TransitionToLeaveFail"]
+script = ExtResource("37_eqpwt")
+metadata/_custom_type_script = "uid://c2ok7mest4syr"
+
+[node name="CNotIsSatisfied" type="Node" parent="Transitions/TransitionToLeaveFail" node_paths=PackedStringArray("base_condition")]
+script = ExtResource("38_ghgym")
+base_condition = NodePath("CIsSatisfied")
+metadata/_custom_type_script = "uid://ca6ogsam06lk4"
+
+[node name="CIsSatisfied" type="Node" parent="Transitions/TransitionToLeaveFail/CNotIsSatisfied"]
+script = ExtResource("39_085y2")
+metadata/_custom_type_script = "uid://cm1qmmlkuishu"
+
+[node name="ASetTargetPlayer" type="Node" parent="Transitions/TransitionToLeaveFail"]
+script = ExtResource("36_qxkhp")
+metadata/_custom_type_script = "uid://b2hmdvvjypgkt"

@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://ctg102tdbu7yv"]
+[gd_scene load_steps=13 format=3 uid="uid://ctg102tdbu7yv"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_4gww0"]
 [ext_resource type="Texture2D" uid="uid://b5ym7o15mpkyw" path="res://Art/BossStates/BossLeaveFail.png" id="2_d4mbr"]
 [ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_o2aop"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="4_rxb8c"]
-[ext_resource type="Script" uid="uid://bkvrfqmqmj8br" path="res://Scripts/StateMachine/Actions/a_move_random_direction.gd" id="5_x6qvn"]
+[ext_resource type="Script" uid="uid://mkbs4eu5apw5" path="res://Scripts/StateMachine/Actions/a_set_collision_none.gd" id="5_kfgaj"]
+[ext_resource type="Script" uid="uid://dcb7abq5sth20" path="res://Scripts/StateMachine/Actions/a_run_from_target.gd" id="6_dbdgp"]
+[ext_resource type="Script" uid="uid://bmduon6n8xtkc" path="res://Scripts/StateMachine/Actions/a_set_leaving.gd" id="7_dbdgp"]
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="10_phty8"]
 [ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="11_og7ao"]
 [ext_resource type="Script" uid="uid://c7b17ngr0v65q" path="res://Scripts/StateMachine/Conditions/c_attacker_within_distance.gd" id="12_8f1xd"]
@@ -15,7 +17,7 @@
 script = ExtResource("1_4gww0")
 simple_name = &"Leave Fail"
 sprite = ExtResource("2_d4mbr")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/AMoveRandomDirection")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/ASetCollisionNone"), NodePath("EnterActions/ARunFromTarget"), NodePath("EnterActions/ASetLeaving")]
 transitions = [NodePath("Transitions/TransitionToIdle2")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
@@ -32,10 +34,17 @@ script = ExtResource("4_rxb8c")
 val = false
 metadata/_custom_type_script = "uid://csf0oi2tevhan"
 
-[node name="AMoveRandomDirection" type="Node" parent="EnterActions"]
-script = ExtResource("5_x6qvn")
-speed_modifier = 1.4
-metadata/_custom_type_script = "uid://bkvrfqmqmj8br"
+[node name="ASetCollisionNone" type="Node" parent="EnterActions"]
+script = ExtResource("5_kfgaj")
+metadata/_custom_type_script = "uid://mkbs4eu5apw5"
+
+[node name="ARunFromTarget" type="Node" parent="EnterActions"]
+script = ExtResource("6_dbdgp")
+metadata/_custom_type_script = "uid://dcb7abq5sth20"
+
+[node name="ASetLeaving" type="Node" parent="EnterActions"]
+script = ExtResource("7_dbdgp")
+metadata/_custom_type_script = "uid://bmduon6n8xtkc"
 
 [node name="ExitActions" type="Node" parent="."]
 

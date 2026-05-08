@@ -59,7 +59,7 @@ var state_captured: bool = false
 # Signals
 signal SelectedForCheck
 signal SpawnFood
-signal Leaving(creature_name: StringName)
+signal Leaving(creature_type: StringName, creature_name: StringName)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -108,7 +108,7 @@ func _process(delta: float) -> void:
 			poison_damage()
 	
 	if (hunger == 0 or hit_points == 0 or is_leaving) and not $VisibleOnScreenNotifier2D.is_on_screen() and not blackboard.hidden:
-		Leaving.emit(creature_name)
+		Leaving.emit(type, creature_name)
 		
 		# Remove partner, if applicable
 		if blackboard is BlackboardPredator:
@@ -153,6 +153,10 @@ func _physics_process(delta: float) -> void:
 	elif velocity.x < 0:
 		$Sprite2D.flip_h = false
 	# $Sprite2D.flip_h = (velocity.x > 0)
+	
+	if velocity.length() > 0:
+		if not $WalkAudioStreamPlayer2D.playing and not is_dragging:
+			$WalkAudioStreamPlayer2D.play()
 	
 
 # Custom functions
@@ -321,6 +325,16 @@ func toggle_poison_color(is_poisoned: bool) -> void:
 # Gross way to do this, should use signals, but for now I don't want to bother
 func spawn_food_nearby() -> void:
 	SpawnFood.emit(position, 100)
+	
+
+# State shifting (for events)
+
+func set_panic(val: bool) -> void:
+	blackboard.panic = val
+	
+
+func set_celebrate(val: bool) -> void:
+	blackboard.celebrate = val
 	
 # Audio
 

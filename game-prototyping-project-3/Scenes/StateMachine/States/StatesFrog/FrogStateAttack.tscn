@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bftucumagyjve"]
+[gd_scene load_steps=24 format=3 uid="uid://bftucumagyjve"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_sdr04"]
 [ext_resource type="Texture2D" uid="uid://dd10t6nn5ql1i" path="res://Art/FrogStates/FrogAttackNT.png" id="2_sdr04"]
@@ -6,8 +6,10 @@
 [ext_resource type="Script" uid="uid://dkkco5pqtqlys" path="res://Scripts/StateMachine/Actions/a_attack.gd" id="4_jlcwb"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="5_lfje3"]
 [ext_resource type="Script" uid="uid://cafro0rhn1fr4" path="res://Scripts/StateMachine/Actions/a_set_frog_tongue.gd" id="5_vxspf"]
+[ext_resource type="Script" uid="uid://b6cg8y7eergbq" path="res://Scripts/StateMachine/Actions/a_play_sound.gd" id="6_fsmi1"]
 [ext_resource type="Script" uid="uid://ty8c6iwc4ncn" path="res://Scripts/StateMachine/Actions/a_hide_frog_tongue.gd" id="6_i4lit"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="6_o4dxx"]
+[ext_resource type="AudioStream" uid="uid://brsbrrh34q87t" path="res://Audio/SFX/Creature/FrogEat1.wav" id="7_0mhs4"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="7_fsmi1"]
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="8_0mhs4"]
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="9_j6to3"]
@@ -19,16 +21,18 @@
 [ext_resource type="Script" uid="uid://0sj2j2ombtdx" path="res://Scripts/StateMachine/Conditions/c_found_signal.gd" id="15_47acn"]
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="16_sjp6s"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="19_jlcwb"]
+[ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="22_0mhs4"]
+[ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="23_j6to3"]
 
 [node name="FrogStateAttack" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_sdr04")
 simple_name = &"Attack"
 sprite = ExtResource("2_sdr04")
-enter_actions = [NodePath("EnterActions/AAttack"), NodePath("EnterActions/ASetFrogTongue"), NodePath("EnterActions/ASetWaitTimeRandom")]
+enter_actions = [NodePath("EnterActions/AAttack"), NodePath("EnterActions/ASetFrogTongue"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/APlaySound")]
 exit_actions = [NodePath("ExitActions/AHideFrogTongue")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToChase")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToChase")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -47,6 +51,11 @@ metadata/_custom_type_script = "uid://dkkco5pqtqlys"
 [node name="ASetFrogTongue" type="Node" parent="EnterActions"]
 script = ExtResource("5_vxspf")
 metadata/_custom_type_script = "uid://cafro0rhn1fr4"
+
+[node name="APlaySound" type="Node" parent="EnterActions"]
+script = ExtResource("6_fsmi1")
+sound = ExtResource("7_0mhs4")
+metadata/_custom_type_script = "uid://b6cg8y7eergbq"
 
 [node name="ExitActions" type="Node" parent="."]
 
@@ -175,3 +184,23 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
 script = ExtResource("19_jlcwb")
 metadata/_custom_type_script = "uid://ca11g70lj4553"
+
+[node name="TransitionToCelebrate" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("9_j6to3")
+conditions = [NodePath("CIsCelebrate")]
+next_state = &"frogstatecelebrate"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsCelebrate" type="Node" parent="Transitions/TransitionToCelebrate"]
+script = ExtResource("22_0mhs4")
+metadata/_custom_type_script = "uid://wjmk4see6661"
+
+[node name="TransitionToPanic" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("9_j6to3")
+conditions = [NodePath("CIsPanic")]
+next_state = &"frogstatepanic"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsPanic" type="Node" parent="Transitions/TransitionToPanic"]
+script = ExtResource("23_j6to3")
+metadata/_custom_type_script = "uid://boa6lvsiakkpl"

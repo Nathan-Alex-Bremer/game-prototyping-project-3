@@ -6,17 +6,17 @@
 
 [node name="JournalPageReference" type="Node2D"]
 visible = false
+z_index = 60
 script = ExtResource("1_qwv8g")
 metadata/_custom_type_script = "uid://b2vsdqclbhylu"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 10
 position = Vector2(576, 324)
 texture = ExtResource("2_4sq2n")
 script = ExtResource("1_qwv8g")
 
 [node name="CompletionStar" type="Sprite2D" parent="."]
 visible = false
-z_index = 11
+z_index = 2
 position = Vector2(576, 324)
 texture = ExtResource("3_y3437")

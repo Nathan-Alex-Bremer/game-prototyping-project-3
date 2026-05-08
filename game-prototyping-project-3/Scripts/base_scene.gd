@@ -24,6 +24,8 @@ func _ready() -> void:
 	#camera_area = GameState.camera_area_scene.instantiate()
 	#add_child(camera_area)
 	
+	# Create player only if starting in base scene, rather than from tutorial (for testing purposes)
+	
 	if GameState.player_node:
 		player = GameState.player_node
 	else:
@@ -36,12 +38,17 @@ func _ready() -> void:
 	player.connect("ChangeJournalPage", on_change_journal_page)
 	player.connect("ChangeMode", on_change_mode)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
+	player.connect("HornSounded", on_horn_sounded)
 	player.connect("BossFightStarted", on_boss_fight_started)
+	player.connect("BossSatisfied", on_boss_satisfied)
+	player.connect("BossQuestComplete", on_boss_quest_complete)
 	# player.connect_camera_area(camera_area)
 	
+	# Add newly created player as player node if starting in base scene (for testing purposes)
 	if not GameState.player_node:
 		GameState.player_node = player
 		add_child(player)
+		player.show_camera_crosshair()
 	
 	# Instantiate a creature
 	for i in range(GameState.max_creatures - 2):
@@ -297,8 +304,17 @@ func toggle_creature_stats() -> void:
 func on_creature_selected_check() -> void:
 	toggle_creature_stats()
 
-func on_creature_leaving(creature_name: StringName) -> void:
+func on_creature_leaving(creature_type: StringName, creature_name: StringName) -> void:
+	# Handle boss leaving
+	if creature_type == "Boss":
+		GameState.boss_active = false
+		player.start_ending() # Fade to end screen after ~20 seconds
 	player.creature_left(creature_name)
+
+func on_horn_sounded() -> void:
+	for creature in GameState.existing_creatures:
+		if not (creature is Boss): # TODO: this is proper syntax right
+			creature.set_panic(true)
 
 func on_boss_fight_started() -> void:
 	# Spawn boss
@@ -312,3 +328,15 @@ func on_boss_fight_started() -> void:
 	GameState.existing_creatures.append(new_creature)
 	GameState.boss_active = true
 	GameState.boss_ever_summoned = true
+
+func on_boss_satisfied() -> void:
+	for creature in GameState.existing_creatures:
+		if creature is Boss:
+			creature.set_satisfied()
+
+func on_boss_quest_complete() -> void:
+	for creature in GameState.existing_creatures:
+		if creature is Boss:
+			creature.set_quest_completed()
+		else:
+			creature.set_celebrate(true)

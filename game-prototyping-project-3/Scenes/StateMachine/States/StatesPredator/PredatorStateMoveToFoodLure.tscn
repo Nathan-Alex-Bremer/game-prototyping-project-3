@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cor3xpqr3hnbl"]
+[gd_scene load_steps=21 format=3 uid="uid://cor3xpqr3hnbl"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_v7vjv"]
 [ext_resource type="Texture2D" uid="uid://c7uga7bmkjnhr" path="res://Art/PredatorStates/PredatorMoveToFood.png" id="2_rnqt7"]
@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://b58hvb6gow88r" path="res://Scripts/StateMachine/Conditions/c_no_target.gd" id="16_bnyr8"]
 [ext_resource type="Script" uid="uid://bo8kyxhhrffj7" path="res://Scripts/StateMachine/Conditions/c_target_within_distance.gd" id="17_2vk2l"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="18_5xyeb"]
+[ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="19_3ubee"]
+[ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="20_jns6l"]
 
 [node name="PredatorStateMoveToFoodLure" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_v7vjv")
@@ -27,7 +29,7 @@ enter_actions = [NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterAction
 exit_actions = [NodePath("ExitActions/ASetSignal"), NodePath("ExitActions/ASetSignalSender"), NodePath("ExitActions/ASetTargetNull")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToEat")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToEat")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -148,3 +150,23 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
 script = ExtResource("18_5xyeb")
 metadata/_custom_type_script = "uid://ca11g70lj4553"
+
+[node name="TransitionToCelebrate" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("12_srtbg")
+conditions = [NodePath("CIsCelebrate")]
+next_state = &"predatorstatecelebrate"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsCelebrate" type="Node" parent="Transitions/TransitionToCelebrate"]
+script = ExtResource("19_3ubee")
+metadata/_custom_type_script = "uid://wjmk4see6661"
+
+[node name="TransitionToPanic" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("12_srtbg")
+conditions = [NodePath("CIsPanic")]
+next_state = &"predatorstatepanic"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsPanic" type="Node" parent="Transitions/TransitionToPanic"]
+script = ExtResource("20_jns6l")
+metadata/_custom_type_script = "uid://boa6lvsiakkpl"

@@ -9,3 +9,6 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 	owning_creature.set_collision_layer_value(1, false)
 	owning_creature.set_collision_layer_value(2, false)
 	owning_creature.set_collision_layer_value(3, false)
+	owning_creature.set_collision_mask_value(1, false)
+	owning_creature.set_collision_mask_value(2, false)
+	owning_creature.set_collision_mask_value(3, false)

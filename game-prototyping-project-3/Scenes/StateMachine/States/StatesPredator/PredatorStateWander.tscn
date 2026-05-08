@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://dxx8byponniv"]
+[gd_scene load_steps=47 format=3 uid="uid://dxx8byponniv"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_qmnik"]
 [ext_resource type="Texture2D" uid="uid://ch4gevakn3j" path="res://Art/PredatorStates/PredatorWander.png" id="2_frj7y"]
@@ -44,6 +44,8 @@
 [ext_resource type="Script" uid="uid://bbea16jg1dyt2" path="res://Scripts/StateMachine/Conditions/c_found_cover.gd" id="42_c44mq"]
 [ext_resource type="Script" uid="uid://cuwfhc7aml6al" path="res://Scripts/StateMachine/Actions/a_set_target_cover.gd" id="43_o7rb4"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="44_c44mq"]
+[ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="45_rdop4"]
+[ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="46_c6te7"]
 
 [node name="PredatorStateWander" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_qmnik")
@@ -51,7 +53,7 @@ simple_name = &"Wander"
 sprite = ExtResource("2_frj7y")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/AConditionalSpriteChange")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFleeTarget2"), NodePath("Transitions/TransitionToIntimidate"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToMoveToPartner"), NodePath("Transitions/TransitionToSkulk"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToChasePartnerAttacker"), NodePath("Transitions/TransitionToChasePartnerTarget"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFleeTarget2"), NodePath("Transitions/TransitionToIntimidate"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPartnership"), NodePath("Transitions/TransitionToMoveToPartner"), NodePath("Transitions/TransitionToSkulk"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -470,3 +472,23 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
 script = ExtResource("44_c44mq")
 metadata/_custom_type_script = "uid://ca11g70lj4553"
+
+[node name="TransitionToCelebrate" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_blht0")
+conditions = [NodePath("CIsCelebrate")]
+next_state = &"predatorstatecelebrate"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsCelebrate" type="Node" parent="Transitions/TransitionToCelebrate"]
+script = ExtResource("45_rdop4")
+metadata/_custom_type_script = "uid://wjmk4see6661"
+
+[node name="TransitionToPanic" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_blht0")
+conditions = [NodePath("CIsPanic")]
+next_state = &"predatorstatepanic"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsPanic" type="Node" parent="Transitions/TransitionToPanic"]
+script = ExtResource("46_c6te7")
+metadata/_custom_type_script = "uid://boa6lvsiakkpl"

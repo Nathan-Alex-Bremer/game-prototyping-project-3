@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://bfkvpyc564aok"]
+[gd_scene load_steps=28 format=3 uid="uid://bfkvpyc564aok"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_xd2wr"]
 [ext_resource type="Texture2D" uid="uid://yr2w4xf5gmyj" path="res://Art/CreatureStates/CreatureFlee.png" id="2_q2db2"]
@@ -8,7 +8,9 @@
 [ext_resource type="Script" uid="uid://cjra2d0hb5ro5" path="res://Scripts/StateMachine/Actions/a_set_is_hidden.gd" id="6_86n7e"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="6_uhhl2"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="7_57twe"]
+[ext_resource type="Script" uid="uid://b6cg8y7eergbq" path="res://Scripts/StateMachine/Actions/a_play_sound.gd" id="7_qah7m"]
 [ext_resource type="Script" uid="uid://b505yins4cnib" path="res://Scripts/StateMachine/Actions/a_set_hiding_place_null.gd" id="7_uhhl2"]
+[ext_resource type="AudioStream" uid="uid://byni4xgq6wmqp" path="res://Audio/SFX/Foliage Interact/SWSH_BushClick Dry Bamboo Leaf Swishes 1_RogueWaves_DruidMagic.wav" id="8_1sl06"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="8_kdgop"]
 [ext_resource type="Script" uid="uid://bhl1kvxr34utq" path="res://Scripts/StateMachine/Actions/a_set_is_pet.gd" id="8_nok8u"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="9_nok8u"]
@@ -30,7 +32,7 @@
 script = ExtResource("1_xd2wr")
 simple_name = &"Hide"
 sprite = ExtResource("2_q2db2")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/ASetIsVisible"), NodePath("EnterActions/ASetIsHidden")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/ASetIsVisible"), NodePath("EnterActions/ASetIsHidden"), NodePath("EnterActions/APlaySound")]
 exit_actions = [NodePath("ExitActions/ASetIsHidden"), NodePath("ExitActions/ASetIsPet"), NodePath("ExitActions/ASetIsPoked")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -58,6 +60,11 @@ metadata/_custom_type_script = "uid://c02jct20k1nl3"
 [node name="ASetIsHidden" type="Node" parent="EnterActions"]
 script = ExtResource("6_86n7e")
 metadata/_custom_type_script = "uid://cjra2d0hb5ro5"
+
+[node name="APlaySound" type="Node" parent="EnterActions"]
+script = ExtResource("7_qah7m")
+sound = ExtResource("8_1sl06")
+metadata/_custom_type_script = "uid://b6cg8y7eergbq"
 
 [node name="ExitActions" type="Node" parent="."]
 

@@ -6,3 +6,4 @@ class_name BlackboardBoss
 
 # Progress tracking
 var satisfied: bool = false
+var quest_completed: bool = false

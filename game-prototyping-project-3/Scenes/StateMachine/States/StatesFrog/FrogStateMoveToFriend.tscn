@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://d3dnpg7in6lq"]
+[gd_scene load_steps=21 format=3 uid="uid://d3dnpg7in6lq"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_yogll"]
 [ext_resource type="Texture2D" uid="uid://8rf2632n341x" path="res://Art/FrogStates/FrogWander.png" id="2_a8wym"]
@@ -18,6 +18,8 @@
 [ext_resource type="Script" uid="uid://bo8kyxhhrffj7" path="res://Scripts/StateMachine/Conditions/c_target_within_distance.gd" id="13_8sy8k"]
 [ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="14_qpwdv"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="18_yveb1"]
+[ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="19_eo0fb"]
+[ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="20_k0l6l"]
 
 [node name="FrogStateMoveToFriend" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_yogll")
@@ -27,7 +29,7 @@ enter_actions = [NodePath("EnterActions/AInitHopTimer")]
 exit_actions = [NodePath("ExitActions/AStopHopping")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AMoveTowardTarget"), NodePath("PhysicsUpdateActions/AReduceHopTimer")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToPlay")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToPlay")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -150,3 +152,23 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
 script = ExtResource("18_yveb1")
 metadata/_custom_type_script = "uid://ca11g70lj4553"
+
+[node name="TransitionToCelebrate" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("7_gn51p")
+conditions = [NodePath("CIsCelebrate")]
+next_state = &"frogstatecelebrate"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsCelebrate" type="Node" parent="Transitions/TransitionToCelebrate"]
+script = ExtResource("19_eo0fb")
+metadata/_custom_type_script = "uid://wjmk4see6661"
+
+[node name="TransitionToPanic" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("7_gn51p")
+conditions = [NodePath("CIsPanic")]
+next_state = &"frogstatepanic"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsPanic" type="Node" parent="Transitions/TransitionToPanic"]
+script = ExtResource("20_k0l6l")
+metadata/_custom_type_script = "uid://boa6lvsiakkpl"

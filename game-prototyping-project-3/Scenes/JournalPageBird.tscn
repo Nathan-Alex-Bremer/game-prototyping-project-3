@@ -13,16 +13,16 @@ font_size = 200
 
 [node name="JournalPageBird" type="Node2D"]
 visible = false
+z_index = 60
 script = ExtResource("1_t2jp7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 10
 position = Vector2(576, 324)
 texture = ExtResource("2_t2jp7")
 
 [node name="CreatureName" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
-z_index = 11
+z_index = 2
 offset_left = 496.0
 offset_top = 29.0
 offset_right = 632.0
@@ -33,7 +33,7 @@ horizontal_alignment = 1
 
 [node name="StatesFound" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
-z_index = 11
+z_index = 2
 offset_left = 141.0
 offset_top = 70.0
 offset_right = 260.0
@@ -43,7 +43,7 @@ label_settings = ExtResource("4_3iixu")
 
 [node name="Progress" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
-z_index = 11
+z_index = 2
 offset_left = 314.0
 offset_top = 70.0
 offset_right = 433.0
@@ -53,7 +53,7 @@ label_settings = ExtResource("4_3iixu")
 
 [node name="StateWander" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 140.0
 offset_top = 160.0
 offset_right = 299.0
@@ -71,7 +71,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StateIdle" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 140.0
 offset_top = 116.0
 offset_right = 299.0
@@ -89,7 +89,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StateEat" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 141.0
 offset_top = 206.0
 offset_right = 344.0
@@ -107,7 +107,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StateRest" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 141.0
 offset_top = 246.0
 offset_right = 344.0
@@ -125,7 +125,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StatePet" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 141.0
 offset_top = 296.0
 offset_right = 344.0
@@ -143,7 +143,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StatePoke" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 141.0
 offset_top = 341.0
 offset_right = 344.0
@@ -161,7 +161,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StatePlay" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 141.0
 offset_top = 386.0
 offset_right = 358.0
@@ -179,7 +179,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StateChase" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 141.0
 offset_top = 435.0
 offset_right = 358.0
@@ -197,7 +197,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StateAttack" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 141.0
 offset_top = 480.0
 offset_right = 344.0
@@ -215,7 +215,7 @@ texture = ExtResource("3_k278j")
 
 [node name="StateFlee" type="Label" parent="."]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
-z_index = 11
+z_index = 2
 offset_left = 140.0
 offset_top = 532.0
 offset_right = 343.0
@@ -233,7 +233,7 @@ texture = ExtResource("3_k278j")
 
 [node name="Instructions" type="Label" parent="."]
 modulate = Color(0, 0, 0, 1)
-z_index = 11
+z_index = 2
 offset_left = 166.0
 offset_top = 578.0
 offset_right = 982.0
@@ -244,13 +244,13 @@ horizontal_alignment = 1
 
 [node name="HiddenSprite" type="Sprite2D" parent="."]
 self_modulate = Color(0, 0, 0, 1)
-z_index = 11
+z_index = 2
 position = Vector2(875, 166)
 scale = Vector2(0.123264, 0.195988)
 texture = ExtResource("3_k278j")
 
 [node name="Label" type="Label" parent="HiddenSprite"]
-z_index = 12
+z_index = 1
 offset_left = -178.479
 offset_top = -132.661
 offset_right = 365.521
@@ -260,6 +260,6 @@ label_settings = SubResource("LabelSettings_lttsj")
 
 [node name="CompletionStar" type="Sprite2D" parent="."]
 visible = false
-z_index = 11
+z_index = 2
 position = Vector2(576, 324)
 texture = ExtResource("7_3iixu")

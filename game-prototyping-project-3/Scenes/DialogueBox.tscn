@@ -7,7 +7,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_in0bf"]
 font = ExtResource("2_mjj0w")
-font_size = 24
+font_size = 32
 font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_unbg6"]
@@ -20,7 +20,7 @@ size = Vector2(1152, 647.999)
 
 [node name="DialogueBox" type="Node2D"]
 visible = false
-z_index = 8
+z_index = 55
 script = ExtResource("1_mjj0w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

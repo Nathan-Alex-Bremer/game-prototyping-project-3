@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cqeh0bxc1q1jc"]
+[gd_scene load_steps=17 format=3 uid="uid://cqeh0bxc1q1jc"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_3qjry"]
 [ext_resource type="Texture2D" uid="uid://tax73i5ali0t" path="res://Art/BossStates/BossEat.png" id="2_8j8qi"]
@@ -7,7 +7,9 @@
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="5_4whon"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="6_k80ti"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="7_3qhbd"]
+[ext_resource type="Script" uid="uid://b6cg8y7eergbq" path="res://Scripts/StateMachine/Actions/a_play_sound.gd" id="7_b2upr"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="8_3cuxq"]
+[ext_resource type="AudioStream" uid="uid://bikgljyq1gyv8" path="res://Audio/SFX/Creature/Eat.wav" id="8_h6nty"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="9_1jsq3"]
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="10_yt1fm"]
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="11_aucdm"]
@@ -19,7 +21,7 @@
 script = ExtResource("1_3qjry")
 simple_name = &"Eat"
 sprite = ExtResource("2_8j8qi")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AEat"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ASetWantsToPlay")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AEat"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/APlaySound")]
 update_actions = [NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
 transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToWander")]
@@ -45,6 +47,11 @@ metadata/_custom_type_script = "uid://wtbvohgc37nl"
 script = ExtResource("6_k80ti")
 val = false
 metadata/_custom_type_script = "uid://csf0oi2tevhan"
+
+[node name="APlaySound" type="Node" parent="EnterActions"]
+script = ExtResource("7_b2upr")
+sound = ExtResource("8_h6nty")
+metadata/_custom_type_script = "uid://b6cg8y7eergbq"
 
 [node name="ExitActions" type="Node" parent="."]
 

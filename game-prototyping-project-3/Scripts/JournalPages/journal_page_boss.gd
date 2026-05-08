@@ -90,19 +90,19 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				$StatePet/UpdateLabel.visible = true
 				$StatePet.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
-		"Annoyed":
+		"Alerted":
 			if times_found == 1:
-				$StatePoke.text = "- ANNOY: Becomes agitated when poked."
+				$StatePoke.text = "- ALERT: Becomes agitated when poked."
 				$StatePoke/UpdateLabel.visible = true
 				$StatePoke.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				$StatePoke.text = "- ANNOY: Struggles to sit still when agitated."
+				$StatePoke.text = "- ALERT: Struggles to sit still when agitated."
 				$StatePoke/UpdateLabel.visible = true
 				progress += 1
 			if times_found == 10:
-				$StatePoke.text = "- ANNOY: Even a couple pokes will whip them into a frenzy, causing them to look for fights."
+				$StatePoke.text = "- ALERT: Even a couple pokes will whip them into a frenzy, causing them to look for fights."
 				$StatePoke/UpdateLabel.visible = true
 				$StatePoke.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1

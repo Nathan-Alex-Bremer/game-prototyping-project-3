@@ -37,12 +37,13 @@ func _ready() -> void:
 		player = GameState.player_node
 	else:
 		player = GameState.player_scene.instantiate()
-	player.position = Vector2(-200, 200)
+	player.position = Vector2(-170, 140)
 	player.connect("CapturedState", on_capture_state)
 	player.connect("ClickedFood", on_clicked_food)
 	player.connect("OpenJournal", on_open_journal)
 	player.connect("ChangeJournalPage", on_change_journal_page)
 	player.connect("ChangeMode", on_change_mode)
+	player.connect("EndDialogue", on_end_dialogue)
 	player.connect("TutorialWalkUpdate", on_tutorial_walk_update)
 	player.connect("TutorialUpdate", on_tutorial_update)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
@@ -57,7 +58,7 @@ func _ready() -> void:
 	 # Instantiate a creature
 	for i in range(1):
 		var new_creature = GameState.tutorialcreature_scene.instantiate()
-		new_creature.position = Vector2(-200, -100)
+		new_creature.position = Vector2(-360, 140)
 		new_creature.connect("SelectedForCheck", on_creature_selected_check)
 		new_creature.connect("Leaving", on_creature_leaving)
 		add_child(new_creature)
@@ -138,6 +139,15 @@ func on_creature_selected_check() -> void:
 
 func on_creature_leaving(creature_name: StringName) -> void:
 	player.creature_left(creature_name)
+	
+func on_end_dialogue() -> void:
+	match GameState.tutorial_stage:
+		2: 
+			player.show_camera_crosshair()
+			return
+		4:
+			GameState.tutorial_mode = false # Remove all tutorial nonsense once the player can leave
+	
 	
 func on_tutorial_walk_update(distance: float) -> void:
 	walk_distance += distance

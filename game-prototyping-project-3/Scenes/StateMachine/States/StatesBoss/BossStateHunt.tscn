@@ -163,7 +163,7 @@ metadata/_custom_type_script = "uid://ca6ogsam06lk4"
 
 [node name="CTargetWithinDistance" type="Node" parent="Transitions/TransitionToWander/CNot"]
 script = ExtResource("16_rmfq4")
-distance = 400.0
+distance = 500.0
 metadata/_custom_type_script = "uid://bo8kyxhhrffj7"
 
 [node name="ASetTargetNull" type="Node" parent="Transitions/TransitionToWander"]

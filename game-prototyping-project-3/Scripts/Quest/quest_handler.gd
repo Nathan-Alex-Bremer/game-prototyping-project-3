@@ -150,7 +150,6 @@ func show_complete_quest() -> void:
 	$QuestComplete.visible = true
 	$Flash.modulate.a = 0.6
 	play_sound(quest_complete_sound, 2)
-	quest_complete_popup.emit(current_quest.creature_type) # Signal to add star
 	GameState.completed_quests += 1 # Keep track of number of ompleted quests
 	
 # Audio
@@ -185,8 +184,10 @@ func _on_reject_button_pressed() -> void:
 
 
 func _on_reward_exit_button_pressed() -> void:
+	quest_complete_popup.emit(current_quest.creature_type) # Signal to add star (moved to let signal be passed to the boss)
 	current_quest = null
 	complete = false
 	$QuestMenu/ActiveQuestLabel.text = "ACTIVE QUEST: NONE"
 	$QuestComplete.visible = false
-	play_sound(button_click_sound,2 )
+	play_sound(button_click_sound, 2)
+	

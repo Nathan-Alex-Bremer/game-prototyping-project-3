@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://vbgnc2jnptoh"]
+[gd_scene load_steps=35 format=3 uid="uid://vbgnc2jnptoh"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_pdgb3"]
 [ext_resource type="Texture2D" uid="uid://bma5cnqup6eas" path="res://Art/PlantCreatureStates/PlantCreatureWander.png" id="2_4lp4i"]
@@ -32,6 +32,8 @@
 [ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="28_u2sdu"]
 [ext_resource type="Script" uid="uid://c0lxjw3o2jfj8" path="res://Scripts/StateMachine/Conditions/c_is_raining.gd" id="29_aw0h4"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="30_iyx4t"]
+[ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="33_lvwqq"]
+[ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="34_h5wjy"]
 
 [node name="PlantCreatureStateWander" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "transitions")]
 script = ExtResource("1_pdgb3")
@@ -39,7 +41,7 @@ simple_name = &"Wander"
 sprite = ExtResource("2_4lp4i")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPhotosynthesize"), NodePath("Transitions/TransitionToDropFood"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToRest")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToPhotosynthesize"), NodePath("Transitions/TransitionToDropFood"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToRest")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -291,3 +293,23 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
 script = ExtResource("30_iyx4t")
 metadata/_custom_type_script = "uid://ca11g70lj4553"
+
+[node name="TransitionToCelebrate" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_unqmx")
+conditions = [NodePath("CIsCelebrate")]
+next_state = &"plantcreaturestatecelebrate"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsCelebrate" type="Node" parent="Transitions/TransitionToCelebrate"]
+script = ExtResource("33_lvwqq")
+metadata/_custom_type_script = "uid://wjmk4see6661"
+
+[node name="TransitionToPanic" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_unqmx")
+conditions = [NodePath("CIsPanic")]
+next_state = &"plantcreaturestatepanic"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsPanic" type="Node" parent="Transitions/TransitionToPanic"]
+script = ExtResource("34_h5wjy")
+metadata/_custom_type_script = "uid://boa6lvsiakkpl"

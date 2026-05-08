@@ -118,7 +118,7 @@ var creature_names = {"Creature" = names_creature,
 			"PlantCreature" = names_plantcreature,
 			"Bird" = names_bird,
 			"Frog" = names_frog,
-			"Boss" = names_frog,
+			"Boss" = names_boss,
 			"TutorialCreature" = names_tutorialcreature
 			}
 			

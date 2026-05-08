@@ -53,6 +53,7 @@ fire_sprite = ExtResource("4_mu6mv")
 metadata/_custom_type_script = "uid://bren1upitdyqs"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -5
 texture = ExtResource("2_03vxk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

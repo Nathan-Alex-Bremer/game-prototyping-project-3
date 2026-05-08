@@ -1,12 +1,15 @@
-[gd_scene load_steps=25 format=3 uid="uid://cqfsog5mtqhen"]
+[gd_scene load_steps=33 format=3 uid="uid://cqfsog5mtqhen"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_tvbtn"]
 [ext_resource type="Texture2D" uid="uid://bo5g4e736gpin" path="res://Art/BossStates/BossIdle.png" id="2_jmsyq"]
 [ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_8aviu"]
 [ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_hiq3n"]
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="5_4bbjm"]
+[ext_resource type="Script" uid="uid://b3jygl7so6pxa" path="res://Scripts/StateMachine/Actions/a_randomchance.gd" id="6_ij2l7"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="6_vijyb"]
+[ext_resource type="Script" uid="uid://b6cg8y7eergbq" path="res://Scripts/StateMachine/Actions/a_play_sound.gd" id="7_5ny6i"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="7_l4m4d"]
+[ext_resource type="AudioStream" uid="uid://tjrvnopulvsf" path="res://Audio/SFX/Creature/BossIdle1.wav" id="8_lyeq5"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="8_nvjjp"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="9_0mke4"]
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="10_kraj4"]
@@ -23,16 +26,21 @@
 [ext_resource type="Script" uid="uid://7r0ielccdd6i" path="res://Scripts/StateMachine/Conditions/c_found_foodlure.gd" id="23_bf1r6"]
 [ext_resource type="Script" uid="uid://d22jqfqjcw4hl" path="res://Scripts/StateMachine/Conditions/c_random_number.gd" id="24_wbvi5"]
 [ext_resource type="Script" uid="uid://dfynx3ugamgkv" path="res://Scripts/StateMachine/Conditions/c_feisty_greaterthan.gd" id="25_0sn1f"]
+[ext_resource type="Script" uid="uid://dayy0qxwjdiiu" path="res://Scripts/StateMachine/Conditions/c_boss_is_quest_completed.gd" id="25_45pnp"]
+[ext_resource type="Script" uid="uid://b2hmdvvjypgkt" path="res://Scripts/StateMachine/Actions/a_set_target_player.gd" id="26_2t2ip"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="26_eqq0u"]
+[ext_resource type="Script" uid="uid://c2ok7mest4syr" path="res://Scripts/StateMachine/Conditions/c_boss_wants_to_leave.gd" id="27_crtar"]
+[ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="28_ij2l7"]
+[ext_resource type="Script" uid="uid://cm1qmmlkuishu" path="res://Scripts/StateMachine/Conditions/c_is_satisfied.gd" id="29_5ny6i"]
 
 [node name="BossStateIdle" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_tvbtn")
 simple_name = &"Idle"
 sprite = ExtResource("2_jmsyq")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ARandomChance")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToWander2"), NodePath("Transitions/TransitionToRest")]
+transitions = [NodePath("Transitions/TransitionToMoveToPlayer"), NodePath("Transitions/TransitionToLeaveFail"), NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToWander2"), NodePath("Transitions/TransitionToRest")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -51,6 +59,17 @@ metadata/_custom_type_script = "uid://qrhmyfalcev2"
 [node name="ASetTargetNull" type="Node" parent="EnterActions"]
 script = ExtResource("5_4bbjm")
 metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="ARandomChance" type="Node" parent="EnterActions" node_paths=PackedStringArray("base_action")]
+script = ExtResource("6_ij2l7")
+base_action = NodePath("APlaySound")
+max = 20
+metadata/_custom_type_script = "uid://b3jygl7so6pxa"
+
+[node name="APlaySound" type="Node" parent="EnterActions/ARandomChance"]
+script = ExtResource("7_5ny6i")
+sound = ExtResource("8_lyeq5")
+metadata/_custom_type_script = "uid://b6cg8y7eergbq"
 
 [node name="ExitActions" type="Node" parent="."]
 
@@ -238,3 +257,42 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
 script = ExtResource("26_eqq0u")
 metadata/_custom_type_script = "uid://ca11g70lj4553"
+
+[node name="TransitionToMoveToPlayer" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("11_ua8l0")
+conditions = [NodePath("CBossIsQuestComplete")]
+actions = [NodePath("ASetTargetPlayer")]
+next_state = &"bossstatemovetoplayer"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CBossIsQuestComplete" type="Node" parent="Transitions/TransitionToMoveToPlayer"]
+script = ExtResource("25_45pnp")
+metadata/_custom_type_script = "uid://dayy0qxwjdiiu"
+
+[node name="ASetTargetPlayer" type="Node" parent="Transitions/TransitionToMoveToPlayer"]
+script = ExtResource("26_2t2ip")
+metadata/_custom_type_script = "uid://b2hmdvvjypgkt"
+
+[node name="TransitionToLeaveFail" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions", "actions")]
+script = ExtResource("11_ua8l0")
+conditions = [NodePath("CBossWantsToLeave"), NodePath("CNotIsSatisfied")]
+actions = [NodePath("ASetTargetPlayer")]
+next_state = &"bossstateleavefail"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CBossWantsToLeave" type="Node" parent="Transitions/TransitionToLeaveFail"]
+script = ExtResource("27_crtar")
+metadata/_custom_type_script = "uid://c2ok7mest4syr"
+
+[node name="CNotIsSatisfied" type="Node" parent="Transitions/TransitionToLeaveFail" node_paths=PackedStringArray("base_condition")]
+script = ExtResource("28_ij2l7")
+base_condition = NodePath("CIsSatisfied")
+metadata/_custom_type_script = "uid://ca6ogsam06lk4"
+
+[node name="CIsSatisfied" type="Node" parent="Transitions/TransitionToLeaveFail/CNotIsSatisfied"]
+script = ExtResource("29_5ny6i")
+metadata/_custom_type_script = "uid://cm1qmmlkuishu"
+
+[node name="ASetTargetPlayer" type="Node" parent="Transitions/TransitionToLeaveFail"]
+script = ExtResource("26_2t2ip")
+metadata/_custom_type_script = "uid://b2hmdvvjypgkt"

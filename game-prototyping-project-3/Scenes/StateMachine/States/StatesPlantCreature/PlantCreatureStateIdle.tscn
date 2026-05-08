@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://c8ydogwemfged"]
+[gd_scene load_steps=35 format=3 uid="uid://c8ydogwemfged"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_dwqea"]
 [ext_resource type="Texture2D" uid="uid://c5smavwx4wsil" path="res://Art/PlantCreatureStates/PlantCreatureIdle.png" id="2_gmwes"]
@@ -6,7 +6,10 @@
 [ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_i4wdk"]
 [ext_resource type="Script" uid="uid://wtbvohgc37nl" path="res://Scripts/StateMachine/Actions/a_set_target_null.gd" id="5_f3m2p"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="6_n73t2"]
+[ext_resource type="Script" uid="uid://b3jygl7so6pxa" path="res://Scripts/StateMachine/Actions/a_randomchance.gd" id="6_rd8lq"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="7_1oufe"]
+[ext_resource type="Script" uid="uid://b6cg8y7eergbq" path="res://Scripts/StateMachine/Actions/a_play_sound.gd" id="7_yny55"]
+[ext_resource type="AudioStream" uid="uid://bfenvou573w3j" path="res://Audio/SFX/Creature/PlantCreatureIdle1.wav" id="8_qykbc"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="8_v7kw1"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="9_ukj1i"]
 [ext_resource type="Script" uid="uid://b3w7121qva7qq" path="res://Scripts/StateMachine/Actions/a_reduce_food_timer.gd" id="10_8q0yp"]
@@ -29,15 +32,17 @@
 [ext_resource type="Script" uid="uid://d22jqfqjcw4hl" path="res://Scripts/StateMachine/Conditions/c_random_number.gd" id="27_jmeam"]
 [ext_resource type="Script" uid="uid://dfynx3ugamgkv" path="res://Scripts/StateMachine/Conditions/c_feisty_greaterthan.gd" id="28_5b8c8"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="29_5b8c8"]
+[ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="33_qykbc"]
+[ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="34_dii01"]
 
 [node name="PlantCreatureStateIdle" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_dwqea")
 simple_name = &"Idle"
 sprite = ExtResource("2_gmwes")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ARandomChance")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToRoll"), NodePath("Transitions/TransitionToSneeze"), NodePath("Transitions/TransitionToStressed"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToWander2"), NodePath("Transitions/TransitionToRest")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToPlay"), NodePath("Transitions/TransitionToRoll"), NodePath("Transitions/TransitionToSneeze"), NodePath("Transitions/TransitionToStressed"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToWander2"), NodePath("Transitions/TransitionToRest")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -57,6 +62,17 @@ metadata/_custom_type_script = "uid://qrhmyfalcev2"
 [node name="ASetTargetNull" type="Node" parent="EnterActions"]
 script = ExtResource("5_f3m2p")
 metadata/_custom_type_script = "uid://wtbvohgc37nl"
+
+[node name="ARandomChance" type="Node" parent="EnterActions" node_paths=PackedStringArray("base_action")]
+script = ExtResource("6_rd8lq")
+base_action = NodePath("APlaySound")
+max = 20
+metadata/_custom_type_script = "uid://b3jygl7so6pxa"
+
+[node name="APlaySound" type="Node" parent="EnterActions/ARandomChance"]
+script = ExtResource("7_yny55")
+sound = ExtResource("8_qykbc")
+metadata/_custom_type_script = "uid://b6cg8y7eergbq"
 
 [node name="ExitActions" type="Node" parent="."]
 
@@ -301,3 +317,23 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CIsDragging" type="Node" parent="Transitions/TransitionToDrag"]
 script = ExtResource("29_5b8c8")
 metadata/_custom_type_script = "uid://ca11g70lj4553"
+
+[node name="TransitionToCelebrate" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_b0q0b")
+conditions = [NodePath("CIsCelebrate")]
+next_state = &"plantcreaturestatecelebrate"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsCelebrate" type="Node" parent="Transitions/TransitionToCelebrate"]
+script = ExtResource("33_qykbc")
+metadata/_custom_type_script = "uid://wjmk4see6661"
+
+[node name="TransitionToPanic" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_b0q0b")
+conditions = [NodePath("CIsPanic")]
+next_state = &"plantcreaturestatepanic"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CIsPanic" type="Node" parent="Transitions/TransitionToPanic"]
+script = ExtResource("34_dii01")
+metadata/_custom_type_script = "uid://boa6lvsiakkpl"

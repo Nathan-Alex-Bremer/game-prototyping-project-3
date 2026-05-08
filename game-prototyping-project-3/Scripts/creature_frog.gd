@@ -59,10 +59,15 @@ func hop_switch() -> void:
 			blackboard.stopped = false
 			# velocity = blackboard.hop_velocity
 			$Sprite2D.texture = blackboard.hop_sprite
+			$WalkAudioStreamPlayer2D.play()
 		else:
 			blackboard.stopped = true
 			# velocity = Vector2.ZERO
 			$Sprite2D.texture = blackboard.still_sprite
+			
+func play_hop_sound() -> void:
+	# This is so dumb but it's probably the most convenient way to play a hop sound on starting movement
+	$WalkAudioStreamPlayer2D.play()
 
 func get_tongue() -> Line2D:
 	return tongue

@@ -1,9 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://clcvuc7elmyl2"]
+[gd_scene load_steps=19 format=3 uid="uid://clcvuc7elmyl2"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_ouw7a"]
 [ext_resource type="Texture2D" uid="uid://c4e75tricnagb" path="res://Art/BossStates/BossPlay.png" id="2_slkcl"]
 [ext_resource type="Script" uid="uid://3hvifjdriy5q" path="res://Scripts/StateMachine/Actions/a_set_wait_time.gd" id="3_kybkx"]
 [ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="4_t2vpd"]
+[ext_resource type="Script" uid="uid://b6cg8y7eergbq" path="res://Scripts/StateMachine/Actions/a_play_sound.gd" id="5_bccri"]
+[ext_resource type="AudioStream" uid="uid://d1h4b3si4e5t4" path="res://Audio/SFX/Creature/BossPlay.wav" id="6_4ncqj"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="8_f30mo"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="9_rrgwt"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="10_pvk1n"]
@@ -21,7 +23,7 @@
 script = ExtResource("1_ouw7a")
 simple_name = &"Play"
 sprite = ExtResource("2_slkcl")
-enter_actions = [NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/AChangeFeisty")]
+enter_actions = [NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/APlaySound")]
 exit_actions = [NodePath("ExitActions/ASetWantsToPlay")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -39,6 +41,11 @@ metadata/_custom_type_script = "uid://3hvifjdriy5q"
 script = ExtResource("4_t2vpd")
 amount = -30.0
 metadata/_custom_type_script = "uid://doudrgrfo8a6k"
+
+[node name="APlaySound" type="Node" parent="EnterActions"]
+script = ExtResource("5_bccri")
+sound = ExtResource("6_4ncqj")
+metadata/_custom_type_script = "uid://b6cg8y7eergbq"
 
 [node name="ExitActions" type="Node" parent="."]
 

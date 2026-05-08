@@ -8,10 +8,10 @@ class_name CBossWantsToLeave
 @export var health_val: float = 0
 
 func evaluate(blackboard: Blackboard, owning_creature: Creature, owning_state: MonsterState, _delta: float) -> bool:
-	if owning_creature.feisty < feisty_val:
-		return false
-	if owning_creature.hunger > hunger_val:
-		return false
-	if owning_creature.hit_points > health_val:
-		return false
-	return true
+	if owning_creature.feisty >= feisty_val:
+		return true
+	if owning_creature.hunger <= hunger_val:
+		return true
+	if owning_creature.hit_points <= health_val:
+		return true
+	return false

@@ -28,6 +28,10 @@ func _physics_process(delta: float) -> void:
 		poison_sprite.flip_h = false
 		fruit_sprite.flip_h = false
 	# $Sprite2D.flip_h = (velocity.x > 0)
+	
+	if velocity.length() > 0:
+		if not $WalkAudioStreamPlayer2D.playing and not is_dragging:
+			$WalkAudioStreamPlayer2D.play()
 
 func on_state_changed(new_state: MonsterState) -> void:
 	super.on_state_changed(new_state)

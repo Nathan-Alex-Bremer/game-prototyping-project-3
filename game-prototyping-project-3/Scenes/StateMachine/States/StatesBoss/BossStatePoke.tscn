@@ -31,7 +31,7 @@ metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="AChangeFeisty" type="Node" parent="EnterActions"]
 script = ExtResource("3_ekyp0")
-amount = 30.0
+amount = 20.0
 metadata/_custom_type_script = "uid://doudrgrfo8a6k"
 
 [node name="ACalcWantsToPlay" type="Node" parent="EnterActions"]

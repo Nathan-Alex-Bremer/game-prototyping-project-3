@@ -1,22 +1,23 @@
-[gd_scene load_steps=11 format=3 uid="uid://dpa6412u217t"]
+[gd_scene load_steps=13 format=3 uid="uid://dpa6412u217t"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_jbsp2"]
 [ext_resource type="Texture2D" uid="uid://bi0mypakextx7" path="res://Art/BossStates/BossLeaveHappy.png" id="2_jbsp2"]
 [ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_2qw3r"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="4_7v0oh"]
-[ext_resource type="Script" uid="uid://bkvrfqmqmj8br" path="res://Scripts/StateMachine/Actions/a_move_random_direction.gd" id="5_67egg"]
+[ext_resource type="Script" uid="uid://mkbs4eu5apw5" path="res://Scripts/StateMachine/Actions/a_set_collision_none.gd" id="5_524yu"]
+[ext_resource type="Script" uid="uid://dcb7abq5sth20" path="res://Scripts/StateMachine/Actions/a_run_from_target.gd" id="6_2qw3r"]
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="6_vkabf"]
+[ext_resource type="Script" uid="uid://bmduon6n8xtkc" path="res://Scripts/StateMachine/Actions/a_set_leaving.gd" id="7_2qw3r"]
 [ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="7_aoaht"]
 [ext_resource type="Script" uid="uid://c7b17ngr0v65q" path="res://Scripts/StateMachine/Conditions/c_attacker_within_distance.gd" id="8_op4ug"]
 [ext_resource type="Script" uid="uid://bv6ao3kgm7fga" path="res://Scripts/StateMachine/Actions/a_set_attacker_null.gd" id="9_i1tno"]
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="10_16fwt"]
 
-[node name="BossStateLeaveHappy" type="Node" node_paths=PackedStringArray("enter_actions", "transitions")]
+[node name="BossStateLeaveHappy" type="Node" node_paths=PackedStringArray("enter_actions")]
 script = ExtResource("1_jbsp2")
 simple_name = &"Leave Happy"
 sprite = ExtResource("2_jbsp2")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/AMoveRandomDirection")]
-transitions = [NodePath("Transitions/TransitionToIdle2")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/ASetCollisionNone"), NodePath("EnterActions/ARunFromTarget"), NodePath("EnterActions/ASetLeaving")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -32,10 +33,17 @@ script = ExtResource("4_7v0oh")
 val = false
 metadata/_custom_type_script = "uid://csf0oi2tevhan"
 
-[node name="AMoveRandomDirection" type="Node" parent="EnterActions"]
-script = ExtResource("5_67egg")
-speed_modifier = 1.4
-metadata/_custom_type_script = "uid://bkvrfqmqmj8br"
+[node name="ASetCollisionNone" type="Node" parent="EnterActions"]
+script = ExtResource("5_524yu")
+metadata/_custom_type_script = "uid://mkbs4eu5apw5"
+
+[node name="ARunFromTarget" type="Node" parent="EnterActions"]
+script = ExtResource("6_2qw3r")
+metadata/_custom_type_script = "uid://dcb7abq5sth20"
+
+[node name="ASetLeaving" type="Node" parent="EnterActions"]
+script = ExtResource("7_2qw3r")
+metadata/_custom_type_script = "uid://bmduon6n8xtkc"
 
 [node name="ExitActions" type="Node" parent="."]
 

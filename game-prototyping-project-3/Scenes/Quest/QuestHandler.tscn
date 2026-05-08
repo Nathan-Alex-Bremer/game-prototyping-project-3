@@ -30,6 +30,7 @@ font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qp3yt"]
 font = ExtResource("9_pe762")
+font_size = 24
 font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_hif3n"]
@@ -73,10 +74,10 @@ font_color = Color(0, 0, 0, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_uycd1"]
 font = ExtResource("9_pe762")
 font_size = 30
-font_color = Color(0, 0, 0, 1)
+font_color = Color(0, 0.278431, 0, 1)
 
 [node name="QuestHandler" type="Node2D" node_paths=PackedStringArray("quest_list")]
-z_index = 8
+z_index = 60
 script = ExtResource("1_t8urw")
 quest_label_object = ExtResource("2_com2b")
 first_label_pos = Vector2(0, -100)
@@ -103,9 +104,9 @@ horizontal_alignment = 1
 
 [node name="ActiveQuestLabel" type="Label" parent="QuestMenu"]
 z_index = 1
-offset_left = -191.0
+offset_left = -259.0
 offset_top = -197.0
-offset_right = 191.0
+offset_right = 259.0
 offset_bottom = -174.0
 text = "ACTIVE QUEST: NONE"
 label_settings = SubResource("LabelSettings_qp3yt")
@@ -126,6 +127,7 @@ offset_top = 161.667
 offset_right = -43.6667
 offset_bottom = 218.667
 icon = ExtResource("9_hif3n")
+flat = true
 icon_alignment = 1
 
 [node name="Label" type="Label" parent="QuestInfo/AcceptButton"]
@@ -144,6 +146,7 @@ offset_top = 160.0
 offset_right = 184.667
 offset_bottom = 218.0
 icon = ExtResource("10_pe762")
+flat = true
 icon_alignment = 1
 
 [node name="Label" type="Label" parent="QuestInfo/RejectButton"]
@@ -227,13 +230,12 @@ horizontal_alignment = 1
 
 [node name="Thanks" type="Label" parent="QuestComplete"]
 z_index = 2
-offset_left = -557.0
+offset_left = -308.0
 offset_top = -117.0
-offset_right = 559.0
+offset_right = 338.0
 offset_bottom = -83.0
 text = "THANKS MESSAGE"
 label_settings = SubResource("LabelSettings_va4qa")
-horizontal_alignment = 1
 
 [node name="Reward" type="Label" parent="QuestComplete"]
 z_index = 2
@@ -252,6 +254,7 @@ offset_top = 143.0
 offset_right = 80.0
 offset_bottom = 214.0
 icon = ExtResource("13_p2dr7")
+flat = true
 icon_alignment = 1
 
 [node name="Label" type="Label" parent="QuestComplete/RewardExitButton"]

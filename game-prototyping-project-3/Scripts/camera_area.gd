@@ -22,6 +22,9 @@ func _process(delta: float) -> void:
 	# position = DisplayServer.mouse_get_position() - Vector2i(700, 470)
 	# print(position)
 
+func set_camera_crosshair_visible(val: bool) -> void:
+	$Sprite2D.visible = val
+	
 func get_flash() -> Sprite2D:
 	return $Flash
 

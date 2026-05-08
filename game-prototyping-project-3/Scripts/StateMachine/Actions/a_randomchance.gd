@@ -3,7 +3,7 @@ extends Action
 # Special Condition which inverts the value of another condition
 class_name ARandomChance
 
-@export var base_action: Condition
+@export var base_action: Action
 @export var min: int = 1
 @export var max: int = 2
 @export var max_acceptable: int = 1

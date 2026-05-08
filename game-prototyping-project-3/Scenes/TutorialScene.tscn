@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bi5l10wn643dj"]
+[gd_scene load_steps=17 format=3 uid="uid://bi5l10wn643dj"]
 
 [ext_resource type="Script" uid="uid://imeyyfyxp3s" path="res://Scripts/tutorial_scene.gd" id="1_d6567"]
 [ext_resource type="Texture2D" uid="uid://cacq0ov23rdij" path="res://Art/lab.png" id="2_ch2se"]
+[ext_resource type="AudioStream" uid="uid://xje3ldadqt0i" path="res://Audio/ambience cot, air conditioning running, slight pulsating feel from AC unit as it runs, pressure release somewhere in the distance.wav" id="4_ch2se"]
 [ext_resource type="Texture2D" uid="uid://o20p1ih2qswi" path="res://Art/lab_doors.png" id="4_jbvax"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_map6f"]
@@ -44,9 +45,11 @@ size = Vector2(58.5, 163)
 script = ExtResource("1_d6567")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -10
 texture = ExtResource("2_ch2se")
 
 [node name="LabDoors" type="Sprite2D" parent="."]
+z_index = -10
 texture = ExtResource("4_jbvax")
 
 [node name="RigidBody2D" type="StaticBody2D" parent="LabDoors"]
@@ -158,5 +161,13 @@ shape = SubResource("RectangleShape2D_f6dk7")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ToBaseSceneArea2D"]
 position = Vector2(828.25, 85.5)
 shape = SubResource("RectangleShape2D_d6567")
+
+[node name="BGM" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ch2se")
+autoplay = true
+bus = &"BGM"
+
+[node name="UI_SFX" type="AudioStreamPlayer" parent="."]
+bus = &"World SFX"
 
 [connection signal="body_entered" from="ToBaseSceneArea2D" to="." method="_on_to_base_scene_area_2d_body_entered"]
