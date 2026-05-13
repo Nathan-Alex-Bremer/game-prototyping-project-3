@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cailfv4dacwqe"]
+[gd_scene load_steps=22 format=3 uid="uid://cailfv4dacwqe"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_sy45o"]
 [ext_resource type="Texture2D" uid="uid://dbs1l8cr0wpxe" path="res://Art/FrogStates/FrogEatNT.png" id="2_k28ie"]
@@ -14,6 +14,7 @@
 [ext_resource type="AudioStream" uid="uid://brsbrrh34q87t" path="res://Audio/SFX/Creature/FrogEat1.wav" id="9_2nq41"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="9_g6b70"]
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="10_b8vub"]
+[ext_resource type="Script" uid="uid://vyj32sakaxrd" path="res://Scripts/StateMachine/Actions/a_change_tired.gd" id="10_d5hy1"]
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="11_fh5gq"]
 [ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="12_e8y8c"]
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="13_ga8rq"]
@@ -25,7 +26,7 @@
 script = ExtResource("1_sy45o")
 simple_name = &"Eat"
 sprite = ExtResource("2_k28ie")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AEat"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/APlaySound")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AEat"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/APlaySound"), NodePath("EnterActions/AChangeTired")]
 exit_actions = [NodePath("ExitActions/AHideFrogTongue")]
 update_actions = [NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -61,6 +62,11 @@ metadata/_custom_type_script = "uid://cafro0rhn1fr4"
 script = ExtResource("8_0g1au")
 sound = ExtResource("9_2nq41")
 metadata/_custom_type_script = "uid://b6cg8y7eergbq"
+
+[node name="AChangeTired" type="Node" parent="EnterActions"]
+script = ExtResource("10_d5hy1")
+amount = 10.0
+metadata/_custom_type_script = "uid://vyj32sakaxrd"
 
 [node name="ExitActions" type="Node" parent="."]
 

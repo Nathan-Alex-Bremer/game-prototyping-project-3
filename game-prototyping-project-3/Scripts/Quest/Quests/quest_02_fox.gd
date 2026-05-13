@@ -8,7 +8,7 @@ func _ready() -> void:
 	description = "Hello,\n\nI'm a blacksmith who's curious about using a Charnine for my forge,\nbut I'm just not sure if their fire gets hot enough.\nCould you take some photos for me so I can get a better look?"
 	task_desc = "    - TASK: Capture three states where Charnine\n      breathes fire or flares its tail!"
 	reward_desc = "    - REWARD: A big smile"
-	reward_thanks = "Thank you, researcher!\nIt doesn't look like the fire's quite hot enough, but oh well.\nI'd imagine they'd burn down any nearby foliage, though!"
+	reward_thanks = "Thank you, researcher!\n\nIt doesn't look like the fire's quite hot enough, but oh well.\nI'd imagine they'd burn down any nearby foliage, though!"
 	
 	creature_type = "Predator"
 	state_types = {

@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_aith4")
-dialogue = Array[String](["Great work! You can find all sorts of things by just wandering around.", "Now, when you find a creature, you have a few options.", "The boss won't let me keep live animals in here, so we'll have to make do with practicing on a plush toy... at least it won't make a mess.", " First off, you can check a creature’s information by right-clicking on them. Try it!"])
+dialogue = Array[String](["Great work! You can find all sorts of things by just wandering around.", "Now, when you find a creature, you have a few options.", "Let me give you a creature to practice on!", "FALLEVENT", "The boss won't let me keep live animals in here, so we'll have to make do with practicing on a plush toy... at least it won't make a mess.", " First off, you can check a creature’s information by right-clicking on them. Try it!"])
 metadata/_custom_type_script = "uid://dwjeik6rfd36d"

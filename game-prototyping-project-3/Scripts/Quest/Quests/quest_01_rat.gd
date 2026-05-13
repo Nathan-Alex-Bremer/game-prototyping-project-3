@@ -8,7 +8,7 @@ func _ready() -> void:
 	description = "Hello,\n\nI'm a local farmer dealing with a Rodink infestation.\nThey're eating my crops, but I can't bring myself to hurt the little things.\nCould you tell me how to scare them off, instead?"
 	task_desc = "    - TASK: Take 3 pictures of Rodinks in the 'Flee' state!"
 	reward_desc = "    - REWARD: A big smile"
-	reward_thanks = "Thank you, researcher!\nI'm looking into a pet Charnine to help scare them off.\nI hear more Rodinks will appear if there's a lot of food, by the way, so watch out!"
+	reward_thanks = "Thank you, researcher!\n\nI'm looking into a pet Charnine to help scare them off.\nI hear more Rodinks will appear if there's a lot of food, \nby the way, so watch out!"
 	
 	creature_type = "Creature"
 	state_types = {

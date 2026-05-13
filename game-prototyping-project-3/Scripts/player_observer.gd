@@ -15,6 +15,8 @@ var camera_speed: float = 400
 var camera_cooldown: float = 0
 var camera_max_cooldown: float = 0.5
 
+var camera_invalid: bool = false
+
 # Notifs
 @export var journal_notif_on_sprite: Texture2D
 @export var journal_notif_off_sprite: Texture2D
@@ -60,6 +62,7 @@ var walk_distance: float = 0
 @export var tutorial_dialogue: Array[DialogueSet]
 var current_dialogue: Array[String]
 var dialogue_line: int # Current line of dialogue to pull
+var event_active: bool = false
 
 # Signals
 signal ClickedFood(position: Vector2)
@@ -72,6 +75,8 @@ signal ToggleCreatureStats()
 signal TutorialWalkUpdate(distance: float)
 signal TutorialUpdate(stage: int)
 signal EndDialogue()
+signal FallEvent() # For plush spawn
+signal ShakeEvent() # For screen shake
 signal FadeOutComplete()
 
 signal HornSounded()
@@ -118,6 +123,8 @@ func _process(delta: float) -> void:
 			$EndScreen.fading_out = true
 			get_tree().paused = true
 			
+	# UGHHHHHHHHH
+	# Trying to prevent taking photos on the interact bar
 	
 	
 	# Don't let the player input anything during screen transition
@@ -135,6 +142,8 @@ func _process(delta: float) -> void:
 		
 		# Advance text if dialogue screen is open
 		if GameState.dialogue_open:
+			if event_active:
+				return
 			print("Click to advance!")
 			play_sound(text_sound)
 			advance_text()
@@ -147,6 +156,11 @@ func _process(delta: float) -> void:
 		
 		if camera_cooldown > 0:
 			return
+			
+		if camera_invalid:
+			return
+			
+		# TODO: Just use camera_invalid for all of this maybe?
 		if GameState.player_in_journal or GameState.player_in_quest_menu:
 			return
 		print("Capture screen!")
@@ -166,54 +180,7 @@ func _process(delta: float) -> void:
 		if GameState.player_in_journal or GameState.player_in_quest_menu or GameState.dialogue_open:
 			return
 		
-		match GameState.mode:
-			GameState.INTERACT_MODES.CHECK:
-				if GameState.num_found_states > 2 or GameState.debug_on:
-					GameState.mode = GameState.INTERACT_MODES.PLACE_FOOD
-					print("New action mode: Place Food")
-					$CameraArea.set_interact_marker_visible(true)
-					$InteractArea2D.visible = true
-			GameState.INTERACT_MODES.PLACE_FOOD:
-				if GameState.num_found_states > 9 or GameState.debug_on:
-					GameState.mode = GameState.INTERACT_MODES.PET
-					print("New action mode: Pet")
-				else:
-					GameState.mode = GameState.INTERACT_MODES.CHECK
-					print("New action mode: Check")
-					$CameraArea.set_interact_marker_visible(false)
-					$InteractArea2D.visible = false
-			GameState.INTERACT_MODES.PET:
-				if GameState.num_found_states > 15 or GameState.debug_on:
-					GameState.mode = GameState.INTERACT_MODES.POKE
-					print("New action mode: Poke")
-				else:
-					GameState.mode = GameState.INTERACT_MODES.CHECK
-					print("New action mode: Check")
-					$CameraArea.set_interact_marker_visible(false)
-					$InteractArea2D.visible = false
-			GameState.INTERACT_MODES.POKE:
-				if GameState.num_found_states > 19 or GameState.debug_on:
-					GameState.mode = GameState.INTERACT_MODES.DRAG
-					print("New action mode: Drag")
-				else:
-					GameState.mode = GameState.INTERACT_MODES.CHECK
-					print("New action mode: Check")
-					$CameraArea.set_interact_marker_visible(false)
-					$InteractArea2D.visible = false
-			GameState.INTERACT_MODES.DRAG:
-				if GameState.completed_quests >= 5 or GameState.debug_on:
-					GameState.mode = GameState.INTERACT_MODES.HORN
-					print("New action mode: Ancient Horn")
-				else:
-					GameState.mode = GameState.INTERACT_MODES.CHECK
-					print("New action mode: Check")
-					$CameraArea.set_interact_marker_visible(false)
-					$InteractArea2D.visible = false
-			GameState.INTERACT_MODES.HORN:
-				GameState.mode = GameState.INTERACT_MODES.CHECK
-				print("New action mode: Check")
-				$CameraArea.set_interact_marker_visible(false)
-				$InteractArea2D.visible = false
+		
 		
 		change_mode(GameState.mode)
 		# ChangeMode.emit(GameState.mode)
@@ -366,23 +333,65 @@ func on_state_found(creature_type: StringName, state: StringName, times_found: i
 		play_sound(notif_sound)
 	
 func change_mode(mode: int) -> void:
-	match mode:
+	
+	var prev_mode = GameState.mode
+	
+	match GameState.mode:
 		GameState.INTERACT_MODES.CHECK:
-			$InteractModeLabel.text = interact_mode_text + "Check"
+			if GameState.place_food_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.PLACE_FOOD)
+				print("New action mode: Place Food")
 		GameState.INTERACT_MODES.PLACE_FOOD:
-			# Since this is the state after Check, for now we disable visible stats here
-			# TODO: Figure out some way to let the player keep this up and turn it on/off   
-			GameState.selected_creature = null
-			ToggleCreatureStats.emit()
-			$InteractModeLabel.text = interact_mode_text + "Place Food"
+			if GameState.pet_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.PET)
+				print("New action mode: Pet")
+			else:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.CHECK)
+				print("New action mode: Check")
 		GameState.INTERACT_MODES.PET:
-			$InteractModeLabel.text = interact_mode_text + "Pet"
+			if GameState.poke_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.POKE)
+				print("New action mode: Poke")
+			else:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.CHECK)
+				print("New action mode: Check")
 		GameState.INTERACT_MODES.POKE:
-			$InteractModeLabel.text = interact_mode_text + "Poke"
+			if GameState.drag_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.DRAG)
+				print("New action mode: Drag")
+			else:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.CHECK)
+				print("New action mode: Check")
 		GameState.INTERACT_MODES.DRAG:
-			$InteractModeLabel.text = interact_mode_text + "Drag"
+			if GameState.horn_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.HORN)
+				print("New action mode: Ancient Horn")
+			else:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.CHECK)
+				print("New action mode: Check")
 		GameState.INTERACT_MODES.HORN:
-			$InteractModeLabel.text = interact_mode_text + "Ancient Horn"
+			GameState.update_interact_mode(GameState.INTERACT_MODES.CHECK)
+			print("New action mode: Check")
+			
+	$InteractBar.update_highlight(prev_mode, GameState.mode)
+	
+	#match mode:
+		#GameState.INTERACT_MODES.CHECK:
+			#$InteractModeLabel.text = interact_mode_text + "Check"
+		#GameState.INTERACT_MODES.PLACE_FOOD:
+			## Since this is the state after Check, for now we disable visible stats here
+			## TODO: Figure out some way to let the player keep this up and turn it on/off   
+			#GameState.selected_creature = null
+			#ToggleCreatureStats.emit()
+			#$InteractModeLabel.text = interact_mode_text + "Place Food"
+		#GameState.INTERACT_MODES.PET:
+			#$InteractModeLabel.text = interact_mode_text + "Pet"
+		#GameState.INTERACT_MODES.POKE:
+			#$InteractModeLabel.text = interact_mode_text + "Poke"
+		#GameState.INTERACT_MODES.DRAG:
+			#$InteractModeLabel.text = interact_mode_text + "Drag"
+		#GameState.INTERACT_MODES.HORN:
+			#$InteractModeLabel.text = interact_mode_text + "Ancient Horn"
 
 func update_message(message: String) -> void:
 	# Show new message and reset message timer, unless the popup is visible
@@ -391,17 +400,40 @@ func update_message(message: String) -> void:
 		$UpdateLabel.text = message
 		message_timer = 5
 
+func update_interact_highlights() -> void:
+	if GameState.mode == GameState.INTERACT_MODES.CHECK:
+		$CameraArea.set_interact_marker_visible(false)
+		$InteractArea2D.visible = false
+	else:
+		$CameraArea.set_interact_marker_visible(true)
+		$InteractArea2D.visible = true
+	
 func creature_left(creature_name: StringName) -> void:
 	update_message(creature_name + " seems to have left...")
 	
 func creature_joined(creature_name: StringName) -> void:
 	update_message(creature_name + " has arrived!")
 
-func interact_mode_unlocked(mode: StringName) -> void:
-	update_message("Great work, researcher!\nNew interact mode unlocked: " + mode + "! (Q)")
+func interact_mode_unlocked(mode: GameState.INTERACT_MODES) -> void:
+	var mode_name: StringName = ""
+	match mode:
+		GameState.INTERACT_MODES.CHECK:
+			mode_name = "Check"
+		GameState.INTERACT_MODES.PLACE_FOOD:
+			mode_name = "Place Food"
+		GameState.INTERACT_MODES.PET:
+			mode_name = "Pet"
+		GameState.INTERACT_MODES.POKE:
+			mode_name = "Poke"
+		GameState.INTERACT_MODES.DRAG:
+			mode_name = "Drag"
+		GameState.INTERACT_MODES.HORN:
+			mode_name = "Ancient Horn"
+	update_message("Great work, researcher!\nNew interact mode unlocked: " + mode_name + "! (Q)")
 	$FanfareAudioStreamPlayer.play()
 	$UpdateLabel.label_settings.font_color = Color(0.992, 0.887, 0.521)
 	$Popup.visible = true
+	$InteractBar.unlock_interact_mode(mode)
 
 func toggle_rain_overlay() -> void:
 	$RainingEffect.visible = (not $RainingEffect.visible)
@@ -443,7 +475,26 @@ func advance_text() -> void:
 		EndDialogue.emit()
 		
 		return
+		
+	# Special events
+	
+	if current_dialogue[dialogue_line] == "FALLEVENT":
+		FallEvent.emit()
+		event_active = true
+		return
+	
+	if current_dialogue[dialogue_line] == "SHAKEEVENT":
+		ShakeEvent.emit()
+		event_active = true
+		return
+		
 	dialogue_box.set_text(current_dialogue[dialogue_line])
+	
+
+# Events
+func event_finished() -> void:
+	event_active = false
+	advance_text()
 
 # Notifs
 
@@ -558,3 +609,24 @@ func _on_quest_handler_quest_complete_popup(creature_type: StringName) -> void:
 func _on_quest_handler_quest_started(quest: Quest) -> void:
 	if quest.creature_type == "Boss" and not GameState.boss_ever_summoned:
 		BossFightStarted.emit()
+
+
+func _on_interact_bar_interact_bar_mouse_entered() -> void:
+	$CameraArea.set_camera_crosshair_visible(false)
+	camera_invalid = true
+
+
+func _on_interact_bar_interact_bar_mouse_exited() -> void:
+	$CameraArea.set_camera_crosshair_visible(true)
+	camera_invalid = false
+
+
+func _on_camera_area_toggle_photo_mode(val: bool) -> void:
+	# Toggling ability to use camera
+	# TODO: This is so so gross find a better way to do it please
+	if val:
+		$CameraArea.set_camera_crosshair_visible(true)
+		camera_invalid = false
+	else:
+		$CameraArea.set_camera_crosshair_visible(false)
+		camera_invalid = true

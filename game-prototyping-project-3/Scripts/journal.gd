@@ -69,10 +69,10 @@ func toggle_opened() -> void:
 	print("Toggle opened")
 	# For tutorial mode, open the designated tutorial page
 	if GameState.tutorial_mode:
-		tutorial_page.toggle_opened()
 		open = not open
 		if open == false:
 			tutorial_page.clear_update_labels()
+			tutorial_page.play_slide_out()
 			play_sound(close_journal_sound)
 			
 			# If the journal has new info during the tutorial, update tutorial progress on close
@@ -80,20 +80,27 @@ func toggle_opened() -> void:
 				tutorial_close.emit()
 		else:
 			play_sound(open_journal_sound)
+			tutorial_page.toggle_opened(true)
+			tutorial_page.play_slide_in()
+			
 		
 		return # I don't want an else statement here because it'd look ugly
 	
-	pages[page_names[active_page]].toggle_opened()
+	# pages[page_names[active_page]].toggle_opened()
 	open = not open
 	if open == false:
 		pages[page_names[active_page]].clear_update_labels()
+		pages[page_names[active_page]].play_slide_out()
 		play_sound(close_journal_sound)
 		
 		# Hide arrows
 		$RightArrow.visible = false
 		$LeftArrow.visible = false
 	else:
+		pages[page_names[active_page]].toggle_opened(true)
+		pages[page_names[active_page]].play_slide_in()
 		play_sound(open_journal_sound)
+		
 		
 		# Show arrows
 		$RightArrow.visible = (active_page < (page_names.size() - 1))
@@ -101,6 +108,15 @@ func toggle_opened() -> void:
 		
 	# self.visible = (not self.visible)
 
+func slide_out_complete() -> void:
+	print("Slide out complete")
+	if GameState.tutorial_mode:
+		if not open:
+			tutorial_page.toggle_opened(false)
+		return
+	if not open:
+		pages[page_names[active_page]].toggle_opened(false)
+	
 func change_page(forward: bool) -> void:
 	
 	# Unnecessary for tutorial
@@ -111,9 +127,9 @@ func change_page(forward: bool) -> void:
 	if forward:
 		if active_page >= (page_names.size() - 1):
 			return
-		pages[page_names[active_page]].toggle_opened()
+		pages[page_names[active_page]].toggle_opened(false)
 		active_page += 1
-		pages[page_names[active_page]].toggle_opened()
+		pages[page_names[active_page]].toggle_opened(true)
 		play_sound(change_page_sound)
 		
 		if active_page >= (page_names.size() - 1):
@@ -122,9 +138,9 @@ func change_page(forward: bool) -> void:
 	else:
 		if active_page <= 0:
 			return
-		pages[page_names[active_page]].toggle_opened()
+		pages[page_names[active_page]].toggle_opened(false)
 		active_page -= 1
-		pages[page_names[active_page]].toggle_opened()
+		pages[page_names[active_page]].toggle_opened(true)
 		play_sound(change_page_sound)
 		
 		if active_page <= 0:

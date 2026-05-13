@@ -51,7 +51,7 @@ radius = 342.0
 radius = 86.0523
 
 [node name="CreatureBoss" type="CharacterBody2D" node_paths=PackedStringArray("blackboard") groups=["creature"]]
-z_index = 1
+y_sort_enabled = true
 collision_mask = 2
 input_pickable = true
 script = ExtResource("1_mdx7g")
@@ -63,7 +63,7 @@ prey_types = Array[StringName]([&"Creature", &"PlantCreature", &"Predator", &"Fr
 blackboard = NodePath("StateMachine/BlackboardBoss")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = -1
+y_sort_enabled = true
 texture = ExtResource("7_w00kq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

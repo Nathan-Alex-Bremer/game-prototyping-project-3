@@ -8,7 +8,7 @@ func _ready() -> void:
 	description = "Hello,\n\nResearcher, I've detected a large, mysterious creature coming your way!\nI've only heard legends about it before... what did you do?\nFor now, be sure to capture every last one of its states\nbefore it gets bored and leaves! I've heard it's fickle and super hungry..."
 	task_desc = "    - TASK: Take one picture of each of the legendary beast's states!"
 	reward_desc = "    - REWARD: A very big smile"
-	reward_thanks = "Incredible work!\nYou've done something amazing today. With this, we should get plenty of funding!\nWe'll celebrate when you get back, so for now, say your goodbyes to the creatures..."
+	reward_thanks = "Incredible work!\n\nYou've done something amazing today. With this, we should get plenty of funding!\nWe'll celebrate when you get back, so for now, say your goodbyes to the creatures..."
 	
 	creature_type = "Boss"
 	state_types = {

@@ -1,11 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://btfs7ga8bnhcg"]
+[gd_scene load_steps=24 format=3 uid="uid://btfs7ga8bnhcg"]
 
-[ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_fvnwb"]
-[ext_resource type="AudioStream" uid="uid://dfrp8gf07lnxu" path="res://Audio/SFX/CreatureInteraction/Lyd_SFX_255_ Scalpel_1.wav" id="2_4ovpd"]
-[ext_resource type="AudioStream" uid="uid://culd6ph4uphpj" path="res://Audio/SFX/CreatureInteraction/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav" id="3_l2hbr"]
-[ext_resource type="AudioStream" uid="uid://b23fxucbjwntq" path="res://Audio/SFX/CreatureInteraction/EFX SD Heads Hit Together 02.wav" id="4_13ib2"]
-[ext_resource type="AudioStream" uid="uid://cfcu1f27ai24f" path="res://Audio/SFX/CreatureInteraction/PickUp - Bag Foley_Wallet_Leather_Grab.wav" id="5_hqx13"]
-[ext_resource type="AudioStream" uid="uid://ly81x8jd8r4c" path="res://Audio/SFX/CreatureInteraction/PutDown Bag Foley_Wallet_Leather_Grab.wav" id="6_yowvc"]
+[ext_resource type="Script" uid="uid://dlrjdxwqoqrnj" path="res://Scripts/creature_tutorial.gd" id="1_3ctgk"]
 [ext_resource type="Texture2D" uid="uid://bgvytgr0o688" path="res://Art/TutorialCreatureStates/TutorialCreatureIdle.png" id="7_ydux8"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="8_pmdnp"]
 [ext_resource type="Script" uid="uid://cjmosv5l6rhy7" path="res://Scripts/StateMachine/blackboard.gd" id="9_a3p7m"]
@@ -34,23 +29,58 @@ radius = 342.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
 radius = 86.0523
 
+[sub_resource type="Animation" id="Animation_frb5w"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ydux8"]
+resource_name = "spawn"
+length = 1.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.65, 0.8, 1.25),
+"transitions": PackedFloat32Array(1, 0.5, 2, 0.5, 1),
+"update": 0,
+"values": [Vector2(0, -1300), Vector2(0, 0), Vector2(0, -150), Vector2(0, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7dsfv"]
+_data = {
+&"RESET": SubResource("Animation_frb5w"),
+&"spawn": SubResource("Animation_ydux8")
+}
+
 [node name="TutorialCreature" type="CharacterBody2D" node_paths=PackedStringArray("blackboard") groups=["creature"]]
+y_sort_enabled = true
 collision_mask = 2
 input_pickable = true
-script = ExtResource("1_fvnwb")
+script = ExtResource("1_3ctgk")
 type = &"TutorialCreature"
 move_speed = 50.0
 friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog"])
 predator_types = Array[StringName]([&"Predator"])
 blackboard = NodePath("StateMachine/Blackboard")
-check_sound = ExtResource("2_4ovpd")
-pet_sound = ExtResource("3_l2hbr")
-poke_sound = ExtResource("4_13ib2")
-pickup_sound = ExtResource("5_hqx13")
-place_sound = ExtResource("6_yowvc")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 z_index = -1
+y_sort_enabled = true
 texture = ExtResource("7_ydux8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -170,31 +200,36 @@ offset_right = 134.0
 offset_bottom = 90.0
 label_settings = ExtResource("37_bpel6")
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 15)
+scale = Vector2(3.2, 3.2)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7dsfv")
+}
+
 [node name="NameLabel" type="Label" parent="."]
 z_index = 22
 offset_left = -87.0
-offset_top = -103.0
+offset_top = -113.0
 offset_right = 87.0
-offset_bottom = -74.0
-text = "Name"
+offset_bottom = -84.0
+text = "Plush Pal"
 label_settings = ExtResource("38_yc4nx")
 horizontal_alignment = 1
 
 [node name="StateLabel" type="Label" parent="."]
 z_index = 22
 offset_left = -83.0
-offset_top = 73.0
+offset_top = -86.0
 offset_right = 83.0
-offset_bottom = 98.0
+offset_bottom = -61.0
 text = "Idle"
 label_settings = ExtResource("37_bpel6")
 horizontal_alignment = 1
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(0, 15)
-scale = Vector2(3.2, 3.2)
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]
@@ -203,3 +238,4 @@ scale = Vector2(3.2, 3.2)
 [connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
 [connection signal="area_entered" from="EatRadius" to="." method="_on_eat_radius_area_entered"]
 [connection signal="area_exited" from="EatRadius" to="." method="_on_eat_radius_area_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

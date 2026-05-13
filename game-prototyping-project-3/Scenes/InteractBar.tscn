@@ -1,0 +1,262 @@
+[gd_scene load_steps=13 format=3 uid="uid://8kl81xp6dm43"]
+
+[ext_resource type="Texture2D" uid="uid://0uh02mx2ppnw" path="res://Art/InteractBar/interact_bar_bg.png" id="1_rfv1r"]
+[ext_resource type="Script" uid="uid://b534d2gwfjpip" path="res://Scripts/interact_bar.gd" id="1_rs0h3"]
+[ext_resource type="Texture2D" uid="uid://dx3hm4dgsqa1j" path="res://Art/InteractBar/highlight_bg.png" id="2_sd41w"]
+[ext_resource type="Texture2D" uid="uid://cg4yj1o46oc1y" path="res://Art/InteractBar/check_icon.png" id="3_w6ibd"]
+[ext_resource type="Texture2D" uid="uid://do8o6l5aspbkp" path="res://Art/InteractBar/lock_icon.png" id="4_1jqgd"]
+[ext_resource type="Texture2D" uid="uid://baneh5l36vs3g" path="res://Art/InteractBar/lock_bg.png" id="5_cpu12"]
+[ext_resource type="Texture2D" uid="uid://2jr4bvakfkn8" path="res://Art/InteractBar/place_food_icon.png" id="6_1jqgd"]
+[ext_resource type="Texture2D" uid="uid://q1y53vfdv7k3" path="res://Art/InteractBar/pet_icon.png" id="7_cpu12"]
+[ext_resource type="Texture2D" uid="uid://g1a3s7bl861v" path="res://Art/InteractBar/poke_icon.png" id="8_avwe7"]
+[ext_resource type="Texture2D" uid="uid://cvhmlhxaqv7a1" path="res://Art/InteractBar/drag_icon.png" id="9_avwe7"]
+[ext_resource type="Texture2D" uid="uid://d2t44gmdvapau" path="res://Art/InteractBar/horn_icon.png" id="10_rs0h3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_avwe7"]
+size = Vector2(328, 65)
+
+[node name="InteractBar" type="Node2D"]
+script = ExtResource("1_rs0h3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 50
+texture = ExtResource("1_rfv1r")
+
+[node name="Area2D" type="Area2D" parent="."]
+z_index = 55
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -303.5)
+shape = SubResource("RectangleShape2D_avwe7")
+
+[node name="Check" type="Node2D" parent="."]
+
+[node name="Highlight" type="Sprite2D" parent="Check"]
+z_index = 51
+position = Vector2(-132.5, -299.625)
+scale = Vector2(1, 0.993244)
+texture = ExtResource("2_sd41w")
+
+[node name="Button" type="Button" parent="Check"]
+z_index = 51
+offset_left = -155.0
+offset_top = -322.0
+offset_right = -110.0
+offset_bottom = -277.0
+tooltip_text = "CHECK - View a creature's stats."
+focus_mode = 0
+icon = ExtResource("3_w6ibd")
+flat = true
+
+[node name="LockButton" type="Button" parent="Check"]
+visible = false
+z_index = 51
+offset_left = -155.0
+offset_top = -322.0
+offset_right = -110.0
+offset_bottom = -277.0
+tooltip_text = "LOCKED - Unlocked from the start!"
+focus_mode = 0
+disabled = true
+icon = ExtResource("4_1jqgd")
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Check/LockButton"]
+visible = false
+z_index = -1
+position = Vector2(22.5, 22.5)
+texture = ExtResource("5_cpu12")
+
+[node name="PlaceFood" type="Node2D" parent="."]
+
+[node name="Highlight" type="Sprite2D" parent="PlaceFood"]
+visible = false
+z_index = 51
+position = Vector2(-79.5, -299.625)
+scale = Vector2(1, 0.993244)
+texture = ExtResource("2_sd41w")
+
+[node name="Button" type="Button" parent="PlaceFood"]
+z_index = 51
+offset_left = -102.0
+offset_top = -322.0
+offset_right = -57.0
+offset_bottom = -277.0
+tooltip_text = "PLACE FOOD - Place down fruit to feed or lure creatures."
+focus_mode = 0
+disabled = true
+icon = ExtResource("6_1jqgd")
+flat = true
+
+[node name="LockButton" type="Button" parent="PlaceFood"]
+z_index = 51
+offset_left = -102.0
+offset_top = -322.0
+offset_right = -57.0
+offset_bottom = -277.0
+tooltip_text = "LOCKED - Take photos of 3 states to unlock!"
+focus_mode = 0
+icon = ExtResource("4_1jqgd")
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="PlaceFood/LockButton"]
+z_index = -1
+position = Vector2(22.5, 22.5)
+texture = ExtResource("5_cpu12")
+
+[node name="Pet" type="Node2D" parent="."]
+
+[node name="Highlight" type="Sprite2D" parent="Pet"]
+visible = false
+z_index = 51
+position = Vector2(-26.5, -299.625)
+scale = Vector2(1, 0.993244)
+texture = ExtResource("2_sd41w")
+
+[node name="Button" type="Button" parent="Pet"]
+z_index = 51
+offset_left = -49.0
+offset_top = -322.0
+offset_right = -4.0
+offset_bottom = -277.0
+tooltip_text = "PET - Pet a creature, calming them down."
+focus_mode = 0
+disabled = true
+icon = ExtResource("7_cpu12")
+flat = true
+
+[node name="LockButton" type="Button" parent="Pet"]
+z_index = 51
+offset_left = -49.0
+offset_top = -322.0
+offset_right = -4.0
+offset_bottom = -277.0
+tooltip_text = "LOCKED - Take photos of 10 states to unlock!"
+focus_mode = 0
+icon = ExtResource("4_1jqgd")
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Pet/LockButton"]
+z_index = -1
+position = Vector2(22.5, 22.5)
+texture = ExtResource("5_cpu12")
+
+[node name="Poke" type="Node2D" parent="."]
+
+[node name="Highlight" type="Sprite2D" parent="Poke"]
+visible = false
+z_index = 51
+position = Vector2(26.5, -299.625)
+scale = Vector2(1, 0.993244)
+texture = ExtResource("2_sd41w")
+
+[node name="Button" type="Button" parent="Poke"]
+z_index = 51
+offset_left = 4.0
+offset_top = -322.0
+offset_right = 49.0
+offset_bottom = -277.0
+tooltip_text = "POKE - Poke a creature, agitating them."
+focus_mode = 0
+disabled = true
+icon = ExtResource("8_avwe7")
+flat = true
+
+[node name="LockButton" type="Button" parent="Poke"]
+z_index = 51
+offset_left = 4.0
+offset_top = -322.0
+offset_right = 49.0
+offset_bottom = -277.0
+tooltip_text = "LOCKED - Take photos of 16 states to unlock!"
+focus_mode = 0
+icon = ExtResource("4_1jqgd")
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Poke/LockButton"]
+z_index = -1
+position = Vector2(22.5, 22.5)
+texture = ExtResource("5_cpu12")
+
+[node name="Drag" type="Node2D" parent="."]
+
+[node name="Highlight" type="Sprite2D" parent="Drag"]
+visible = false
+z_index = 51
+position = Vector2(79.5, -299.625)
+scale = Vector2(1, 0.993244)
+texture = ExtResource("2_sd41w")
+
+[node name="Button" type="Button" parent="Drag"]
+z_index = 51
+offset_left = 57.0
+offset_top = -322.0
+offset_right = 102.0
+offset_bottom = -277.0
+tooltip_text = "DRAG - Pick a creature up and move them around."
+focus_mode = 0
+disabled = true
+icon = ExtResource("9_avwe7")
+flat = true
+
+[node name="LockButton" type="Button" parent="Drag"]
+z_index = 51
+offset_left = 57.0
+offset_top = -322.0
+offset_right = 102.0
+offset_bottom = -277.0
+tooltip_text = "LOCKED - Take photos of 25 states to unlock!"
+focus_mode = 0
+icon = ExtResource("4_1jqgd")
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Drag/LockButton"]
+z_index = -1
+position = Vector2(22.5, 22.5)
+texture = ExtResource("5_cpu12")
+
+[node name="Horn" type="Node2D" parent="."]
+
+[node name="Highlight" type="Sprite2D" parent="Horn"]
+visible = false
+z_index = 51
+position = Vector2(132.5, -299.625)
+scale = Vector2(1, 0.993244)
+texture = ExtResource("2_sd41w")
+
+[node name="Button" type="Button" parent="Horn"]
+z_index = 51
+offset_left = 110.0
+offset_top = -322.0
+offset_right = 155.0
+offset_bottom = -277.0
+tooltip_text = "ANCIENT HORN - Seems to summon something when played..."
+focus_mode = 0
+disabled = true
+icon = ExtResource("10_rs0h3")
+flat = true
+
+[node name="LockButton" type="Button" parent="Horn"]
+z_index = 51
+offset_left = 110.0
+offset_top = -322.0
+offset_right = 155.0
+offset_bottom = -277.0
+tooltip_text = "LOCKED - Complete 5 Quests to unlock!"
+focus_mode = 0
+icon = ExtResource("4_1jqgd")
+flat = true
+
+[node name="Sprite2D" type="Sprite2D" parent="Horn/LockButton"]
+z_index = -1
+position = Vector2(22.5, 22.5)
+texture = ExtResource("5_cpu12")
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="pressed" from="Check/Button" to="." method="_on_check_button_pressed"]
+[connection signal="pressed" from="PlaceFood/Button" to="." method="_on_place_food_button_pressed"]
+[connection signal="pressed" from="Pet/Button" to="." method="_on_pet_button_pressed"]
+[connection signal="pressed" from="Poke/Button" to="." method="_on_poke_button_pressed"]
+[connection signal="pressed" from="Drag/Button" to="." method="_on_drag_button_pressed"]
+[connection signal="pressed" from="Horn/Button" to="." method="_on_horn_button_pressed"]

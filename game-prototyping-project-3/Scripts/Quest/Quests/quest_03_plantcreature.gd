@@ -8,7 +8,7 @@ func _ready() -> void:
 	description = "Hello,\n\nI'm a forager who just loves Bittybush fruit.\nBut, waiting for it to fall off is such a pain!\nI've heard there's a way to make them drop it, though...\nCould you look into it for me?"
 	task_desc = "    - TASK: Take three pictures of you - or something else - making Bittybush drop its fruit!"
 	reward_desc = "    - REWARD: A big smile"
-	reward_thanks = "Thank you, researcher!\nI'll try poking the Bittybushes, since attacking them seems cruel.\nBy the way, I heard Bittybushes run away if they get too stressed,\nso be sure to give them a good petting soemtimes!"
+	reward_thanks = "Thank you, researcher!\n\nI'll try poking the Bittybushes, since attacking them seems cruel.\nBy the way, I heard Bittybushes run away if they get too stressed,\nso be sure to give them a good petting sometimes!"
 	
 	creature_type = "PlantCreature"
 	state_types = {

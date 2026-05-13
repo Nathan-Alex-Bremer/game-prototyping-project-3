@@ -44,6 +44,8 @@ func _ready() -> void:
 	player.connect("ChangeJournalPage", on_change_journal_page)
 	player.connect("ChangeMode", on_change_mode)
 	player.connect("EndDialogue", on_end_dialogue)
+	player.connect("FallEvent", on_fall_event)
+	player.connect("ShakeEvent", on_shake_event)
 	player.connect("TutorialWalkUpdate", on_tutorial_walk_update)
 	player.connect("TutorialUpdate", on_tutorial_update)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
@@ -53,16 +55,6 @@ func _ready() -> void:
 		GameState.player_node = player
 		add_child(player)
 	
-	 # Instantiate tutorial creature
-	 # TODO: Add tutorial creature spawn
-	 # Instantiate a creature
-	for i in range(1):
-		var new_creature = GameState.tutorialcreature_scene.instantiate()
-		new_creature.position = Vector2(-360, 140)
-		new_creature.connect("SelectedForCheck", on_creature_selected_check)
-		new_creature.connect("Leaving", on_creature_leaving)
-		add_child(new_creature)
-		GameState.existing_creatures.append(new_creature)
 		
 	player.initialize_text_box()
 	player.toggle_text_box()
@@ -171,6 +163,26 @@ func on_tutorial_update(stage: int) -> void:
 	if GameState.tutorial_stage >= 4:
 		$LabDoors.visible = false
 		$LabDoors.process_mode = Node.PROCESS_MODE_DISABLED
+		
+func on_fall_event() -> void:
+	# Instantiate tutorial creature
+	# TODO: Add tutorial creature spawn
+	# Instantiate a creature
+	for i in range(1):
+		var new_creature = GameState.tutorialcreature_scene.instantiate()
+		new_creature.position = Vector2(-560, 240)
+		new_creature.connect("SelectedForCheck", on_creature_selected_check)
+		new_creature.connect("Leaving", on_creature_leaving)
+		new_creature.connect("spawn_complete", on_tutorial_creature_spawn_complete)
+		add_child(new_creature)
+		GameState.existing_creatures.append(new_creature)
+		new_creature.spawn_animation() # Play spawning animation
+
+func on_shake_event() -> void:
+	pass
+
+func on_tutorial_creature_spawn_complete() -> void:
+	player.event_finished()
 
 func on_fade_out_complete() -> void:
 	GameState.change_scene("BaseScene")

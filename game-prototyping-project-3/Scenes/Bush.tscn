@@ -46,6 +46,7 @@ _data = {
 }
 
 [node name="Bush" type="Area2D" groups=["hiding_place"]]
+y_sort_enabled = true
 script = ExtResource("1_ykeyw")
 normal_sprite = ExtResource("2_03vxk")
 occupied_sprite = ExtResource("3_trd1h")
@@ -53,7 +54,7 @@ fire_sprite = ExtResource("4_mu6mv")
 metadata/_custom_type_script = "uid://bren1upitdyqs"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = -5
+y_sort_enabled = true
 texture = ExtResource("2_03vxk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

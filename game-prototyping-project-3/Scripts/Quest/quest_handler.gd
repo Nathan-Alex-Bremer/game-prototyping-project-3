@@ -8,6 +8,8 @@ var selected_quest: Quest = null
 
 var menu_open: bool = false
 
+var final_reward_tease: bool = false
+
 # Quest Label Spawning
 @export var quest_label_object: PackedScene
 @export var first_label_pos: Vector2
@@ -105,6 +107,12 @@ func hide_quest_menu() -> void:
 	play_sound(close_sound, 1)
 	
 func show_quest_info() -> void:
+	
+	# Hacky way to get the final quest to have slightly different text
+	# TODO: Test this!!!
+	if GameState.completed_quests == 4 and not final_reward_tease:
+		selected_quest.reward_desc += ", and...?"
+		final_reward_tease = true
 	
 	$QuestInfo/Title.text = selected_quest.quest_name
 	$QuestInfo/Description.text = selected_quest.description

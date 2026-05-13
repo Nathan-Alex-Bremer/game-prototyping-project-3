@@ -51,7 +51,7 @@ func _ready() -> void:
 		player.show_camera_crosshair()
 	
 	# Instantiate a creature
-	for i in range(GameState.max_creatures - 2):
+	for i in range(GameState.max_creatures):
 		var new_creature = GameState.creature_scene.instantiate()
 		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 		new_creature.position = random_point
@@ -96,6 +96,11 @@ func _ready() -> void:
 			add_child(new_creature)
 			GameState.existing_creatures.append(new_creature)
 	
+	for i in range(5):
+		var new_food = GameState.food_scene.instantiate()
+		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+		new_food.position = random_point
+		add_child(new_food)
 	for i in range(5):
 		var new_bush = GameState.bush_scene.instantiate()
 		var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
@@ -221,11 +226,12 @@ func on_capture_state(creature_type: StringName, state: StringName) -> void:
 			return
 
 func found_states_updated() -> void:
-	GameState.max_creatures = 6 + int(GameState.num_found_states / 2)
+	GameState.max_creatures = 5 + int(GameState.num_found_states / 3)
 	
 	match GameState.num_found_states:
 		3:
-			player.interact_mode_unlocked("Place Food")
+			player.interact_mode_unlocked(GameState.INTERACT_MODES.PLACE_FOOD)
+			GameState.place_food_unlocked = true
 		4:
 			next_creature_type = "Predator"
 			if GameState.raining:
@@ -233,10 +239,12 @@ func found_states_updated() -> void:
 				player.toggle_rain_overlay()
 			
 		10:
-			player.interact_mode_unlocked("Pet")
+			player.interact_mode_unlocked(GameState.INTERACT_MODES.PET)
+			GameState.pet_unlocked = true
 			next_creature_type = "PlantCreature"
 		16:
-			player.interact_mode_unlocked("Poke")
+			player.interact_mode_unlocked(GameState.INTERACT_MODES.POKE)
+			GameState.poke_unlocked = true
 		
 		18:
 			next_creature_type = "Frog"
@@ -245,11 +253,12 @@ func found_states_updated() -> void:
 				player.toggle_rain_overlay()
 			
 		20:
-			player.interact_mode_unlocked("Drag")
 			if not GameState.raining:
 				next_creature_type = "Predator"
 		
 		25:
+			player.interact_mode_unlocked(GameState.INTERACT_MODES.DRAG)
+			GameState.drag_unlocked = true
 			next_creature_type = "Bird"
 		
 

@@ -54,6 +54,7 @@ radius = 342.0
 radius = 173.104
 
 [node name="CreatureFrog" type="CharacterBody2D" node_paths=PackedStringArray("tongue", "blackboard") groups=["creature"]]
+y_sort_enabled = true
 collision_mask = 2
 input_pickable = true
 script = ExtResource("1_qj58y")
@@ -70,7 +71,7 @@ pickup_sound = ExtResource("5_n7qjo")
 place_sound = ExtResource("6_nqly7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = -1
+y_sort_enabled = true
 texture = ExtResource("2_r6rnu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

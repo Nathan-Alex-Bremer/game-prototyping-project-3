@@ -11,6 +11,7 @@
 size = Vector2(20, 2356)
 
 [node name="Node2D" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_58y5n")
 
 [node name="Flash" type="Sprite2D" parent="."]

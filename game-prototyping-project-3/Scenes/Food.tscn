@@ -47,10 +47,11 @@ _data = {
 }
 
 [node name="Food" type="Area2D" groups=["food"]]
+y_sort_enabled = true
 script = ExtResource("1_qly5w")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = -3
+y_sort_enabled = true
 texture = ExtResource("2_qly5w")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

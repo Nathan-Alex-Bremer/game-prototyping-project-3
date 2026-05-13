@@ -4,6 +4,8 @@ class_name CameraArea
 
 var camera
 
+signal toggle_photo_mode(val: bool)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	camera = get_viewport().get_camera_2d()
@@ -20,7 +22,14 @@ func _process(delta: float) -> void:
 		else:
 			$InteractSprite2D.modulate = Color(1, 0, 0, 0.6)
 	# position = DisplayServer.mouse_get_position() - Vector2i(700, 470)
-	# print(position)
+	# print("Mouse Position: " + str(position))
+	
+	# UGHHHHH
+	if (-164 <= position.x and position.x <= 164) and (-350 <= position.y and position.y <= -278):
+		toggle_photo_mode.emit(false)
+	
+	else:
+		toggle_photo_mode.emit(true)
 
 func set_camera_crosshair_visible(val: bool) -> void:
 	$Sprite2D.visible = val

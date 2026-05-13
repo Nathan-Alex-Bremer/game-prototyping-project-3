@@ -1,22 +1,108 @@
-[gd_scene load_steps=4 format=3 uid="uid://cxdoj2gxpp7oh"]
+[gd_scene load_steps=8 format=3 uid="uid://cxdoj2gxpp7oh"]
 
 [ext_resource type="Script" uid="uid://b2vsdqclbhylu" path="res://Scripts/journal_page.gd" id="1_qwv8g"]
 [ext_resource type="Texture2D" uid="uid://bhdnejbfirlyf" path="res://Art/journal_reference.png" id="2_4sq2n"]
 [ext_resource type="Texture2D" uid="uid://cn4s38skcaf38" path="res://Art/completion_star.png" id="3_y3437"]
 
+[sub_resource type="Animation" id="Animation_qi2ec"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j4761"]
+resource_name = "slide_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.3),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector2(0, 650), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_fpnky"]
+resource_name = "slide_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 650)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g2ld1"]
+_data = {
+&"RESET": SubResource("Animation_qi2ec"),
+&"slide_in": SubResource("Animation_j4761"),
+&"slide_out": SubResource("Animation_fpnky")
+}
+
 [node name="JournalPageReference" type="Node2D"]
 visible = false
 z_index = 60
 script = ExtResource("1_qwv8g")
+total_states = 30.0
 metadata/_custom_type_script = "uid://b2vsdqclbhylu"
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Container" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Container"]
 position = Vector2(576, 324)
 texture = ExtResource("2_4sq2n")
-script = ExtResource("1_qwv8g")
 
-[node name="CompletionStar" type="Sprite2D" parent="."]
+[node name="CompletionStar" type="Sprite2D" parent="Container"]
 visible = false
 z_index = 2
 position = Vector2(576, 324)
 texture = ExtResource("3_y3437")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Container")
+libraries = {
+&"": SubResource("AnimationLibrary_g2ld1")
+}

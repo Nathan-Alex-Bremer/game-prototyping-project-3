@@ -90,7 +90,7 @@ metadata/_custom_type_script = "uid://c544yfe00a2d1"
 
 [node name="AChangeTiredDelta" type="Node" parent="UpdateActions"]
 script = ExtResource("9_lx37w")
-amount = 0.21
+amount = 0.32
 scalable = true
 metadata/_custom_type_script = "uid://cbfb1foxoxepf"
 

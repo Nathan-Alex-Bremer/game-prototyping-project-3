@@ -1,7 +1,7 @@
 extends Node2D
 
 # Controls debug testing things!
-var debug_on: bool = true
+var debug_on: bool = false
 
 # Scene
 var main_scene: Node
@@ -12,9 +12,17 @@ var player_node: Node
 # Player interact options!
 var in_interact_range: bool = true
 
+# Interact moves
+var check_unlocked: bool = true 
+var place_food_unlocked: bool = false
+var pet_unlocked: bool = false
+var poke_unlocked: bool = false
+var drag_unlocked: bool = false
+var horn_unlocked: bool = false
+
 # Creatures
-var num_existing_creatures = 6
-@export var max_creatures: int = 6
+var num_existing_creatures = 5
+@export var max_creatures: int = 5
 @export var creature_scene: PackedScene
 @export var predator_scene: PackedScene
 @export var plantcreature_scene: PackedScene
@@ -233,7 +241,7 @@ func get_state_complete(creature_name: StringName, state_name: StringName) -> bo
 
 func unlock_horn() -> void: # Ugly way to do this
 	has_horn = true
-	player_node.interact_mode_unlocked("Ancient Horn")
+	player_node.interact_mode_unlocked(INTERACT_MODES.HORN)
 
 func update_tutorial(stage: int) -> bool:
 	print("Current stage: " + str(tutorial_stage))
@@ -283,4 +291,6 @@ func change_scene(new_scene_name: String) -> void:
 	# Update current scene
 	current_scene = new_scene
 	
-	
+func update_interact_mode(new_mode: INTERACT_MODES):
+	mode = new_mode
+	player_node.update_interact_highlights()

@@ -42,6 +42,7 @@ size = Vector2(433.922, 266.25)
 size = Vector2(58.5, 163)
 
 [node name="TutorialScene" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_d6567")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

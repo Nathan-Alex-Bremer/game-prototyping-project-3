@@ -11,6 +11,7 @@ radius = 96.0
 radius = 88.2043
 
 [node name="Tree" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_0suky")
 
 [node name="Area2D" type="Area2D" parent="." groups=["cover"]]
@@ -27,12 +28,13 @@ position = Vector2(0, -130)
 shape = SubResource("CircleShape2D_0suky")
 
 [node name="LogSprite" type="Sprite2D" parent="."]
-z_index = -7
+y_sort_enabled = true
 position = Vector2(5, -64)
 texture = ExtResource("5_rtd5e")
 
 [node name="LeavesSprite" type="Sprite2D" parent="."]
 z_index = 5
+y_sort_enabled = true
 position = Vector2(5, -64)
 texture = ExtResource("6_1s7xt")
 

@@ -43,7 +43,6 @@ change_page_sound = ExtResource("5_jta6q")
 [node name="JournalPagePlantCreature" parent="." instance=ExtResource("4_eulif")]
 
 [node name="JournalPageBird" parent="." instance=ExtResource("5_xs0aa")]
-total_states = 30.0
 
 [node name="JournalPageFrog" parent="." instance=ExtResource("6_l8ppr")]
 
@@ -66,3 +65,12 @@ visible = false
 z_index = 60
 position = Vector2(1087, 327)
 texture = ExtResource("15_wi3d7")
+
+[connection signal="slide_out_complete" from="JournalPageReference" to="." method="slide_out_complete"]
+[connection signal="slide_out_complete" from="JournalPageCreature" to="." method="slide_out_complete"]
+[connection signal="slide_out_complete" from="JournalPagePredator" to="." method="slide_out_complete"]
+[connection signal="slide_out_complete" from="JournalPagePlantCreature" to="." method="slide_out_complete"]
+[connection signal="slide_out_complete" from="JournalPageBird" to="." method="slide_out_complete"]
+[connection signal="slide_out_complete" from="JournalPageFrog" to="." method="slide_out_complete"]
+[connection signal="slide_out_complete" from="JournalPageBoss" to="." method="slide_out_complete"]
+[connection signal="slide_out_complete" from="JournalPageTutorialCreature" to="." method="slide_out_complete"]
