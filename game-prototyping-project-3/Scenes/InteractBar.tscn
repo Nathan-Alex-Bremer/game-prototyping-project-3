@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://8kl81xp6dm43"]
+[gd_scene load_steps=14 format=3 uid="uid://8kl81xp6dm43"]
 
 [ext_resource type="Texture2D" uid="uid://0uh02mx2ppnw" path="res://Art/InteractBar/interact_bar_bg.png" id="1_rfv1r"]
 [ext_resource type="Script" uid="uid://b534d2gwfjpip" path="res://Scripts/interact_bar.gd" id="1_rs0h3"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cg4yj1o46oc1y" path="res://Art/InteractBar/check_icon.png" id="3_w6ibd"]
 [ext_resource type="Texture2D" uid="uid://do8o6l5aspbkp" path="res://Art/InteractBar/lock_icon.png" id="4_1jqgd"]
 [ext_resource type="Texture2D" uid="uid://baneh5l36vs3g" path="res://Art/InteractBar/lock_bg.png" id="5_cpu12"]
+[ext_resource type="Script" uid="uid://c4g7shspe5uby" path="res://Scripts/interact_mode_button.gd" id="5_sjmgu"]
 [ext_resource type="Texture2D" uid="uid://2jr4bvakfkn8" path="res://Art/InteractBar/place_food_icon.png" id="6_1jqgd"]
 [ext_resource type="Texture2D" uid="uid://q1y53vfdv7k3" path="res://Art/InteractBar/pet_icon.png" id="7_cpu12"]
 [ext_resource type="Texture2D" uid="uid://g1a3s7bl861v" path="res://Art/InteractBar/poke_icon.png" id="8_avwe7"]
@@ -47,6 +48,7 @@ tooltip_text = "CHECK - View a creature's stats."
 focus_mode = 0
 icon = ExtResource("3_w6ibd")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="LockButton" type="Button" parent="Check"]
 visible = false
@@ -60,6 +62,7 @@ focus_mode = 0
 disabled = true
 icon = ExtResource("4_1jqgd")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="Sprite2D" type="Sprite2D" parent="Check/LockButton"]
 visible = false
@@ -87,6 +90,7 @@ focus_mode = 0
 disabled = true
 icon = ExtResource("6_1jqgd")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="LockButton" type="Button" parent="PlaceFood"]
 z_index = 51
@@ -98,6 +102,7 @@ tooltip_text = "LOCKED - Take photos of 3 states to unlock!"
 focus_mode = 0
 icon = ExtResource("4_1jqgd")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="Sprite2D" type="Sprite2D" parent="PlaceFood/LockButton"]
 z_index = -1
@@ -124,6 +129,7 @@ focus_mode = 0
 disabled = true
 icon = ExtResource("7_cpu12")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="LockButton" type="Button" parent="Pet"]
 z_index = 51
@@ -135,6 +141,7 @@ tooltip_text = "LOCKED - Take photos of 10 states to unlock!"
 focus_mode = 0
 icon = ExtResource("4_1jqgd")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="Sprite2D" type="Sprite2D" parent="Pet/LockButton"]
 z_index = -1
@@ -161,6 +168,7 @@ focus_mode = 0
 disabled = true
 icon = ExtResource("8_avwe7")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="LockButton" type="Button" parent="Poke"]
 z_index = 51
@@ -172,6 +180,7 @@ tooltip_text = "LOCKED - Take photos of 16 states to unlock!"
 focus_mode = 0
 icon = ExtResource("4_1jqgd")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="Sprite2D" type="Sprite2D" parent="Poke/LockButton"]
 z_index = -1
@@ -198,6 +207,7 @@ focus_mode = 0
 disabled = true
 icon = ExtResource("9_avwe7")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="LockButton" type="Button" parent="Drag"]
 z_index = 51
@@ -209,6 +219,7 @@ tooltip_text = "LOCKED - Take photos of 25 states to unlock!"
 focus_mode = 0
 icon = ExtResource("4_1jqgd")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="Sprite2D" type="Sprite2D" parent="Drag/LockButton"]
 z_index = -1
@@ -235,6 +246,7 @@ focus_mode = 0
 disabled = true
 icon = ExtResource("10_rs0h3")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="LockButton" type="Button" parent="Horn"]
 z_index = 51
@@ -246,6 +258,7 @@ tooltip_text = "LOCKED - Complete 5 Quests to unlock!"
 focus_mode = 0
 icon = ExtResource("4_1jqgd")
 flat = true
+script = ExtResource("5_sjmgu")
 
 [node name="Sprite2D" type="Sprite2D" parent="Horn/LockButton"]
 z_index = -1

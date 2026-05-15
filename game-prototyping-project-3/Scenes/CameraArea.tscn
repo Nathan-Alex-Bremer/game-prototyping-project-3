@@ -16,6 +16,7 @@ script = ExtResource("1_bxgb3")
 shape = SubResource("RectangleShape2D_bxgb3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 z_index = 42
 texture = ExtResource("1_hsoh7")
 

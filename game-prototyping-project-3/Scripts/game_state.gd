@@ -1,7 +1,7 @@
 extends Node2D
 
 # Controls debug testing things!
-var debug_on: bool = true
+var debug_on: bool = false
 
 # Scene
 var main_scene: Node

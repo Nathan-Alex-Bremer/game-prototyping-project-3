@@ -23,33 +23,6 @@
 [ext_resource type="LabelSettings" uid="uid://c4pg6vucq1524" path="res://Scenes/Quest/creature_state_label_settings.tres" id="37_bpel6"]
 [ext_resource type="LabelSettings" uid="uid://btu73f4pk84vl" path="res://Scenes/Quest/creature_name_label_settings.tres" id="38_yc4nx"]
 
-[sub_resource type="Animation" id="Animation_pq2fk"]
-resource_name = "check"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(0.67, 1.5), Vector2(1.1, 0.9), Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, -16), Vector2(0, 7), Vector2(0, 0)]
-}
-
 [sub_resource type="Animation" id="Animation_b262y"]
 length = 0.001
 tracks/0/type = "value"
@@ -77,8 +50,35 @@ tracks/1/keys = {
 "values": [Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_mqwf3"]
-resource_name = "poke"
+[sub_resource type="Animation" id="Animation_pq2fk"]
+resource_name = "check"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.67, 1.5), Vector2(1.1, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -16), Vector2(0, 7), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rek1t"]
+resource_name = "hurt"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -158,8 +158,8 @@ tracks/1/keys = {
 "values": [Vector2(0, 0), Vector2(0, 22), Vector2(0, -7), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_rek1t"]
-resource_name = "hurt"
+[sub_resource type="Animation" id="Animation_mqwf3"]
+resource_name = "poke"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -259,7 +259,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 0.55, 0.62, 0.65, 1.25),
 "transitions": PackedFloat32Array(1, 0.5, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(0, -1300), Vector2(0, 0), Vector2(0, 17), Vector2(0, -5), Vector2(0, 0), Vector2(0, 0)]
+"values": [Vector2(-170, -1164), Vector2(-170, 136), Vector2(-170, 153), Vector2(-170, 131), Vector2(-170, 136), Vector2(-170, 136)]
 }
 tracks/1/type = "method"
 tracks/1/imported = false

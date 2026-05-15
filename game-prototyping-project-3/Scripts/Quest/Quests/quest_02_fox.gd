@@ -15,6 +15,7 @@ func _ready() -> void:
 		"Annoyed": 0,
 		"Intimidate": 0,
 		"Attack": 0,
+		"Attack Eat": 0,
 		"Yawn": 0
 	}
 	pics_per_state = 1
