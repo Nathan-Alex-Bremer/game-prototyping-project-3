@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://gy0yf3l0jf1k"]
+[gd_scene load_steps=20 format=3 uid="uid://gy0yf3l0jf1k"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_hfmgq"]
 [ext_resource type="Texture2D" uid="uid://1xsm3nyf10vf" path="res://Art/PredatorStates/PredatorPet.png" id="2_ivpml"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://qrhmyfalcev2" path="res://Scripts/StateMachine/Actions/a_calc_wants_to_play.gd" id="4_n8ugq"]
 [ext_resource type="Script" uid="uid://bbo1ou2k7esct" path="res://Scripts/StateMachine/Actions/a_set_aggressive.gd" id="5_fxvwg"]
 [ext_resource type="Script" uid="uid://3hvifjdriy5q" path="res://Scripts/StateMachine/Actions/a_set_wait_time.gd" id="6_iyw0g"]
+[ext_resource type="Script" uid="uid://vyj32sakaxrd" path="res://Scripts/StateMachine/Actions/a_change_tired.gd" id="7_e2m4m"]
 [ext_resource type="Script" uid="uid://bhl1kvxr34utq" path="res://Scripts/StateMachine/Actions/a_set_is_pet.gd" id="7_fbxm1"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="8_o3fby"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="9_v3g3q"]
@@ -23,7 +24,7 @@
 script = ExtResource("1_hfmgq")
 simple_name = &"Pet"
 sprite = ExtResource("2_ivpml")
-enter_actions = [NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetAggressive"), NodePath("EnterActions/ASetWaitTime")]
+enter_actions = [NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetAggressive"), NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/AChangeTired")]
 exit_actions = [NodePath("ExitActions/ASetIsPet")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -50,6 +51,11 @@ metadata/_custom_type_script = "uid://bbo1ou2k7esct"
 script = ExtResource("6_iyw0g")
 time_to_wait = 2.0
 metadata/_custom_type_script = "uid://3hvifjdriy5q"
+
+[node name="AChangeTired" type="Node" parent="EnterActions"]
+script = ExtResource("7_e2m4m")
+amount = 10.0
+metadata/_custom_type_script = "uid://vyj32sakaxrd"
 
 [node name="ExitActions" type="Node" parent="."]
 

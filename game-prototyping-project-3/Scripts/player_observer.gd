@@ -114,7 +114,6 @@ func _process(delta: float) -> void:
 		if message_timer <= 0:
 			$UpdateLabel.text = ""
 			message_timer = 0
-			$Popup.visible = false
 	
 	# Handling text
 	if unlock_message_timer > 0:
@@ -429,9 +428,8 @@ func change_mode(mode: int) -> void:
 func update_message(message: String) -> void:
 	# Show new message and reset message timer, unless the popup is visible
 	# TODO: Maybe just keep the two message types separate?
-	if not $Popup.visible:
-		$UpdateLabel.text = message
-		message_timer = 5
+	$UpdateLabel.text = message
+	message_timer = 5
 
 func update_popup_message(message: String) -> void:
 	# Show new message and reset message timer, unless the popup is visible
@@ -549,6 +547,10 @@ func camera_shake_multi(multiplier: float) -> void:
 	$Camera2D.apply_shake(multiplier)
 	play_sound(shake_sound)
 	await get_tree().create_timer(1.5).timeout
+
+func camera_shake_single(multiplier: float) -> void:
+	$Camera2D.apply_shake(multiplier)
+	play_sound(shake_sound)
 	
 # Events
 func event_finished() -> void:
@@ -635,7 +637,8 @@ func _on_quest_handler_quest_complete(quest: Quest) -> void:
 	if quest is Quest06:
 		BossSatisfied.emit()
 	## Maybe play sound to let the player know the quest is complete?
-	# play_sound(quest_complete_sound)
+	if not audio_player.is_playing():
+		play_sound(notif_sound)
 
 
 func _on_quest_handler_new_quest() -> void:

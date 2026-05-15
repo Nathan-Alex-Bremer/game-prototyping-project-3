@@ -36,5 +36,5 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
 [node name="CTargetWithinDistance" type="Node" parent="Transitions/TransitionToLick"]
 script = ExtResource("13_hd2cu")
-distance = 125.0
+distance = 150.0
 metadata/_custom_type_script = "uid://bo8kyxhhrffj7"

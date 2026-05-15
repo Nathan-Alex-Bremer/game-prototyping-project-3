@@ -43,6 +43,7 @@ var raining: bool = false
 var num_food: int = 0
 @export var max_food: int = 10
 @export var food_scene: PackedScene
+var num_creatures_discovered: int = 0
 
 # Hiding places
 @export var bush_scene: PackedScene
@@ -241,6 +242,7 @@ func get_state_complete(creature_name: StringName, state_name: StringName) -> bo
 
 func unlock_horn() -> void: # Ugly way to do this
 	has_horn = true
+	horn_unlocked = true
 	player_node.interact_mode_unlocked(INTERACT_MODES.HORN)
 
 func update_tutorial(stage: int) -> bool:

@@ -19,7 +19,7 @@ func _ready() -> void:
 		"Yawn": 0
 	}
 	pics_per_state = 1
-	percent_needed = 0.75 # Only need 3/4 images
+	percent_needed = 0.6 # Only need 3/5 images
 
 func check_requirements() -> bool:
 	if GameState.found_states["Predator"]["Idle"] == 0:

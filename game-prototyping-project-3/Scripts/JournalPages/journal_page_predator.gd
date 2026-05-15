@@ -68,7 +68,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 		"Attack Eat":
 			if times_found == 1:
-				state_attack_eat.text = "- ATTACK EAT: Will hunt smaller Creatures for food."
+				state_attack_eat.text = "- ATTACK EAT: Will hunt smaller creatures for food."
 				state_attack_eat_update.visible = true
 				state_attack_eat.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
 				progress += 1

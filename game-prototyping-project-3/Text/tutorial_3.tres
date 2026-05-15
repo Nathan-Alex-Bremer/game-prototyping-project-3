@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_se1hx")
-dialogue = Array[String](["Great work! I bet it'll come out nicely.", "By taking pictures of a picture of a new state, or take enough pictures of the same state, you’ll be able to fill out your Journal - that’s what holds all your research.", "You can open your Journal with E. Try it out and take a look at what you’ve discovered, then press E again to exit!"])
+dialogue = Array[String](["Great work! I bet it'll come out nicely.", "By taking pictures of a picture of a new state, or taking enough pictures of the same state, you'll be able to fill out your Journal - that's what holds all your research.", "You can open your Journal with E. Try it out and take a look at what you've discovered, then press E again to exit!"])
 metadata/_custom_type_script = "uid://dwjeik6rfd36d"

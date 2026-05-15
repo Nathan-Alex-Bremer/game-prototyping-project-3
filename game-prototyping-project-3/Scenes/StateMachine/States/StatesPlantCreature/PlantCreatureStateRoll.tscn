@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://2a11sfkq4wgy"]
+[gd_scene load_steps=37 format=3 uid="uid://2a11sfkq4wgy"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_i0wjm"]
 [ext_resource type="Texture2D" uid="uid://oio7nlq7h2yq" path="res://Art/PlantCreatureStates/PlantCreatureRoll.png" id="2_i0wjm"]
@@ -31,7 +31,9 @@
 [ext_resource type="Script" uid="uid://doj6vw6folsoh" path="res://Scripts/StateMachine/Conditions/c_tired_lessthan.gd" id="27_bouxr"]
 [ext_resource type="Script" uid="uid://bbyxbf84ncqh6" path="res://Scripts/StateMachine/Conditions/c_tired_greaterthan.gd" id="28_bliyb"]
 [ext_resource type="Script" uid="uid://eprd3dqvhob1" path="res://Scripts/StateMachine/Conditions/c_found_creature.gd" id="29_f5crg"]
+[ext_resource type="Script" uid="uid://ca6ogsam06lk4" path="res://Scripts/StateMachine/Conditions/c_not.gd" id="30_2wyc2"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="30_vvy2p"]
+[ext_resource type="Script" uid="uid://c0lxjw3o2jfj8" path="res://Scripts/StateMachine/Conditions/c_is_raining.gd" id="31_lx37w"]
 [ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="33_ga662"]
 [ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="34_qcxgk"]
 
@@ -235,7 +237,7 @@ metadata/_custom_type_script = "uid://b3sg64keruhqm"
 
 [node name="TransitionToPhotosynthesize" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("13_paym3")
-conditions = [NodePath("CFoodLessThan")]
+conditions = [NodePath("CFoodLessThan"), NodePath("CTiredLessThan"), NodePath("CNot")]
 next_state = &"plantcreaturestatephotosynthesize"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
@@ -248,6 +250,15 @@ metadata/_custom_type_script = "uid://cu0y8uu17g6b0"
 script = ExtResource("27_bouxr")
 val = 50.0
 metadata/_custom_type_script = "uid://doj6vw6folsoh"
+
+[node name="CNot" type="Node" parent="Transitions/TransitionToPhotosynthesize" node_paths=PackedStringArray("base_condition")]
+script = ExtResource("30_2wyc2")
+base_condition = NodePath("CIsRaining")
+metadata/_custom_type_script = "uid://ca6ogsam06lk4"
+
+[node name="CIsRaining" type="Node" parent="Transitions/TransitionToPhotosynthesize/CNot"]
+script = ExtResource("31_lx37w")
+metadata/_custom_type_script = "uid://c0lxjw3o2jfj8"
 
 [node name="TransitionToRest" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("13_paym3")

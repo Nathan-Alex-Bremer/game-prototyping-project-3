@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_vhj41")
-dialogue = Array[String](["Oh, hello there! You must be the new research intern. (Click to continue...)", "Welcome to my laboratory! As you can see, it’s not much… we’ve been falling on hard times lately. I really appreciate you coming to help out.", "I’ll need you to help do field research - that means taking photos of the local wildlife with that camera of yours!", "Oh, but I should probably show you the ropes before I send you on your way, shouldn’t I? ", "First off, you can move around with WASD. Try it out!"])
+dialogue = Array[String](["Oh, hello there! You must be the new research intern. (Click to continue...)", "Welcome to my laboratory! As you can see, it's not much... we've been falling on hard times lately. I really appreciate you coming to help out.", "I'll need you to help do field research - that means taking photos of the local wildlife with that camera of yours!", "Oh, but I should probably show you the ropes before I send you on your way, shouldn't I? ", "First off, you can move around with WASD. Try it out!"])
 metadata/_custom_type_script = "uid://dwjeik6rfd36d"

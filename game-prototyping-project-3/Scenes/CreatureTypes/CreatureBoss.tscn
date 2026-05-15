@@ -1,7 +1,12 @@
-[gd_scene load_steps=49 format=3 uid="uid://hx57aq3bep8d"]
+[gd_scene load_steps=54 format=3 uid="uid://hx57aq3bep8d"]
 
 [ext_resource type="Script" uid="uid://b7krer05pkca6" path="res://Scripts/creature_boss.gd" id="1_mdx7g"]
+[ext_resource type="AudioStream" uid="uid://dfrp8gf07lnxu" path="res://Audio/SFX/CreatureInteraction/Lyd_SFX_255_ Scalpel_1.wav" id="2_r238f"]
+[ext_resource type="AudioStream" uid="uid://culd6ph4uphpj" path="res://Audio/SFX/CreatureInteraction/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav" id="3_ls18g"]
 [ext_resource type="Script" uid="uid://b250yl8mswdia" path="res://Scripts/StateMachine/blackboard_boss.gd" id="4_mdx7g"]
+[ext_resource type="AudioStream" uid="uid://b23fxucbjwntq" path="res://Audio/SFX/CreatureInteraction/EFX SD Heads Hit Together 02.wav" id="4_vsyc2"]
+[ext_resource type="AudioStream" uid="uid://cfcu1f27ai24f" path="res://Audio/SFX/CreatureInteraction/PickUp - Bag Foley_Wallet_Leather_Grab.wav" id="5_tgcmb"]
+[ext_resource type="AudioStream" uid="uid://ly81x8jd8r4c" path="res://Audio/SFX/CreatureInteraction/PutDown Bag Foley_Wallet_Leather_Grab.wav" id="6_688jt"]
 [ext_resource type="Texture2D" uid="uid://2f578oyx74nh" path="res://Art/BossStates/BossWalk.png" id="7_w00kq"]
 [ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="8_tgcmb"]
 [ext_resource type="PackedScene" uid="uid://xvhsy5600fv0" path="res://Scenes/StateMachine/States/StatesBoss/BossStateAttack.tscn" id="10_ut4tn"]
@@ -233,6 +238,11 @@ move_speed = 50.0
 friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Predator"])
 prey_types = Array[StringName]([&"Creature", &"PlantCreature", &"Predator", &"Frog", &"Bird"])
 blackboard = NodePath("StateMachine/BlackboardBoss")
+check_sound = ExtResource("2_r238f")
+pet_sound = ExtResource("3_ls18g")
+poke_sound = ExtResource("4_vsyc2")
+pickup_sound = ExtResource("5_tgcmb")
+place_sound = ExtResource("6_688jt")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 y_sort_enabled = true

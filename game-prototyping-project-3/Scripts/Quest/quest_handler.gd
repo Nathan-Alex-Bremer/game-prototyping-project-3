@@ -160,6 +160,9 @@ func show_complete_quest() -> void:
 	play_sound(quest_complete_sound, 2)
 	GameState.completed_quests += 1 # Keep track of number of ompleted quests
 	
+	if GameState.completed_quests == 5:
+		GameState.unlock_horn()
+	
 # Audio
 
 func play_sound(sound: AudioStream, player_num: int) -> void:
@@ -180,8 +183,7 @@ func _on_accept_button_pressed() -> void:
 	current_quest = selected_quest
 	current_quest.start_quest()
 	selected_quest = null
-	hide_quest_info()
-	hide_quest_menu()
+	$AnimationPlayer.play("slide_out")
 	play_sound(button_click_sound, 2)
 	quest_started.emit(current_quest)
 

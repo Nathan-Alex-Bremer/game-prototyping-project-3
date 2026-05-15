@@ -231,6 +231,7 @@ func spawn_creature() -> void:
 	var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
 	new_creature.position = random_point
 	new_creature.connect("SelectedForCheck", on_creature_selected_check)
+	new_creature.connect("SpawnFood", spawn_food_near_position)
 	new_creature.connect("Leaving", on_creature_leaving)
 	add_child(new_creature)
 	GameState.existing_creatures.append(new_creature)
@@ -250,14 +251,13 @@ func on_capture_state(creature_type: StringName, state: StringName) -> void:
 			return
 
 func found_states_updated() -> void:
-	GameState.max_creatures = 5 + int(GameState.num_found_states / 3)
-	
 	match GameState.num_found_states:
 		3:
 			player.interact_mode_unlocked(GameState.INTERACT_MODES.PLACE_FOOD)
 			GameState.place_food_unlocked = true
 		4:
 			next_creature_type = "Predator"
+			GameState.num_creatures_discovered += 1
 			if GameState.raining:
 				GameState.raining = false
 				$AnimationPlayer.play("rain_fade_out")
@@ -267,12 +267,14 @@ func found_states_updated() -> void:
 			player.interact_mode_unlocked(GameState.INTERACT_MODES.PET)
 			GameState.pet_unlocked = true
 			next_creature_type = "PlantCreature"
+			GameState.num_creatures_discovered += 1
 		16:
 			player.interact_mode_unlocked(GameState.INTERACT_MODES.POKE)
 			GameState.poke_unlocked = true
 		
 		18:
 			next_creature_type = "Frog"
+			GameState.num_creatures_discovered += 1
 			if not GameState.raining:
 				GameState.raining = true
 				$AnimationPlayer.play("rain_fade_in")
@@ -286,6 +288,9 @@ func found_states_updated() -> void:
 			player.interact_mode_unlocked(GameState.INTERACT_MODES.DRAG)
 			GameState.drag_unlocked = true
 			next_creature_type = "Bird"
+			GameState.num_creatures_discovered += 1
+	
+	GameState.max_creatures = 5 + int(GameState.num_found_states / 3) + GameState.num_creatures_discovered
 		
 
 func on_clicked_food(food_position: Vector2) -> void:
@@ -360,6 +365,7 @@ func on_boss_fight_started() -> void:
 	new_creature.connect("SpawnFood", spawn_food_near_position)
 	new_creature.connect("Leaving", on_creature_leaving)
 	add_child(new_creature)
+	player.camera_shake_single(0.5)
 	GameState.existing_creatures.append(new_creature)
 	GameState.boss_active = true
 	GameState.boss_ever_summoned = true
