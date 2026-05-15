@@ -1,7 +1,7 @@
 extends Node2D
 
 # Controls debug testing things!
-var debug_on: bool = false
+var debug_on: bool = true
 
 # Scene
 var main_scene: Node
@@ -260,6 +260,7 @@ func set_initial_scene() -> void:
 	if main_scene:
 		current_scene = tutorial_scene.instantiate()
 		main_scene.add_child(current_scene)
+		player_node.reparent(current_scene)
 	else:
 		print("ERROR: Main scene not loaded!")
 
@@ -269,6 +270,9 @@ func change_scene(new_scene_name: String) -> void:
 	# Remove remaining other references in GameState
 	existing_creatures.clear()
 	selected_creature = null
+	
+	# To avoid player node being unloaded
+	player_node.reparent(main_scene)
 	
 	# Load in new scene
 	var new_scene: Node
@@ -290,6 +294,7 @@ func change_scene(new_scene_name: String) -> void:
 	
 	# Update current scene
 	current_scene = new_scene
+	player_node.reparent(new_scene)
 	
 func update_interact_mode(new_mode: INTERACT_MODES):
 	mode = new_mode

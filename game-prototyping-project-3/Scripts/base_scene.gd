@@ -113,8 +113,23 @@ func _ready() -> void:
 		add_child(new_tree)
 		
 	GameState.tutorial_mode = false
+	player.show_camera_crosshair()
 	player.set_step_sound("grass")
 	player.start_fade_in()
+	
+	if GameState.debug_on:
+		GameState.check_unlocked = true
+		GameState.place_food_unlocked = true
+		GameState.pet_unlocked = true
+		GameState.poke_unlocked = true
+		GameState.drag_unlocked = true
+		GameState.horn_unlocked = true
+		
+		player.interact_mode_unlocked(GameState.INTERACT_MODES.PLACE_FOOD)
+		player.interact_mode_unlocked(GameState.INTERACT_MODES.PET)
+		player.interact_mode_unlocked(GameState.INTERACT_MODES.POKE)
+		player.interact_mode_unlocked(GameState.INTERACT_MODES.DRAG)
+		player.interact_mode_unlocked(GameState.INTERACT_MODES.HORN)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -141,7 +156,16 @@ func _process(delta: float) -> void:
 		# Small chance to begin raining
 		if randi_range(1, 30) == 1:
 			GameState.raining = not(GameState.raining)
-			player.toggle_rain_overlay()
+			if GameState.raining:
+				$AnimationPlayer.play("rain_fade_in")
+			else:
+				$AnimationPlayer.play("rain_fade_out")
+			player.toggle_rain_overlay(GameState.raining)
+		
+		# Small chance to play song
+		if randi_range(1, 30) == 1 and not $BGM.playing:
+			$BGM.play()
+		
 		# Reset timer
 		timer = timer_count
 
@@ -236,7 +260,8 @@ func found_states_updated() -> void:
 			next_creature_type = "Predator"
 			if GameState.raining:
 				GameState.raining = false
-				player.toggle_rain_overlay()
+				$AnimationPlayer.play("rain_fade_out")
+				player.toggle_rain_overlay(GameState.raining)
 			
 		10:
 			player.interact_mode_unlocked(GameState.INTERACT_MODES.PET)
@@ -250,7 +275,8 @@ func found_states_updated() -> void:
 			next_creature_type = "Frog"
 			if not GameState.raining:
 				GameState.raining = true
-				player.toggle_rain_overlay()
+				$AnimationPlayer.play("rain_fade_in")
+				player.toggle_rain_overlay(GameState.raining)
 			
 		20:
 			if not GameState.raining:

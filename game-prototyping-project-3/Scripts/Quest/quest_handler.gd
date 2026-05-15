@@ -54,9 +54,7 @@ func _process(delta: float) -> void:
 func toggle_quest_menu() -> void:
 	# TODO: Ugly! Figure out a better way to do this!
 	if menu_open:
-		hide_quest_info()
-		hide_quest_menu()
-		
+		$AnimationPlayer.play("slide_out")
 		# Close QuestComplete and make sure to run all relevant code if the popup is open
 		if $QuestComplete.visible:
 			_on_reward_exit_button_pressed() 
@@ -88,8 +86,10 @@ func show_quest_menu() -> void:
 	if current_quest:
 		$QuestMenu/ActiveQuestLabel.text = "ACTIVE QUEST: " + current_quest.quest_name + " (" + current_quest.calculate_progress() + ")"
 	
+	$AnimationPlayer.play("slide_in")
 	$QuestMenu.visible = true
 	play_sound(open_sound, 1)
+	
 
 func hide_quest_menu() -> void:
 	menu_open = false
@@ -199,3 +199,9 @@ func _on_reward_exit_button_pressed() -> void:
 	$QuestComplete.visible = false
 	play_sound(button_click_sound, 2)
 	
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "slide_out":
+		hide_quest_info()
+		hide_quest_menu()

@@ -12,16 +12,11 @@ class_name CreatureTutorial
 
 signal spawn_complete()
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass
-	
-
 # Custom functions
 
 func spawn_animation() -> void:
-	$AnimationPlayer.play("spawn")
-	$Sprite2D.visible = true
+	$SpawnAnimationPlayer.play("spawn") # I am dumb this should not be necessary
+	# $Sprite2D.visible = true
 	
 func spawn_animation_complete() -> void:
 	spawn_complete.emit()

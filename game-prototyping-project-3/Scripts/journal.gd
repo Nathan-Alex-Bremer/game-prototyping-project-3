@@ -59,6 +59,15 @@ func on_state_found(creature_type: StringName, found_state: StringName, times_fo
 		play_sound(new_unlock_sound)
 	pages[creature_type].on_state_found(found_state, times_found)
 
+func is_new_creature(creature_type: StringName) -> bool:
+	if GameState.tutorial_mode:
+		if tutorial_page.progress == 0:
+			return true
+		return false
+	if pages[creature_type].progress == 0:
+		return true
+	return false
+
 func update_progress() -> void:
 	# Entirely because it'd get annoying otherwise
 	if progress >= 98:

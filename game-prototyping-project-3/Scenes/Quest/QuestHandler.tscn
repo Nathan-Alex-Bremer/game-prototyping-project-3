@@ -100,7 +100,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_j4761"]
@@ -146,6 +146,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, 650)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g2ld1"]
 _data = {
@@ -155,6 +167,7 @@ _data = {
 }
 
 [node name="QuestHandler" type="Node2D" node_paths=PackedStringArray("quest_list")]
+modulate = Color(1, 1, 1, 0)
 z_index = 60
 script = ExtResource("1_t8urw")
 quest_label_object = ExtResource("2_com2b")
@@ -289,6 +302,8 @@ shape = SubResource("RectangleShape2D_va4qa")
 [node name="Sprite2D" type="Sprite2D" parent="QuestInfo/InteractBlocker"]
 self_modulate = Color(0, 0, 0, 0.258824)
 z_index = -1
+position = Vector2(0, -446.399)
+scale = Vector2(1, 2.37777)
 texture = ExtResource("2_r6jfu")
 
 [node name="QuestComplete" type="Sprite2D" parent="."]
@@ -358,6 +373,8 @@ shape = SubResource("RectangleShape2D_va4qa")
 [node name="Sprite2D" type="Sprite2D" parent="QuestComplete/InteractBlocker"]
 self_modulate = Color(0, 0, 0, 0.258824)
 z_index = -1
+position = Vector2(0, -391.499)
+scale = Vector2(1, 2.20833)
 texture = ExtResource("2_r6jfu")
 
 [node name="Quests" type="Node" parent="."]
@@ -429,3 +446,4 @@ libraries = {
 [connection signal="pressed" from="QuestInfo/AcceptButton" to="." method="_on_accept_button_pressed"]
 [connection signal="pressed" from="QuestInfo/RejectButton" to="." method="_on_reject_button_pressed"]
 [connection signal="pressed" from="QuestComplete/RewardExitButton" to="." method="_on_reward_exit_button_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

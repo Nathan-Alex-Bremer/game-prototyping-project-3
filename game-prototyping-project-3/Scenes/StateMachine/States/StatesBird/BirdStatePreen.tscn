@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://c1fxj5psyfn4o"]
+[gd_scene load_steps=30 format=3 uid="uid://c1fxj5psyfn4o"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_cujd3"]
 [ext_resource type="Texture2D" uid="uid://dvt82d83hmd67" path="res://Art/BirdStates/BirdPreen.png" id="2_o8nbj"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="7_q226k"]
 [ext_resource type="Script" uid="uid://vyj32sakaxrd" path="res://Scripts/StateMachine/Actions/a_change_tired.gd" id="7_xuvpl"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="8_jbr0o"]
+[ext_resource type="Script" uid="uid://bcpudam8u5nle" path="res://Scripts/StateMachine/Actions/a_play_anim.gd" id="8_kqeaq"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="9_0rx8x"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="10_et8g5"]
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="11_ur7cj"]
@@ -33,7 +34,7 @@
 script = ExtResource("1_cujd3")
 simple_name = &"Preen"
 sprite = ExtResource("2_o8nbj")
-enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/AChangeTired")]
+enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/AChangeTired"), NodePath("EnterActions/APlayAnim")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
 transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToWander2"), NodePath("Transitions/TransitionToRest")]
@@ -64,6 +65,11 @@ metadata/_custom_type_script = "uid://doudrgrfo8a6k"
 script = ExtResource("7_xuvpl")
 amount = 10.0
 metadata/_custom_type_script = "uid://vyj32sakaxrd"
+
+[node name="APlayAnim" type="Node" parent="EnterActions"]
+script = ExtResource("8_kqeaq")
+anim_name = &"pet"
+metadata/_custom_type_script = "uid://bcpudam8u5nle"
 
 [node name="ExitActions" type="Node" parent="."]
 

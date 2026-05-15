@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://lavky42twi00"]
+[gd_scene load_steps=12 format=3 uid="uid://lavky42twi00"]
 
 [ext_resource type="Script" uid="uid://bren1upitdyqs" path="res://Scripts/bush.gd" id="1_ykeyw"]
 [ext_resource type="Texture2D" uid="uid://ddk1qor8jydcr" path="res://Art/Bush.png" id="2_03vxk"]
 [ext_resource type="Texture2D" uid="uid://cxx7x4cjk2hlk" path="res://Art/BushOccupied.png" id="3_trd1h"]
 [ext_resource type="Texture2D" uid="uid://g8d80qaryp77" path="res://Art/BushFire.png" id="4_mu6mv"]
 [ext_resource type="AudioStream" uid="uid://byni4xgq6wmqp" path="res://Audio/SFX/Foliage Interact/SWSH_BushClick Dry Bamboo Leaf Swishes 1_RogueWaves_DruidMagic.wav" id="5_03vxk"]
+[ext_resource type="AudioStream" uid="uid://c00886ow7gc2t" path="res://Audio/SFX/Creature/Ignite.wav" id="6_trd1h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e0wpt"]
 radius = 54.0093
@@ -39,10 +40,26 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(-10, 0), Vector2(7, 0), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_mu6mv"]
+resource_name = "rustle_light"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.18, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-7, 0), Vector2(4, 0), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mu6mv"]
 _data = {
 &"RESET": SubResource("Animation_trd1h"),
-&"on_click": SubResource("Animation_03vxk")
+&"on_click": SubResource("Animation_03vxk"),
+&"rustle_light": SubResource("Animation_mu6mv")
 }
 
 [node name="Bush" type="Area2D" groups=["hiding_place"]]
@@ -51,6 +68,8 @@ script = ExtResource("1_ykeyw")
 normal_sprite = ExtResource("2_03vxk")
 occupied_sprite = ExtResource("3_trd1h")
 fire_sprite = ExtResource("4_mu6mv")
+rustle_sound = ExtResource("5_03vxk")
+ignite_sound = ExtResource("6_trd1h")
 metadata/_custom_type_script = "uid://bren1upitdyqs"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -63,6 +82,8 @@ shape = SubResource("CircleShape2D_e0wpt")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_03vxk")
+volume_db = -6.0
+max_distance = 1000.0
 bus = &"Proximity SFX"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -70,4 +91,5 @@ libraries = {
 &"": SubResource("AnimationLibrary_mu6mv")
 }
 
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="input_event" from="." to="." method="_on_input_event"]

@@ -1,14 +1,103 @@
-[gd_scene load_steps=8 format=3 uid="uid://vamehqonwq37"]
+[gd_scene load_steps=13 format=3 uid="uid://vamehqonwq37"]
 
 [ext_resource type="Script" uid="uid://bsfxihnntm7ml" path="res://Scripts/base_scene.gd" id="1_58y5n"]
 [ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="4_yga4i"]
 [ext_resource type="Texture2D" uid="uid://bco4po0psd8mq" path="res://Art/background.png" id="5_4ksr6"]
 [ext_resource type="Texture2D" uid="uid://b3bqlah3148pl" path="res://Art/backgroundfoliage.png" id="5_uc7fm"]
+[ext_resource type="AudioStream" uid="uid://dx76bm84s6lnj" path="res://Audio/BeepBox-Song-Final-Fade.wav" id="6_56e3h"]
 [ext_resource type="PackedScene" uid="uid://dnjko78dsirrr" path="res://Scenes/Tree.tscn" id="6_uc7fm"]
-[ext_resource type="AudioStream" uid="uid://dl6oyiffygxqv" path="res://Audio/BeepBox-Song-Final.mp3" id="7_56e3h"]
+[ext_resource type="AudioStream" uid="uid://cs4yenxbae85k" path="res://Audio/PM_RD_RAIN_8_MODERATE_DRIPPY.wav" id="7_eumj5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4ksr6"]
 size = Vector2(20, 2356)
+
+[sub_resource type="Animation" id="Animation_sbiut"]
+resource_name = "rain_fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [-80.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_orcbb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:playing")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-80.0]
+}
+
+[sub_resource type="Animation" id="Animation_56e3h"]
+resource_name = "rain_fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:volume_db")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -80.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hhixo"]
+_data = {
+&"RESET": SubResource("Animation_orcbb"),
+&"rain_fade_in": SubResource("Animation_sbiut"),
+&"rain_fade_out": SubResource("Animation_56e3h")
+}
 
 [node name="Node2D" type="Node2D"]
 y_sort_enabled = true
@@ -74,11 +163,20 @@ texture = ExtResource("5_uc7fm")
 position = Vector2(1251, 318)
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("7_56e3h")
+stream = ExtResource("6_56e3h")
 volume_db = -6.0
-autoplay = true
 bus = &"BGM"
-parameters/looping = true
+
+[node name="Ambiance" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_eumj5")
+volume_db = -80.0
+bus = &"BGM"
 
 [node name="UI_SFX" type="AudioStreamPlayer" parent="."]
 bus = &"World SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Ambiance")
+libraries = {
+&"": SubResource("AnimationLibrary_hhixo")
+}

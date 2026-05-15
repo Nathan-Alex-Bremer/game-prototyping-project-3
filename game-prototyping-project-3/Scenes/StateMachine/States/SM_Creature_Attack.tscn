@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b0loa2kreta3t"]
+[gd_scene load_steps=23 format=3 uid="uid://b0loa2kreta3t"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_4k8hv"]
 [ext_resource type="Texture2D" uid="uid://bhd6i8h3oq6c2" path="res://Art/CreatureStates/CreatureAttack.png" id="2_t6bby"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="5_4k8hv"]
 [ext_resource type="Script" uid="uid://b6cg8y7eergbq" path="res://Scripts/StateMachine/Actions/a_play_sound.gd" id="5_abs5e"]
 [ext_resource type="AudioStream" uid="uid://b6m7tqhhrpd22" path="res://Audio/SFX/Creature/Attack.wav" id="6_o41l2"]
+[ext_resource type="Script" uid="uid://bcpudam8u5nle" path="res://Scripts/StateMachine/Actions/a_play_anim.gd" id="7_bnwc8"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="8_abs5e"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="9_o41l2"]
 [ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="10_2xrl6"]
@@ -26,7 +27,7 @@
 script = ExtResource("1_4k8hv")
 simple_name = &"Attack"
 sprite = ExtResource("2_t6bby")
-enter_actions = [NodePath("EnterActions/AAttack"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/APlaySound")]
+enter_actions = [NodePath("EnterActions/AAttack"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/APlaySound"), NodePath("EnterActions/APlayAnim")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
 transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToIdle2"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToChase")]
@@ -49,6 +50,11 @@ metadata/_custom_type_script = "uid://dkkco5pqtqlys"
 script = ExtResource("5_abs5e")
 sound = ExtResource("6_o41l2")
 metadata/_custom_type_script = "uid://b6cg8y7eergbq"
+
+[node name="APlayAnim" type="Node" parent="EnterActions"]
+script = ExtResource("7_bnwc8")
+anim_name = &"pet"
+metadata/_custom_type_script = "uid://bcpudam8u5nle"
 
 [node name="ExitActions" type="Node" parent="."]
 

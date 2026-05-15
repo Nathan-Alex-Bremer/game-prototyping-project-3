@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://fr6765xgg0vp"]
+[gd_scene load_steps=20 format=3 uid="uid://fr6765xgg0vp"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_8l7xe"]
 [ext_resource type="Texture2D" uid="uid://bu2ng4y1hhfao" path="res://Art/BirdStates/BirdPlay.png" id="2_3utc5"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="4_tvcbs"]
 [ext_resource type="Script" uid="uid://b6cg8y7eergbq" path="res://Scripts/StateMachine/Actions/a_play_sound.gd" id="5_22mfk"]
 [ext_resource type="AudioStream" uid="uid://fjujdbrt8781" path="res://Audio/SFX/Creature/BirdPlay.wav" id="6_x1n36"]
+[ext_resource type="Script" uid="uid://bcpudam8u5nle" path="res://Scripts/StateMachine/Actions/a_play_anim.gd" id="7_3utc5"]
 [ext_resource type="Script" uid="uid://dltu7r6x7r2ye" path="res://Scripts/StateMachine/Actions/a_set_celebrate.gd" id="7_8l7xe"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="8_nwubm"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="9_k5cvf"]
@@ -23,7 +24,7 @@
 script = ExtResource("1_8l7xe")
 simple_name = &"Celebrate"
 sprite = ExtResource("2_3utc5")
-enter_actions = [NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/APlaySound")]
+enter_actions = [NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/APlaySound"), NodePath("EnterActions/APlayAnim")]
 exit_actions = [NodePath("ExitActions/ASetCelebrate")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -46,6 +47,11 @@ metadata/_custom_type_script = "uid://doudrgrfo8a6k"
 script = ExtResource("5_22mfk")
 sound = ExtResource("6_x1n36")
 metadata/_custom_type_script = "uid://b6cg8y7eergbq"
+
+[node name="APlayAnim" type="Node" parent="EnterActions"]
+script = ExtResource("7_3utc5")
+anim_name = &"hurt"
+metadata/_custom_type_script = "uid://bcpudam8u5nle"
 
 [node name="ExitActions" type="Node" parent="."]
 

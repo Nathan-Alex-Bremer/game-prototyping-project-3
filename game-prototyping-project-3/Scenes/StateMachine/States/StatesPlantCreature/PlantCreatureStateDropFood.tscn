@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://2rf5lr5cwqg"]
+[gd_scene load_steps=21 format=3 uid="uid://2rf5lr5cwqg"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_d2uqo"]
 [ext_resource type="Texture2D" uid="uid://bulyam087bqce" path="res://Art/PlantCreatureStates/PlantCreaturePokeDrop.png" id="2_d2uqo"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="6_fkqp0"]
 [ext_resource type="AudioStream" uid="uid://db4admqi4bgt5" path="res://Audio/SFX/Foliage Interact/PlaceFood 2.wav" id="6_whc0h"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="7_26am4"]
+[ext_resource type="Script" uid="uid://bcpudam8u5nle" path="res://Scripts/StateMachine/Actions/a_play_anim.gd" id="7_whc0h"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="8_mxsmw"]
 [ext_resource type="Script" uid="uid://b3w7121qva7qq" path="res://Scripts/StateMachine/Actions/a_reduce_food_timer.gd" id="9_ydnql"]
 [ext_resource type="Script" uid="uid://dtyxom51u28mh" path="res://Scripts/StateMachine/Actions/a_reduce_poison_timer.gd" id="10_6el84"]
@@ -24,7 +25,7 @@
 script = ExtResource("1_d2uqo")
 simple_name = &"Drop Food"
 sprite = ExtResource("2_d2uqo")
-enter_actions = [NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/ADropFood"), NodePath("EnterActions/APlaySound")]
+enter_actions = [NodePath("EnterActions/ASetWaitTime"), NodePath("EnterActions/ADropFood"), NodePath("EnterActions/APlaySound"), NodePath("EnterActions/APlayAnim")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
 transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToWander")]
@@ -45,6 +46,11 @@ metadata/_custom_type_script = "uid://bg5ykpgljn4ab"
 script = ExtResource("5_yw1j0")
 sound = ExtResource("6_whc0h")
 metadata/_custom_type_script = "uid://b6cg8y7eergbq"
+
+[node name="APlayAnim" type="Node" parent="EnterActions"]
+script = ExtResource("7_whc0h")
+anim_name = &"hurt"
+metadata/_custom_type_script = "uid://bcpudam8u5nle"
 
 [node name="ExitActions" type="Node" parent="."]
 

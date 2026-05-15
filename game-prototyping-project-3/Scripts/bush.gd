@@ -11,6 +11,9 @@ var signal_cooldown: float = 0
 @export var occupied_sprite: Texture2D
 @export var fire_sprite: Texture2D
 
+@export var rustle_sound: AudioStream
+@export var ignite_sound: AudioStream
+
 var can_hide: bool = true
 
 # Called when the node enters the scene tree for the first time.
@@ -32,6 +35,7 @@ func get_can_hide() -> bool:
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+		$AudioStreamPlayer2D.stream = rustle_sound
 		$AudioStreamPlayer2D.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
 		$AudioStreamPlayer2D.play()
 		$AnimationPlayer.play("on_click")
@@ -41,9 +45,11 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	
 func occupy() -> void:
 	$Sprite2D.texture = occupied_sprite
+	$AnimationPlayer.play("rustle_light")
 
 func unoccupy() -> void:
 	$Sprite2D.texture = normal_sprite
+	$AnimationPlayer.play("rustle_light")
 
 func ignite() -> void:
 	if GameState.raining:
@@ -51,3 +57,11 @@ func ignite() -> void:
 	can_hide = false
 	$Sprite2D.texture = fire_sprite
 	signal_cooldown = signal_cooldown_max
+
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		$AnimationPlayer.play("rustle_light")
+		$AudioStreamPlayer2D.stream = rustle_sound
+		$AudioStreamPlayer2D.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
+		$AudioStreamPlayer2D.play()

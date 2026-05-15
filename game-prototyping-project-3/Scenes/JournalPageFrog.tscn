@@ -79,6 +79,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, 650)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g2ld1"]
 _data = {
@@ -102,10 +114,10 @@ texture = ExtResource("2_t6vrf")
 [node name="CreatureName" type="Label" parent="Container"]
 modulate = Color(0, 0, 0, 1)
 z_index = 2
-offset_left = 479.0
-offset_top = 27.0
-offset_right = 653.0
-offset_bottom = 64.0
+offset_left = 458.0
+offset_top = 29.0
+offset_right = 708.0
+offset_bottom = 84.0
 text = "FROUNTAIN"
 label_settings = ExtResource("3_gxl8c")
 horizontal_alignment = 1
@@ -113,19 +125,19 @@ horizontal_alignment = 1
 [node name="StatesFound" type="Label" parent="Container"]
 modulate = Color(0, 0, 0, 1)
 z_index = 2
-offset_left = 141.0
-offset_top = 70.0
-offset_right = 283.0
-offset_bottom = 95.0
+offset_left = 142.0
+offset_top = 71.0
+offset_right = 284.0
+offset_bottom = 96.0
 text = "States Found: 0"
 label_settings = ExtResource("4_kf6wp")
 
 [node name="Progress" type="Label" parent="Container"]
 modulate = Color(0, 0, 0, 1)
 z_index = 2
-offset_left = 314.0
+offset_left = 336.0
 offset_top = 70.0
-offset_right = 433.0
+offset_right = 455.0
 offset_bottom = 95.0
 text = "Progress: 0%"
 label_settings = ExtResource("4_kf6wp")

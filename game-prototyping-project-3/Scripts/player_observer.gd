@@ -8,6 +8,7 @@ var interact_mode_text: StringName = "Current Interact Mode: "
 
 
 var message_timer: float = 0
+var unlock_message_timer: float = 0
 
 # Camera
 # var camera_area: CameraArea
@@ -15,6 +16,7 @@ var camera_speed: float = 400
 var camera_cooldown: float = 0
 var camera_max_cooldown: float = 0.5
 
+var camera_unlocked: bool = false
 var camera_invalid: bool = false
 
 # Notifs
@@ -50,10 +52,18 @@ var ending_fading_out: bool = false
 @export var step_sound_grass: AudioStream
 @export var step_sound_indoors: AudioStream
 
+@export var shake_sound: AudioStream
+
 @export_group("")
+
+# Animation
+@onready var player_animation_player: AnimationPlayer = $PlayerContainer/PlayerContainer2/Sprite2D/AnimationPlayer
 
 # Tutorial stuff
 var walk_distance: float = 0
+
+# Boss stuff (this shouldn't be necessary but we're doing it anyways)
+var play_footsteps: bool = false
 
 # Dialogue Box
 @onready var dialogue_box: DialogueBox = $DialogueBox
@@ -105,7 +115,13 @@ func _process(delta: float) -> void:
 			$UpdateLabel.text = ""
 			message_timer = 0
 			$Popup.visible = false
-			$UpdateLabel.label_settings.font_color = Color(0.635, 0.998, 0.934)
+	
+	# Handling text
+	if unlock_message_timer > 0:
+		unlock_message_timer -= delta
+		if unlock_message_timer <= 0:
+			unlock_message_timer = 0
+			$Popup/AnimationPlayer.play("popup_slide_out")
 	
 	# Handling fade out/in
 	if fading_out:
@@ -198,13 +214,15 @@ func _process(delta: float) -> void:
 					ClickedFood.emit(camera.get_global_mouse_position())
 			GameState.INTERACT_MODES.HORN:
 				HornSounded.emit()
-				play_sound(horn_sound)
+				$HornAudioStreamPlayer.play()
+				# play_sound(horn_sound)
 				if GameState.horn_sounded:
 					if not GameState.boss_active and GameState.boss_ever_summoned:
 						BossFightStarted.emit()
 						update_message("Something is coming...")
 				else:
 					GameState.horn_sounded = true
+					play_footsteps = true
 					$QuestHandler.check_new_availability() # Update quest line
 					print("Horn sounded")
 					update_message("Something is coming... Check the Quest Log!")
@@ -255,13 +273,24 @@ func _physics_process(delta: float) -> void:
 	if velocity.length() > 0:
 		# Normalize the movement direction vector
 		velocity = velocity.normalized() * camera_speed
-		if not $WalkStreamPlayer.playing:
-			$WalkStreamPlayer.play()
+		#if not $WalkStreamPlayer.playing:
+			#$WalkStreamPlayer.play()
+		
+		# TODO: Implement walk animation, make it look good
+		if not player_animation_player.is_playing():
+			if randi_range(1, 2) == 1:
+				player_animation_player.play("walk")
+			else:
+				player_animation_player.play("walk_2")
+		
+		
 			
 		# Handle tutorial
 		if GameState.tutorial_mode and GameState.tutorial_stage == 0:
 			TutorialWalkUpdate.emit(delta)
 			
+	#else:
+		#player_animation_player.stop()
 	#elif $WalkStreamPlayer.playing:
 		#$WalkStreamPlayer.stop()
 	
@@ -319,12 +348,15 @@ func open_journal() -> void:
 	$Journal.toggle_opened()
 	toggle_journal_notif(false)
 	$Journalnotif/Label.visible = false
+	$Journalnotif/Label.text = "New info unlocked - check the Journal! (E)" # TODO: Less hacky way to rever journal text
 	
 func change_journal_page(forward: bool) -> void:
 	$Journal.change_page(forward)
 	
 func on_state_found(creature_type: StringName, state: StringName, times_found: int) -> void:
 	print("On state found")
+	if $Journal.is_new_creature(creature_type):
+		$Journalnotif/Label.text = "New creature discovered - check the Journal! (E)"
 	$Journal.on_state_found(creature_type, state, times_found)
 	if times_found == 1 or times_found == 5 or times_found == 10:
 		toggle_journal_notif(true)
@@ -332,6 +364,7 @@ func on_state_found(creature_type: StringName, state: StringName, times_found: i
 		$JournalAnimPlayer.play("JournalNotifBounce")
 		play_sound(notif_sound)
 	
+
 func change_mode(mode: int) -> void:
 	
 	var prev_mode = GameState.mode
@@ -400,6 +433,12 @@ func update_message(message: String) -> void:
 		$UpdateLabel.text = message
 		message_timer = 5
 
+func update_popup_message(message: String) -> void:
+	# Show new message and reset message timer, unless the popup is visible
+	# TODO: Maybe just keep the two message types separate?
+	$Popup/UnlockLabel.text = message
+	unlock_message_timer = 3
+
 func update_interact_highlights() -> void:
 	if GameState.mode == GameState.INTERACT_MODES.CHECK:
 		$CameraArea.set_interact_marker_visible(false)
@@ -429,14 +468,17 @@ func interact_mode_unlocked(mode: GameState.INTERACT_MODES) -> void:
 			mode_name = "Drag"
 		GameState.INTERACT_MODES.HORN:
 			mode_name = "Ancient Horn"
-	update_message("Great work, researcher!\nNew interact mode unlocked: " + mode_name + "! (Q)")
+	update_popup_message("Great work, researcher!\nNew interact mode unlocked: " + mode_name + "! (Q)")
 	$FanfareAudioStreamPlayer.play()
-	$UpdateLabel.label_settings.font_color = Color(0.992, 0.887, 0.521)
-	$Popup.visible = true
+	$Popup/AnimationPlayer.play("popup_slide_in")
 	$InteractBar.unlock_interact_mode(mode)
 
-func toggle_rain_overlay() -> void:
-	$RainingEffect.visible = (not $RainingEffect.visible)
+func toggle_rain_overlay(val: bool) -> void:
+	if val:
+		$RainAnimationPlayer.play("rain_fade_in")
+	else:
+		$RainAnimationPlayer.play("rain_fade_out")
+	# $RainingEffect.visible = (not $RainingEffect.visible)
 	
 # Audio
 
@@ -484,13 +526,30 @@ func advance_text() -> void:
 		return
 	
 	if current_dialogue[dialogue_line] == "SHAKEEVENT":
-		ShakeEvent.emit()
 		event_active = true
+		camera_shake(0.5)
 		return
 		
 	dialogue_box.set_text(current_dialogue[dialogue_line])
 	
 
+func camera_shake(multiplier: float) -> void:
+	$Camera2D.apply_shake(multiplier)
+	play_sound(shake_sound)
+	await get_tree().create_timer(1.5).timeout
+	event_finished()
+	
+func camera_shake_multi(multiplier: float) -> void:
+	$Camera2D.apply_shake(multiplier)
+	play_sound(shake_sound)
+	await get_tree().create_timer(1.5).timeout
+	$Camera2D.apply_shake(multiplier)
+	play_sound(shake_sound)
+	await get_tree().create_timer(1.5).timeout
+	$Camera2D.apply_shake(multiplier)
+	play_sound(shake_sound)
+	await get_tree().create_timer(1.5).timeout
+	
 # Events
 func event_finished() -> void:
 	event_active = false
@@ -501,17 +560,22 @@ func event_finished() -> void:
 func toggle_journal_notif(active: bool) -> void:
 	if active:
 		$Journalnotif/JournalIcon.texture = journal_notif_on_sprite
+		$Journalnotif/JournalIcon.modulate.a = 1.0
 	else:
 		$Journalnotif/JournalIcon.texture = journal_notif_off_sprite
+		$Journalnotif/JournalIcon.modulate.a = 0.5
 
 func toggle_quest_notif(active: bool) -> void:
 	if active:
 		$Questnotif/QuestIcon.texture = quest_notif_on_sprite
+		$Questnotif/QuestIcon.modulate.a = 1.0
 	else:
 		$Questnotif/QuestIcon.texture = quest_notif_off_sprite
+		$Questnotif/QuestIcon.modulate.a = 0.5
 
 # Tutorial
 func show_camera_crosshair() -> void:
+	camera_unlocked = true
 	$CameraArea.set_camera_crosshair_visible(true)
 	
 # Transitions (Fade)
@@ -586,11 +650,17 @@ func _on_quest_handler_quest_menu_opened() -> void:
 	$Questnotif/Label.visible = false
 
 
-func _on_walk_stream_player_finished() -> void:
+#func _on_walk_stream_player_finished() -> void:
+	#print("Finished")
+	#if velocity.length() > 0:
+		#$WalkStreamPlayer.pitch_scale = randf_range(0.8, 1.0) # Randomize pitch slightly
+		#$WalkStreamPlayer.play()
+
+func step_noise() -> void:
 	print("Finished")
 	if velocity.length() > 0:
 		$WalkStreamPlayer.pitch_scale = randf_range(0.8, 1.0) # Randomize pitch slightly
-		# $WalkStreamPlayer.play()
+		$WalkStreamPlayer.play()
 
 
 func _on_journal_tutorial_close() -> void:
@@ -611,22 +681,22 @@ func _on_quest_handler_quest_started(quest: Quest) -> void:
 		BossFightStarted.emit()
 
 
-func _on_interact_bar_interact_bar_mouse_entered() -> void:
-	$CameraArea.set_camera_crosshair_visible(false)
-	camera_invalid = true
-
-
-func _on_interact_bar_interact_bar_mouse_exited() -> void:
-	$CameraArea.set_camera_crosshair_visible(true)
-	camera_invalid = false
-
-
 func _on_camera_area_toggle_photo_mode(val: bool) -> void:
 	# Toggling ability to use camera
 	# TODO: This is so so gross find a better way to do it please
+	if not camera_unlocked:
+		return
+		
 	if val:
 		$CameraArea.set_camera_crosshair_visible(true)
 		camera_invalid = false
 	else:
 		$CameraArea.set_camera_crosshair_visible(false)
 		camera_invalid = true
+
+func _on_horn_audio_stream_player_finished() -> void:
+	print("Audio stream finished!")
+	# Hacky way to get the shaking to happen only once
+	if play_footsteps:
+		play_footsteps = false
+		camera_shake_multi(0.5)

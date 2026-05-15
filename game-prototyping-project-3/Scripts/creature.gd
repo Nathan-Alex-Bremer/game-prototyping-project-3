@@ -26,9 +26,12 @@ var is_poisoned: bool = false
 var poison_damage_timer: float = 0
 var poison_ticks_remaining: int = 0
 
+# References
 var detect_radius: Area2D
 var eat_radius: Area2D
 var state_machine: StateMachine
+
+var animation_player: AnimationPlayer
 
 var time_passed: float = 0
 
@@ -66,6 +69,7 @@ func _ready() -> void:
 	detect_radius = $DetectRadius
 	eat_radius = $EatRadius
 	state_machine = $StateMachine # Very hacky and gross way to allow state access
+	animation_player = $Sprite2D/AnimationPlayer
 	
 	$StateMachine.connect("state_changed", on_state_changed)
 	
@@ -139,6 +143,7 @@ func _physics_process(delta: float) -> void:
 	if is_dragging and not GameState.in_interact_range and GameState.mode == GameState.INTERACT_MODES.DRAG:
 		is_dragging = false
 		play_sound(place_sound)
+		animation_player.play("place_down")
 	
 	## Reverse x-value movement if going out of bounds
 	#if position.x >= GameState.screen_size.x or position.x <= 0:
@@ -156,6 +161,7 @@ func _physics_process(delta: float) -> void:
 	
 	if velocity.length() > 0:
 		if not $WalkAudioStreamPlayer2D.playing and not is_dragging:
+			audio_player.pitch_scale = randf_range(0.85, 1.15) # Randomize pitch slightly
 			$WalkAudioStreamPlayer2D.play()
 	
 
@@ -285,6 +291,9 @@ func change_visibility(val: bool) -> void:
 
 func change_label_color(val: Color) -> void:
 	$StateLabel.modulate = val
+	
+func play_animation(anim_name: StringName) -> void:
+	animation_player.play(anim_name)
 
 # Way for the player to give a signal to creatures
 func send_signal(signal_type: StringName, signal_sender: Node2D) -> void:
@@ -359,6 +368,7 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 		if GameState.mode != GameState.INTERACT_MODES.DRAG:
 			if is_dragging: 
 				play_sound(place_sound)
+				animation_player.play("place_down")
 			is_dragging = false
 			# Set and play sound
 		
@@ -376,6 +386,7 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 					print("Mode is check")
 					GameState.selected_creature = self
 					SelectedForCheck.emit()
+					animation_player.play("check")
 					
 					# Set and play sound
 					play_sound(check_sound)
@@ -391,6 +402,7 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 					blackboard.is_pet = true
 					
 					# Set and play sound
+					animation_player.play("pet")
 					play_sound(pet_sound)
 			
 			GameState.INTERACT_MODES.POKE:
@@ -404,6 +416,7 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 					blackboard.is_poked = true
 					
 					# Set and play sound
+					animation_player.play("poke")
 					play_sound(poke_sound)
 			
 			GameState.INTERACT_MODES.DRAG:
@@ -415,6 +428,7 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 					play_sound(pickup_sound)
 				else:
 					play_sound(place_sound)
+					animation_player.play("place_down")
 			
 
 func _on_detect_radius_area_entered(area: Area2D) -> void:

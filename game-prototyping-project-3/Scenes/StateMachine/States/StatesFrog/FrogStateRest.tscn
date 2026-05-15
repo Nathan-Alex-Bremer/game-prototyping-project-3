@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://cyifrbxox3tsh"]
+[gd_scene load_steps=17 format=3 uid="uid://cyifrbxox3tsh"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_kdd30"]
 [ext_resource type="Texture2D" uid="uid://nydepep67227" path="res://Art/FrogStates/FrogRest.png" id="2_aihbf"]
 [ext_resource type="Script" uid="uid://csf0oi2tevhan" path="res://Scripts/StateMachine/Actions/a_set_wants_to_play.gd" id="3_7ms2o"]
+[ext_resource type="Script" uid="uid://bcpudam8u5nle" path="res://Scripts/StateMachine/Actions/a_play_anim.gd" id="4_gtgd8"]
 [ext_resource type="Script" uid="uid://dq3xm51g267od" path="res://Scripts/StateMachine/Actions/a_change_food_delta.gd" id="7_0ll8t"]
 [ext_resource type="Script" uid="uid://c544yfe00a2d1" path="res://Scripts/StateMachine/Actions/a_change_feisty_delta.gd" id="8_80x18"]
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="9_bakao"]
@@ -20,7 +21,7 @@
 script = ExtResource("1_kdd30")
 simple_name = &"Rest"
 sprite = ExtResource("2_aihbf")
-enter_actions = [NodePath("EnterActions/ASetWantsToPlay")]
+enter_actions = [NodePath("EnterActions/ASetWantsToPlay"), NodePath("EnterActions/APlayAnim")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AChangeHitPoints")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
 transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionWakeUp")]
@@ -32,6 +33,11 @@ metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 script = ExtResource("3_7ms2o")
 val = false
 metadata/_custom_type_script = "uid://csf0oi2tevhan"
+
+[node name="APlayAnim" type="Node" parent="EnterActions"]
+script = ExtResource("4_gtgd8")
+anim_name = &"pet"
+metadata/_custom_type_script = "uid://bcpudam8u5nle"
 
 [node name="ExitActions" type="Node" parent="."]
 

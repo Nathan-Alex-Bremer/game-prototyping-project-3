@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://1lgl4gwtdh4n"]
+[gd_scene load_steps=21 format=3 uid="uid://1lgl4gwtdh4n"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_84hnd"]
 [ext_resource type="Texture2D" uid="uid://hf8o4ldks2hj" path="res://Art/PlantCreatureStates/PlantCreaturePoison.png" id="2_cxpd2"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cbfb1foxoxepf" path="res://Scripts/StateMachine/Actions/a_change_tired_delta.gd" id="6_m2eac"]
 [ext_resource type="AudioStream" uid="uid://cbuxyaj7pstua" path="res://Audio/SFX/Creature/PlantCreaturePoisonDust.wav" id="7_4vo4v"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="7_tvlb6"]
+[ext_resource type="Script" uid="uid://bcpudam8u5nle" path="res://Scripts/StateMachine/Actions/a_play_anim.gd" id="8_aog3y"]
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="8_jsh3u"]
 [ext_resource type="Script" uid="uid://b3w7121qva7qq" path="res://Scripts/StateMachine/Actions/a_reduce_food_timer.gd" id="9_cxpd2"]
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="9_kcxs2"]
@@ -24,7 +25,7 @@
 script = ExtResource("1_84hnd")
 simple_name = &"Poison Dust"
 sprite = ExtResource("2_cxpd2")
-enter_actions = [NodePath("EnterActions/APoisonAttack"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetSignal"), NodePath("EnterActions/APlaySound")]
+enter_actions = [NodePath("EnterActions/APoisonAttack"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetSignal"), NodePath("EnterActions/APlaySound"), NodePath("EnterActions/APlayAnim")]
 exit_actions = [NodePath("ExitActions/ASetSignal")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime"), NodePath("UpdateActions/AReduceFoodTimer"), NodePath("UpdateActions/AReducePoisonTimer")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -52,6 +53,11 @@ metadata/_custom_type_script = "uid://bukx1pqnbhomw"
 script = ExtResource("6_3ek33")
 sound = ExtResource("7_4vo4v")
 metadata/_custom_type_script = "uid://b6cg8y7eergbq"
+
+[node name="APlayAnim" type="Node" parent="EnterActions"]
+script = ExtResource("8_aog3y")
+anim_name = &"hurt"
+metadata/_custom_type_script = "uid://bcpudam8u5nle"
 
 [node name="ExitActions" type="Node" parent="."]
 

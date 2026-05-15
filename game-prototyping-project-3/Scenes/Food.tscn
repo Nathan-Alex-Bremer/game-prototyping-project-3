@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://pc8elxh64c3m"]
+[gd_scene load_steps=10 format=3 uid="uid://pc8elxh64c3m"]
 
 [ext_resource type="Script" uid="uid://chaawf5vkc1g1" path="res://Scripts/food.gd" id="1_qly5w"]
 [ext_resource type="Texture2D" uid="uid://bxyp5juvddnw1" path="res://Art/fruit.png" id="2_qly5w"]
@@ -40,10 +40,26 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, -100), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_v04v2"]
+resource_name = "bounce_small"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.35),
+"transitions": PackedFloat32Array(0.535887, 2.21914, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -50), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v04v2"]
 _data = {
 &"RESET": SubResource("Animation_xfwcl"),
-&"bounce": SubResource("Animation_k1agc")
+&"bounce": SubResource("Animation_k1agc"),
+&"bounce_small": SubResource("Animation_v04v2")
 }
 
 [node name="Food" type="Area2D" groups=["food"]]

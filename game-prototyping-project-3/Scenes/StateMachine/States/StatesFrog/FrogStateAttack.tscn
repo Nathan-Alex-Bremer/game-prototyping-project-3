@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://bftucumagyjve"]
+[gd_scene load_steps=25 format=3 uid="uid://bftucumagyjve"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_sdr04"]
 [ext_resource type="Texture2D" uid="uid://dd10t6nn5ql1i" path="res://Art/FrogStates/FrogAttackNT.png" id="2_sdr04"]
@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://brsbrrh34q87t" path="res://Audio/SFX/Creature/FrogEat1.wav" id="7_0mhs4"]
 [ext_resource type="Script" uid="uid://ckuqr2gv4efpk" path="res://Scripts/StateMachine/Actions/a_reduce_wait_time.gd" id="7_fsmi1"]
 [ext_resource type="Script" uid="uid://cnqboljrughfj" path="res://Scripts/StateMachine/Actions/a_velocity_zero.gd" id="8_0mhs4"]
+[ext_resource type="Script" uid="uid://bcpudam8u5nle" path="res://Scripts/StateMachine/Actions/a_play_anim.gd" id="8_j6to3"]
 [ext_resource type="Script" uid="uid://cmse6ha62ltgm" path="res://Scripts/StateMachine/sm_transition.gd" id="9_j6to3"]
 [ext_resource type="Script" uid="uid://cbq20o6y4ae31" path="res://Scripts/StateMachine/Conditions/c_is_stunned.gd" id="10_usnab"]
 [ext_resource type="Script" uid="uid://b3sg64keruhqm" path="res://Scripts/StateMachine/Conditions/c_wait_time_zero.gd" id="11_ampnw"]
@@ -28,7 +29,7 @@
 script = ExtResource("1_sdr04")
 simple_name = &"Attack"
 sprite = ExtResource("2_sdr04")
-enter_actions = [NodePath("EnterActions/AAttack"), NodePath("EnterActions/ASetFrogTongue"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/APlaySound")]
+enter_actions = [NodePath("EnterActions/AAttack"), NodePath("EnterActions/ASetFrogTongue"), NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/APlaySound"), NodePath("EnterActions/APlayAnim")]
 exit_actions = [NodePath("ExitActions/AHideFrogTongue")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
@@ -56,6 +57,11 @@ metadata/_custom_type_script = "uid://cafro0rhn1fr4"
 script = ExtResource("6_fsmi1")
 sound = ExtResource("7_0mhs4")
 metadata/_custom_type_script = "uid://b6cg8y7eergbq"
+
+[node name="APlayAnim" type="Node" parent="EnterActions"]
+script = ExtResource("8_j6to3")
+anim_name = &"pet"
+metadata/_custom_type_script = "uid://bcpudam8u5nle"
 
 [node name="ExitActions" type="Node" parent="."]
 
