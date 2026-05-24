@@ -50,6 +50,15 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	$Flash.modulate.a = lerp($Flash.modulate.a, 0.0, 0.03)
 	pass
+	
+func reset_state() -> void:
+	current_quest = null
+	selected_quest = null
+	final_reward_tease = false
+	complete = false
+	
+	for quest in quest_list:
+		quest.reset_state()
 
 func toggle_quest_menu() -> void:
 	# TODO: Ugly! Figure out a better way to do this!
@@ -156,7 +165,8 @@ func show_complete_quest() -> void:
 	$QuestComplete/Reward.text = current_quest.reward_desc
 	$QuestComplete/Thanks.text = current_quest.reward_thanks
 	$QuestComplete.visible = true
-	$Flash.modulate.a = 0.6
+	if not GameState.flash_disabled:
+		$Flash.modulate.a = 0.6
 	play_sound(quest_complete_sound, 2)
 	GameState.completed_quests += 1 # Keep track of number of ompleted quests
 	

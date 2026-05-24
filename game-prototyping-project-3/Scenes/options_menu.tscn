@@ -1,0 +1,290 @@
+[gd_scene load_steps=15 format=3 uid="uid://da8ebttybbxs3"]
+
+[ext_resource type="Script" uid="uid://s4yd4rxx1loo" path="res://Scripts/options_menu.gd" id="1_uj0ok"]
+[ext_resource type="Texture2D" uid="uid://u6a3i0jr7isp" path="res://Art/Menu/options_credits_menu.png" id="2_l1wg4"]
+[ext_resource type="Texture2D" uid="uid://djnm22liw6u2p" path="res://Art/Menu/menu_button_small.png" id="3_inh3s"]
+[ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_qfavn"]
+[ext_resource type="LabelSettings" uid="uid://b2qj5pa1jm07o" path="res://Scenes/Quest/menu_title_label_settings.tres" id="4_inh3s"]
+[ext_resource type="FontFile" uid="uid://cyh8m3aecu1mu" path="res://Fonts/lazy_dog.ttf" id="4_syw6n"]
+[ext_resource type="LabelSettings" uid="uid://ckfxrvijyuu5t" path="res://Scenes/Quest/journal_title_label_settings.tres" id="6_cvaji"]
+[ext_resource type="AudioStream" uid="uid://dg04ap5j5oe4q" path="res://Audio/SFX/UI/Click Wall_Light_Double_Switch_Off-004.wav" id="8_syw6n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1ndqe"]
+font = ExtResource("4_syw6n")
+font_size = 28
+outline_size = 2
+
+[sub_resource type="LabelSettings" id="LabelSettings_rf7jh"]
+font = ExtResource("4_syw6n")
+font_size = 22
+outline_size = 2
+
+[sub_resource type="Animation" id="Animation_qi2ec"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_j4761"]
+resource_name = "slide_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.3),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector2(0, 650), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_fpnky"]
+resource_name = "slide_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 650)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g2ld1"]
+_data = {
+&"RESET": SubResource("Animation_qi2ec"),
+&"slide_in": SubResource("Animation_j4761"),
+&"slide_out": SubResource("Animation_fpnky")
+}
+
+[node name="OptionsMenuScene" type="Node2D"]
+process_mode = 3
+visible = false
+modulate = Color(1, 1, 1, 0)
+z_index = 120
+script = ExtResource("1_uj0ok")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("2_l1wg4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.237, 0.118, 0.083, 0.536)
+position = Vector2(-175, -73)
+scale = Vector2(0.248264, 0.169753)
+texture = ExtResource("3_qfavn")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+self_modulate = Color(0.237, 0.118, 0.083, 0.536)
+position = Vector2(177, -73)
+scale = Vector2(0.248264, 0.169753)
+texture = ExtResource("3_qfavn")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+self_modulate = Color(0.237, 0.118, 0.083, 0.536)
+position = Vector2(-218.5, 73)
+scale = Vector2(0.172743, 0.169753)
+texture = ExtResource("3_qfavn")
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+self_modulate = Color(0.237, 0.118, 0.083, 0.536)
+position = Vector2(1, 73)
+scale = Vector2(0.172743, 0.169753)
+texture = ExtResource("3_qfavn")
+
+[node name="Sprite2D5" type="Sprite2D" parent="."]
+self_modulate = Color(0.237, 0.118, 0.083, 0.536)
+position = Vector2(220, 73)
+scale = Vector2(0.172743, 0.169753)
+texture = ExtResource("3_qfavn")
+
+[node name="VolumeBGM" type="HSlider" parent="."]
+offset_left = -311.0
+offset_top = -66.0
+offset_right = -47.0
+offset_bottom = -50.0
+min_value = 0.01
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="Label" type="Label" parent="VolumeBGM"]
+layout_mode = 0
+offset_left = -9.0
+offset_top = -44.0
+offset_right = 271.0
+offset_bottom = -7.0
+text = "BGM VOLUME"
+label_settings = SubResource("LabelSettings_1ndqe")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VolumeSFX" type="HSlider" parent="."]
+offset_left = 44.0
+offset_top = -66.0
+offset_right = 308.0
+offset_bottom = -50.0
+min_value = 0.01
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="Label" type="Label" parent="VolumeSFX"]
+layout_mode = 0
+offset_left = -9.0
+offset_top = -44.0
+offset_right = 271.0
+offset_bottom = -7.0
+text = "SFX VOLUME"
+label_settings = SubResource("LabelSettings_1ndqe")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HighContrastButton" type="CheckBox" parent="."]
+offset_left = -231.0
+offset_top = 85.0
+offset_right = -207.0
+offset_bottom = 109.0
+
+[node name="Label" type="Label" parent="HighContrastButton"]
+layout_mode = 0
+offset_left = -82.0
+offset_top = -48.0
+offset_right = 105.0
+offset_bottom = 1.0
+text = "HIGH CONTRAST MODE"
+label_settings = SubResource("LabelSettings_rf7jh")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="DyslexicModeButton" type="CheckBox" parent="."]
+offset_left = -12.0
+offset_top = 85.0
+offset_right = 12.0
+offset_bottom = 109.0
+
+[node name="Label" type="Label" parent="DyslexicModeButton"]
+layout_mode = 0
+offset_left = -96.0
+offset_top = -48.0
+offset_right = 120.0
+offset_bottom = -11.0
+text = "DYSLEXIC MODE"
+label_settings = SubResource("LabelSettings_rf7jh")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DisableFlashButton" type="CheckBox" parent="."]
+offset_left = 214.0
+offset_top = 85.0
+offset_right = 238.0
+offset_bottom = 116.0
+
+[node name="Label" type="Label" parent="DisableFlashButton"]
+layout_mode = 0
+offset_left = -96.0
+offset_top = -48.0
+offset_right = 120.0
+offset_bottom = -11.0
+text = "DISABLE FLASH"
+label_settings = SubResource("LabelSettings_rf7jh")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Button" parent="."]
+offset_left = -161.0
+offset_top = 162.0
+offset_right = 160.0
+offset_bottom = 235.0
+icon = ExtResource("3_inh3s")
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="BackButton"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 21.0
+offset_right = 300.0
+offset_bottom = 58.0
+text = "BACK"
+label_settings = ExtResource("6_cvaji")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label" type="Label" parent="."]
+z_index = 60
+offset_left = -111.0
+offset_top = -210.0
+offset_right = 111.0
+offset_bottom = -149.0
+text = "OPTIONS"
+label_settings = ExtResource("4_inh3s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_g2ld1")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_syw6n")
+max_polyphony = 2
+bus = &"World SFX"
+
+[connection signal="drag_ended" from="VolumeBGM" to="." method="_on_volume_bgm_drag_ended"]
+[connection signal="drag_ended" from="VolumeSFX" to="." method="_on_volume_sfx_drag_ended"]
+[connection signal="toggled" from="HighContrastButton" to="." method="_on_high_contrast_button_toggled"]
+[connection signal="toggled" from="DyslexicModeButton" to="." method="_on_dyslexic_mode_button_toggled"]
+[connection signal="toggled" from="DisableFlashButton" to="." method="_on_disable_flash_button_toggled"]
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

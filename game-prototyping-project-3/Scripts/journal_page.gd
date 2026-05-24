@@ -15,6 +15,11 @@ signal slide_out_complete()
 
 func _ready() -> void:
 	animation_player.connect("animation_finished", on_animation_finished)
+	
+func reset_state() -> void:
+	found_states_creature = 0
+	progress = 0
+	completion_star.visible = false
 
 func on_state_found(found_state: StringName, times_found: int) -> void:
 	pass

@@ -3,6 +3,18 @@ extends Node2D
 class_name Journal
 
 var progress: float = 0
+
+# Instantiating journal page scenes, so resetting is easier
+var reference_page = preload("res://Scenes/JournalPageReference.tscn")
+var creature_page = preload("res://Scenes/JournalPageCreature.tscn")
+var predator_page = preload("res://Scenes/JournalPagePredator.tscn")
+var plantcreature_page = preload("res://Scenes/JournalPagePlantCreature.tscn")
+var frog_page = preload("res://Scenes/JournalPageFrog.tscn")
+var bird_page = preload("res://Scenes/JournalPageBird.tscn")
+var boss_page = preload("res://Scenes/JournalPageBoss.tscn")
+
+var tutorialcreature_page = preload("res://Scenes/JournalPageTutorialCreature.tscn")
+
 @export var pages: Dictionary[StringName, Node]
 var page_names: Array[StringName] # This is so dumb and so ugly
 var active_page: int = 0
@@ -22,12 +34,32 @@ var open = false
 @export var close_journal_sound: AudioStream
 @export var change_page_sound: AudioStream
 
+
+
 # Signals
 
 signal tutorial_close()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	pages["Reference"] = reference_page.instantiate()
+	call_deferred("add_child", pages["Reference"])
+	pages["Creature"] = creature_page.instantiate()
+	call_deferred("add_child", pages["Creature"])
+	pages["Predator"] = predator_page.instantiate()
+	call_deferred("add_child", pages["Predator"])
+	pages["PlantCreature"] = plantcreature_page.instantiate()
+	call_deferred("add_child", pages["PlantCreature"])
+	pages["Frog"] = frog_page.instantiate()
+	call_deferred("add_child", pages["Frog"])
+	pages["Bird"] = bird_page.instantiate()
+	call_deferred("add_child", pages["Bird"])
+	pages["Boss"] = boss_page.instantiate()
+	call_deferred("add_child", pages["Boss"])
+	
+	tutorial_page = tutorialcreature_page.instantiate()
+	call_deferred("add_child", tutorial_page)
+	
 	# GameState.connect("StateFound", on_state_found)
 	# Building out our list of pages to iterate around
 	#for page in pages:
@@ -44,6 +76,32 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
+func reset_state() -> void:
+	progress = 0
+	
+	active_page = 0
+	open = false
+	
+	# Reset all pages
+	pages.clear()
+	pages["Reference"] = reference_page.instantiate()
+	call_deferred("add_child", pages["Reference"])
+	pages["Creature"] = creature_page.instantiate()
+	call_deferred("add_child", pages["Creature"])
+	pages["Predator"] = predator_page.instantiate()
+	call_deferred("add_child", pages["Predator"])
+	pages["PlantCreature"] = plantcreature_page.instantiate()
+	call_deferred("add_child", pages["PlantCreature"])
+	pages["Frog"] = frog_page.instantiate()
+	call_deferred("add_child", pages["Frog"])
+	pages["Bird"] = bird_page.instantiate()
+	call_deferred("add_child", pages["Bird"])
+	pages["Boss"] = boss_page.instantiate()
+	call_deferred("add_child", pages["Boss"])
+	
+	tutorial_page = tutorialcreature_page.instantiate()
+	call_deferred("add_child", tutorial_page)
 
 func on_state_found(creature_type: StringName, found_state: StringName, times_found: int) -> void:
 	

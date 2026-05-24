@@ -42,6 +42,7 @@ func _ready() -> void:
 	player.connect("BossFightStarted", on_boss_fight_started)
 	player.connect("BossSatisfied", on_boss_satisfied)
 	player.connect("BossQuestComplete", on_boss_quest_complete)
+	player.connect("quit_to_menu", on_quit_to_menu)
 	# player.connect_camera_area(camera_area)
 	
 	# Add newly created player as player node if starting in base scene (for testing purposes)
@@ -381,3 +382,6 @@ func on_boss_quest_complete() -> void:
 			creature.set_quest_completed()
 		else:
 			creature.set_celebrate(true)
+
+func on_quit_to_menu() -> void:
+	GameState.change_scene("main_menu_scene")

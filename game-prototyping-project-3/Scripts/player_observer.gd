@@ -94,6 +94,8 @@ signal BossFightStarted() # For when the boss fight quest is begun/the game need
 signal BossSatisfied() # For when the boss fight quest is begun/the game needs to spawn a Boss
 signal BossQuestComplete() # For when the boss fight quest is begun/the game needs to spawn a Boss
 
+signal quit_to_menu() # For quitting to menu
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -103,6 +105,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# Update flash
+	
 	$CameraArea.get_flash().modulate.a = lerp($CameraArea.get_flash().modulate.a, 0.0, 0.03)
 	
 	if camera_cooldown > 0:
@@ -150,6 +153,7 @@ func _process(delta: float) -> void:
 		print("Pausing!")
 		$PauseMenu.visible = true
 		$PauseMenu.accept_input = false
+		$PauseMenu.on_pause()
 		get_tree().paused = true
 		return
 	
@@ -230,6 +234,9 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("open_journal"):
 		if GameState.player_in_quest_menu or GameState.dialogue_open:
 			return
+			
+		if GameState.tutorial_mode and GameState.tutorial_stage < 3:
+			return
 		# OpenJournal.emit()
 		open_journal()
 		GameState.player_in_journal = not (GameState.player_in_journal)
@@ -301,10 +308,24 @@ func _physics_process(delta: float) -> void:
 #func connect_camera_area(cam: CameraArea) -> void:
 	#camera_area = cam
 
+func reset_state() -> void:
+	ending_queued = false
+	ending = false
+	ending_fading_out = false
+	
+	walk_distance = 0
+	play_footsteps = false
+	
+	event_active = false
+	
+	$QuestHandler.reset_state()
+	$Journal.reset_state()
+	
 func capture_creature_states() -> void:
 	
 	# Start camera flash effect
-	$CameraArea.get_flash().modulate.a = 0.5
+	if not GameState.flash_disabled:
+		$CameraArea.get_flash().modulate.a = 0.5
 	$CameraAudioStreamPlayer.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightlyautoplay
 	$CameraAudioStreamPlayer.play()
 	
@@ -608,6 +629,14 @@ func fade_in(delta: float) -> void:
 		# signal
 	else:
 		$Flash.modulate.a -= delta
+
+# Visuals
+func toggle_high_contrast(val: bool) -> void:
+	print("Toggle high contrast")
+	if val:
+		$Contrast/ColorRect.set_shader_parameter("contrast", 0.5)
+	else:
+		$Contrast/ColorRect.set_shader_parameter("contrast", 0.0)
 		
 
 # Ending
@@ -703,3 +732,22 @@ func _on_horn_audio_stream_player_finished() -> void:
 	if play_footsteps:
 		play_footsteps = false
 		camera_shake_multi(0.5)
+
+func _on_pause_menu_exit_button_pressed() -> void:
+	quit_to_menu.emit()
+
+func toggle_dyslexic_mode(val: bool) -> void:
+	
+	# NOT WORKING! WHY!
+	if val:
+		var id: int = 0
+		for child in find_children("", "Label", true, true):
+			if child is Label:
+				print(str(id))
+				id += 1
+				child.add_theme_font_override("font", load("res://Fonts/OpenDyslexic-Regular.otf"))
+
+	else:
+		for child in find_children("", "Label", true, true):
+			if child is Label:
+				child.add_theme_font_override("font", load("res://Fonts/lazy_dog.ttf"))

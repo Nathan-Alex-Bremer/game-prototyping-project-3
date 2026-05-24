@@ -233,6 +233,7 @@ y_sort_enabled = true
 collision_mask = 2
 input_pickable = true
 script = ExtResource("1_s16ri")
+feisty = 5.0
 move_speed = 50.0
 friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Boss"])
 predator_types = Array[StringName]([&"Predator"])

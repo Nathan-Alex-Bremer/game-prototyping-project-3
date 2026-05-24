@@ -1,54 +1,20 @@
-[gd_scene load_steps=16 format=3 uid="uid://0wnkaj8ql8"]
+[gd_scene load_steps=8 format=3 uid="uid://0wnkaj8ql8"]
 
 [ext_resource type="Script" uid="uid://b6jow321w1c36" path="res://Scripts/journal.gd" id="1_a6r1n"]
-[ext_resource type="PackedScene" uid="uid://celi5uju0h446" path="res://Scenes/JournalPageCreature.tscn" id="2_gmf2j"]
 [ext_resource type="AudioStream" uid="uid://c0l2tqbwvoo0h" path="res://Audio/SFX/Notif/ballpoint_pen_4.wav" id="2_jta6q"]
 [ext_resource type="AudioStream" uid="uid://dcd13710308g3" path="res://Audio/SFX/Journal/JournalOpen ORGANIC Paper Book Page Turn Short 02.wav" id="3_jta6q"]
-[ext_resource type="PackedScene" uid="uid://w6v1vlxctcit" path="res://Scenes/JournalPagePredator.tscn" id="3_s52y6"]
-[ext_resource type="PackedScene" uid="uid://ctj630glflkqv" path="res://Scenes/JournalPagePlantCreature.tscn" id="4_eulif"]
 [ext_resource type="AudioStream" uid="uid://blu4rjx28bmui" path="res://Audio/SFX/Journal/JournalClose a4_sheet_page_sliding_001.wav" id="4_jta6q"]
 [ext_resource type="AudioStream" uid="uid://qmx12cwp3csb" path="res://Audio/SFX/Journal/JournalChangePage Page_Turn_14.wav" id="5_jta6q"]
-[ext_resource type="PackedScene" uid="uid://bqmjf8o4ehnwf" path="res://Scenes/JournalPageBird.tscn" id="5_xs0aa"]
-[ext_resource type="PackedScene" uid="uid://cxdoj2gxpp7oh" path="res://Scenes/JournalPageReference.tscn" id="6_fukfx"]
-[ext_resource type="PackedScene" uid="uid://cvwhppgvqv1r5" path="res://Scenes/JournalPageFrog.tscn" id="6_l8ppr"]
-[ext_resource type="PackedScene" uid="uid://do2kdqf4m56wk" path="res://Scenes/JournalPageBoss.tscn" id="12_45ywv"]
-[ext_resource type="PackedScene" uid="uid://40iydg3oiusc" path="res://Scenes/JournalPageTutorialCreature.tscn" id="12_ag7jj"]
 [ext_resource type="Texture2D" uid="uid://bkwnxjtw024w4" path="res://Art/leftarrow.png" id="14_cufke"]
 [ext_resource type="Texture2D" uid="uid://bletic6rvwhky" path="res://Art/rightarrow.png" id="15_wi3d7"]
 
-[node name="Journal" type="Node2D" node_paths=PackedStringArray("pages", "tutorial_page")]
+[node name="Journal" type="Node2D"]
 z_index = 60
 script = ExtResource("1_a6r1n")
-pages = {
-&"Bird": NodePath("JournalPageBird"),
-&"Boss": NodePath("JournalPageBoss"),
-&"Creature": NodePath("JournalPageCreature"),
-&"Frog": NodePath("JournalPageFrog"),
-&"PlantCreature": NodePath("JournalPagePlantCreature"),
-&"Predator": NodePath("JournalPagePredator"),
-&"Reference": NodePath("JournalPageReference")
-}
-tutorial_page = NodePath("JournalPageTutorialCreature")
 new_unlock_sound = ExtResource("2_jta6q")
 open_journal_sound = ExtResource("3_jta6q")
 close_journal_sound = ExtResource("4_jta6q")
 change_page_sound = ExtResource("5_jta6q")
-
-[node name="JournalPageReference" parent="." instance=ExtResource("6_fukfx")]
-
-[node name="JournalPageCreature" parent="." instance=ExtResource("2_gmf2j")]
-
-[node name="JournalPagePredator" parent="." instance=ExtResource("3_s52y6")]
-
-[node name="JournalPagePlantCreature" parent="." instance=ExtResource("4_eulif")]
-
-[node name="JournalPageBird" parent="." instance=ExtResource("5_xs0aa")]
-
-[node name="JournalPageFrog" parent="." instance=ExtResource("6_l8ppr")]
-
-[node name="JournalPageBoss" parent="." instance=ExtResource("12_45ywv")]
-
-[node name="JournalPageTutorialCreature" parent="." instance=ExtResource("12_ag7jj")]
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 volume_db = -6.0
@@ -65,12 +31,3 @@ visible = false
 z_index = 60
 position = Vector2(1087, 327)
 texture = ExtResource("15_wi3d7")
-
-[connection signal="slide_out_complete" from="JournalPageReference" to="." method="slide_out_complete"]
-[connection signal="slide_out_complete" from="JournalPageCreature" to="." method="slide_out_complete"]
-[connection signal="slide_out_complete" from="JournalPagePredator" to="." method="slide_out_complete"]
-[connection signal="slide_out_complete" from="JournalPagePlantCreature" to="." method="slide_out_complete"]
-[connection signal="slide_out_complete" from="JournalPageBird" to="." method="slide_out_complete"]
-[connection signal="slide_out_complete" from="JournalPageFrog" to="." method="slide_out_complete"]
-[connection signal="slide_out_complete" from="JournalPageBoss" to="." method="slide_out_complete"]
-[connection signal="slide_out_complete" from="JournalPageTutorialCreature" to="." method="slide_out_complete"]

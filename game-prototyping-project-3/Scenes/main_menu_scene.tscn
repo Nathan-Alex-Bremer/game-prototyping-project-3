@@ -1,0 +1,123 @@
+[gd_scene load_steps=10 format=3 uid="uid://dr7wc3epmwrmk"]
+
+[ext_resource type="Script" uid="uid://5y50v4f6qssw" path="res://Scripts/main_menu_scene.gd" id="1_jf31c"]
+[ext_resource type="Texture2D" uid="uid://bqjh5w2ke5j7t" path="res://Art/Menu/mainmenu_bg.png" id="2_ms8yy"]
+[ext_resource type="PackedScene" uid="uid://da8ebttybbxs3" path="res://Scenes/options_menu.tscn" id="3_cgklw"]
+[ext_resource type="Texture2D" uid="uid://dn6dvcl4vjwpo" path="res://Art/Menu/menu_button_large.png" id="3_gl3i6"]
+[ext_resource type="Texture2D" uid="uid://djnm22liw6u2p" path="res://Art/Menu/menu_button_small.png" id="4_2ddvu"]
+[ext_resource type="PackedScene" uid="uid://dny86snywt0xm" path="res://Scenes/CreditsMenu.tscn" id="4_3y7gg"]
+[ext_resource type="LabelSettings" uid="uid://ckfxrvijyuu5t" path="res://Scenes/Quest/journal_title_label_settings.tres" id="4_gl3i6"]
+[ext_resource type="Texture2D" uid="uid://comuju6woto8t" path="res://Art/Menu/title.png" id="7_8y38f"]
+[ext_resource type="AudioStream" uid="uid://dg04ap5j5oe4q" path="res://Audio/SFX/UI/Click Wall_Light_Double_Switch_Off-004.wav" id="9_2ddvu"]
+
+[node name="MainMenuScene" type="Node2D"]
+z_index = 110
+script = ExtResource("1_jf31c")
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = 50
+texture = ExtResource("2_ms8yy")
+
+[node name="StartButton" type="Button" parent="."]
+z_index = 100
+offset_left = -338.0
+offset_top = -29.0
+offset_right = 338.0
+offset_bottom = 44.0
+icon = ExtResource("3_gl3i6")
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="StartButton"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 21.0
+offset_right = 478.0
+offset_bottom = 58.0
+mouse_filter = 1
+text = "START GAME"
+label_settings = ExtResource("4_gl3i6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsButton" type="Button" parent="."]
+z_index = 100
+offset_left = -339.0
+offset_top = 89.0
+offset_right = -18.0
+offset_bottom = 162.0
+icon = ExtResource("4_2ddvu")
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="OptionsButton"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 21.0
+offset_right = 301.0
+offset_bottom = 58.0
+mouse_filter = 1
+text = "SETTINGS"
+label_settings = ExtResource("4_gl3i6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CreditsButton" type="Button" parent="."]
+z_index = 100
+offset_left = 16.0
+offset_top = 89.0
+offset_right = 337.0
+offset_bottom = 162.0
+text = "
+"
+icon = ExtResource("4_2ddvu")
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="CreditsButton"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 21.0
+offset_right = 301.0
+offset_bottom = 58.0
+mouse_filter = 1
+text = "CREDITS"
+label_settings = ExtResource("4_gl3i6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitButton" type="Button" parent="."]
+z_index = 100
+offset_left = -338.0
+offset_top = 214.0
+offset_right = 338.0
+offset_bottom = 287.0
+icon = ExtResource("3_gl3i6")
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="QuitButton"]
+layout_mode = 0
+offset_left = 198.0
+offset_top = 21.0
+offset_right = 478.0
+offset_bottom = 58.0
+mouse_filter = 1
+text = "QUIT GAME"
+label_settings = ExtResource("4_gl3i6")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsMenuScene" parent="." instance=ExtResource("3_cgklw")]
+
+[node name="CreditsMenu" parent="." instance=ExtResource("4_3y7gg")]
+
+[node name="Title" type="Sprite2D" parent="."]
+z_index = 60
+texture = ExtResource("7_8y38f")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_2ddvu")
+max_polyphony = 2
+bus = &"World SFX"
+
+[connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]

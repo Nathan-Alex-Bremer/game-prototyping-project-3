@@ -27,10 +27,13 @@ enum QuestStates {
 func _ready() -> void:
 	pass # Replace with function body.
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
+	
+func reset_state() -> void:
+	status = QuestStates.NOT_STARTED
+	newly_available = 0
 
 # Lays out requirements
 func check_requirements() -> bool:

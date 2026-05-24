@@ -1,7 +1,7 @@
 extends Node2D
 
 # Controls debug testing things!
-var debug_on: bool = false
+var debug_on: bool = true
 
 # Scene
 var main_scene: Node
@@ -12,7 +12,13 @@ var player_node: Node
 # Player interact options!
 var in_interact_range: bool = true
 
-# Interact moves
+# Settings
+var high_contrast_mode: bool = false
+var bright_mode: bool = false
+var dyslexic_mode: bool = false
+var flash_disabled: bool = false
+
+# Interact modes
 var check_unlocked: bool = true 
 var place_food_unlocked: bool = false
 var pet_unlocked: bool = false
@@ -66,7 +72,12 @@ var horn_sounded: bool = false # Handles "final boss" incoming
 var boss_ever_summoned: bool = false # Handles first-time boss behavior
 var boss_active: bool = false
 
+# Options (since can't do anything while paused)
+var dyslexic_mode_queued: bool = false
+var dyslexic_mode_val: bool = false
 
+var high_contrast_mode_queued: bool = false
+var high_contrast_mode_val: bool = false
 
 #enum STATES {
 	#IDLE,
@@ -152,7 +163,6 @@ var tutorial_found_states = {
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
 	screen_size = get_viewport_rect().size
 	
 	# TODO: Make this cleaner
@@ -222,6 +232,32 @@ func _ready() -> void:
 	found_states["Boss"]["Attack Eat"] = 0
 	found_states["Boss"]["Chase"] = 0
 
+func reset_state() -> void:
+	for creature in found_states:
+		for state in found_states[creature]:
+			found_states[creature][state] = 0
+	
+	tutorial_found_states["TutorialCreature"]["Idle"] = 0
+	
+	num_found_states = 0
+	
+	place_food_unlocked = false
+	pet_unlocked = false
+	poke_unlocked = false
+	drag_unlocked = false
+	horn_unlocked = false
+	mode = INTERACT_MODES.CHECK
+	
+	num_existing_creatures = 5
+	max_creatures = 5
+	
+	num_food = 0
+	
+	tutorial_stage = 0
+	
+	player_node.reset_state()
+	
+	
 func get_state_in_journal(creature_name: StringName, state_name: StringName) -> bool:
 	if tutorial_mode:
 		return tutorial_found_states[creature_name].has(state_name)
@@ -255,12 +291,13 @@ func update_tutorial(stage: int) -> bool:
 	print("ERROR: Tutorial completed out of order!")
 	return false
 
+var main_menu_scene = preload("res://Scenes/main_menu_scene.tscn")
 var tutorial_scene = preload("res://Scenes/TutorialScene.tscn")
 var base_scene = preload("res://Scenes/BaseScene.tscn")
 
 func set_initial_scene() -> void:
 	if main_scene:
-		current_scene = tutorial_scene.instantiate()
+		current_scene = main_menu_scene.instantiate()
 		main_scene.add_child(current_scene)
 		player_node.reparent(current_scene)
 	else:
@@ -287,6 +324,11 @@ func change_scene(new_scene_name: String) -> void:
 			new_scene = base_scene.instantiate()
 			main_scene.call_deferred("add_child", new_scene)
 			# main_scene.add_child(new_scene)
+		"main_menu_scene":
+			reset_state() # TODO: Does this work
+			new_scene = main_menu_scene.instantiate()
+			main_scene.call_deferred("add_child", new_scene)
+			# main_scene.add_child(new_scene)
 		_:
 			print("ERROR: UNKNOWN SCENE")
 			return
@@ -301,3 +343,38 @@ func change_scene(new_scene_name: String) -> void:
 func update_interact_mode(new_mode: INTERACT_MODES):
 	mode = new_mode
 	player_node.update_interact_highlights()
+	
+func on_unpause() -> void:
+	print("On Unpause")
+	if dyslexic_mode_queued:
+		toggle_dyslexic_mode(dyslexic_mode_val)
+		dyslexic_mode_queued = false
+	if high_contrast_mode_queued:
+		toggle_high_contrast(high_contrast_mode_val)
+		high_contrast_mode_queued = false
+
+func toggle_dyslexic_mode(val: bool) -> void:
+	player_node.toggle_dyslexic_mode(val)
+	
+func edit_bgm_volume(val: float) -> void:
+	# Hacky "mute"
+	if val == 0.01:
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("BGM"), linear_to_db(0.0001))
+		return
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("BGM"), linear_to_db(val))
+	
+func edit_sfx_volume(val: float) -> void:
+	if val == 0.01:
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("World SFX"), linear_to_db(0.0001))
+		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Proximity SFX"), linear_to_db(0.0001))
+		return
+		
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("World SFX"), linear_to_db(val))
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Proximity SFX"), linear_to_db(val+0.2))
+
+var contrast_shader = load("res://Scenes/Contrast.gdshader")
+var gamma_shader = load("res://Scripts/Gamma.gdshader")
+
+func toggle_high_contrast(val: bool) -> void:
+	player_node.toggle_high_contrast(val)
+	

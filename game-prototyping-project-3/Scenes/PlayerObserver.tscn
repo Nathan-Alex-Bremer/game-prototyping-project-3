@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://cjh4yfiih2h2h"]
+[gd_scene load_steps=61 format=3 uid="uid://cjh4yfiih2h2h"]
 
 [ext_resource type="Script" uid="uid://b1ae65hd7fin6" path="res://Scripts/player_observer.gd" id="1_4o3b8"]
 [ext_resource type="AudioStream" uid="uid://coyb5j1kecdj6" path="res://Audio/SFX/UI/CAMERA Minolta 505 Shutter.wav" id="2_6gyj7"]
@@ -33,6 +33,8 @@
 [ext_resource type="Script" uid="uid://skxghvaqthkx" path="res://Scripts/shake_camera_2d.gd" id="19_16d5b"]
 [ext_resource type="PackedScene" uid="uid://8kl81xp6dm43" path="res://Scenes/InteractBar.tscn" id="23_ejimf"]
 [ext_resource type="Texture2D" uid="uid://dliscep07iem" path="res://Art/unlock_popup_floating.png" id="27_pcy86"]
+[ext_resource type="Shader" uid="uid://cns2hoy3j6a6f" path="res://Scripts/Gamma.gdshader" id="34_3tbvk"]
+[ext_resource type="Shader" uid="uid://dhty0mf8mbvln" path="res://Scenes/Contrast.gdshader" id="35_6v2ii"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8kdyt"]
 size = Vector2(85, 127)
@@ -407,6 +409,17 @@ _data = {
 &"rain_fade_out": SubResource("Animation_3tbvk")
 }
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6v2ii"]
+shader = ExtResource("34_3tbvk")
+shader_parameter/gamma = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yvnau"]
+shader = ExtResource("35_6v2ii")
+shader_parameter/brightness = 0.0
+shader_parameter/contrast = 0.0
+shader_parameter/scale_contrast = 1.0
+shader_parameter/invert = false
+
 [node name="PlayerObserver" type="CharacterBody2D" groups=["player"]]
 y_sort_enabled = true
 collision_layer = 5
@@ -435,13 +448,13 @@ script = ExtResource("19_16d5b")
 z_index = 5
 position = Vector2(-578, -331)
 pages = {
-&"Bird": NodePath("JournalPageBird"),
-&"Boss": NodePath("JournalPageBoss"),
-&"Creature": NodePath("JournalPageCreature"),
-&"Frog": NodePath("JournalPageFrog"),
-&"PlantCreature": NodePath("JournalPagePlantCreature"),
-&"Predator": NodePath("JournalPagePredator"),
-&"Reference": NodePath("JournalPageReference")
+&"Bird": null,
+&"Boss": null,
+&"Creature": null,
+&"Frog": null,
+&"PlantCreature": null,
+&"Predator": null,
+&"Reference": null
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
@@ -632,6 +645,26 @@ libraries = {
 &"": SubResource("AnimationLibrary_3tbvk")
 }
 
+[node name="Gamma" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Gamma"]
+z_index = 200
+material = SubResource("ShaderMaterial_6v2ii")
+offset_left = -578.0
+offset_top = -331.0
+offset_right = 574.0
+offset_bottom = 317.0
+
+[node name="Contrast" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Contrast"]
+z_index = 200
+material = SubResource("ShaderMaterial_yvnau")
+offset_left = -578.0
+offset_top = -331.0
+offset_right = 574.0
+offset_bottom = 317.0
+
 [connection signal="tutorial_close" from="Journal" to="." method="_on_journal_tutorial_close"]
 [connection signal="toggle_photo_mode" from="CameraArea" to="." method="_on_camera_area_toggle_photo_mode"]
 [connection signal="mouse_entered" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_entered"]
@@ -643,3 +676,4 @@ libraries = {
 [connection signal="quest_started" from="QuestHandler" to="." method="_on_quest_handler_quest_started"]
 [connection signal="finished" from="HornAudioStreamPlayer" to="." method="_on_horn_audio_stream_player_finished"]
 [connection signal="finished" from="WalkStreamPlayer" to="." method="_on_walk_stream_player_finished"]
+[connection signal="exit_button_pressed" from="PauseMenu" to="." method="_on_pause_menu_exit_button_pressed"]

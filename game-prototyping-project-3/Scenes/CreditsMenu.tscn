@@ -1,0 +1,168 @@
+[gd_scene load_steps=12 format=3 uid="uid://dny86snywt0xm"]
+
+[ext_resource type="Script" uid="uid://cojc2lfxvfm0" path="res://Scripts/credits_menu.gd" id="1_staik"]
+[ext_resource type="Texture2D" uid="uid://u6a3i0jr7isp" path="res://Art/Menu/options_credits_menu.png" id="2_ga18u"]
+[ext_resource type="Texture2D" uid="uid://djnm22liw6u2p" path="res://Art/Menu/menu_button_small.png" id="3_sino0"]
+[ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_t25h8"]
+[ext_resource type="LabelSettings" uid="uid://b2qj5pa1jm07o" path="res://Scenes/Quest/menu_title_label_settings.tres" id="4_sino0"]
+[ext_resource type="LabelSettings" uid="uid://ckfxrvijyuu5t" path="res://Scenes/Quest/journal_title_label_settings.tres" id="5_cem8h"]
+[ext_resource type="AudioStream" uid="uid://dg04ap5j5oe4q" path="res://Audio/SFX/UI/Click Wall_Light_Double_Switch_Off-004.wav" id="7_cem8h"]
+
+[sub_resource type="Animation" id="Animation_qi2ec"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_j4761"]
+resource_name = "slide_in"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.3),
+"transitions": PackedFloat32Array(0.5, 1, 1),
+"update": 0,
+"values": [Vector2(0, 650), Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_fpnky"]
+resource_name = "slide_out"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(0.5, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 650)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g2ld1"]
+_data = {
+&"RESET": SubResource("Animation_qi2ec"),
+&"slide_in": SubResource("Animation_j4761"),
+&"slide_out": SubResource("Animation_fpnky")
+}
+
+[node name="CreditsMenu" type="Node2D"]
+process_mode = 3
+visible = false
+modulate = Color(1, 1, 1, 0)
+z_index = 120
+script = ExtResource("1_staik")
+
+[node name="Background" type="Sprite2D" parent="."]
+texture = ExtResource("2_ga18u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(0.237, 0.118, 0.083, 0.536)
+position = Vector2(-0.499947, 5.00001)
+scale = Vector2(0.540799, 0.478395)
+texture = ExtResource("3_t25h8")
+
+[node name="BackButton" type="Button" parent="."]
+offset_left = -160.0
+offset_top = 179.0
+offset_right = 161.0
+offset_bottom = 252.0
+icon = ExtResource("3_sino0")
+icon_alignment = 1
+
+[node name="Label" type="Label" parent="BackButton"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 21.0
+offset_right = 300.0
+offset_bottom = 58.0
+text = "BACK"
+label_settings = ExtResource("5_cem8h")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+custom_minimum_size = Vector2(600, 300)
+offset_left = -300.0
+offset_top = -143.0
+offset_right = 300.0
+offset_bottom = 157.0
+
+[node name="Label" type="Label" parent="ScrollContainer"]
+custom_minimum_size = Vector2(600, 300)
+layout_mode = 2
+text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  AAAAAAAAAAA A ANNNA AAA A A A AAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAA AA AAAAAAAAAAAAAAAAA AAAAAAAAAAA AAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAA A AAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAA A AAAAAAAAAAAAAAAAAA AAAAAAAAA A AA A A AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAA AAAAA AAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAA AAAAAAAAAAAAAAA AAAAAAAAAAA AAAAAAAAAA A A A A                 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAA AAA A   A AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+autowrap_mode = 2
+
+[node name="Label" type="Label" parent="."]
+offset_left = -108.0
+offset_top = -222.0
+offset_right = 110.0
+offset_bottom = -161.0
+text = "CREDITS"
+label_settings = ExtResource("4_sino0")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_g2ld1")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_cem8h")
+max_polyphony = 2
+bus = &"World SFX"
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

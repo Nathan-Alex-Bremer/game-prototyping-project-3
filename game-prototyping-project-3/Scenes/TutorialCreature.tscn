@@ -488,6 +488,7 @@ position = Vector2(0, 15)
 scale = Vector2(3.2, 3.2)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+bus = &"Proximity SFX"
 
 [node name="SpawnAnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

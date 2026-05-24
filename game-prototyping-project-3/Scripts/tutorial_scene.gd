@@ -50,6 +50,7 @@ func _ready() -> void:
 	player.connect("TutorialUpdate", on_tutorial_update)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
 	player.connect("FadeOutComplete", on_fade_out_complete)
+	player.connect("quit_to_menu", on_quit_to_menu)
 	# player.connect_camera_area(camera_area)
 	if not GameState.player_node:
 		GameState.player_node = player
@@ -138,7 +139,8 @@ func on_end_dialogue() -> void:
 			player.show_camera_crosshair()
 			return
 		4:
-			GameState.tutorial_mode = false # Remove all tutorial nonsense once the player can leave
+			return
+			# GameState.tutorial_mode = false # Remove all tutorial nonsense once the player can leave
 	
 	
 func on_tutorial_walk_update(distance: float) -> void:
@@ -191,3 +193,6 @@ func _on_to_base_scene_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		print("Transition found player")
 		player.start_fade_out()
+
+func on_quit_to_menu() -> void:
+	GameState.change_scene("main_menu_scene")
