@@ -20,7 +20,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Idle":
 			if times_found == 1:
 				state_idle.text = "- IDLE: Lumpy and pink in color."
-				state_idle.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_idle.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				state_idle_update.visible = true
 				print("Progress:" + str(progress))
 				print("Total States: " + str(total_states))

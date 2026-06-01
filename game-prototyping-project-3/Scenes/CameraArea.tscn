@@ -1,16 +1,36 @@
-[gd_scene load_steps=6 format=3 uid="uid://o0f3estdyb43"]
+[gd_scene load_steps=15 format=3 uid="uid://o0f3estdyb43"]
 
 [ext_resource type="Script" uid="uid://svk4o55rcymy" path="res://Scripts/camera_area.gd" id="1_bxgb3"]
 [ext_resource type="Texture2D" uid="uid://b1w7uswu2hdcd" path="res://Art/cameramarker.png" id="1_hsoh7"]
+[ext_resource type="Texture2D" uid="uid://2jr4bvakfkn8" path="res://Art/InteractBar/place_food_icon.png" id="3_6dsy6"]
 [ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="3_m3j8b"]
+[ext_resource type="Texture2D" uid="uid://q1y53vfdv7k3" path="res://Art/InteractBar/pet_icon.png" id="4_2i8wm"]
 [ext_resource type="Texture2D" uid="uid://dajlbkp3nkp04" path="res://Art/circle.png" id="4_b6se8"]
+[ext_resource type="Texture2D" uid="uid://g1a3s7bl861v" path="res://Art/InteractBar/poke_icon.png" id="5_60ems"]
+[ext_resource type="Texture2D" uid="uid://cg4yj1o46oc1y" path="res://Art/InteractBar/check_icon.png" id="5_bgcjc"]
+[ext_resource type="Texture2D" uid="uid://cvhmlhxaqv7a1" path="res://Art/InteractBar/drag_icon.png" id="6_rarl7"]
+[ext_resource type="Texture2D" uid="uid://d2t44gmdvapau" path="res://Art/InteractBar/horn_icon.png" id="7_boi6c"]
+[ext_resource type="FontFile" uid="uid://cyh8m3aecu1mu" path="res://Fonts/lazy_dog.ttf" id="11_2i8wm"]
+[ext_resource type="Texture2D" uid="uid://bvl6n6xrmlm4j" path="res://Art/InteractBar/no_interact.png" id="11_60ems"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bxgb3"]
 size = Vector2(256, 192)
 
+[sub_resource type="LabelSettings" id="LabelSettings_60ems"]
+font = ExtResource("11_2i8wm")
+font_size = 20
+outline_size = 3
+outline_color = Color(0, 0, 0, 1)
+
 [node name="CameraArea" type="Area2D"]
 input_pickable = false
 script = ExtResource("1_bxgb3")
+check_mode_icon = ExtResource("5_bgcjc")
+place_food_mode_icon = ExtResource("3_6dsy6")
+pet_mode_icon = ExtResource("4_2i8wm")
+poke_mode_icon = ExtResource("5_60ems")
+drag_mode_icon = ExtResource("6_rarl7")
+horn_mode_icon = ExtResource("7_boi6c")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_bxgb3")
@@ -27,10 +47,32 @@ position = Vector2(8.46386e-06, 4.41074e-06)
 scale = Vector2(0.222222, 0.296296)
 texture = ExtResource("3_m3j8b")
 
+[node name="InteractSprite2DOld" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(0, 1, 0, 0.5)
+z_index = 40
+position = Vector2(21, -21)
+scale = Vector2(0.06, 0.06)
+texture = ExtResource("4_b6se8")
+
 [node name="InteractSprite2D" type="Sprite2D" parent="."]
 visible = false
 modulate = Color(0, 1, 0, 0.584314)
 z_index = 40
-position = Vector2(1.19209e-07, 9.09495e-13)
-scale = Vector2(0.12, 0.12)
-texture = ExtResource("4_b6se8")
+position = Vector2(18, -22)
+scale = Vector2(0.689189, 0.689189)
+texture = ExtResource("5_bgcjc")
+
+[node name="NoInteract" type="Sprite2D" parent="InteractSprite2D"]
+visible = false
+z_index = 1
+texture = ExtResource("11_60ems")
+
+[node name="FoodCountLabel" type="Label" parent="."]
+visible = false
+offset_left = 28.0
+offset_top = -36.0
+offset_right = 68.0
+offset_bottom = -13.0
+text = "10"
+label_settings = SubResource("LabelSettings_60ems")

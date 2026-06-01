@@ -30,6 +30,7 @@ func consume(eating_creature: Creature):
 		active = false
 		GameState.num_food -= 1 # TODO: Set this up in base_scene or our game manager instead
 		eating_creature.change_food(hunger_restored, false)
+		eating_creature.change_tired(5, false) # Since people kept thinking feeding creatures would wear them out
 		eating_creature.change_hit_points(health_restored)
 		queue_free()
 	pass

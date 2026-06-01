@@ -20,7 +20,7 @@ var interact_mode_text: StringName = "Current Interact Mode: "
 
 # Tutorial
 var walk_distance: float = 0
-var required_walk_distance: float = 3
+var required_walk_distance: float = 2.5
 
 signal journal_opened
 
@@ -62,6 +62,7 @@ func _ready() -> void:
 	player.set_step_sound("indoors")
 	GameState.tutorial_mode = true
 	print("Ready complete!")
+	player.start_fade_in()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -89,6 +90,10 @@ func found_states_updated() -> void:
 	GameState.max_creatures = 6 + int(GameState.num_found_states / 2)
 				
 # Add new stuff
+
+func toggle_dyslexic_mode(val: bool) -> void:
+	for creature in GameState.existing_creatures:
+		creature.toggle_dyslexic_mode(val)
 
 func on_clicked_food(food_position: Vector2) -> void:
 	pass # Not sure if not having this breaks the game

@@ -167,7 +167,7 @@ offset_left = 140.0
 offset_top = 116.0
 offset_right = 537.0
 offset_bottom = 141.0
-text = "- (LOCKED: I should take a picture of it...)"
+text = "- (LOCKED: I should take a picture of it idling...)"
 label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="Container/StateIdle"]
@@ -185,7 +185,7 @@ offset_left = 141.0
 offset_top = 206.0
 offset_right = 472.0
 offset_bottom = 231.0
-text = "- (LOCKED: I wonder what it eats...)"
+text = "- (LOCKED: I wonder if it eats meat...)"
 label_settings = ExtResource("4_dfgpj")
 
 [node name="UpdateLabel" type="Sprite2D" parent="Container/StateAttackEat"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://qdq5e3o7qiw8"]
+[gd_scene load_steps=40 format=3 uid="uid://qdq5e3o7qiw8"]
 
 [ext_resource type="Script" uid="uid://c5bpai0w1a10x" path="res://Scripts/Quest/quest_handler.gd" id="1_t8urw"]
 [ext_resource type="PackedScene" uid="uid://cp7by1k8iepur" path="res://Scenes/Quest/QuestLabel.tscn" id="2_com2b"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://bdevv3cw63k8i" path="res://Art/QuestMenu/questcomplete.png" id="12_47dfg"]
 [ext_resource type="Texture2D" uid="uid://c7wid8d14qhyy" path="res://Art/QuestMenu/close_button.png" id="13_p2dr7"]
 [ext_resource type="Script" uid="uid://b8clyao4j75w4" path="res://Scripts/Quest/Quests/quest_06_boss.gd" id="22_pe762"]
+[ext_resource type="Script" uid="uid://b4o2fd4evia57" path="res://Scripts/Quest/Quests/quest_07_ending.gd" id="23_47dfg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_f51rn"]
 font = ExtResource("8_hif3n")
@@ -30,8 +31,17 @@ font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qp3yt"]
 font = ExtResource("9_pe762")
+font_size = 28
+font_color = Color(0, 0, 0, 1)
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_p2dr7"]
+font = ExtResource("9_pe762")
 font_size = 24
 font_color = Color(0, 0, 0, 1)
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_hif3n"]
 font = ExtResource("9_pe762")
@@ -173,7 +183,7 @@ script = ExtResource("1_t8urw")
 quest_label_object = ExtResource("2_com2b")
 first_label_pos = Vector2(0, -100)
 label_pos_move = 100.0
-quest_list = [NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest05"), NodePath("Quests/Quest06")]
+quest_list = [NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest05"), NodePath("Quests/Quest06"), NodePath("Quests/Quest07")]
 open_sound = ExtResource("3_jgyw0")
 close_sound = ExtResource("4_4bce7")
 button_click_sound = ExtResource("5_jgyw0")
@@ -201,6 +211,17 @@ offset_right = 259.0
 offset_bottom = -174.0
 text = "ACTIVE QUEST: NONE"
 label_settings = SubResource("LabelSettings_qp3yt")
+horizontal_alignment = 1
+
+[node name="SmileCountLabel" type="Label" parent="QuestMenu"]
+z_index = 1
+offset_left = 34.0
+offset_top = -327.0
+offset_right = 552.0
+offset_bottom = -298.0
+rotation = 0.283645
+text = "SMILE COUNT: 0"
+label_settings = SubResource("LabelSettings_p2dr7")
 horizontal_alignment = 1
 
 [node name="QuestLabels" type="Node2D" parent="QuestMenu"]
@@ -429,6 +450,10 @@ metadata/_custom_type_script = "uid://bm46buym35smk"
 [node name="Quest06" type="Node" parent="Quests"]
 script = ExtResource("22_pe762")
 metadata/_custom_type_script = "uid://b8clyao4j75w4"
+
+[node name="Quest07" type="Node" parent="Quests"]
+script = ExtResource("23_47dfg")
+metadata/_custom_type_script = "uid://b4o2fd4evia57"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 max_polyphony = 2

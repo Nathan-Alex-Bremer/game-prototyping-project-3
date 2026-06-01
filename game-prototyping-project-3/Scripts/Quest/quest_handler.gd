@@ -209,6 +209,7 @@ func _on_reward_exit_button_pressed() -> void:
 	complete = false
 	$QuestMenu/ActiveQuestLabel.text = "ACTIVE QUEST: NONE"
 	$QuestComplete.visible = false
+	$QuestMenu/SmileCountLabel.text = "SMILE COUNT: " + str(GameState.completed_quests)
 	play_sound(button_click_sound, 2)
 	
 

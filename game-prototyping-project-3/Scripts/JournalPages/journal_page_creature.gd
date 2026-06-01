@@ -38,7 +38,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Wander":
 			if times_found == 1:
 				state_wander.text = "- WANDER: Tends to wander aimlessly."
-				state_wander.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				state_wander_update.visible = true
 				print("Progress:" + str(progress))
 				print("Total States: " + str(total_states))
@@ -57,7 +57,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Idle":
 			if times_found == 1:
 				state_idle.text = "- IDLE: Pale in color."
-				state_idle.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				state_idle_update.visible = true
 				print("Progress:" + str(progress))
 				print("Total States: " + str(total_states))
@@ -76,7 +76,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_eat.text = "- EAT: Enjoys eating fruit."
 				state_eat_update.visible = true
-				state_eat.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -92,7 +92,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_rest.text = "- REST: Takes short naps every so often to restore energy."
 				state_rest_update.visible = true
-				state_rest.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -108,7 +108,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_pet.text = "- PET: Their fur is soft and velvety."
 				state_pet_update.visible = true
-				state_pet.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -124,7 +124,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_poke.text = "- ANNOY: Becomes agitated when poked."
 				state_poke_update.visible = true
-				state_poke.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -140,7 +140,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_play.text = "- PLAY: Will jump around and make squeaking noises with others."
 				state_play_update.visible = true
-				state_play.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -156,7 +156,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_chase.text = "- CHASE: Runs around when agitated."
 				state_chase_update.visible = true
-				state_chase.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -172,7 +172,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_attack.text = "- ATTACK: Fights primarily by biting."
 				state_attack_update.visible = true
-				state_attack.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -188,7 +188,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_flee.text = "- FLEE: Runs around aimlessly when near predators."
 				state_flee_update.visible = true
-				state_flee.self_modulate = Color(0.0, 0.0, 0.0, 1.0)
+				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:

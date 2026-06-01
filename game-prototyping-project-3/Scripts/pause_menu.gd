@@ -16,26 +16,33 @@ func _process(delta: float) -> void:
 		return
 	if Input.is_action_just_pressed("pause"):
 		# visible = false
+		GameState.close_options_menu()
 		$AnimationPlayer.play("slide_out")
+		get_tree().paused = false
+		set_process_input(false)
 		
 
 func on_pause() -> void:
 	$AnimationPlayer.play("slide_in")
+	set_process_input(true)
 
 func _on_return_button_pressed() -> void:
 	# visible = false
 	$AudioStreamPlayer.play()
 	$AnimationPlayer.play("slide_out")
+	get_tree().paused = false
+	set_process_input(false)
 
 
 func _on_settings_button_pressed() -> void:
 	$AudioStreamPlayer.play()
-	$OptionsMenuScene.show_menu()
+	GameState.open_options_menu()
 
 
 func _on_exit_button_pressed() -> void:
 	$AudioStreamPlayer.play()
 	visible = false
+	GameState.close_options_menu()
 	get_tree().paused = false
 	exit_button_pressed.emit()
 
@@ -44,5 +51,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "slide_out":
 		visible = false
 		GameState.on_unpause()
-		get_tree().paused = false
+		
 		print("Unpausing!")

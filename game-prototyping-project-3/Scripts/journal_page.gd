@@ -50,3 +50,30 @@ func play_slide_out() -> void:
 func on_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "slide_out":
 		slide_out_complete.emit()
+
+func toggle_dyslexic_mode(val: bool) -> void:
+	print("Toggle dyslexic mode - journal page")
+	var dyslexic_font = load("res://Fonts/OpenDyslexic-Regular.otf")
+	var regular_font = load("res://Fonts/lazy_dog.ttf")
+	# NOT WORKING! WHY!
+	if val:
+		var id: int = 0
+		
+		for child in find_children("", "Label", true, true):
+			if child is Label:
+				print(str(id))
+				id += 1
+				
+				if child.label_settings.font != dyslexic_font:
+					child.label_settings.font = dyslexic_font
+					child.label_settings.font_size -= 8
+				# child.add_theme_font_override("font", load("res://Fonts/OpenDyslexic-Regular.otf"))
+
+	else:
+		for child in find_children("", "Label", true, true):
+			if child is Label:
+
+				if child.label_settings.font != regular_font:
+					child.label_settings.font = regular_font
+					child.label_settings.font_size += 8
+				# child.add_theme_font_override("font", load("res://Fonts/lazy_dog.ttf"))

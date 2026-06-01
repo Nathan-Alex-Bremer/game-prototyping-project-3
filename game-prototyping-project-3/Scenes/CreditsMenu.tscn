@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dny86snywt0xm"]
+[gd_scene load_steps=13 format=3 uid="uid://dny86snywt0xm"]
 
 [ext_resource type="Script" uid="uid://cojc2lfxvfm0" path="res://Scripts/credits_menu.gd" id="1_staik"]
 [ext_resource type="Texture2D" uid="uid://u6a3i0jr7isp" path="res://Art/Menu/options_credits_menu.png" id="2_ga18u"]
@@ -7,6 +7,9 @@
 [ext_resource type="LabelSettings" uid="uid://b2qj5pa1jm07o" path="res://Scenes/Quest/menu_title_label_settings.tres" id="4_sino0"]
 [ext_resource type="LabelSettings" uid="uid://ckfxrvijyuu5t" path="res://Scenes/Quest/journal_title_label_settings.tres" id="5_cem8h"]
 [ext_resource type="AudioStream" uid="uid://dg04ap5j5oe4q" path="res://Audio/SFX/UI/Click Wall_Light_Double_Switch_Off-004.wav" id="7_cem8h"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cem8h"]
+size = Vector2(1156.2, 655.799)
 
 [sub_resource type="Animation" id="Animation_qi2ec"]
 length = 0.001
@@ -105,6 +108,30 @@ modulate = Color(1, 1, 1, 0)
 z_index = 120
 script = ExtResource("1_staik")
 
+[node name="InteractBlocker" type="Area2D" parent="."]
+z_index = -1
+scale = Vector2(1.66667, 1.66667)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractBlocker"]
+position = Vector2(1.50004, 2.70004)
+shape = SubResource("RectangleShape2D_cem8h")
+
+[node name="Sprite2D" type="Sprite2D" parent="InteractBlocker"]
+visible = false
+self_modulate = Color(0, 0, 0, 0.258824)
+z_index = -1
+position = Vector2(0, -401.099)
+scale = Vector2(1, 2.23796)
+texture = ExtResource("3_t25h8")
+
+[node name="Button" type="Button" parent="InteractBlocker"]
+offset_left = -577.0
+offset_top = -326.0
+offset_right = 583.0
+offset_bottom = 334.0
+focus_mode = 0
+flat = true
+
 [node name="Background" type="Sprite2D" parent="."]
 texture = ExtResource("2_ga18u")
 
@@ -143,7 +170,59 @@ offset_bottom = 157.0
 [node name="Label" type="Label" parent="ScrollContainer"]
 custom_minimum_size = Vector2(600, 300)
 layout_mode = 2
-text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA  AAAAAAAAAAA A ANNNA AAA A A A AAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAA AA AAAAAAAAAAAAAAAAA AAAAAAAAAAA AAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAA A AAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAA A AAAAAAAAAAAAAAAAAA AAAAAAAAA A AA A A AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAA AAAAA AAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAA AAAAAAAAAAAAAAA AAAAAAAAAAA AAAAAAAAAA A A A A                 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAA AAA A   A AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+text = "Made using Godot
+
+Sound Effects
+
+Via Sonniss:
+Joshua Reinhardt (Ultimate Hand Body)
+Coll Anderson (Slapstick Comedy)
+SmartSoundFX (Mavic Travel Filmmaker, User Interaction)
+TheWorkRoom Audio Post (Animal Footsteps Foley, Digging)
+CB Sound Design (Board Games – Gamedesigners Audio Toolkit 01, Infographic SFX, Essential Sounds Vol.02 Pencils)
+Shapeforms (Hit & Punch)
+PMSFX (Lethal Blow, Rain Designer)
+Airborne Sound (Organic Wooshes)
+Sonic Bat (Videogame Foley Essentials Vol. I, A Handful Of Birds)
+Soundopolis (Dogs)
+BluezoneCorp (Forest Creature Sound Effects, Forest Textures)
+Eneas Mentzel (Frozen Farmlands, Debris & Rubble)
+Soundholder (Cat  Meow Library)
+Hzandbits (Microbes)
+Hear and Now Sound (Tape Tape Tape!! The Essential Sound Library for Tape Sounds)
+SmartSoundFX (Cartoon & Infotainment)
+RYK-Sounds (Footstep)
+InspectorJ (Essentials 06 Rain)
+Articulated Sounds (Pig Farm Animal Groan)
+Rogue Waves (Druid Magic)
+Coll Anderson (Heads Tilt Together)
+Nikko Barrera (Amaya  Office Hits)
+Borg Sound (Bag Foley)
+InspectorJ (Party Pack Party)
+SpillAudio (Paper)
+Eiravaein Works (48Kilos)
+3maze (UI FX)
+Bart Kamski (Clicks & Switches)
+Omar Alvarado (Minimal ambiences)
+
+Via Freesound:
+aunrea (Dog Whimper 2)
+onehugeeye (Dog Panting)
+oldbean3 (crackling fire stereo)
+JarredGibb (War of the worlds Horn 1)
+
+Via Archive.org:
+U.S. Fish and Wildlife Service (Frogs)
+
+
+Fonts (via Dafont)
+
+Typadelic (Black Jack)
+Paul Neave (Lazy Dog)
+Kylie K (Ugly Handwriting)
+Abelardo Gonzalez (Open-Dyslexic)
+
+Thank you for playing!"
 autowrap_mode = 2
 
 [node name="Label" type="Label" parent="."]

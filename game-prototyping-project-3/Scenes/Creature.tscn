@@ -223,7 +223,7 @@ size = Vector2(64, 64)
 radius = 56.0357
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
-radius = 342.0
+radius = 365.067
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
 radius = 86.0523
@@ -367,38 +367,6 @@ owning_creature = NodePath("../..")
 [node name="Stats" type="Node2D" parent="."]
 visible = false
 z_index = 20
-
-[node name="HPLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 74.0
-offset_top = -59.0
-offset_right = 114.0
-offset_bottom = -36.0
-text = "HP: 100/100"
-
-[node name="HungerLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 74.0
-offset_top = -30.0
-offset_right = 168.0
-offset_bottom = -7.0
-text = "Hunger: 100"
-
-[node name="FeistyLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 75.0
-offset_top = -1.0
-offset_right = 138.0
-offset_bottom = 22.0
-text = "Feisty: 0"
-
-[node name="TiredLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 76.0
-offset_top = 31.0
-offset_right = 134.0
-offset_bottom = 54.0
-text = "Tired: 0"
 
 [node name="HPMeter" type="TextureProgressBar" parent="Stats"]
 offset_left = 70.0

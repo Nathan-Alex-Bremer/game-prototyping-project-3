@@ -8,6 +8,8 @@ var timer: float
 var player: PlayerObserver
 var camera_area: CameraArea
 
+var rain_enabled: bool = false # TO prevent too much rain early game
+
 var next_creature_type: StringName = ""
 
 # State changing
@@ -31,6 +33,7 @@ func _ready() -> void:
 	else:
 		player = GameState.player_scene.instantiate()
 		
+		
 	player.position = Vector2(0, 0)
 	player.connect("CapturedState", on_capture_state)
 	player.connect("ClickedFood", on_clicked_food)
@@ -38,6 +41,7 @@ func _ready() -> void:
 	player.connect("ChangeJournalPage", on_change_journal_page)
 	player.connect("ChangeMode", on_change_mode)
 	player.connect("ToggleCreatureStats", on_toggle_creature_stats)
+	player.connect("QuestComplete", on_quest_complete)
 	player.connect("HornSounded", on_horn_sounded)
 	player.connect("BossFightStarted", on_boss_fight_started)
 	player.connect("BossSatisfied", on_boss_satisfied)
@@ -50,6 +54,11 @@ func _ready() -> void:
 		GameState.player_node = player
 		add_child(player)
 		player.show_camera_crosshair()
+		
+		# Hacky testing solution for getting the options menu set up during testing
+		var options_menu = GameState.options_menu_scene.instantiate()
+		GameState.options_menu_node = options_menu
+		player.add_child(options_menu)
 	
 	# Instantiate a creature
 	for i in range(GameState.max_creatures):
@@ -63,6 +72,8 @@ func _ready() -> void:
 		GameState.existing_creatures.append(new_creature)
 	
 	if GameState.debug_on:
+		rain_enabled = true
+		
 		for i in range(1):
 			var new_creature = GameState.bird_scene.instantiate()
 			var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
@@ -137,10 +148,26 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	timer -= delta
 	
+	if GameState.raining:
+		if randi_range(1, 10) == 10:
+			var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+	
+			# Instantiate food object
+			# Only spawn if randomly chosen position is in/near viewing range
+			if random_point.distance_to(player.position) <= 600:
+				var new_drop = GameState.raindrop_scene.instantiate()
+				new_drop.position = random_point
+				add_child(new_drop)
+			
+	
 	if timer <= 0:
 		# TODO: Add check for max food amount here
 		if randi_range(1, 3) == 3:
 			spawn_food()
+			
+		GameState.raining = true
+		$AnimationPlayer.play("rain_fade_in")
+		player.toggle_rain_overlay(GameState.raining)
 		
 		# Redefining this thing is annoying, maybe move the variable and just change the value each time
 		var required_spawn_roll = 5
@@ -155,7 +182,7 @@ func _process(delta: float) -> void:
 		print("Max creatures: " + str(GameState.max_creatures))
 		
 		# Small chance to begin raining
-		if randi_range(1, 30) == 1:
+		if randi_range(1, 20) == 1 and rain_enabled:
 			GameState.raining = not(GameState.raining)
 			if GameState.raining:
 				$AnimationPlayer.play("rain_fade_in")
@@ -276,6 +303,7 @@ func found_states_updated() -> void:
 		18:
 			next_creature_type = "Frog"
 			GameState.num_creatures_discovered += 1
+			rain_enabled = true
 			if not GameState.raining:
 				GameState.raining = true
 				$AnimationPlayer.play("rain_fade_in")
@@ -349,13 +377,20 @@ func on_creature_leaving(creature_type: StringName, creature_name: StringName) -
 	# Handle boss leaving
 	if creature_type == "Boss":
 		GameState.boss_active = false
-		player.start_ending() # Fade to end screen after ~20 seconds
 	player.creature_left(creature_name)
+
+func on_quest_complete() -> void:
+	if not $BGM.playing:
+			$BGM.play()
 
 func on_horn_sounded() -> void:
 	for creature in GameState.existing_creatures:
 		if not (creature is Boss): # TODO: this is proper syntax right
 			creature.set_panic(true)
+
+func toggle_dyslexic_mode(val: bool) -> void:
+	for creature in GameState.existing_creatures:
+		creature.toggle_dyslexic_mode(val)
 
 func on_boss_fight_started() -> void:
 	# Spawn boss

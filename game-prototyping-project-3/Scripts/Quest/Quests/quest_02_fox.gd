@@ -6,7 +6,7 @@ class_name Quest02
 func _ready() -> void:
 	quest_name = "Charnine Fire"
 	description = "Hello,\n\nI'm a blacksmith who's curious about using a Charnine for my forge,\nbut I'm just not sure if their fire gets hot enough.\nCould you take some photos for me so I can get a better look?"
-	task_desc = "    - TASK: Capture three states where Charnine\n      breathes fire or flares its tail!"
+	task_desc = "    - TASK: Capture three different states where Charnine\n      breathes fire or flares its tail!"
 	reward_desc = "    - REWARD: A big smile"
 	reward_thanks = "Thank you, researcher!\n\nIt doesn't look like the fire's quite hot enough, but oh well.\nI'd imagine they'd burn down any nearby foliage, though!"
 	

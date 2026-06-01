@@ -43,8 +43,8 @@ metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="ASetWaitTimeRandom" type="Node" parent="EnterActions"]
 script = ExtResource("3_a6wk1")
-min_time = 1.0
-max_time = 3.0
+min_time = 2.0
+max_time = 4.0
 metadata/_custom_type_script = "uid://b378gqkrvg1q5"
 
 [node name="ACalcWantsToPlay" type="Node" parent="EnterActions"]

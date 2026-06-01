@@ -208,7 +208,7 @@ metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CRandomNumber" type="Node" parent="Transitions/TransitionToIntimidate"]
 script = ExtResource("22_fdfnt")
-max = 10
+max = 5
 metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
 
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToIntimidate"]

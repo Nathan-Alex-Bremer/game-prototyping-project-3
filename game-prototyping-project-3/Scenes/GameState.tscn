@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ia8oql3he6kc"]
+[gd_scene load_steps=16 format=3 uid="uid://ia8oql3he6kc"]
 
 [ext_resource type="Script" uid="uid://dglct3emv8njq" path="res://Scripts/game_state.gd" id="1_6swv3"]
 [ext_resource type="PackedScene" uid="uid://pax8hqcis1wq" path="res://Scenes/Creature.tscn" id="2_7ss3b"]
@@ -13,6 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://hx57aq3bep8d" path="res://Scenes/CreatureTypes/CreatureBoss.tscn" id="7_y1ok4"]
 [ext_resource type="PackedScene" uid="uid://o0f3estdyb43" path="res://Scenes/CameraArea.tscn" id="8_hahlw"]
 [ext_resource type="PackedScene" uid="uid://dnjko78dsirrr" path="res://Scenes/Tree.tscn" id="9_b637u"]
+[ext_resource type="PackedScene" uid="uid://ccxt64q7b0a05" path="res://Scenes/raindrop.tscn" id="12_eok2x"]
+[ext_resource type="PackedScene" uid="uid://da8ebttybbxs3" path="res://Scenes/options_menu.tscn" id="14_6wh77"]
 
 [node name="GameState" type="Node2D"]
 process_mode = 3
@@ -27,5 +29,7 @@ tutorialcreature_scene = ExtResource("7_jcvnr")
 food_scene = ExtResource("3_timhb")
 bush_scene = ExtResource("6_7pu5x")
 tree_scene = ExtResource("9_b637u")
+raindrop_scene = ExtResource("12_eok2x")
 player_scene = ExtResource("4_timhb")
+options_menu_scene = ExtResource("14_6wh77")
 camera_area_scene = ExtResource("8_hahlw")

@@ -296,7 +296,7 @@ metadata/_custom_type_script = "uid://b4bqfg4e2sx4l"
 
 [node name="CRandomNumber" type="Node" parent="Transitions/TransitionToYawn"]
 script = ExtResource("25_5ftbw")
-max = 5
+max = 3
 metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
 
 [node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToYawn"]

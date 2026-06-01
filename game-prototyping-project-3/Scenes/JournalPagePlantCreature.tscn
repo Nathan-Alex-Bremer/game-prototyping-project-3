@@ -167,7 +167,7 @@ offset_left = 140.0
 offset_top = 116.0
 offset_right = 537.0
 offset_bottom = 141.0
-text = "- (LOCKED: I should take a picture of it...)"
+text = "- (LOCKED: I should take a picture of it idling...)"
 label_settings = ExtResource("4_rcd4g")
 
 [node name="UpdateLabel" type="Sprite2D" parent="Container/StateIdle"]

@@ -37,15 +37,22 @@ func _on_volume_sfx_drag_ended(value_changed: bool) -> void:
 
 func _on_high_contrast_button_toggled(toggled_on: bool) -> void:
 	$AudioStreamPlayer.play()
-	GameState.dyslexic_mode_queued = true
-	GameState.dyslexic_mode_val = toggled_on
+	GameState.high_contrast_mode_queued = true
+	GameState.high_contrast_mode_val = toggled_on
+
 	pass # Replace with function body.
 
 
 func _on_dyslexic_mode_button_toggled(toggled_on: bool) -> void:
-	GameState.high_contrast_mode_queued = true
-	GameState.high_contrast_mode_val = toggled_on
+	GameState.dyslexic_mode_queued = true
+	GameState.dyslexic_mode_val = toggled_on
 	$AudioStreamPlayer.play()
+	
+
+#func _on_dyslexic_mode_button_toggled(toggled_on: bool) -> void:
+	#GameState.dyslexic_mode_queued = true
+	#GameState.dyslexic_mode_val = toggled_on
+	#$AudioStreamPlayer.play()
 
 
 func _on_disable_flash_button_toggled(toggled_on: bool) -> void:
@@ -55,6 +62,8 @@ func _on_disable_flash_button_toggled(toggled_on: bool) -> void:
 
 func _on_back_button_pressed() -> void:
 	$AudioStreamPlayer.play()
+	if not get_tree().paused: # Hacky solution
+		GameState.on_unpause()
 	hide_menu()
 
 

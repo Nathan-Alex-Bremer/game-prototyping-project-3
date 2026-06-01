@@ -35,7 +35,7 @@ metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="ASetWaitTime" type="Node" parent="EnterActions"]
 script = ExtResource("3_pw2ir")
-time_to_wait = 7.0
+time_to_wait = 10.0
 metadata/_custom_type_script = "uid://3hvifjdriy5q"
 
 [node name="AChangeFeisty" type="Node" parent="EnterActions"]

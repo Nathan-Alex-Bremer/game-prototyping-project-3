@@ -404,43 +404,12 @@ owning_creature = NodePath("../..")
 visible = false
 z_index = 20
 
-[node name="HPLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 74.0
-offset_top = -59.0
-offset_right = 114.0
-offset_bottom = -36.0
-text = "HP: 100/100"
-
-[node name="HungerLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 74.0
-offset_top = -30.0
-offset_right = 168.0
-offset_bottom = -7.0
-text = "Hunger: 100"
-
-[node name="FeistyLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 75.0
-offset_top = -1.0
-offset_right = 138.0
-offset_bottom = 22.0
-text = "Feisty: 0"
-
-[node name="TiredLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 76.0
-offset_top = 31.0
-offset_right = 134.0
-offset_bottom = 54.0
-text = "Tired: 0"
-
 [node name="HPMeter" type="TextureProgressBar" parent="Stats"]
 offset_left = 70.0
 offset_top = -59.0
 offset_right = 198.0
 offset_bottom = 69.0
+mouse_filter = 2
 value = 100.0
 texture_under = ExtResource("28_p0fow")
 texture_over = ExtResource("29_bws18")
@@ -451,6 +420,7 @@ offset_left = 70.0
 offset_top = -29.0
 offset_right = 198.0
 offset_bottom = 99.0
+mouse_filter = 2
 value = 100.0
 texture_under = ExtResource("28_p0fow")
 texture_over = ExtResource("31_bnmx6")
@@ -461,6 +431,7 @@ offset_left = 70.0
 offset_top = 1.0
 offset_right = 198.0
 offset_bottom = 129.0
+mouse_filter = 2
 value = 100.0
 texture_under = ExtResource("28_p0fow")
 texture_over = ExtResource("33_r86l4")
@@ -471,6 +442,7 @@ offset_left = 70.0
 offset_top = 32.0
 offset_right = 198.0
 offset_bottom = 160.0
+mouse_filter = 2
 value = 100.0
 texture_under = ExtResource("28_p0fow")
 texture_over = ExtResource("35_wur85")

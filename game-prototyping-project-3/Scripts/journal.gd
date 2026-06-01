@@ -102,6 +102,8 @@ func reset_state() -> void:
 	
 	tutorial_page = tutorialcreature_page.instantiate()
 	call_deferred("add_child", tutorial_page)
+	
+	toggle_dyslexic_mode(GameState.dyslexic_mode)
 
 func on_state_found(creature_type: StringName, found_state: StringName, times_found: int) -> void:
 	
@@ -223,3 +225,16 @@ func play_sound(sound: AudioStream) -> void:
 	audio_player.stream = sound
 	audio_player.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
 	audio_player.play()
+
+
+func _on_left_button_pressed() -> void:
+	change_page(false)
+
+
+func _on_right_button_pressed() -> void:
+	change_page(true)
+
+func toggle_dyslexic_mode(val: bool) -> void:
+	print("Toggle dyslexic mode - journal")
+	for page in pages:
+		pages[page].toggle_dyslexic_mode(val)

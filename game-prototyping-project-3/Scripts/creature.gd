@@ -6,7 +6,8 @@ var creature_name: StringName
 @export var type: StringName = "Creature"
 var creature_color: Color
 
-@export var hit_points: int = 100
+@export var max_hit_points: int = 100
+var hit_points: int = 100
 @export var hunger: float = 100
 @export var feisty: float = 0
 @export var tired: float = 0
@@ -66,6 +67,7 @@ signal Leaving(creature_type: StringName, creature_name: StringName)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	hit_points = max_hit_points
 	detect_radius = $DetectRadius
 	eat_radius = $EatRadius
 	state_machine = $StateMachine # Very hacky and gross way to allow state access
@@ -92,6 +94,11 @@ func _ready() -> void:
 	tired_scale = randf_range(0.75, 1.25)
 	
 	$Stats/NatureLabel.text = nature_picker()
+	
+	# Handling dyslexic mode	
+	if GameState.dyslexic_mode:
+		
+		toggle_dyslexic_mode(true)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -234,8 +241,8 @@ func change_tired(amount: float, scalable: bool) -> void:
 
 func change_hit_points(amount: float) -> void:
 	hit_points += amount
-	if hit_points > 100:
-		hit_points = 100
+	if hit_points > max_hit_points:
+		hit_points = max_hit_points
 	if hit_points < 0:
 		hit_points = 0
 	$Stats/HPMeter.value = hit_points
@@ -304,11 +311,11 @@ func change_stats_visible(value: bool) -> void:
 	$Stats.visible = value
 	
 	# For now, update labels only when first being checked
-	if value == true:
-		$Stats/HPLabel.text = "HP: " + str(int(hit_points))
-		$Stats/HungerLabel.text = "Hunger: " + str(int(hunger))
-		$Stats/FeistyLabel.text = "Feisty: " + str(int(feisty))
-		$Stats/TiredLabel.text = "Tired: " + str(int(tired))
+	#if value == true:
+		#$Stats/HPLabel.text = "HP: " + str(int(hit_points))
+		#$Stats/HungerLabel.text = "Hunger: " + str(int(hunger))
+		#$Stats/FeistyLabel.text = "Feisty: " + str(int(feisty))
+		#$Stats/TiredLabel.text = "Tired: " + str(int(tired))
 		
 func deal_damage(attacker: Creature, damage: int) -> void:
 	change_hit_points(damage * -1)
@@ -325,8 +332,8 @@ func poison_damage() -> void:
 		is_poisoned = false
 		toggle_poison_color(false)
 
-func toggle_poison_color(is_poisoned: bool) -> void:
-	if is_poisoned:
+func toggle_poison_color(has_been_poisoned: bool) -> void:
+	if has_been_poisoned:
 		$Sprite2D.modulate = Color(1, 0, 1)
 	else:
 		$Sprite2D.modulate = creature_color
@@ -351,6 +358,36 @@ func play_sound(sound: AudioStream) -> void:
 	audio_player.stream = sound
 	audio_player.pitch_scale = randf_range(0.9, 1.1) # Randomize pitch slightly
 	audio_player.play()
+	
+	
+# Dyslexic mode
+func toggle_dyslexic_mode(val: bool) -> void:
+	print("Toggle dyslexic mode")
+	var dyslexic_font = load("res://Fonts/OpenDyslexic-Regular.otf")
+	var regular_font = load("res://Fonts/lazy_dog.ttf")
+	
+	# NOT WORKING! WHY!
+	if val:
+		var id: int = 0
+		
+		for child in find_children("", "Label", true, true):
+			if child is Label:
+				print(str(id))
+				id += 1
+				
+				if child.label_settings.font != dyslexic_font:
+					child.label_settings.font = dyslexic_font
+					child.label_settings.font_size -= 8
+				# child.add_theme_font_override("font", load("res://Fonts/OpenDyslexic-Regular.otf"))
+
+	else:
+		for child in find_children("", "Label", true, true):
+			if child is Label:
+
+				if child.label_settings.font != regular_font:
+					child.label_settings.font = regular_font
+					child.label_settings.font_size += 8
+				# child.add_theme_font_override("font", load("res://Fonts/lazy_dog.ttf"))
 
 # Input
 # Ew ew ew
@@ -387,6 +424,7 @@ func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 					GameState.selected_creature = self
 					SelectedForCheck.emit()
 					animation_player.play("check")
+					change_feisty(1, false) # Just to make things go a little bit more smoothly early on
 					
 					# Set and play sound
 					play_sound(check_sound)

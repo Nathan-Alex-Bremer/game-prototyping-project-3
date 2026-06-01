@@ -231,7 +231,7 @@ collision_mask = 2
 input_pickable = true
 script = ExtResource("1_uymxu")
 type = &"Bird"
-hit_points = 60
+max_hit_points = 80
 feisty = 20.0
 move_speed = 250.0
 friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Boss"])
@@ -363,38 +363,6 @@ owning_creature = NodePath("../..")
 visible = false
 z_index = 20
 
-[node name="HPLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 74.0
-offset_top = -59.0
-offset_right = 114.0
-offset_bottom = -36.0
-text = "HP: 100/100"
-
-[node name="HungerLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 74.0
-offset_top = -30.0
-offset_right = 168.0
-offset_bottom = -7.0
-text = "Hunger: 100"
-
-[node name="FeistyLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 75.0
-offset_top = -1.0
-offset_right = 138.0
-offset_bottom = 22.0
-text = "Feisty: 0"
-
-[node name="TiredLabel" type="Label" parent="Stats"]
-visible = false
-offset_left = 76.0
-offset_top = 31.0
-offset_right = 134.0
-offset_bottom = 54.0
-text = "Tired: 0"
-
 [node name="NatureLabel" type="Label" parent="Stats"]
 offset_left = 76.0
 offset_top = 67.0
@@ -407,7 +375,9 @@ offset_left = 70.0
 offset_top = -59.0
 offset_right = 198.0
 offset_bottom = 69.0
-value = 100.0
+mouse_filter = 2
+max_value = 60.0
+value = 60.0
 texture_under = ExtResource("22_1bnvo")
 texture_over = ExtResource("23_vkf88")
 texture_progress = ExtResource("24_l2kcr")
@@ -417,6 +387,7 @@ offset_left = 70.0
 offset_top = -29.0
 offset_right = 198.0
 offset_bottom = 99.0
+mouse_filter = 2
 value = 100.0
 texture_under = ExtResource("22_1bnvo")
 texture_over = ExtResource("25_bchrq")
@@ -427,6 +398,7 @@ offset_left = 70.0
 offset_top = 1.0
 offset_right = 198.0
 offset_bottom = 129.0
+mouse_filter = 2
 value = 100.0
 texture_under = ExtResource("22_1bnvo")
 texture_over = ExtResource("27_1tui2")
@@ -437,6 +409,7 @@ offset_left = 70.0
 offset_top = 32.0
 offset_right = 198.0
 offset_bottom = 160.0
+mouse_filter = 2
 value = 100.0
 texture_under = ExtResource("22_1bnvo")
 texture_over = ExtResource("29_eg2ew")

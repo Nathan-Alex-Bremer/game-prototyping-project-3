@@ -32,9 +32,11 @@ var fading_in: bool = false
 # Ending stuff
 var ending_queued: bool = false
 var ending_timer: float = 0
-var ending_timer_max: float = 15
+var ending_timer_max: float = 1
 var ending: bool = false
 var ending_fading_out: bool = false
+
+var food_restore_timer: float = 3
 
 # Audio
 @export_group("Sounds")
@@ -89,6 +91,7 @@ signal FallEvent() # For plush spawn
 signal ShakeEvent() # For screen shake
 signal FadeOutComplete()
 
+signal QuestComplete()
 signal HornSounded()
 signal BossFightStarted() # For when the boss fight quest is begun/the game needs to spawn a Boss
 signal BossSatisfied() # For when the boss fight quest is begun/the game needs to spawn a Boss
@@ -124,6 +127,14 @@ func _process(delta: float) -> void:
 		if unlock_message_timer <= 0:
 			unlock_message_timer = 0
 			$Popup/AnimationPlayer.play("popup_slide_out")
+	
+	# Handling food
+	if GameState.player_food_store < GameState.player_max_food_store:
+		food_restore_timer -= delta
+		if food_restore_timer <= 0:
+			GameState.player_food_store += 1
+			$CameraArea.set_food_count_val(GameState.player_food_store)
+			food_restore_timer = 3
 	
 	# Handling fade out/in
 	if fading_out:
@@ -212,9 +223,11 @@ func _process(delta: float) -> void:
 		print("Use action!")
 		match GameState.mode:
 			GameState.INTERACT_MODES.PLACE_FOOD:
-				if GameState.in_interact_range:
+				if GameState.in_interact_range and GameState.player_food_store > 0:
 					var camera = get_viewport().get_camera_2d()
 					ClickedFood.emit(camera.get_global_mouse_position())
+					GameState.player_food_store -= 1
+					$CameraArea.set_food_count_val(GameState.player_food_store)
 			GameState.INTERACT_MODES.HORN:
 				HornSounded.emit()
 				$HornAudioStreamPlayer.play()
@@ -446,6 +459,37 @@ func change_mode(mode: int) -> void:
 		#GameState.INTERACT_MODES.HORN:
 			#$InteractModeLabel.text = interact_mode_text + "Ancient Horn"
 
+func change_mode_hotkey(mode: int) -> void:
+	
+	var prev_mode = GameState.mode
+	
+	match mode:
+		GameState.INTERACT_MODES.CHECK:
+			if GameState.place_food_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.CHECK)
+				print("New action mode: Check")
+		GameState.INTERACT_MODES.PLACE_FOOD:
+			if GameState.pet_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.PLACE_FOOD)
+				print("New action mode: Place Food")
+		GameState.INTERACT_MODES.PET:
+			if GameState.poke_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.PET)
+				print("New action mode: Pet")
+		GameState.INTERACT_MODES.POKE:
+			if GameState.drag_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.POKE)
+				print("New action mode: Poke")
+		GameState.INTERACT_MODES.DRAG:
+			if GameState.horn_unlocked or GameState.debug_on:
+				GameState.update_interact_mode(GameState.INTERACT_MODES.DRAG)
+				print("New action mode: Drag")
+		GameState.INTERACT_MODES.HORN:
+			GameState.update_interact_mode(GameState.INTERACT_MODES.HORN)
+			print("New action mode: Ancient Horn")
+			
+	$InteractBar.update_highlight(prev_mode, GameState.mode)
+
 func update_message(message: String) -> void:
 	# Show new message and reset message timer, unless the popup is visible
 	# TODO: Maybe just keep the two message types separate?
@@ -458,13 +502,20 @@ func update_popup_message(message: String) -> void:
 	$Popup/UnlockLabel.text = message
 	unlock_message_timer = 3
 
-func update_interact_highlights() -> void:
+func update_interact_highlights(new_mode: GameState.INTERACT_MODES) -> void:
 	if GameState.mode == GameState.INTERACT_MODES.CHECK:
 		$CameraArea.set_interact_marker_visible(false)
-		$InteractArea2D.visible = false
+		$CameraArea.set_food_count_visible(false)
+		# $InteractArea2D.visible = false
+	elif GameState.mode == GameState.INTERACT_MODES.PLACE_FOOD:
+		$CameraArea.set_interact_marker_visible(true)
+		$CameraArea.set_interact_sprite(new_mode)
+		$CameraArea.set_food_count_visible(true)
 	else:
 		$CameraArea.set_interact_marker_visible(true)
-		$InteractArea2D.visible = true
+		$CameraArea.set_interact_sprite(new_mode)
+		$CameraArea.set_food_count_visible(false)
+		# $InteractArea2D.visible = true
 	
 func creature_left(creature_name: StringName) -> void:
 	update_message(creature_name + " seems to have left...")
@@ -525,12 +576,15 @@ func initialize_text_box() -> void:
 	current_dialogue = tutorial_dialogue[GameState.tutorial_stage].dialogue
 	dialogue_line = 0
 	dialogue_box.set_text(current_dialogue[dialogue_line])
+	$TutorialPrompt/AnimationPlayer.stop()
+	$TutorialPrompt.self_modulate = Color(1.0, 1.0, 1.0, 0.0)
 	
 func advance_text() -> void:
 	# Display next dialogue line
 	dialogue_line += 1
 	if dialogue_line >= current_dialogue.size():
 		toggle_text_box()
+		set_tutorial_prompt()
 		
 		# Ideally this would be held in the dialogue box but for now this'll do
 		EndDialogue.emit()
@@ -550,12 +604,29 @@ func advance_text() -> void:
 		return
 		
 	dialogue_box.set_text(current_dialogue[dialogue_line])
-	
+
+func set_tutorial_prompt() -> void:
+	match GameState.tutorial_stage:
+		0:
+			$TutorialPrompt.text = "WASD TO MOVE"
+			$TutorialPrompt/AnimationPlayer.play("fade_in")
+		1:
+			$TutorialPrompt.text = "RIGHT-CLICK TO INTERACT"
+			$TutorialPrompt/AnimationPlayer.play("fade_in")
+		2:
+			$TutorialPrompt.text = "LEFT-CLICK TO TAKE PHOTO"
+			$TutorialPrompt/AnimationPlayer.play("fade_in")
+		3:
+			$TutorialPrompt.text = "E TO OPEN/CLOSE JOURNAL"
+			$TutorialPrompt/AnimationPlayer.play("fade_in")
 
 func camera_shake(multiplier: float) -> void:
 	$Camera2D.apply_shake(multiplier)
 	play_sound(shake_sound)
-	await get_tree().create_timer(1.5).timeout
+	await get_tree().create_timer(1.0).timeout
+	$Camera2D.apply_shake(multiplier)
+	play_sound(shake_sound)
+	await get_tree().create_timer(1.0).timeout
 	event_finished()
 	
 func camera_shake_multi(multiplier: float) -> void:
@@ -625,7 +696,7 @@ func fade_in(delta: float) -> void:
 	if $Flash.modulate.a - delta <= 0:
 		$Flash.modulate.a = 0
 		GameState.input_allowed = true
-		FadeOutComplete.emit()
+		# FadeOutComplete.emit()
 		# signal
 	else:
 		$Flash.modulate.a -= delta
@@ -634,9 +705,9 @@ func fade_in(delta: float) -> void:
 func toggle_high_contrast(val: bool) -> void:
 	print("Toggle high contrast")
 	if val:
-		$Contrast/ColorRect.set_shader_parameter("contrast", 0.5)
+		$Contrast/ColorRect.material.set_shader_parameter("contrast", 0.5)
 	else:
-		$Contrast/ColorRect.set_shader_parameter("contrast", 0.0)
+		$Contrast/ColorRect.material.set_shader_parameter("contrast", 0.0)
 		
 
 # Ending
@@ -705,12 +776,15 @@ func _on_quest_handler_quest_complete_popup(creature_type: StringName) -> void:
 	
 	if creature_type == "Boss":
 		BossQuestComplete.emit()
-	pass # Replace with function body.
+	
+	QuestComplete.emit()
 
 
 func _on_quest_handler_quest_started(quest: Quest) -> void:
 	if quest.creature_type == "Boss" and not GameState.boss_ever_summoned:
 		BossFightStarted.emit()
+	if quest is Quest07:
+		start_ending()
 
 
 func _on_camera_area_toggle_photo_mode(val: bool) -> void:
@@ -737,17 +811,33 @@ func _on_pause_menu_exit_button_pressed() -> void:
 	quit_to_menu.emit()
 
 func toggle_dyslexic_mode(val: bool) -> void:
+	print("Toggle dyslexic mode")
+	var dyslexic_font = load("res://Fonts/OpenDyslexic-Regular.otf")
+	var regular_font = load("res://Fonts/lazy_dog.ttf")
 	
+	toggle_journal_dyslexic_mode(val)
 	# NOT WORKING! WHY!
 	if val:
 		var id: int = 0
+		
 		for child in find_children("", "Label", true, true):
 			if child is Label:
 				print(str(id))
 				id += 1
-				child.add_theme_font_override("font", load("res://Fonts/OpenDyslexic-Regular.otf"))
+				
+				if child.label_settings.font != dyslexic_font:
+					child.label_settings.font = dyslexic_font
+					child.label_settings.font_size -= 8
+				# child.add_theme_font_override("font", load("res://Fonts/OpenDyslexic-Regular.otf"))
 
 	else:
 		for child in find_children("", "Label", true, true):
 			if child is Label:
-				child.add_theme_font_override("font", load("res://Fonts/lazy_dog.ttf"))
+
+				if child.label_settings.font != regular_font:
+					child.label_settings.font = regular_font
+					child.label_settings.font_size += 8
+				# child.add_theme_font_override("font", load("res://Fonts/lazy_dog.ttf"))
+
+func toggle_journal_dyslexic_mode(val: bool) -> void:
+	$Journal.toggle_dyslexic_mode(val)

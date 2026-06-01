@@ -1,6 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://u0if84w06318"]
+[gd_scene load_steps=3 format=3 uid="uid://u0if84w06318"]
 
 [ext_resource type="Script" uid="uid://co7pjik822yil" path="res://Scenes/main_scene.gd" id="1_hpc76"]
 
+[sub_resource type="Environment" id="Environment_hpc76"]
+background_mode = 3
+adjustment_enabled = true
+
 [node name="MainScene" type="Node2D"]
 script = ExtResource("1_hpc76")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+process_mode = 3
+environment = SubResource("Environment_hpc76")

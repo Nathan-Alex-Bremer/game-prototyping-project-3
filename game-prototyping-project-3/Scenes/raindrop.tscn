@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccxt64q7b0a05"]
+
+[ext_resource type="Script" uid="uid://ci2gtn7t1f3b" path="res://Scripts/raindrop.gd" id="1_7yiau"]
+[ext_resource type="Texture2D" uid="uid://d314dyxst7o5w" path="res://Art/raindrop.png" id="2_nv2n2"]
+
+[node name="Raindrop" type="Node2D"]
+z_index = -1
+script = ExtResource("1_7yiau")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_nv2n2")

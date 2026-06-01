@@ -8,6 +8,7 @@ var main_scene: Node
 var current_scene: Node
 
 var player_node: Node
+var options_menu_node: Node # So I don't have to  redo eeeeverything, I have to pull some real nonsense - sorry
 
 # Player interact options!
 var in_interact_range: bool = true
@@ -48,15 +49,21 @@ var raining: bool = false
 # Food
 var num_food: int = 0
 @export var max_food: int = 10
+var player_food_store: int = 10
+@export var player_max_food_store: int = 10
 @export var food_scene: PackedScene
+
+
 var num_creatures_discovered: int = 0
 
 # Hiding places
 @export var bush_scene: PackedScene
 @export var tree_scene: PackedScene
+@export var raindrop_scene: PackedScene
 
 # Player
 @export var player_scene: PackedScene
+@export var options_menu_scene: PackedScene
 var input_allowed: bool = true
 var player_in_journal: bool = false
 var player_in_quest_menu: bool = false
@@ -300,6 +307,7 @@ func set_initial_scene() -> void:
 		current_scene = main_menu_scene.instantiate()
 		main_scene.add_child(current_scene)
 		player_node.reparent(current_scene)
+		options_menu_node.reparent(current_scene)
 	else:
 		print("ERROR: Main scene not loaded!")
 
@@ -312,6 +320,7 @@ func change_scene(new_scene_name: String) -> void:
 	
 	# To avoid player node being unloaded
 	player_node.reparent(main_scene)
+	options_menu_node.reparent(main_scene)
 	
 	# Load in new scene
 	var new_scene: Node
@@ -340,21 +349,54 @@ func change_scene(new_scene_name: String) -> void:
 	current_scene = new_scene
 	player_node.reparent(new_scene)
 	
+	# I would like to formally apologize for this
+	# I swear next time I'll take the time to set up my UI properly so I don't need to do THIS
+	if new_scene_name == "main_menu_scene":
+		options_menu_node.reparent(new_scene)
+	else:
+		options_menu_node.reparent(player_node)
+
+func open_options_menu() -> void:
+	options_menu_node.show_menu()
+	# current_scene.set_process_input(false)
+
+func close_options_menu() -> void:
+	options_menu_node.hide_menu()
+	# current_scene.set_process_input(true)
+	
 func update_interact_mode(new_mode: INTERACT_MODES):
 	mode = new_mode
-	player_node.update_interact_highlights()
+	player_node.update_interact_highlights(new_mode)
 	
 func on_unpause() -> void:
-	print("On Unpause")
+	print("Game State: On Unpause")
 	if dyslexic_mode_queued:
+		dyslexic_mode = dyslexic_mode_val
 		toggle_dyslexic_mode(dyslexic_mode_val)
 		dyslexic_mode_queued = false
 	if high_contrast_mode_queued:
+		high_contrast_mode = high_contrast_mode_val
 		toggle_high_contrast(high_contrast_mode_val)
 		high_contrast_mode_queued = false
 
 func toggle_dyslexic_mode(val: bool) -> void:
+	print("Game State: Toggle Dyslexic Mode")
+	var dyslexic_font = load("res://Fonts/OpenDyslexic-Regular.otf")
+	var regular_font = load("res://Fonts/lazy_dog.ttf")
+	var tooltip_label_settings: LabelSettings = load("res://Scenes/Quest/InteractModeTooltip.tres")
+	
 	player_node.toggle_dyslexic_mode(val)
+	current_scene.toggle_dyslexic_mode(val)
+	
+	# Handling tooltip
+	# TODO: Handle this more elegantly
+	if val:
+		tooltip_label_settings.font = dyslexic_font
+		tooltip_label_settings.font_size -= 8
+	else:
+		tooltip_label_settings.font = regular_font
+		tooltip_label_settings.font_size += 8
+	
 	
 func edit_bgm_volume(val: float) -> void:
 	# Hacky "mute"
@@ -376,5 +418,6 @@ var contrast_shader = load("res://Scenes/Contrast.gdshader")
 var gamma_shader = load("res://Scripts/Gamma.gdshader")
 
 func toggle_high_contrast(val: bool) -> void:
-	player_node.toggle_high_contrast(val)
+	# player_node.toggle_high_contrast(val)
+	main_scene.toggle_high_contrast(val)
 	
