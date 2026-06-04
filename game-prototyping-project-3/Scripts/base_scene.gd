@@ -107,6 +107,15 @@ func _ready() -> void:
 			new_creature.connect("Leaving", on_creature_leaving)
 			add_child(new_creature)
 			GameState.existing_creatures.append(new_creature)
+		for i in range(1):
+			var new_creature = GameState.moth_scene.instantiate()
+			var random_point = Vector2(randf_range($MinPos.position.x, $MaxPos.position.x), randf_range($MinPos.position.y, $MaxPos.position.y))
+			new_creature.position = random_point
+			new_creature.connect("SelectedForCheck", on_creature_selected_check)
+			new_creature.connect("SpawnFlowers", spawn_flowers_near_position)
+			new_creature.connect("Leaving", on_creature_leaving)
+			add_child(new_creature)
+			GameState.existing_creatures.append(new_creature)
 	
 	for i in range(5):
 		var new_food = GameState.food_scene.instantiate()
@@ -164,10 +173,11 @@ func _process(delta: float) -> void:
 		# TODO: Add check for max food amount here
 		if randi_range(1, 3) == 3:
 			spawn_food()
-			
-		GameState.raining = true
-		$AnimationPlayer.play("rain_fade_in")
-		player.toggle_rain_overlay(GameState.raining)
+		
+		for flower in get_tree().get_nodes_in_group("flowers"):
+			if randi_range(1, 20) == 20:
+				if flower is Flowers:
+					flower.wilt()
 		
 		# Redefining this thing is annoying, maybe move the variable and just change the value each time
 		var required_spawn_roll = 5
@@ -225,6 +235,28 @@ func spawn_food_near_position(position: Vector2, range: float) -> void:
 	var new_food = GameState.food_scene.instantiate()
 	new_food.position = random_point
 	add_child(new_food)
+	
+	
+func spawn_flowers_near_position(position: Vector2, range: float) -> void:
+	print("Spawn flowers near position!")
+	var min_pos: Vector2 = Vector2(position.x - range, position.y - range)
+	# Correction to stop out of bounds
+	if min_pos.x <= $MinPos.position.x:
+		min_pos.x = $MinPos.position.x
+	if min_pos.y <= $MinPos.position.y:
+		min_pos.y = $MinPos.position.y
+	var max_pos: Vector2 = Vector2(position.x + range, position.y + range)
+	# Correction to stop out of bounds
+	if max_pos.x >= $MaxPos.position.x:
+		max_pos.x = $MaxPos.position.x
+	if max_pos.y >= $MaxPos.position.y:
+		max_pos.y = $MaxPos.position.y
+	var random_point = Vector2(randf_range(min_pos.x, max_pos.x), randf_range(min_pos.y, max_pos.y))
+
+	# Instantiate food object
+	var new_flowers = GameState.flowers_scene.instantiate()
+	new_flowers.position = random_point
+	add_child(new_flowers)
 
 func spawn_creature() -> void:
 	var new_creature
@@ -240,18 +272,22 @@ func spawn_creature() -> void:
 				new_creature = GameState.bird_scene.instantiate()
 			"Frog":
 				new_creature = GameState.frog_scene.instantiate()
+			"Moth":
+				new_creature = GameState.moth_scene.instantiate()
 		next_creature_type = ""
 	
 	# Otherwise, randomize the next creature spawn
 	else:
-		var randnum = randi_range(1, 6)
+		var randnum = randi_range(1, 8)
 		if randnum == 1 and GameState.num_existing_creatures >= 5 and GameState.num_found_states >= 4 and not GameState.raining:
 			new_creature = GameState.predator_scene.instantiate()
 		elif randnum == 2 and GameState.num_found_states >= 10:
 			new_creature = GameState.plantcreature_scene.instantiate()
-		elif randnum == 1 and GameState.num_found_states >= 18:
+		elif randnum == 3 and GameState.num_found_states >= 18:
 			new_creature = GameState.frog_scene.instantiate()
-		elif randnum == 3 and GameState.num_found_states >= 25:
+		elif randnum == 4 and GameState.num_found_states >= 25:
+			new_creature = GameState.moth_scene.instantiate()
+		elif randnum == 5 and GameState.num_found_states >= 32:
 			new_creature = GameState.bird_scene.instantiate()
 		else:
 			new_creature = GameState.creature_scene.instantiate()
@@ -260,6 +296,7 @@ func spawn_creature() -> void:
 	new_creature.position = random_point
 	new_creature.connect("SelectedForCheck", on_creature_selected_check)
 	new_creature.connect("SpawnFood", spawn_food_near_position)
+	new_creature.connect("SpawnFlowers", spawn_flowers_near_position)
 	new_creature.connect("Leaving", on_creature_leaving)
 	add_child(new_creature)
 	GameState.existing_creatures.append(new_creature)
@@ -316,6 +353,13 @@ func found_states_updated() -> void:
 		25:
 			player.interact_mode_unlocked(GameState.INTERACT_MODES.DRAG)
 			GameState.drag_unlocked = true
+			next_creature_type = "Moth"
+			GameState.num_creatures_discovered += 1
+		
+		28:
+			next_creature_type = "PlantCreature"
+		
+		32:
 			next_creature_type = "Bird"
 			GameState.num_creatures_discovered += 1
 	

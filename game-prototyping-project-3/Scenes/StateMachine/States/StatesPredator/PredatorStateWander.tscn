@@ -229,12 +229,12 @@ metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CFoundCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("24_kdpdr")
-creature_types = Array[StringName]([&"Predator", &"Creature", &"PlantCreature", &"Bird", &"Frog"])
+creature_types = Array[StringName]([&"Predator", &"Creature", &"PlantCreature", &"Bird", &"Frog", &"Moth"])
 metadata/_custom_type_script = "uid://eprd3dqvhob1"
 
 [node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("25_m3xcu")
-creature_types = Array[StringName]([&"Predator", &"Creature", &"PlantCreature", &"Bird", &"Frog"])
+creature_types = Array[StringName]([&"Predator", &"Creature", &"PlantCreature", &"Bird", &"Frog", &"Moth"])
 metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
 
 [node name="TransitionToRest" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]

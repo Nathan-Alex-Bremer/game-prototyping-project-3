@@ -18,7 +18,7 @@ func _ready() -> void:
 	percent_needed = 1.0 # Only need 3/4 images
 
 func check_requirements() -> bool:
-	if GameState.completed_quests < 6 and (GameState.debug_on == false): # All other quests must be complete
+	if GameState.completed_quests < 7 and (GameState.debug_on == false): # All other quests must be complete
 		return false
 	return true
 

@@ -10,3 +10,8 @@ func act(blackboard: Blackboard, owning_creature: Creature, owning_state: Monste
 			if hiding_place:
 				print("Ignite hiding place!")
 				hiding_place.ignite()
+	
+	if blackboard.seen_flowers.size() > 0:
+		for flower in blackboard.seen_flowers:
+			if flower:
+				flower.ignite()

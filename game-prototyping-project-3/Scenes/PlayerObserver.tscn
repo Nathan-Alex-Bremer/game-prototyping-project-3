@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://cjh4yfiih2h2h"]
+[gd_scene load_steps=72 format=3 uid="uid://cjh4yfiih2h2h"]
 
 [ext_resource type="Script" uid="uid://b1ae65hd7fin6" path="res://Scripts/player_observer.gd" id="1_4o3b8"]
 [ext_resource type="AudioStream" uid="uid://coyb5j1kecdj6" path="res://Audio/SFX/UI/CAMERA Minolta 505 Shutter.wav" id="2_6gyj7"]
@@ -32,12 +32,105 @@
 [ext_resource type="Script" uid="uid://skxghvaqthkx" path="res://Scripts/shake_camera_2d.gd" id="19_16d5b"]
 [ext_resource type="Texture2D" uid="uid://bbwroyuf7mpqu" path="res://Art/Menu/endscreen.png" id="23_6v2ii"]
 [ext_resource type="PackedScene" uid="uid://8kl81xp6dm43" path="res://Scenes/InteractBar.tscn" id="23_ejimf"]
+[ext_resource type="Texture2D" uid="uid://dn6dvcl4vjwpo" path="res://Art/Menu/menu_button_large.png" id="25_ilmva"]
+[ext_resource type="Script" uid="uid://dl661qq6jns5n" path="res://Scenes/ui_button.gd" id="26_vy775"]
 [ext_resource type="Texture2D" uid="uid://dliscep07iem" path="res://Art/unlock_popup_floating.png" id="27_pcy86"]
+[ext_resource type="LabelSettings" uid="uid://ckfxrvijyuu5t" path="res://Scenes/Quest/journal_title_label_settings.tres" id="27_vebv0"]
 [ext_resource type="Shader" uid="uid://cns2hoy3j6a6f" path="res://Scripts/Gamma.gdshader" id="34_3tbvk"]
 [ext_resource type="Shader" uid="uid://dhty0mf8mbvln" path="res://Scenes/Contrast.gdshader" id="35_6v2ii"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8kdyt"]
 size = Vector2(85, 127)
+
+[sub_resource type="Animation" id="Animation_jixph"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cmsa4"]
+resource_name = "mouse_enter"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 0.705882, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_uuh5q"]
+resource_name = "mouse_exit"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 0.705882, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j1v2v"]
+_data = {
+&"RESET": SubResource("Animation_jixph"),
+&"mouse_enter": SubResource("Animation_cmsa4"),
+&"mouse_exit": SubResource("Animation_uuh5q")
+}
 
 [sub_resource type="LabelSettings" id="LabelSettings_fjm26"]
 font = ExtResource("7_681o5")
@@ -507,11 +600,40 @@ texture = ExtResource("3_40w55")
 
 [node name="EndScreen" type="Sprite2D" parent="."]
 process_mode = 3
+visible = false
 modulate = Color(1, 1, 1, 0)
 z_index = 180
 position = Vector2(-2, -7)
 texture = ExtResource("23_6v2ii")
 script = ExtResource("17_w1wju")
+
+[node name="ExitButton" type="Button" parent="EndScreen"]
+offset_left = -334.0
+offset_top = 225.0
+offset_right = 342.0
+offset_bottom = 298.0
+pivot_offset = Vector2(338, 36)
+focus_mode = 0
+icon = ExtResource("25_ilmva")
+flat = true
+icon_alignment = 1
+script = ExtResource("26_vy775")
+
+[node name="Label" type="Label" parent="EndScreen/ExitButton"]
+layout_mode = 0
+offset_left = 155.0
+offset_top = 21.0
+offset_right = 513.0
+offset_bottom = 58.0
+text = "EXIT TO MAIN MENU"
+label_settings = ExtResource("27_vebv0")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="EndScreen/ExitButton"]
+libraries = {
+&"": SubResource("AnimationLibrary_j1v2v")
+}
 
 [node name="InteractBar" parent="." instance=ExtResource("23_ejimf")]
 position = Vector2(0, -7)
@@ -718,6 +840,9 @@ libraries = {
 }
 
 [connection signal="tutorial_close" from="Journal" to="." method="_on_journal_tutorial_close"]
+[connection signal="mouse_entered" from="EndScreen/ExitButton" to="EndScreen/ExitButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="EndScreen/ExitButton" to="EndScreen/ExitButton" method="_on_mouse_exited"]
+[connection signal="pressed" from="EndScreen/ExitButton" to="EndScreen" method="_on_exit_button_pressed"]
 [connection signal="toggle_photo_mode" from="CameraArea" to="." method="_on_camera_area_toggle_photo_mode"]
 [connection signal="mouse_entered" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="InteractArea2D" to="." method="_on_interact_area_2d_mouse_exited"]

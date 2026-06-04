@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://c23s65tkj6afo"]
+[gd_scene load_steps=43 format=3 uid="uid://c23s65tkj6afo"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_i6gyh"]
 [ext_resource type="Texture2D" uid="uid://bhy3deva1fdd1" path="res://Art/CreatureStates/CreatureWalk.png" id="2_47mlt"]
@@ -38,6 +38,7 @@
 [ext_resource type="Script" uid="uid://d22jqfqjcw4hl" path="res://Scripts/StateMachine/Conditions/c_random_number.gd" id="36_dkbxo"]
 [ext_resource type="Script" uid="uid://cksqnfmb1fs85" path="res://Scripts/StateMachine/Conditions/c_hit_points_lessthan.gd" id="37_lclny"]
 [ext_resource type="Script" uid="uid://ccg5mem57y4mf" path="res://Scripts/StateMachine/Actions/a_set_hiding_place.gd" id="38_rurbu"]
+[ext_resource type="Script" uid="uid://b2pl20j7dcrxi" path="res://Scripts/StateMachine/Conditions/c_found_flowers.gd" id="39_dk6x0"]
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="39_dkbxo"]
 [ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="40_rurbu"]
 [ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="41_dk6x0"]
@@ -48,7 +49,7 @@ simple_name = &"Wander"
 sprite = ExtResource("2_47mlt")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/AMoveRandomDirection"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/AConditionalSpriteChangeHungry"), NodePath("EnterActions/AConditionalSpriteChangeFight")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToMoveToFriend"), NodePath("Transitions/TransitionToHide"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToMoveToFood"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToMoveToFriend"), NodePath("Transitions/TransitionToHide"), NodePath("Transitions/TransitionToFrolick"), NodePath("Transitions/TransitionToIdle"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToMoveToFood"), NodePath("Transitions/TransitionToChase"), NodePath("Transitions/TransitionToRest")]
 metadata/_custom_type_script = "uid://bt2r56m3ykt2w"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -240,12 +241,12 @@ metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CFoundCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("24_bjtgm")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Moth"])
 metadata/_custom_type_script = "uid://eprd3dqvhob1"
 
 [node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("25_k08xu")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Moth"])
 metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
 
 [node name="TransitionToRest" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
@@ -344,6 +345,24 @@ metadata/_custom_type_script = "uid://cksqnfmb1fs85"
 [node name="ASetHidingPlace" type="Node" parent="Transitions/TransitionToHide"]
 script = ExtResource("38_rurbu")
 metadata/_custom_type_script = "uid://ccg5mem57y4mf"
+
+[node name="TransitionToFrolick" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_1m2yd")
+conditions = [NodePath("CWaitTimeZero"), NodePath("CRandomNumber"), NodePath("CFoundFlowers")]
+next_state = &"creaturestatefrolick"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToFrolick"]
+script = ExtResource("12_mnxot")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="CRandomNumber" type="Node" parent="Transitions/TransitionToFrolick"]
+script = ExtResource("36_dkbxo")
+metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
+
+[node name="CFoundFlowers" type="Node" parent="Transitions/TransitionToFrolick"]
+script = ExtResource("39_dk6x0")
+metadata/_custom_type_script = "uid://b2pl20j7dcrxi"
 
 [node name="TransitionToDrag" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("11_1m2yd")

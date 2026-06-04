@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://qdq5e3o7qiw8"]
+[gd_scene load_steps=41 format=3 uid="uid://qdq5e3o7qiw8"]
 
 [ext_resource type="Script" uid="uid://c5bpai0w1a10x" path="res://Scripts/Quest/quest_handler.gd" id="1_t8urw"]
 [ext_resource type="PackedScene" uid="uid://cp7by1k8iepur" path="res://Scenes/Quest/QuestLabel.tscn" id="2_com2b"]
@@ -23,6 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://c7wid8d14qhyy" path="res://Art/QuestMenu/close_button.png" id="13_p2dr7"]
 [ext_resource type="Script" uid="uid://b8clyao4j75w4" path="res://Scripts/Quest/Quests/quest_06_boss.gd" id="22_pe762"]
 [ext_resource type="Script" uid="uid://b4o2fd4evia57" path="res://Scripts/Quest/Quests/quest_07_ending.gd" id="23_47dfg"]
+[ext_resource type="Script" uid="uid://gn1bvdav2c2h" path="res://Scripts/Quest/Quests/quest_08_moth.gd" id="24_p2dr7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_f51rn"]
 font = ExtResource("8_hif3n")
@@ -183,7 +184,7 @@ script = ExtResource("1_t8urw")
 quest_label_object = ExtResource("2_com2b")
 first_label_pos = Vector2(0, -100)
 label_pos_move = 100.0
-quest_list = [NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest05"), NodePath("Quests/Quest06"), NodePath("Quests/Quest07")]
+quest_list = [NodePath("Quests/Quest01"), NodePath("Quests/Quest02"), NodePath("Quests/Quest03"), NodePath("Quests/Quest04"), NodePath("Quests/Quest08"), NodePath("Quests/Quest05"), NodePath("Quests/Quest06"), NodePath("Quests/Quest07")]
 open_sound = ExtResource("3_jgyw0")
 close_sound = ExtResource("4_4bce7")
 button_click_sound = ExtResource("5_jgyw0")
@@ -454,6 +455,10 @@ metadata/_custom_type_script = "uid://b8clyao4j75w4"
 [node name="Quest07" type="Node" parent="Quests"]
 script = ExtResource("23_47dfg")
 metadata/_custom_type_script = "uid://b4o2fd4evia57"
+
+[node name="Quest08" type="Node" parent="Quests"]
+script = ExtResource("24_p2dr7")
+metadata/_custom_type_script = "uid://tlni8678i0u5"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 max_polyphony = 2

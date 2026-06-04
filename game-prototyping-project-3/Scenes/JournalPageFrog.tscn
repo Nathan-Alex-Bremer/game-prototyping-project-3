@@ -268,17 +268,17 @@ position = Vector2(423.25, 8.75)
 scale = Vector2(0.742622, 0.0717592)
 texture = ExtResource("3_0obtk")
 
-[node name="StateChase" type="Label" parent="Container"]
+[node name="StateSpray" type="Label" parent="Container"]
 self_modulate = Color(0.364706, 0.364706, 0.364706, 1)
 z_index = 2
 offset_left = 141.0
 offset_top = 435.0
 offset_right = 640.0
 offset_bottom = 460.0
-text = "- (LOCKED: I wonder what happens when it gets angry...)"
+text = "- (LOCKED: I wonder what it uses its water for...)"
 label_settings = ExtResource("4_kf6wp")
 
-[node name="UpdateLabel" type="Sprite2D" parent="Container/StateChase"]
+[node name="UpdateLabel" type="Sprite2D" parent="Container/StateSpray"]
 visible = false
 self_modulate = Color(1, 1, 1, 0.541176)
 z_index = -1

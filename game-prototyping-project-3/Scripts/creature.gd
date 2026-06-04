@@ -63,6 +63,7 @@ var state_captured: bool = false
 # Signals
 signal SelectedForCheck
 signal SpawnFood
+signal SpawnFlowers(location: Vector2, distance: float)
 signal Leaving(creature_type: StringName, creature_name: StringName)
 
 # Called when the node enters the scene tree for the first time.
@@ -341,7 +342,9 @@ func toggle_poison_color(has_been_poisoned: bool) -> void:
 # Gross way to do this, should use signals, but for now I don't want to bother
 func spawn_food_nearby() -> void:
 	SpawnFood.emit(position, 100)
-	
+
+func spawn_flowers_nearby() -> void:
+	SpawnFlowers.emit(position, 100)
 
 # State shifting (for events)
 
@@ -519,6 +522,10 @@ func _on_eat_radius_area_entered(area: Area2D) -> void:
 	if area.is_in_group("cover"):
 		blackboard.entered_cover += 1
 		return
+	
+	if area.is_in_group("flowers"):
+		blackboard.seen_flowers.append(area)
+		return
 
 
 func _on_eat_radius_area_exited(area: Area2D) -> void:
@@ -529,4 +536,8 @@ func _on_eat_radius_area_exited(area: Area2D) -> void:
 	
 	if area.is_in_group("cover"):
 		blackboard.entered_cover -= 1
+		return
+	
+	if area.is_in_group("flowers"):
+		blackboard.seen_flowers.erase(area)
 		return

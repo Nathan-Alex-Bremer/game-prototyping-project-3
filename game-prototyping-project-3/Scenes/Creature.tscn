@@ -1,4 +1,4 @@
-[gd_scene load_steps=54 format=3 uid="uid://pax8hqcis1wq"]
+[gd_scene load_steps=55 format=3 uid="uid://pax8hqcis1wq"]
 
 [ext_resource type="Script" uid="uid://cm43a8yyl6kg3" path="res://Scripts/creature.gd" id="1_s16ri"]
 [ext_resource type="AudioStream" uid="uid://dfrp8gf07lnxu" path="res://Audio/SFX/CreatureInteraction/Lyd_SFX_255_ Scalpel_1.wav" id="2_xs1ps"]
@@ -36,6 +36,7 @@
 [ext_resource type="PackedScene" uid="uid://b36if7oasvuhe" path="res://Scenes/StateMachine/States/SM_Creature_Celebrate.tscn" id="28_pq2fk"]
 [ext_resource type="PackedScene" uid="uid://d04f36tauafwu" path="res://Scenes/StateMachine/States/SM_Creature_Panic.tscn" id="29_b262y"]
 [ext_resource type="Texture2D" uid="uid://dwui4vl1tcqov" path="res://Art/Meters/FeistyMeter.png" id="29_x3d5h"]
+[ext_resource type="PackedScene" uid="uid://dupyo5xmdle3t" path="res://Scenes/StateMachine/States/SM_Creature_Frolick.tscn" id="30_b262y"]
 [ext_resource type="Texture2D" uid="uid://863ba5uydxmy" path="res://Art/Meters/TiredFrame.png" id="30_xpye3"]
 [ext_resource type="Texture2D" uid="uid://bcafxjorfg62j" path="res://Art/Meters/TiredMeter.png" id="31_xs1ps"]
 [ext_resource type="LabelSettings" uid="uid://c4pg6vucq1524" path="res://Scenes/Quest/creature_state_label_settings.tres" id="37_no660"]
@@ -235,7 +236,7 @@ input_pickable = true
 script = ExtResource("1_s16ri")
 feisty = 5.0
 move_speed = 50.0
-friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Boss"])
+friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Boss", &"Moth"])
 predator_types = Array[StringName]([&"Predator"])
 blackboard = NodePath("StateMachine/Blackboard")
 check_sound = ExtResource("2_xs1ps")
@@ -361,6 +362,10 @@ blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 
 [node name="CreatureStatePanic" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("29_b262y")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="CreatureStateFrolick" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("30_b262y")]
 blackboard = NodePath("../Blackboard")
 owning_creature = NodePath("../..")
 

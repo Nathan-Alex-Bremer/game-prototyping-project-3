@@ -10,7 +10,7 @@ class_name JournalPageFrog
 @onready var state_pet: Label = $Container/StatePet
 @onready var state_poke: Label = $Container/StatePoke
 @onready var state_play: Label = $Container/StatePlay
-@onready var state_chase: Label = $Container/StateChase
+@onready var state_spray: Label = $Container/StateSpray
 @onready var state_attack: Label = $Container/StateAttack
 @onready var state_flee: Label = $Container/StateFlee
 
@@ -21,7 +21,7 @@ class_name JournalPageFrog
 @onready var state_pet_update: Sprite2D = $Container/StatePet/UpdateLabel
 @onready var state_poke_update: Sprite2D = $Container/StatePoke/UpdateLabel
 @onready var state_play_update: Sprite2D = $Container/StatePlay/UpdateLabel
-@onready var state_chase_update: Sprite2D = $Container/StateChase/UpdateLabel
+@onready var state_spray_update: Sprite2D = $Container/StateSpray/UpdateLabel
 @onready var state_attack_update: Sprite2D = $Container/StateAttack/UpdateLabel
 @onready var state_flee_update: Sprite2D = $Container/StateFlee/UpdateLabel
 
@@ -143,7 +143,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				state_play.text = "- PLAY: Plays by spraying a fountain of water from their back.."
+				state_play.text = "- PLAY: Plays by spraying a fountain of water from their back."
 				state_play_update.visible = true
 				progress += 1
 			if times_found == 10:
@@ -151,21 +151,21 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				state_play_update.visible = true
 				state_play.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
-		"Chase":
+		"Spray":
 			if times_found == 1:
-				state_chase.text = "- CHASE: Will pursue other creatures when agitated."
-				state_chase_update.visible = true
-				state_chase.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_spray.text = "- SPRAY: Will occasionally spray out water."
+				state_spray_update.visible = true
+				state_spray.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				state_chase.text = "- CHASE: When agitated, will puff up and hop after a target."
-				state_chase_update.visible = true
+				state_spray.text = "- SPRAY: Sprays water to nurture flowers."
+				state_spray_update.visible = true
 				progress += 1
 			if times_found == 10:
-				state_chase.text = "- CHASE: Hops quickly towards a fight to relieve stress."
-				state_chase_update.visible = true
-				state_chase.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
+				state_spray.text = "- SPRAY: Sprays water to release pressure and water flowers."
+				state_spray_update.visible = true
+				state_spray.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Attack":
 			if times_found == 1:
@@ -234,7 +234,7 @@ func clear_update_labels() -> void:
 	state_pet_update.visible = false
 	state_poke_update.visible = false
 	state_play_update.visible = false
-	state_chase_update.visible = false
+	state_spray_update.visible = false
 	state_attack_update.visible = false
 	state_flee_update.visible = false
 	

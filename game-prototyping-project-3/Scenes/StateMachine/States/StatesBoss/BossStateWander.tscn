@@ -249,12 +249,12 @@ metadata/_custom_type_script = "uid://dfynx3ugamgkv"
 
 [node name="CFoundCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("28_3oxx0")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator", &"Frog"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator", &"Frog", &"Moth"])
 metadata/_custom_type_script = "uid://eprd3dqvhob1"
 
 [node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToChase"]
 script = ExtResource("29_csfoq")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator", &"Frog"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator", &"Frog", &"Moth"])
 metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
 
 [node name="TransitionToRest" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
@@ -302,12 +302,12 @@ metadata/_custom_type_script = "uid://cu0y8uu17g6b0"
 
 [node name="CFoundCreature" type="Node" parent="Transitions/TransitionToHunt"]
 script = ExtResource("28_3oxx0")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator", &"Frog"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator", &"Frog", &"Moth"])
 metadata/_custom_type_script = "uid://eprd3dqvhob1"
 
 [node name="ASetTargetCreature" type="Node" parent="Transitions/TransitionToHunt"]
 script = ExtResource("29_csfoq")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator", &"Frog"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Predator", &"Frog", &"Moth"])
 metadata/_custom_type_script = "uid://b1ppjwml1bcvl"
 
 [node name="CHitPointsGreaterThan" type="Node" parent="Transitions/TransitionToHunt"]

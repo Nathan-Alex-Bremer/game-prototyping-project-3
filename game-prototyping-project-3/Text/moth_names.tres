@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="NameList" load_steps=2 format=3 uid="uid://dupi5t7aus5uv"]
+
+[ext_resource type="Script" uid="uid://bdc5xfljqnhye" path="res://Scripts/name_list.gd" id="1_i3c6d"]
+
+[resource]
+script = ExtResource("1_i3c6d")
+names = Array[String](["Mothimer", "White Anglo-Saxon Pal", "Stinger", "Buzz Bomber", "Peepers", "Eye Spy", "Beethany", "Mothimilian", "Margarine", "Fly Guy", "Buzzin' Bob", "Buzz Cut", "Flutterin' Frank", "Purple Rain", "Porble", "Pollen Head", "Violet", "Bugsy", "Pokey", "Four-Eyes"])
+metadata/_custom_type_script = "uid://bdc5xfljqnhye"

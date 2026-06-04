@@ -16,3 +16,9 @@ func _process(delta: float) -> void:
 			fading_out = false
 		else:
 			modulate.a += delta
+
+
+func _on_exit_button_pressed() -> void:
+	get_tree().paused = false
+	modulate.a = 0
+	GameState.change_scene("main_menu_scene")

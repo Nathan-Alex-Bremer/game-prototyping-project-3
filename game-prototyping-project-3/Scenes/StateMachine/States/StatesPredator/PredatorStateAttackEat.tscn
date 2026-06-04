@@ -44,7 +44,7 @@ metadata/_custom_type_script = "uid://b378gqkrvg1q5"
 
 [node name="AAttackEat" type="Node" parent="EnterActions"]
 script = ExtResource("4_2ljow")
-creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Moth"])
 metadata/_custom_type_script = "uid://dlhq6fj3iin5c"
 
 [node name="APlaySound" type="Node" parent="EnterActions"]

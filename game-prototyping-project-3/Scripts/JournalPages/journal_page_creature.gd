@@ -10,7 +10,7 @@ class_name JournalPageCreature
 @onready var state_pet: Label = $Container/StatePet
 @onready var state_poke: Label = $Container/StatePoke
 @onready var state_play: Label = $Container/StatePlay
-@onready var state_chase: Label = $Container/StateChase
+@onready var state_dig: Label = $Container/StateDig
 @onready var state_attack: Label = $Container/StateAttack
 @onready var state_flee: Label = $Container/StateFlee
 
@@ -21,7 +21,7 @@ class_name JournalPageCreature
 @onready var state_pet_update: Sprite2D = $Container/StatePet/UpdateLabel
 @onready var state_poke_update: Sprite2D = $Container/StatePoke/UpdateLabel
 @onready var state_play_update: Sprite2D = $Container/StatePlay/UpdateLabel
-@onready var state_chase_update: Sprite2D = $Container/StateChase/UpdateLabel
+@onready var state_dig_update: Sprite2D = $Container/StateDig/UpdateLabel
 @onready var state_attack_update: Sprite2D = $Container/StateAttack/UpdateLabel
 @onready var state_flee_update: Sprite2D = $Container/StateFlee/UpdateLabel
 
@@ -57,7 +57,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 		"Idle":
 			if times_found == 1:
 				state_idle.text = "- IDLE: Pale in color."
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_idle.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				state_idle_update.visible = true
 				print("Progress:" + str(progress))
 				print("Total States: " + str(total_states))
@@ -76,7 +76,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_eat.text = "- EAT: Enjoys eating fruit."
 				state_eat_update.visible = true
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_eat.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -92,7 +92,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_rest.text = "- REST: Takes short naps every so often to restore energy."
 				state_rest_update.visible = true
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_rest.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -108,7 +108,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_pet.text = "- PET: Their fur is soft and velvety."
 				state_pet_update.visible = true
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_pet.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -124,7 +124,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_poke.text = "- ANNOY: Becomes agitated when poked."
 				state_poke_update.visible = true
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_poke.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -140,7 +140,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_play.text = "- PLAY: Will jump around and make squeaking noises with others."
 				state_play_update.visible = true
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_play.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -152,27 +152,27 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 				state_play_update.visible = true
 				state_play.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
-		"Chase":
+		"Dig":
 			if times_found == 1:
-				state_chase.text = "- CHASE: Runs around when agitated."
-				state_chase_update.visible = true
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_dig.text = "- DIG: Sometimes digs holes."
+				state_dig_update.visible = true
+				state_dig.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
-				state_chase.text = "- CHASE: When agitated, will seek out and attack others."
-				state_chase_update.visible = true
+				state_dig.text = "- DIG: Digs into the ground when anxious."
+				state_dig_update.visible = true
 				progress += 1
 			if times_found == 10:
-				state_chase.text = "- CHASE: When agitated, will chase down others until worn out."
-				state_chase_update.visible = true
-				state_chase.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
+				state_dig.text = "- DIG: Seems to dig holes purely for fun."
+				state_dig_update.visible = true
+				state_dig.self_modulate = Color(0.0, 0.5, 0.0, 1.0)
 				progress += 1
 		"Attack":
 			if times_found == 1:
 				state_attack.text = "- ATTACK: Fights primarily by biting."
 				state_attack_update.visible = true
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_attack.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -188,7 +188,7 @@ func on_state_found(found_state: StringName, times_found: int) -> void:
 			if times_found == 1:
 				state_flee.text = "- FLEE: Runs around aimlessly when near predators."
 				state_flee_update.visible = true
-				state_wander.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
+				state_flee.self_modulate = Color(0.514, 0.314, 0.012, 1.0)
 				progress += 1
 				found_states_creature += 1
 			if times_found == 5:
@@ -235,7 +235,7 @@ func clear_update_labels() -> void:
 	state_pet_update.visible = false
 	state_poke_update.visible = false
 	state_play_update.visible = false
-	state_chase_update.visible = false
+	state_dig_update.visible = false
 	state_attack_update.visible = false
 	state_flee_update.visible = false
 	

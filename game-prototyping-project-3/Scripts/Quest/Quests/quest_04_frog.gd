@@ -12,8 +12,8 @@ func _ready() -> void:
 	
 	creature_type = "Frog"
 	state_types = {
-		"Eat": 0,
-		"Attack": 0
+		"Attack": 0,
+		"Eat": 0
 	}
 	pics_per_state = 10
 	percent_needed = 0.5 # Only need 3/4 images

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cp4p7xjg40at7"]
+[gd_scene load_steps=33 format=3 uid="uid://cp4p7xjg40at7"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_r4ibs"]
 [ext_resource type="Texture2D" uid="uid://buo6cikmg7fjr" path="res://Art/FrogStates/FrogIdle.png" id="2_1s4om"]
@@ -31,6 +31,7 @@
 [ext_resource type="Script" uid="uid://ca11g70lj4553" path="res://Scripts/StateMachine/Conditions/c_is_dragging.gd" id="26_00m6y"]
 [ext_resource type="Script" uid="uid://wjmk4see6661" path="res://Scripts/StateMachine/Conditions/c_is_celebrate.gd" id="30_1uj7p"]
 [ext_resource type="Script" uid="uid://boa6lvsiakkpl" path="res://Scripts/StateMachine/Conditions/c_is_panic.gd" id="31_y0mvm"]
+[ext_resource type="Script" uid="uid://b2pl20j7dcrxi" path="res://Scripts/StateMachine/Conditions/c_found_flowers.gd" id="32_y0mvm"]
 
 [node name="FrogStateIdle" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_r4ibs")
@@ -39,7 +40,7 @@ sprite = ExtResource("2_1s4om")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/ARandomChance")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
 physics_update_actions = [NodePath("PhysicsUpdateActions/AVelocityZero")]
-transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToWander2"), NodePath("Transitions/TransitionToRest")]
+transitions = [NodePath("Transitions/TransitionToDrag"), NodePath("Transitions/TransitionToCelebrate"), NodePath("Transitions/TransitionToPanic"), NodePath("Transitions/TransitionToStunned"), NodePath("Transitions/TransitionToPet"), NodePath("Transitions/TransitionToPoke"), NodePath("Transitions/TransitionToFlee"), NodePath("Transitions/TransitionToFleeTarget"), NodePath("Transitions/TransitionToFoodLure"), NodePath("Transitions/TransitionToSpray2"), NodePath("Transitions/TransitionToWander"), NodePath("Transitions/TransitionToWander2"), NodePath("Transitions/TransitionToRest")]
 metadata/_custom_type_script = "uid://bbs64dssq5ibp"
 
 [node name="EnterActions" type="Node" parent="."]
@@ -247,22 +248,22 @@ script = ExtResource("24_3kxbk")
 max = 5
 metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
 
-[node name="TransitionToDig" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+[node name="TransitionToSpray" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
 script = ExtResource("11_3nqv0")
 conditions = [NodePath("CWaitTimeZero"), NodePath("CRandomNumber"), NodePath("CFeistyGreaterThan")]
-next_state = &"frogstatedig"
+next_state = &"frogstatespray"
 metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 
-[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToDig"]
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToSpray"]
 script = ExtResource("15_twkkw")
 metadata/_custom_type_script = "uid://b3sg64keruhqm"
 
-[node name="CRandomNumber" type="Node" parent="Transitions/TransitionToDig"]
+[node name="CRandomNumber" type="Node" parent="Transitions/TransitionToSpray"]
 script = ExtResource("24_3kxbk")
-max = 10
+max = 5
 metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
 
-[node name="CFeistyGreaterThan" type="Node" parent="Transitions/TransitionToDig"]
+[node name="CFeistyGreaterThan" type="Node" parent="Transitions/TransitionToSpray"]
 script = ExtResource("25_olpn0")
 val = 50.0
 metadata/_custom_type_script = "uid://dfynx3ugamgkv"
@@ -296,3 +297,21 @@ metadata/_custom_type_script = "uid://cmse6ha62ltgm"
 [node name="CIsPanic" type="Node" parent="Transitions/TransitionToPanic"]
 script = ExtResource("31_y0mvm")
 metadata/_custom_type_script = "uid://boa6lvsiakkpl"
+
+[node name="TransitionToSpray2" type="Node" parent="Transitions" node_paths=PackedStringArray("conditions")]
+script = ExtResource("11_3nqv0")
+conditions = [NodePath("CWaitTimeZero"), NodePath("CRandomNumber"), NodePath("CFoundFlowers")]
+next_state = &"frogstatespray"
+metadata/_custom_type_script = "uid://cmse6ha62ltgm"
+
+[node name="CWaitTimeZero" type="Node" parent="Transitions/TransitionToSpray2"]
+script = ExtResource("15_twkkw")
+metadata/_custom_type_script = "uid://b3sg64keruhqm"
+
+[node name="CRandomNumber" type="Node" parent="Transitions/TransitionToSpray2"]
+script = ExtResource("24_3kxbk")
+metadata/_custom_type_script = "uid://d22jqfqjcw4hl"
+
+[node name="CFoundFlowers" type="Node" parent="Transitions/TransitionToSpray2"]
+script = ExtResource("32_y0mvm")
+metadata/_custom_type_script = "uid://b2pl20j7dcrxi"

@@ -1,0 +1,479 @@
+[gd_scene load_steps=57 format=3 uid="uid://c6ya4rc3fpt7i"]
+
+[ext_resource type="Script" uid="uid://b1o4ijlglxynq" path="res://Scripts/creature_moth.gd" id="1_wimnb"]
+[ext_resource type="AudioStream" uid="uid://dfrp8gf07lnxu" path="res://Audio/SFX/CreatureInteraction/Lyd_SFX_255_ Scalpel_1.wav" id="2_6i1ri"]
+[ext_resource type="AudioStream" uid="uid://culd6ph4uphpj" path="res://Audio/SFX/CreatureInteraction/Pet1 - Beard_Hand_off_Medium - Hand_Body_Foley.wav" id="3_1tdmu"]
+[ext_resource type="AudioStream" uid="uid://b23fxucbjwntq" path="res://Audio/SFX/CreatureInteraction/EFX SD Heads Hit Together 02.wav" id="4_d108p"]
+[ext_resource type="AudioStream" uid="uid://cfcu1f27ai24f" path="res://Audio/SFX/CreatureInteraction/PickUp - Bag Foley_Wallet_Leather_Grab.wav" id="5_tbero"]
+[ext_resource type="AudioStream" uid="uid://ly81x8jd8r4c" path="res://Audio/SFX/CreatureInteraction/PutDown Bag Foley_Wallet_Leather_Grab.wav" id="6_08axl"]
+[ext_resource type="Texture2D" uid="uid://g2gn1wcaoa7r" path="res://Art/MothStates/MothWander.png" id="7_gs155"]
+[ext_resource type="Texture2D" uid="uid://dt117rj5wkomh" path="res://Art/MothStates/Pollen.png" id="8_a62su"]
+[ext_resource type="Script" uid="uid://bbs64dssq5ibp" path="res://Scripts/StateMachine/state_machine.gd" id="8_twonb"]
+[ext_resource type="Script" uid="uid://cbus3gghnjkpd" path="res://Scripts/StateMachine/blackboard_moth.gd" id="9_gs155"]
+[ext_resource type="PackedScene" uid="uid://oa6iqpdd5aya" path="res://Scenes/StateMachine/States/StatesMoth/MothStateAttack.tscn" id="10_a62su"]
+[ext_resource type="PackedScene" uid="uid://bkcvblgmy3w1e" path="res://Scenes/StateMachine/States/StatesMoth/MothStateCelebrate.tscn" id="11_7884p"]
+[ext_resource type="PackedScene" uid="uid://cm000ywtnpjdd" path="res://Scenes/StateMachine/States/StatesMoth/MothStateChase.tscn" id="12_x2503"]
+[ext_resource type="PackedScene" uid="uid://cg22klrc42lbv" path="res://Scenes/StateMachine/States/StatesMoth/MothStateDrag.tscn" id="13_q7dlp"]
+[ext_resource type="PackedScene" uid="uid://c5qhe1sp7eqb3" path="res://Scenes/StateMachine/States/StatesMoth/MothStateEat.tscn" id="14_3kkpm"]
+[ext_resource type="PackedScene" uid="uid://cwjxhivrbbefy" path="res://Scenes/StateMachine/States/StatesMoth/MothStateFlee.tscn" id="15_2o4t3"]
+[ext_resource type="PackedScene" uid="uid://dpbbe0mn83en1" path="res://Scenes/StateMachine/States/StatesMoth/MothStateHide.tscn" id="16_gujlx"]
+[ext_resource type="PackedScene" uid="uid://dgprbpp8m7w7d" path="res://Scenes/StateMachine/States/StatesMoth/MothStateIdle.tscn" id="17_vvqxa"]
+[ext_resource type="PackedScene" uid="uid://bwoil0jskxl4i" path="res://Scenes/StateMachine/States/StatesMoth/MothStateMoveToCover.tscn" id="18_a35hn"]
+[ext_resource type="PackedScene" uid="uid://vqjq8qludx37" path="res://Scenes/StateMachine/States/StatesMoth/MothStateMoveToFood.tscn" id="19_c6ubc"]
+[ext_resource type="PackedScene" uid="uid://bh5j3inqq2uiw" path="res://Scenes/StateMachine/States/StatesMoth/MothStateMoveToFoodLure.tscn" id="20_7a25d"]
+[ext_resource type="PackedScene" uid="uid://b03dmjp1r4r7q" path="res://Scenes/StateMachine/States/StatesMoth/MothStateMoveToFriend.tscn" id="21_pg1m5"]
+[ext_resource type="PackedScene" uid="uid://byjokh7eoyqfs" path="res://Scenes/StateMachine/States/StatesMoth/MothStateMoveToPlant.tscn" id="22_dcm7x"]
+[ext_resource type="PackedScene" uid="uid://bqdnu2b6hn01m" path="res://Scenes/StateMachine/States/StatesMoth/MothStatePanic.tscn" id="23_vc557"]
+[ext_resource type="PackedScene" uid="uid://brx40hmh6hxod" path="res://Scenes/StateMachine/States/StatesMoth/MothStatePet.tscn" id="24_jf65j"]
+[ext_resource type="PackedScene" uid="uid://bpq6r4wq7lnmt" path="res://Scenes/StateMachine/States/StatesMoth/MothStatePlay.tscn" id="25_tpfig"]
+[ext_resource type="PackedScene" uid="uid://ke33nkcap8k2" path="res://Scenes/StateMachine/States/StatesMoth/MothStatePoke.tscn" id="26_x5cw6"]
+[ext_resource type="PackedScene" uid="uid://dph3r2xds60tb" path="res://Scenes/StateMachine/States/StatesMoth/MothStatePollinate.tscn" id="27_rilde"]
+[ext_resource type="PackedScene" uid="uid://bwhw76p146d1o" path="res://Scenes/StateMachine/States/StatesMoth/MothStateRest.tscn" id="28_e7fi2"]
+[ext_resource type="PackedScene" uid="uid://c3g0c45vtup04" path="res://Scenes/StateMachine/States/StatesMoth/MothStateSpreadPollen.tscn" id="29_osp63"]
+[ext_resource type="PackedScene" uid="uid://vjm8vlvakyid" path="res://Scenes/StateMachine/States/StatesMoth/MothStateStunned.tscn" id="30_g8avd"]
+[ext_resource type="Texture2D" uid="uid://clheg8l4qyfdw" path="res://Art/Meters/EmptyMeterBG.png" id="30_laqth"]
+[ext_resource type="PackedScene" uid="uid://bhqh8ld5etmfy" path="res://Scenes/StateMachine/States/StatesMoth/MothStateWander.tscn" id="31_472ik"]
+[ext_resource type="Texture2D" uid="uid://d3noiejpn8e4p" path="res://Art/Meters/HPFrame.png" id="31_n1gar"]
+[ext_resource type="Texture2D" uid="uid://hgsltsp022y6" path="res://Art/Meters/HPMeter.png" id="32_rqvlw"]
+[ext_resource type="Texture2D" uid="uid://dd4cl82ickpmp" path="res://Art/Meters/HungerFrame.png" id="33_dnbjg"]
+[ext_resource type="Texture2D" uid="uid://jnilsi6iiq3j" path="res://Art/Meters/HungerMeter.png" id="34_5m0ci"]
+[ext_resource type="Texture2D" uid="uid://barer1pbqnqpd" path="res://Art/Meters/FeistyFrame.png" id="35_vrbxg"]
+[ext_resource type="Texture2D" uid="uid://dwui4vl1tcqov" path="res://Art/Meters/FeistyMeter.png" id="36_n6n8s"]
+[ext_resource type="Texture2D" uid="uid://863ba5uydxmy" path="res://Art/Meters/TiredFrame.png" id="37_2xy3d"]
+[ext_resource type="Texture2D" uid="uid://bcafxjorfg62j" path="res://Art/Meters/TiredMeter.png" id="38_dt4ux"]
+[ext_resource type="LabelSettings" uid="uid://c4pg6vucq1524" path="res://Scenes/Quest/creature_state_label_settings.tres" id="39_bqql4"]
+[ext_resource type="LabelSettings" uid="uid://btu73f4pk84vl" path="res://Scenes/Quest/creature_name_label_settings.tres" id="40_y5pie"]
+[ext_resource type="AudioStream" uid="uid://dp4f5lmhqpqyu" path="res://Audio/SFX/Creature/CreatureWalkSingle.wav" id="41_rtvku"]
+
+[sub_resource type="Animation" id="Animation_b262y"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_pq2fk"]
+resource_name = "check"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.67, 1.5), Vector2(1.1, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -16), Vector2(0, 7), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rek1t"]
+resource_name = "hurt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.67, 1.5), Vector2(1.1, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -16), Vector2(0, 7), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dixdr"]
+resource_name = "pet"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 0.67), Vector2(0.9, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 22), Vector2(0, -7), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_y3d4m"]
+resource_name = "place_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.5, 0.67), Vector2(0.9, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 22), Vector2(0, -7), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mqwf3"]
+resource_name = "poke"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.67, 1.5), Vector2(1.1, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -16), Vector2(0, 7), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y3d4m"]
+_data = {
+&"RESET": SubResource("Animation_b262y"),
+&"check": SubResource("Animation_pq2fk"),
+&"hurt": SubResource("Animation_rek1t"),
+&"pet": SubResource("Animation_dixdr"),
+&"place_down": SubResource("Animation_y3d4m"),
+&"poke": SubResource("Animation_mqwf3")
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pq2fk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s16ri"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onri8"]
+radius = 56.0357
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xbil5"]
+radius = 365.067
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8gas3"]
+radius = 86.0523
+
+[node name="CreatureMoth" type="CharacterBody2D" node_paths=PackedStringArray("pollen_sprite", "blackboard") groups=["creature"]]
+y_sort_enabled = true
+collision_mask = 2
+input_pickable = true
+script = ExtResource("1_wimnb")
+pollen_sprite = NodePath("Sprite2D/PollenSprite")
+type = &"Moth"
+max_hit_points = 70
+move_speed = 150.0
+friend_types = Array[StringName]([&"Creature", &"PlantCreature", &"Boss", &"Moth"])
+predator_types = Array[StringName]([&"Predator"])
+blackboard = NodePath("StateMachine/Blackboard")
+check_sound = ExtResource("2_6i1ri")
+pet_sound = ExtResource("3_1tdmu")
+poke_sound = ExtResource("4_d108p")
+pickup_sound = ExtResource("5_tbero")
+place_sound = ExtResource("6_08axl")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture = ExtResource("7_gs155")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+&"": SubResource("AnimationLibrary_y3d4m"),
+&"CreatureAnimLibrary": SubResource("AnimationLibrary_pq2fk")
+}
+
+[node name="PollenSprite" type="Sprite2D" parent="Sprite2D"]
+texture = ExtResource("8_a62su")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 15)
+shape = SubResource("RectangleShape2D_s16ri")
+
+[node name="SelectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectRadius"]
+shape = SubResource("CircleShape2D_onri8")
+
+[node name="DetectRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius"]
+shape = SubResource("CircleShape2D_xbil5")
+
+[node name="EatRadius" type="Area2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EatRadius"]
+shape = SubResource("CircleShape2D_8gas3")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8_twonb")
+initial_state = NodePath("MothStateWander")
+metadata/_custom_type_script = "uid://bbs64dssq5ibp"
+
+[node name="Blackboard" type="Node" parent="StateMachine"]
+script = ExtResource("9_gs155")
+
+[node name="MothStateAttack" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("10_a62su")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateCelebrate" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("11_7884p")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateChase" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("12_x2503")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateDrag" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("13_q7dlp")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateEat" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("14_3kkpm")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateFlee" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("15_2o4t3")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateHide" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("16_gujlx")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateIdle" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("17_vvqxa")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateMoveToCover" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("18_a35hn")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateMoveToFood" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("19_c6ubc")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateMoveToFoodLure" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("20_7a25d")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateMoveToFriend" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("21_pg1m5")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateMoveToPlant" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("22_dcm7x")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStatePanic" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("23_vc557")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStatePet" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("24_jf65j")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStatePlay" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("25_tpfig")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStatePoke" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("26_x5cw6")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStatePollinate" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("27_rilde")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateRest" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("28_e7fi2")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateSpreadPollen" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("29_osp63")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateStunned" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("30_g8avd")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="MothStateWander" parent="StateMachine" node_paths=PackedStringArray("blackboard", "owning_creature") instance=ExtResource("31_472ik")]
+blackboard = NodePath("../Blackboard")
+owning_creature = NodePath("../..")
+
+[node name="Stats" type="Node2D" parent="."]
+visible = false
+z_index = 20
+
+[node name="HPMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -59.0
+offset_right = 198.0
+offset_bottom = 69.0
+value = 100.0
+texture_under = ExtResource("30_laqth")
+texture_over = ExtResource("31_n1gar")
+texture_progress = ExtResource("32_rqvlw")
+
+[node name="HungerMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = -29.0
+offset_right = 198.0
+offset_bottom = 99.0
+value = 100.0
+texture_under = ExtResource("30_laqth")
+texture_over = ExtResource("33_dnbjg")
+texture_progress = ExtResource("34_5m0ci")
+
+[node name="FeistyMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 1.0
+offset_right = 198.0
+offset_bottom = 129.0
+value = 100.0
+texture_under = ExtResource("30_laqth")
+texture_over = ExtResource("35_vrbxg")
+texture_progress = ExtResource("36_n6n8s")
+
+[node name="TiredMeter" type="TextureProgressBar" parent="Stats"]
+offset_left = 70.0
+offset_top = 32.0
+offset_right = 198.0
+offset_bottom = 160.0
+value = 100.0
+texture_under = ExtResource("30_laqth")
+texture_over = ExtResource("37_2xy3d")
+texture_progress = ExtResource("38_dt4ux")
+
+[node name="NatureLabel" type="Label" parent="Stats"]
+offset_left = 76.0
+offset_top = 67.0
+offset_right = 134.0
+offset_bottom = 90.0
+label_settings = ExtResource("39_bqql4")
+
+[node name="NameLabel" type="Label" parent="."]
+z_index = 22
+offset_left = -87.0
+offset_top = -113.0
+offset_right = 87.0
+offset_bottom = -84.0
+text = "Name"
+label_settings = ExtResource("40_y5pie")
+horizontal_alignment = 1
+
+[node name="StateLabel" type="Label" parent="."]
+z_index = 22
+offset_left = -83.0
+offset_top = -86.0
+offset_right = 83.0
+offset_bottom = -61.0
+text = "Wander"
+label_settings = ExtResource("39_bqql4")
+horizontal_alignment = 1
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, 15)
+scale = Vector2(3.2, 3.2)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -3.0
+pitch_scale = 1.2
+max_distance = 1000.0
+attenuation = 2.0
+bus = &"Proximity SFX"
+
+[node name="WalkAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("41_rtvku")
+volume_db = -12.0
+pitch_scale = 1.2
+max_distance = 500.0
+attenuation = 2.0
+bus = &"Proximity SFX"
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="area_entered" from="DetectRadius" to="." method="_on_detect_radius_area_entered"]
+[connection signal="area_exited" from="DetectRadius" to="." method="_on_detect_radius_area_exited"]
+[connection signal="body_entered" from="DetectRadius" to="." method="_on_detect_radius_body_entered"]
+[connection signal="body_exited" from="DetectRadius" to="." method="_on_detect_radius_body_exited"]
+[connection signal="area_entered" from="EatRadius" to="." method="_on_eat_radius_area_entered"]
+[connection signal="area_exited" from="EatRadius" to="." method="_on_eat_radius_area_exited"]

@@ -1,0 +1,136 @@
+[gd_scene load_steps=15 format=3 uid="uid://b3vfv0idq8r7o"]
+
+[ext_resource type="Script" uid="uid://2cpvyycp4se4" path="res://Scripts/flowers.gd" id="1_pmdxq"]
+[ext_resource type="Texture2D" uid="uid://bhq0r40pgc2yr" path="res://Art/flowers_blue.png" id="4_1pfhp"]
+[ext_resource type="Texture2D" uid="uid://bs5o77pxjya2a" path="res://Art/flowers_orange.png" id="5_1w8a2"]
+[ext_resource type="AudioStream" uid="uid://byni4xgq6wmqp" path="res://Audio/SFX/Foliage Interact/SWSH_BushClick Dry Bamboo Leaf Swishes 1_RogueWaves_DruidMagic.wav" id="5_i8ofv"]
+[ext_resource type="Texture2D" uid="uid://byf1dvl4na8gs" path="res://Art/flowers_pink.png" id="6_i8ofv"]
+[ext_resource type="Texture2D" uid="uid://budfq1j471u0i" path="res://Art/flowers.png" id="7_ktjvg"]
+[ext_resource type="Texture2D" uid="uid://bg667ku1psjm6" path="res://Art/flowers_white.png" id="7_x21do"]
+[ext_resource type="Texture2D" uid="uid://b0mp8ien0n1er" path="res://Art/flowers_fire.png" id="8_4och8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_e0wpt"]
+radius = 54.0093
+
+[sub_resource type="Animation" id="Animation_trd1h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_03vxk"]
+resource_name = "on_click"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.18, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-10, 0), Vector2(7, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_1pfhp"]
+resource_name = "on_spawn"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.6, 1.5), Vector2(1.1, 0.9), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.15, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -32), Vector2(0, 7), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_mu6mv"]
+resource_name = "rustle_light"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.18, 0.24),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-7, 0), Vector2(4, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mu6mv"]
+_data = {
+&"RESET": SubResource("Animation_trd1h"),
+&"on_click": SubResource("Animation_03vxk"),
+&"on_spawn": SubResource("Animation_1pfhp"),
+&"rustle_light": SubResource("Animation_mu6mv")
+}
+
+[node name="Flowers" type="Area2D" groups=["flowers"]]
+y_sort_enabled = true
+script = ExtResource("1_pmdxq")
+rustle_sound = ExtResource("5_i8ofv")
+variants = Array[Texture2D]([ExtResource("7_ktjvg"), ExtResource("4_1pfhp"), ExtResource("5_1w8a2"), ExtResource("6_i8ofv"), ExtResource("7_x21do")])
+fire_sprite = ExtResource("8_4och8")
+metadata/_custom_type_script = "uid://bren1upitdyqs"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture = ExtResource("7_ktjvg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 10)
+shape = SubResource("CircleShape2D_e0wpt")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_i8ofv")
+volume_db = -6.0
+max_distance = 1000.0
+bus = &"Proximity SFX"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_mu6mv")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="input_event" from="." to="." method="_on_input_event"]

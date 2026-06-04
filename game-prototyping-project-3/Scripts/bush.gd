@@ -58,6 +58,9 @@ func ignite() -> void:
 	$Sprite2D.texture = fire_sprite
 	signal_cooldown = signal_cooldown_max
 
+func douse() -> void:
+	if signal_cooldown > 0:
+		signal_cooldown = 0
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):

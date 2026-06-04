@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://cpr2x3ygyvy3r"]
 
 [ext_resource type="Script" uid="uid://bt2r56m3ykt2w" path="res://Scripts/StateMachine/sm_state.gd" id="1_bkso8"]
-[ext_resource type="Texture2D" uid="uid://djpsqvtx4lh1a" path="res://Art/PredatorStates/PredatorPoke.png" id="2_m21lh"]
+[ext_resource type="Texture2D" uid="uid://dkxoup6nw57r0" path="res://Art/PredatorStates/PredatorIntimidate.png" id="2_6rpat"]
 [ext_resource type="Script" uid="uid://b378gqkrvg1q5" path="res://Scripts/StateMachine/Actions/a_set_wait_time_random.gd" id="3_lpcmy"]
 [ext_resource type="Script" uid="uid://bukx1pqnbhomw" path="res://Scripts/StateMachine/Actions/a_set_signal.gd" id="5_6rpat"]
 [ext_resource type="Script" uid="uid://doudrgrfo8a6k" path="res://Scripts/StateMachine/Actions/a_change_feisty.gd" id="5_m21lh"]
@@ -23,7 +23,7 @@
 [node name="PredatorStateIntimidate" type="Node" node_paths=PackedStringArray("enter_actions", "exit_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_bkso8")
 simple_name = &"Attack"
-sprite = ExtResource("2_m21lh")
+sprite = ExtResource("2_6rpat")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ASetSignal"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/AIgniteNearby"), NodePath("EnterActions/APlaySound"), NodePath("EnterActions/APlayAnim")]
 exit_actions = [NodePath("ExitActions/ASetSignal")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]

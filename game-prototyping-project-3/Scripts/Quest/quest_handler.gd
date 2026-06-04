@@ -119,7 +119,7 @@ func show_quest_info() -> void:
 	
 	# Hacky way to get the final quest to have slightly different text
 	# TODO: Test this!!!
-	if GameState.completed_quests == 4 and not final_reward_tease:
+	if GameState.completed_quests == 5 and not final_reward_tease:
 		selected_quest.reward_desc += ", and...?"
 		final_reward_tease = true
 	
@@ -150,6 +150,7 @@ func update_quest(creature: Creature, state_name: StringName) -> void:
 # Fire out signal to show icon if new quest is available
 func check_new_availability() -> void:
 	for quest in quest_list:
+		print("New quest: " + quest.quest_name)
 		if quest.check_available() and quest.newly_available == 1:
 			new_quest.emit()
 			quest.newly_available = 2 # Mark quest as not newly available anymore
@@ -170,7 +171,7 @@ func show_complete_quest() -> void:
 	play_sound(quest_complete_sound, 2)
 	GameState.completed_quests += 1 # Keep track of number of ompleted quests
 	
-	if GameState.completed_quests == 5:
+	if GameState.completed_quests == 6:
 		GameState.unlock_horn()
 	
 # Audio

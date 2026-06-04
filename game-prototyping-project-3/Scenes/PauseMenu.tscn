@@ -1,13 +1,104 @@
-[gd_scene load_steps=14 format=3 uid="uid://c0mt8vdk4ijfd"]
+[gd_scene load_steps=19 format=3 uid="uid://c0mt8vdk4ijfd"]
 
 [ext_resource type="Script" uid="uid://dxyoc57nsprif" path="res://Scripts/pause_menu.gd" id="1_5w4ur"]
 [ext_resource type="Texture2D" uid="uid://b12u4xvtkpv5t" path="res://Art/Menu/pause_menu.png" id="2_yxrls"]
 [ext_resource type="LabelSettings" uid="uid://b2qj5pa1jm07o" path="res://Scenes/Quest/menu_title_label_settings.tres" id="3_gqxqw"]
 [ext_resource type="Texture2D" uid="uid://b2x8cox65d227" path="res://Art/flash.png" id="4_ey1tb"]
 [ext_resource type="Texture2D" uid="uid://dn6dvcl4vjwpo" path="res://Art/Menu/menu_button_large.png" id="4_lptsj"]
+[ext_resource type="Script" uid="uid://dl661qq6jns5n" path="res://Scenes/ui_button.gd" id="5_425uk"]
 [ext_resource type="LabelSettings" uid="uid://ckfxrvijyuu5t" path="res://Scenes/Quest/journal_title_label_settings.tres" id="5_gqxqw"]
 [ext_resource type="PackedScene" uid="uid://da8ebttybbxs3" path="res://Scenes/options_menu.tscn" id="5_siy43"]
 [ext_resource type="AudioStream" uid="uid://dg04ap5j5oe4q" path="res://Audio/SFX/UI/Click Wall_Light_Double_Switch_Off-004.wav" id="8_lptsj"]
+
+[sub_resource type="Animation" id="Animation_jixph"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(-0.0333333),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cmsa4"]
+resource_name = "mouse_enter"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.1, 1.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 0.705882, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_uuh5q"]
+resource_name = "mouse_exit"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1.1, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 0.705882, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j1v2v"]
+_data = {
+&"RESET": SubResource("Animation_jixph"),
+&"mouse_enter": SubResource("Animation_cmsa4"),
+&"mouse_exit": SubResource("Animation_uuh5q")
+}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_siy43"]
 size = Vector2(1156.2, 655.799)
@@ -125,8 +216,12 @@ offset_left = -334.0
 offset_top = -79.0
 offset_right = 342.0
 offset_bottom = -6.0
+pivot_offset = Vector2(338, 36)
+focus_mode = 0
 icon = ExtResource("4_lptsj")
+flat = true
 icon_alignment = 1
+script = ExtResource("5_425uk")
 
 [node name="Label" type="Label" parent="Sprite2D/ReturnButton"]
 layout_mode = 0
@@ -139,13 +234,22 @@ label_settings = ExtResource("5_gqxqw")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D/ReturnButton"]
+libraries = {
+&"": SubResource("AnimationLibrary_j1v2v")
+}
+
 [node name="SettingsButton" type="Button" parent="Sprite2D"]
 offset_left = -334.0
 offset_top = 32.0
 offset_right = 342.0
 offset_bottom = 105.0
+pivot_offset = Vector2(338, 36)
+focus_mode = 0
 icon = ExtResource("4_lptsj")
+flat = true
 icon_alignment = 1
+script = ExtResource("5_425uk")
 
 [node name="Label" type="Label" parent="Sprite2D/SettingsButton"]
 layout_mode = 0
@@ -158,13 +262,22 @@ label_settings = ExtResource("5_gqxqw")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D/SettingsButton"]
+libraries = {
+&"": SubResource("AnimationLibrary_j1v2v")
+}
+
 [node name="ExitButton" type="Button" parent="Sprite2D"]
 offset_left = -334.0
 offset_top = 143.0
 offset_right = 342.0
 offset_bottom = 216.0
+pivot_offset = Vector2(338, 36)
+focus_mode = 0
 icon = ExtResource("4_lptsj")
+flat = true
 icon_alignment = 1
+script = ExtResource("5_425uk")
 
 [node name="Label" type="Label" parent="Sprite2D/ExitButton"]
 layout_mode = 0
@@ -176,6 +289,11 @@ text = "EXIT TO MAIN MENU"
 label_settings = ExtResource("5_gqxqw")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D/ExitButton"]
+libraries = {
+&"": SubResource("AnimationLibrary_j1v2v")
+}
 
 [node name="InteractBlocker" type="Area2D" parent="."]
 z_index = -1
@@ -205,7 +323,13 @@ stream = ExtResource("8_lptsj")
 max_polyphony = 2
 bus = &"World SFX"
 
+[connection signal="mouse_entered" from="Sprite2D/ReturnButton" to="Sprite2D/ReturnButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Sprite2D/ReturnButton" to="Sprite2D/ReturnButton" method="_on_mouse_exited"]
 [connection signal="pressed" from="Sprite2D/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="mouse_entered" from="Sprite2D/SettingsButton" to="Sprite2D/SettingsButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Sprite2D/SettingsButton" to="Sprite2D/SettingsButton" method="_on_mouse_exited"]
 [connection signal="pressed" from="Sprite2D/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="mouse_entered" from="Sprite2D/ExitButton" to="Sprite2D/ExitButton" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Sprite2D/ExitButton" to="Sprite2D/ExitButton" method="_on_mouse_exited"]
 [connection signal="pressed" from="Sprite2D/ExitButton" to="." method="_on_exit_button_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

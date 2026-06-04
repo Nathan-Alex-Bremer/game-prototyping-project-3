@@ -1,7 +1,7 @@
 extends Node2D
 
 # Controls debug testing things!
-var debug_on: bool = true
+var debug_on: bool = false
 
 # Scene
 var main_scene: Node
@@ -34,6 +34,7 @@ var num_existing_creatures = 5
 @export var predator_scene: PackedScene
 @export var plantcreature_scene: PackedScene
 @export var frog_scene: PackedScene
+@export var moth_scene: PackedScene
 @export var bird_scene: PackedScene
 @export var boss_scene: PackedScene
 @export var tutorialcreature_scene: PackedScene
@@ -59,6 +60,7 @@ var num_creatures_discovered: int = 0
 # Hiding places
 @export var bush_scene: PackedScene
 @export var tree_scene: PackedScene
+@export var flowers_scene: PackedScene
 @export var raindrop_scene: PackedScene
 
 # Player
@@ -111,6 +113,7 @@ var found_states = {
 	"PlantCreature" = {},
 	"Bird" = {},
 	"Frog" = {},
+	"Moth" = {},
 	"Boss" = {},
 	"Reference" = {} # I think the game might freak out here otherwise
 }
@@ -134,6 +137,9 @@ var names_bird = names_bird_file.names
 var names_frog_file: NameList = load("res://Text/frog_names.tres")
 var names_frog = names_frog_file.names
 
+var names_moth_file: NameList = load("res://Text/moth_names.tres")
+var names_moth = names_moth_file.names
+
 var names_tutorialcreature_file: NameList = load("res://Text/testcreature_names.tres")
 var names_tutorialcreature = names_tutorialcreature_file.names
 
@@ -145,6 +151,7 @@ var creature_names = {"Creature" = names_creature,
 			"PlantCreature" = names_plantcreature,
 			"Bird" = names_bird,
 			"Frog" = names_frog,
+			"Moth" = names_moth,
 			"Boss" = names_boss,
 			"TutorialCreature" = names_tutorialcreature
 			}
@@ -180,7 +187,7 @@ func _ready() -> void:
 	found_states["Creature"]["Pet"] = 0
 	found_states["Creature"]["Annoyed"] = 0
 	found_states["Creature"]["Play"] = 0
-	found_states["Creature"]["Chase"] = 0
+	found_states["Creature"]["Digt"] = 0
 	found_states["Creature"]["Attack"] = 0
 	found_states["Creature"]["Flee"] = 0
 	
@@ -224,9 +231,20 @@ func _ready() -> void:
 	found_states["Frog"]["Pet"] = 0
 	found_states["Frog"]["Annoyed"] = 0
 	found_states["Frog"]["Play"] = 0
-	found_states["Frog"]["Chase"] = 0
+	found_states["Frog"]["Spray"] = 0
 	found_states["Frog"]["Attack"] = 0
 	found_states["Frog"]["Flee"] = 0
+	
+	found_states["Moth"]["Eat"] = 0
+	found_states["Moth"]["Idle"] = 0
+	found_states["Moth"]["Wander"] = 0
+	found_states["Moth"]["Pollinate"] = 0
+	found_states["Moth"]["Pet"] = 0
+	found_states["Moth"]["Annoyed"] = 0
+	found_states["Moth"]["Play"] = 0
+	found_states["Moth"]["Spread Pollen"] = 0
+	found_states["Moth"]["Attack"] = 0
+	found_states["Moth"]["Flee"] = 0
 	
 	found_states["Boss"]["Idle"] = 0
 	found_states["Boss"]["Wander"] = 0

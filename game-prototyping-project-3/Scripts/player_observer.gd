@@ -149,6 +149,7 @@ func _process(delta: float) -> void:
 		ending_timer -= delta
 		if ending_timer <= 0:
 			ending = true
+			$EndScreen.visible = true
 			$EndScreen.fading_out = true
 			get_tree().paused = true
 			
@@ -326,6 +327,9 @@ func reset_state() -> void:
 	ending = false
 	ending_fading_out = false
 	
+	fading_in = false
+	fading_out = false
+	
 	walk_distance = 0
 	play_footsteps = false
 	
@@ -333,6 +337,7 @@ func reset_state() -> void:
 	
 	$QuestHandler.reset_state()
 	$Journal.reset_state()
+	$EndScreen.visible = false
 	
 func capture_creature_states() -> void:
 	

@@ -41,7 +41,7 @@ metadata/_custom_type_script = "uid://b378gqkrvg1q5"
 [node name="AAttackEat" type="Node" parent="EnterActions"]
 script = ExtResource("4_yo6gv")
 damage = 100.0
-creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Predator"])
+creature_types = Array[StringName]([&"Creature", &"PlantCreature", &"Bird", &"Frog", &"Predator", &"Moth"])
 metadata/_custom_type_script = "uid://dlhq6fj3iin5c"
 
 [node name="APlaySound" type="Node" parent="EnterActions"]
