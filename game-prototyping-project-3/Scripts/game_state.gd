@@ -187,7 +187,7 @@ func _ready() -> void:
 	found_states["Creature"]["Pet"] = 0
 	found_states["Creature"]["Annoyed"] = 0
 	found_states["Creature"]["Play"] = 0
-	found_states["Creature"]["Digt"] = 0
+	found_states["Creature"]["Dig"] = 0
 	found_states["Creature"]["Attack"] = 0
 	found_states["Creature"]["Flee"] = 0
 	

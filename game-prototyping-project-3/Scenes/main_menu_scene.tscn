@@ -283,7 +283,6 @@ focus_mode = 0
 icon = ExtResource("3_gl3i6")
 flat = true
 icon_alignment = 1
-script = ExtResource("4_hjtrp")
 
 [node name="Label" type="Label" parent="QuitButton"]
 layout_mode = 0

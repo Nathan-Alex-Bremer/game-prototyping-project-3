@@ -94,5 +94,5 @@ func _on_credits_button_pressed() -> void:
 
 func _on_quit_button_pressed() -> void:
 	$AudioStreamPlayer.play()
-	get_tree().quit()
+	# get_tree().quit()
 	pass # Replace with function body.

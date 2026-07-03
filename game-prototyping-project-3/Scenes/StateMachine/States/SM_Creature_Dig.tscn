@@ -32,7 +32,7 @@
 
 [node name="SM_Creature_Dig" type="Node" node_paths=PackedStringArray("enter_actions", "update_actions", "physics_update_actions", "transitions")]
 script = ExtResource("1_qgko8")
-simple_name = &"Digging"
+simple_name = &"Dig"
 sprite = ExtResource("2_x4rde")
 enter_actions = [NodePath("EnterActions/ASetWaitTimeRandom"), NodePath("EnterActions/ACalcWantsToPlay"), NodePath("EnterActions/ASetTargetNull"), NodePath("EnterActions/AChangeFeisty"), NodePath("EnterActions/APlaySound")]
 update_actions = [NodePath("UpdateActions/AChangeFoodDelta"), NodePath("UpdateActions/AChangeFeistyDelta"), NodePath("UpdateActions/AChangeTiredDelta"), NodePath("UpdateActions/AReduceWaitTime")]
